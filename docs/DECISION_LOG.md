@@ -52,8 +52,10 @@ history of a reversal is the most useful thing in a document like this.
 | [D-21](#d-21) | 16 fights across three acts, a 60s quarter, three lives | Human | Q-STR-3 |
 | [D-22](#d-22) | Branching campaign map, five node types, three thesis bosses | Human | Q-STR-4 |
 | [D-23](#d-23) | Comebacks exist — the bar travels freely back through the centre | Human | Q-GW-6 |
+| [D-24](#d-24) | Reconstruction is painful; rewards for good commitment scale to match | Human | Q-RISK-2 |
+| [D-25](#d-25) | Tenure — rooms compound while they stay put and stay staffed | Craft | Q-ECO-1 |
 
-Twenty craft decisions and three human calls taken. Six questions remain open in
+Twenty-one craft decisions and four human calls taken. Six questions remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); none of them blocks Phase 2.
 
 ---
@@ -484,3 +486,51 @@ meaningless — it is one constant and needs no content change. The bar model al
 arithmetically trivial, which keeps the replay format and the CI assertions simple.
 
 Authority: Human · Question: [Q-GW-6](OPEN_QUESTIONS.md#q-gw-6--does-the-bar-travel-back-through-the-centre)
+
+---
+
+## D-24
+
+**Demolishing a room refunds nothing, costs a Renovation fee of roughly one round's
+income, and forfeits the room's accrued Tenure. To compensate, the rewards for a
+correct commitment scale up rather than staying flat.**
+
+*Why:* A decision that can be cheaply undone is not a decision — and locked decision 4
+puts the whole strategic identity of the game on rooms being expensive to change, so
+the cost has to be felt rather than merely stated.
+
+*Consequence:* The pain is now two-sided, which is the important part: making
+reconstruction costly without raising the payoff for getting it right would produce a
+game that only punishes. The mechanism for the reward half is
+[D-25](#d-25). Because a working room accrues and a failed one does not, the real cost
+of demolition scales with how good the room was — tearing out a mistake costs a round,
+changing your mind about something that was working costs the run's accumulated
+advantage. Early acts must be forgiving in *budget* rather than in demolition cost, and
+the whole thing becomes a `BALANCE_PLAN` assertion on median rooms demolished per run
+rather than a design intention nobody measures.
+
+Authority: Human · Question: [Q-RISK-2](OPEN_QUESTIONS.md#q-risk-2--is-the-room-commitment-tension-actually-load-bearing)
+
+---
+
+## D-25
+
+**Rooms accrue Tenure for each round they stay in place and stay meaningfully staffed,
+gaining a permanent aura step at tiers I / II / III (3 / 6 / 10 rounds held). Tenure is
+forfeited entirely on demolition. Steeper room auras are the secondary lever;
+steeper recipe results are not used for this purpose.**
+
+*Why:* Tenure is the only candidate that pays for the thing actually being risked —
+the cost of a room is that you cannot move it, so making *not moving it* the source of
+the reward closes the loop instead of bolting a bonus onto the side of it.
+
+*Consequence:* Tenure is per-match state on the room, so it enters the tower snapshot
+([D-18](#d-18)) and authored campaign rivals must declare plausible values — a real
+ongoing authoring cost and a new balance knob. Counting rounds *held* rather than
+rounds elapsed keeps a late purchase from being worthless. It also widens run-level
+outcome variance in both directions, which is what
+[Q-ECO-2](OPEN_QUESTIONS.md#q-eco-2--does-a-run-need-a-mid-run-recovery-valve) exists to
+guard, and it makes "meaningfully staffed" a definition that must be pinned down
+precisely rather than left to judgement.
+
+Authority: Craft · Question: [Q-ECO-1](OPEN_QUESTIONS.md#q-eco-1--how-is-the-reward-for-a-correct-commitment-made-impactful)

@@ -59,6 +59,8 @@ decisions.
 | [Q-FLR-3](#q-flr-3--does-the-elevator-do-anything) | The elevator | Yes — landing column gives vertical adjacency | DECIDED · [D-11](DECISION_LOG.md#d-11) |
 | [Q-LYR-1](#q-lyr-1--is-furniture-a-distinct-layer-in-v1) | Furniture layer | Keep furniture, cut equipment | DECIDED · [D-12](DECISION_LOG.md#d-12) |
 | [Q-LYR-2](#q-lyr-2--what-can-an-employee-carry) | Employee carry | Nothing in v1; schema keeps an empty `attachments[]` | DECIDED · [D-13](DECISION_LOG.md#d-13) |
+| [Q-ECO-1](#q-eco-1--how-is-the-reward-for-a-correct-commitment-made-impactful) | Reward shape | Tenure — rooms compound while they stay put and stay staffed | DECIDED · [D-25](DECISION_LOG.md#d-25) |
+| [Q-ECO-2](#q-eco-2--does-a-run-need-a-mid-run-recovery-valve) | Recovery valve | One Restructuring per run, from a Board Meeting node | NEEDS SIGN-OFF |
 | [Q-GBX-1](#q-gbx-1--what-is-the-minimum-a-manifest-entry-needs-before-a-greybox-can-be-built) | Manifest minimum | Nine required fields; overhang is derived, never authored | DECIDED · [D-14](DECISION_LOG.md#d-14) |
 | [Q-GBX-2](#q-gbx-2--what-is-the-draw-order-rule-for-overhanging-sprites) | Draw order | y-sort plus explicit `sortBias`; five-key total order | DECIDED · [D-15](DECISION_LOG.md#d-15) |
 | [Q-GBX-3](#q-gbx-3--what-is-the-greybox-palette) | Greybox palette | Six pack-sampled hues, desaturated, category-coded, one source file | NEEDS SIGN-OFF |
@@ -71,7 +73,7 @@ decisions.
 | [Q-PVP-2](#q-pvp-2--how-are-players-matched-once-ranked-exists) | Matchmaking | Bucketed by round and rating; ghost chosen from the match seed | DECIDED · [D-19](DECISION_LOG.md#d-19) |
 | [Q-PVP-3](#q-pvp-3--what-is-the-anti-cheat-posture-given-the-client-owns-the-sim) | Anti-cheat | Server re-simulation of submitted snapshots; client result advisory | DECIDED · [D-20](DECISION_LOG.md#d-20) |
 | [Q-RISK-1](#q-risk-1--is-the-guttykreum-licence-cleared-for-commercial-release) | Asset licence | Verify before any spend; treat as a release blocker with an owner and a date | NEEDS SIGN-OFF |
-| [Q-RISK-2](#q-risk-2--is-the-room-commitment-tension-actually-load-bearing) | Room commitment | Demolition must be genuinely painful or the game's divergence collapses | NEEDS SIGN-OFF |
+| [Q-RISK-2](#q-risk-2--is-the-room-commitment-tension-actually-load-bearing) | Room commitment | Demolition is genuinely painful; rewards for good commitment scale to compensate | DECIDED · [D-24](DECISION_LOG.md#d-24) |
 
 ---
 
@@ -738,6 +740,115 @@ in every serialised snapshot. It is far cheaper than migrating a ghost pool.
 
 ---
 
+## Economy and reward shape
+
+### Q-ECO-1 · How is the reward for a correct commitment made impactful?
+
+**Blocks:** `GAME_DESIGN` (rooms, economy), `CONTENT_SCHEMA` (room schema),
+`BALANCE_PLAN` (outcome variance bands), `SIMULATION_SPEC` (rooms carry a per-match
+state the snapshot must include).
+
+Raised by [D-24](DECISION_LOG.md#d-24). Making reconstruction painful is only half a
+decision — a game that punishes changing your mind and does not pay for getting it
+right is just a game that punishes you. The compensating half needs a mechanism.
+
+**Options**
+
+- **A — Steeper room auras.** Correctly-staffed rooms simply multiply harder. Trivial
+  to implement, and it rewards being *right now* rather than having *been right then*.
+  It pays the same whether you built the room in round 2 or bought it in round 12, so
+  it does nothing for commitment specifically.
+- **B — Steeper recipe results.** Promotions become leaps rather than increments.
+  Rewards good crafting, not good placement, and crafting is already reversible within
+  the round — so it is not the thing being committed to.
+- **C — Tenure.** A room accrues Tenure for every round it stays in place *and* stays
+  meaningfully staffed. At thresholds it gains a permanent step to its aura. Tenure is
+  forfeited entirely on demolition.
+- **D — All three.**
+
+**Recommendation: C, with A as a secondary lever.**
+
+Tenure is the only option that pays for the thing that is actually being risked. The
+cost of a room is that you cannot move it; Tenure makes not moving it the source of
+the reward. That closes the loop rather than bolting a bonus onto the side of it — and
+it is what makes [Q-RISK-2](#q-risk-2--is-the-room-commitment-tension-actually-load-bearing)'s
+demolition cost scale with how good the room was, without needing a rule that says so.
+
+Proposed shape, to be tuned in `BALANCE_PLAN` rather than settled here:
+
+| Tier | Reached at | Effect | Fiction |
+| --- | --- | --- | --- |
+| — | rounds 0–2 | none | *Newly Fitted* |
+| I | round 3 | aura step | *Established* |
+| II | round 6 | aura step | *Departmental* |
+| III | round 10 | aura step, plus the room's unique clause comes online | *Institutional* |
+
+Thresholds are counted in rounds *held*, not rounds elapsed, so a room bought in round
+9 can still reach Tier I. In a 16-round run ([D-21](DECISION_LOG.md#d-21)) only genuinely
+early commitments reach Tier III, which is the intended scarcity. "Meaningfully staffed"
+needs a concrete definition — proposed: at least half the room's tiles occupied by
+employees at the moment the round is committed.
+
+It is also the strongest satire in the economy. The firm that has been in the same
+building since 1987 beats the one that reorganises every quarter, and it beats it
+*because* it never reorganised.
+
+**Trade-off, and it is a real one.** Tenure is per-match state that lives on the room,
+so it must enter the tower snapshot ([D-18](DECISION_LOG.md#d-18)) — which means
+authored campaign rivals must declare plausible Tenure values, and a rival tower's
+Tenure is now a balance knob someone has to set. That is genuine ongoing cost. It also
+widens outcome variance in both directions, which is the subject of
+[Q-ECO-2](#q-eco-2--does-a-run-need-a-mid-run-recovery-valve).
+
+**Status:** DECIDED · [D-25](DECISION_LOG.md#d-25)
+
+---
+
+### Q-ECO-2 · Does a run need a mid-run recovery valve?
+
+**Blocks:** `GAME_DESIGN` (campaign nodes, new-player experience), `BALANCE_PLAN`
+(run-level variance bands).
+
+Painful demolition and compounding Tenure point the same direction: **runs snowball**,
+both ways. A run whose early commitments were right runs away with it. A run whose
+early commitments were wrong is effectively decided by round 8 — and under
+[D-21](DECISION_LOG.md#d-21) the player then has eight more fights and three lives to
+spend finding that out.
+
+That is the cost of the stance in [D-24](DECISION_LOG.md#d-24), and it is worth paying;
+a decision that cannot go badly is not a decision. But the losing half of it lands
+hardest on exactly the player least equipped to have avoided it, and "you may as well
+concede at round 8" is the specific failure that ends runs early and sessions with them.
+
+**Options**
+
+- **A — Nothing.** The commitment is total. Cleanest expression of the design, harshest
+  new-player experience, and it makes a mid-run misstep functionally a lost run.
+- **B — One Restructuring per run.** A single use, acquired from a **Board Meeting**
+  node, that waives one Renovation fee and preserves that room's Tenure through a move.
+  Scarce enough to be a real decision about *when* to spend it; present enough that a
+  single early mistake is recoverable.
+- **C — Tenure decays rather than resets.** Demolition drops the room one tier instead
+  of clearing it. Softer, and it blunts the whole mechanism — the pain of demolition is
+  precisely that it is total.
+- **D — Escalating fee, no valve.** Cheap the first time, punitive thereafter. Rewards
+  early experimentation and punishes late reoptimisation, which is backwards: late
+  reoptimisation is the interesting decision.
+
+**Recommendation: B.** One Restructuring, gated behind a map node so acquiring it is
+itself a routing decision. It preserves the stance completely — commitment is still
+painful, Tenure is still total on an ordinary demolition — while giving a run exactly
+one escape hatch, which is enough to keep a misstep from being a concession.
+
+**Trade-off:** It is one more run-scoped resource for a new player to understand, and
+holding it too long is its own trap. Both are acceptable; a player who wasted their
+Restructuring made a decision, which is the point.
+
+**Status:** NEEDS SIGN-OFF — how punishing a run should be allowed to get is a feel
+call, and it is yours.
+
+---
+
 ## Greybox and assets
 
 ### Q-GBX-1 · What is the minimum a manifest entry needs before a greybox can be built?
@@ -1228,30 +1339,44 @@ be absorbed rather than hidden.
 
 ### Q-RISK-2 · Is the room-commitment tension actually load-bearing?
 
-**Blocks:** nothing formally. Everything in practice.
+**Blocks:** `GAME_DESIGN` (economy), `BALANCE_PLAN` (the invariant), and every number
+fitted against the budget curve.
 
 Locked decision 4 says the tension between static rooms and flexible employees is the
 core strategic identity of the game. That tension only exists if undoing a room is
-genuinely painful. If demolition is cheap, or if budget by round 8 is generous enough
-that a full rebuild is routine, rooms become slow employees and the game's single
-point of divergence from Backpack Battles quietly disappears — without anything
-visibly breaking, which is what makes it dangerous.
+genuinely painful. If demolition is cheap, or if budget by round 8 affords a routine
+full rebuild, rooms become slow employees and the game's single point of divergence
+from Backpack Battles quietly disappears — without anything visibly breaking, which is
+what makes it dangerous.
 
-**Recommendation.** Treat this as a measurable invariant rather than a design
-intention, and put it in `BALANCE_PLAN`:
+**Options**
 
-- Demolition refunds nothing and costs a **Renovation** fee.
-- Total budget across a run must be low enough that a full-floor rebuild costs
-  approximately two rounds of income at every stage.
-- CI assertion: in simulated runs, the median number of rooms demolished after
-  placement is below a stated threshold. If agents rebuild freely, the tension is
-  gone, and the number will say so before a human notices.
+- **A — Forgiving.** Demolition costs a small fee. Rooms are a soft preference.
+- **B — Costly.** A Renovation fee of roughly one round's income, no refund.
+- **C — Costly and compounding.** As B, plus the room loses whatever it had accrued by
+  sitting where it was. The fee is the visible cost; the accrual is the real one.
+
+**Recommendation: C.** Demolition refunds nothing and costs a **Renovation fee of
+approximately one round's income**, and the room forfeits its accrued Tenure
+([Q-ECO-1](#q-eco-1--how-is-the-reward-for-a-correct-commitment-made-impactful)).
+Because a working room accrues and a room that never worked does not, the true cost of
+demolition scales with how good the room was — which is exactly where the pain belongs.
+Ripping out a mistake costs a round. Changing your mind about something that was
+working costs the run's accumulated advantage.
+
+Do not leave this as a design intention. It is measurable, and it belongs in
+`BALANCE_PLAN` as an assertion: **in simulated runs, the median number of rooms
+demolished after placement stays below a stated threshold.** If agents rebuild freely,
+the tension is gone, and the number will say so long before a human notices.
 
 **Trade-off:** Painful demolition punishes early mistakes hardest, which is worst for
-new players. The campaign's early acts should be forgiving in *budget*, not in
-demolition cost — keep the rule sharp and the resources loose.
+new players. The campaign's early acts should be forgiving in **budget**, not in
+demolition cost — keep the rule sharp and the resources loose. The compounding half
+raises the stakes further, which is what
+[Q-ECO-2](#q-eco-2--does-a-run-need-a-mid-run-recovery-valve) exists to guard.
 
-**Status:** NEEDS SIGN-OFF — how punishing this should feel is the human's call.
+**Status:** DECIDED · [D-24](DECISION_LOG.md#d-24) — human call: reconstruction should
+be painful, with the rewards for good decisions scaled up to compensate.
 
 ---
 
@@ -1272,7 +1397,7 @@ a batch.
 | --- | --- | --- |
 | [Q-PTL-1](#q-ptl-1--what-makes-an-extraplanar-hire-a-real-gamble) portal risk | Phase 2 — `GAME_DESIGN` portal section | Low. The rider pool is content; changing its shape does not move the sim |
 | [Q-PTL-2](#q-ptl-2--what-unlocks-the-portal-and-how-does-the-reveal-land) portal unlock | Phase 2 — `GAME_DESIGN` campaign structure | Low. One configured condition, two values |
-| [Q-RISK-2](#q-risk-2--is-the-room-commitment-tension-actually-load-bearing) demolition pain | Phase 2 — the economy section | Medium. It sets the budget curve, which every later number is fitted against |
+| [Q-ECO-2](#q-eco-2--does-a-run-need-a-mid-run-recovery-valve) recovery valve | Phase 2 — `GAME_DESIGN` campaign nodes | Low mechanically, high in feel. One node reward, easy to add or remove |
 | [Q-RCP-1](#q-rcp-1--how-many-recipes-at-launch-and-how-are-they-discovered) recipe count | Phase 3 — catalogue volume | Medium. ~40 result entities is a large share of the art worklist |
 | [Q-GBX-3](#q-gbx-3--what-is-the-greybox-palette) greybox palette | Phase 4 — `ART_PIPELINE` | Low to change on paper, high to change once screens exist |
 | [Q-RISK-1](#q-risk-1--is-the-guttykreum-licence-cleared-for-commercial-release) asset licence | Release, and any art spend | Not a design decision. It needs an owner and a date, and it is cheapest to answer now |

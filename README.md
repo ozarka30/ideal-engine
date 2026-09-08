@@ -34,7 +34,7 @@ Pre-production. No code yet — design first.
 | 4 — Technical | `ARCHITECTURE.md`, `ART_PIPELINE.md` | Not started |
 | 5 — Balance and plan | `BALANCE_PLAN.md`, `ROADMAP.md` | Not started |
 
-Twenty-three of the twenty-nine Phase 1 questions are closed — twenty craft calls and
-three human decisions. The remaining six are open but block nothing in Phase 2; each is
+Twenty-five of the thirty-one Phase 1 questions are closed — twenty-one craft calls and
+four human decisions. The remaining six are open but block nothing in Phase 2; each is
 listed against the phase where it first bites. See the summary table in
 [`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md).
