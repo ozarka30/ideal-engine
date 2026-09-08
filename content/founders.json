@@ -1,0 +1,84 @@
+{
+  "founders": [
+    {
+      "id": "founder.sato",
+      "name": "Sato Kenji",
+      "title": "The Lifer",
+      "bio": "Thirty-one years at the same desk. Has never once been promoted and has never once been wrong.",
+      "portrait": "founder.sato.portrait",
+      "badge": "founder.sato.badge",
+      "inShop": true,
+      "effects": []
+    },
+    {
+      "id": "founder.hoshino",
+      "name": "Hoshino Mari",
+      "title": "The Closer",
+      "bio": "Left a bigger firm on a Friday with the client list in her handbag.",
+      "portrait": "founder.hoshino.portrait",
+      "badge": "founder.hoshino.badge",
+      "inShop": true,
+      "effects": []
+    },
+    {
+      "id": "founder.okada",
+      "name": "Okada Tetsuo",
+      "title": "The Fixer",
+      "bio": "Legal, technically. Nobody has seen the contract he is always carrying.",
+      "portrait": "founder.okada.portrait",
+      "badge": "founder.okada.badge",
+      "inShop": true,
+      "effects": []
+    },
+    {
+      "id": "founder.nakagawa",
+      "name": "Nakagawa Yui",
+      "title": "The Wunderkind",
+      "bio": "Twenty-four. Shipped the product before the company existed.",
+      "portrait": "founder.nakagawa.portrait",
+      "badge": "founder.nakagawa.badge",
+      "inShop": true,
+      "effects": []
+    },
+    {
+      "id": "founder.moriyama",
+      "name": "Moriyama Hiro",
+      "title": "The Manager",
+      "bio": "Has a whiteboard. Has never written on it. Everyone works harder near it anyway.",
+      "portrait": "founder.moriyama.portrait",
+      "badge": "founder.moriyama.badge",
+      "inShop": true,
+      "effects": []
+    },
+    {
+      "id": "founder.ueda",
+      "name": "Ueda Kaori",
+      "title": "The Nurturer",
+      "bio": "Runs HR like a kitchen. People stay for the food and the not-being-fired.",
+      "portrait": "founder.ueda.portrait",
+      "badge": "founder.ueda.badge",
+      "inShop": true,
+      "effects": []
+    },
+    {
+      "id": "founder.the_founder",
+      "name": "The Founder",
+      "title": "Deceased, 1987",
+      "bio": "Still listed on the letterhead. Still signs the quarterly memo. The signature is fresh.",
+      "portrait": "founder.the_founder.portrait",
+      "badge": "founder.the_founder.badge",
+      "inShop": true,
+      "effects": []
+    },
+    {
+      "id": "founder.kitamura",
+      "name": "Kitamura Sho",
+      "title": "The Salaryman",
+      "bio": "Ordinary in every respect. The lift stops at B1 for him and nobody else.",
+      "portrait": "founder.kitamura.portrait",
+      "badge": "founder.kitamura.badge",
+      "inShop": true,
+      "effects": []
+    }
+  ]
+}

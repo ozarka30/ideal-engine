@@ -180,6 +180,7 @@
       }
     ],
     "globals": {
+      "founderId": "founder.moriyama",
       "modifiers": [
         "mod.g_mirror"
       ],

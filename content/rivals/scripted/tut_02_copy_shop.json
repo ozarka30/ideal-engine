@@ -75,6 +75,7 @@
       }
     ],
     "globals": {
+      "founderId": "founder.kitamura",
       "modifiers": [],
       "riders": [],
       "leasedB1": false

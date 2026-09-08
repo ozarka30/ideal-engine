@@ -139,6 +139,7 @@
       }
     ],
     "globals": {
+      "founderId": "founder.hoshino",
       "modifiers": [],
       "riders": [],
       "leasedB1": false

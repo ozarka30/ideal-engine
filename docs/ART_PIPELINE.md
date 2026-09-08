@@ -11,7 +11,7 @@ manifest. The greybox renderer reads the manifest. The validator reads the manif
 The worklist is generated from the manifest. Real art is a file that appears at the
 path the manifest already declared.
 
-The manifest exists: `manifest/sprites.json`, 156 entries as of this document, every
+The manifest exists: `manifest/sprites.json`, 181 entries as of this document, every
 one a greybox from day one. Excerpts below are from that file.
 
 ---
@@ -107,7 +107,7 @@ version it was generated against; the body is one entry per visual slot.
 | `visibility` | yes | 1–4, feeds the worklist ranking (§7.3) |
 | `reads` | yes | What the asset must read as at a glance. This is the brief to whoever makes it |
 | `candidateSource` | yes | Which pack to slice from, where known; `null` otherwise |
-| `verify` | yes | `true` on the five entries whose dimensions were decided rather than derived (§15) |
+| `verify` | yes | `true` on the 13 entries whose dimensions were decided rather than derived (§15) |
 | `releaseGate` | yes | `false` only on debug overlays and the invalid flash, which never get art |
 | `layout` | no | `{ x, y }` on the logical canvas, for fixed-position UI regions |
 | `overhang` | yes | **Derived** (§2). The generator writes it; the loader recomputes it and fails on disagreement |
@@ -321,15 +321,15 @@ The validator writes:
 {
   "contentVersion": "0.1.0",
   "manifestVersion": 1,
-  "total": 156,
-  "gated": 153,
+  "total": 181,
+  "gated": 178,
   "withArt": 0,
   "invalid": 0,
-  "byTier": { "1": { "gated": 58, "withArt": 0 }, "2": { "gated": 60, "withArt": 0 },
-              "3": { "gated": 27, "withArt": 0 }, "4": { "gated": 8, "withArt": 0 } },
-  "byScreen": { "build": { "gated": 121, "withArt": 0 }, "battle": { "gated": 14, "withArt": 0 } },
+  "byTier": { "1": { "gated": 66, "withArt": 0 }, "2": { "gated": 69, "withArt": 0 },
+              "3": { "gated": 34, "withArt": 0 }, "4": { "gated": 9, "withArt": 0 } },
+  "byScreen": { "build": { "gated": 117, "withArt": 0 }, "battle": { "gated": 26, "withArt": 0 } },
   "byKind": { "employee": { "gated": 40, "withArt": 0 } },
-  "verifyPending": 5
+  "verifyPending": 13
 }
 ```
 
@@ -544,8 +544,10 @@ from a different plane, which is what the design already says it is.
 
 ## 15. Pack-fit verification
 
-Q-GBX-5. Five entries carry `verify: true` because their dimensions were decided to
-fit the canvas rather than derived from the packs:
+Q-GBX-5. Thirteen entries carry `verify: true` because their dimensions were decided
+to fit the canvas rather than derived from the packs — the four tower pieces, the
+inspector portrait, and the eight founder portraits, which share the inspector
+portrait's size and therefore its verification:
 
 | Entry | Decided | Pack to check |
 | --- | --- | --- |
@@ -554,8 +556,10 @@ fit the canvas rather than derived from the packs:
 | `fx.tower.roof` | 96 × 16 | same |
 | `fx.tower.basement` | 96 × 24, top-centre | same, with a Horror Interiors tint |
 | `ui.portrait` | 64 × 64 | Portraits |
+| `founder.*.portrait` (8) | 64 × 64 | Portraits — one verification covers all nine portrait entries |
 
-**Procedure**, first task of implementation, before any of these is greyboxed:
+**Procedure**, first task of implementation, before any of these is greyboxed (the
+eight founder portraits and the inspector portrait are one check, not nine):
 
 1. Open each pack. Find the isometric building tiles and the portrait sheet.
 2. For each entry, slice a candidate at the declared size and place it in a 640 × 360
@@ -577,16 +581,16 @@ placeholder hex values in `manifest/greybox_palette.json` (Q-GBX-3).
 
 | | Entries |
 | --- | --- |
-| Total | 156 |
-| Release-gated | 153 |
+| Total | 181 |
+| Release-gated | 178 |
 | With art | 0 |
-| Tier 1 — build screen every round | 58 |
-| Tier 2 — battle and autopsy every fight | 60 |
-| Tier 3 — map, codex, rarer content | 27 |
+| Tier 1 — build screen every round | 67 |
+| Tier 2 — battle and autopsy every fight | 69 |
+| Tier 3 — map, codex, rarer content | 34 |
 | Tier 4 — B1, rituals, bosses, debug | 11 |
-| Awaiting pack-fit verification | 5 |
+| Awaiting pack-fit verification | 13 |
 | Exempt from the gate | 3 |
 
-Every one of the 153 is a labelled placeholder at exact dimensions from the first
+Every one of the 178 is a labelled placeholder at exact dimensions from the first
 commit. The campaign ships when the number in the third row equals the number in the
 second, and not before, and nothing else waits for it.

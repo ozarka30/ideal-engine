@@ -53,6 +53,7 @@ content/
   modes.json              campaign and ranked as configuration
   map.json                the campaign's acts, columns and node kinds
   tutorial.json           first-run hint lines
+  founders.json           the eight founders a player may choose; cosmetic in v1
   rivals/
     templates.json        semi-scripted rival archetypes and the lease schedule
     scripted/*.json       hand-authored rival towers: bosses and tutorial rivals
@@ -94,6 +95,7 @@ underscores, exactly one dot. The prefix is the type and the loader asserts it:
 | `rider.` | rider | `rider.tenured` |
 | `mod.` | modifier | `mod.lean`, `mod.g_deep_pockets` (gimmicks start `g_`) |
 | `floor.` | floor | `floor.f2` |
+| `founder.` | founder | `founder.sato` |
 | `rival.` | scripted rival or template | `rival.boss_compliance_office`, `rival.t_turtle` |
 
 Sprite, tile and icon references (`sprite`, `tile`, `icon`) point into the sprite
@@ -810,6 +812,27 @@ dossier shows:
 The sim does not know which side is the player. The shop refuses to offer a
 `rivalOnly` modifier; that is the only enforcement, and it is on the build side.
 
+A **founder** is the third modifier-shaped entity. Chosen at run start, it names a
+portrait and a badge in the manifest and carries an `effects` list the sim applies
+exactly as a modifier's, ordered first. In v1 every list is empty — the founder is the
+player's face on the firm panel and beside the Goodwill bar — and it is in the snapshot's
+`globals.founderId` so that a founder gaining a mechanic later is a content edit rather
+than a format migration (D-46). Rival templates draw from a `founderPool`; scripted
+rivals name theirs.
+
+```json
+{
+  "id": "founder.the_founder",
+  "name": "The Founder",
+  "title": "Deceased, 1987",
+  "bio": "Still listed on the letterhead. Still signs the quarterly memo. The signature is fresh.",
+  "portrait": "founder.the_founder.portrait",
+  "badge": "founder.the_founder.badge",
+  "inShop": true,
+  "effects": []
+}
+```
+
 ---
 
 ## 10. Floors, economy, shop, modes, map, tutorial
@@ -1065,6 +1088,7 @@ the word to the schema and the spec first, with a fixture, and then the content.
 | Modifiers | 18 | 8 Board Meeting, 10 rival-only gimmicks |
 | Rival templates | 6 | One per archetype |
 | Scripted rivals | 9 | 3 bosses, 6 first-run fights |
+| Founders | 8 | Cosmetic in v1; effects reserved |
 
 This is enough for a real run: sixteen fights against templated rivals from six
 archetypes, three bosses, forty recipes to find. It is the first pass. Phase 5's

@@ -200,6 +200,7 @@ conforming sim must produce identical output whether or not extra fields are pre
     }
   ],
   "globals": {
+    "founderId": "founder.sato",     // the firm's founder; its effects apply like a modifier (empty in v1)
     "modifiers": ["mod.overtime_culture"],
     "riders": [ { "instanceId": "e_9c01", "riderId": "rider.tenured" } ],
     "leasedB1": true
@@ -210,6 +211,13 @@ conforming sim must produce identical output whether or not extra fields are pre
 Definitions (`emp.*`, `room.*`, `furn.*`, `rider.*`, `mod.*`) resolve through the
 content database at `contentVersion`. The sim is handed a resolved content table; it
 never loads files.
+
+`globals.founderId` names the firm's founder. A founder is a modifier-shaped entity
+(`CONTENT_SCHEMA.md` §9) whose `effects` the sim applies exactly as it applies a
+modifier's, in every place §5.5 and §14 say "modifier", ordered *before* the
+modifiers list. In v1 every founder's effects list is empty, so the field changes no
+outcome; it is in the snapshot so that a founder gaining a mechanic later is a content
+change, not a format migration.
 
 `globals.modifiers` is the same field on both sides. A campaign rival's gimmick
 (`GAME_DESIGN.md` §15.5) and a player's Board Meeting modifier are both entries in it;
@@ -304,7 +312,7 @@ cap  = GOODWILL_BASE(round)
      - PORTAL_EMPLOYEE_CAP_TAX × (extraplanar employees)
      - B1_LEASE_CAP_TAX if leasedB1
      - 100 per Corner Office occupant below Tier III
-     + Σ modifier cap deltas (Lean: -200)
+     + Σ founder and modifier cap deltas, founder first (Lean: -200)
 cap  = max(cap, 1)
 
 regenPerEvent = floor(cap * REGEN_BASE_PERMILLE / 1000)
@@ -797,7 +805,7 @@ month index, then apply banner effects in this order:
    1. For each unit in canonical order: its enclosing room's banner effect, if any.
    2. For each furniture in `furnIndex` order: its banner effect, if any.
    3. For each rider in `globals.riders` order: its banner effect, if any.
-   4. For each modifier in `globals.modifiers` order: its banner effect, if any.
+   4. The founder's banner effect, if any; then, for each modifier in `globals.modifiers` order, its banner effect, if any.
 
 | Tick | Source | Effect |
 | --- | --- | --- |

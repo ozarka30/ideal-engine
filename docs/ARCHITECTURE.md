@@ -177,8 +177,10 @@ after the autopsy; the `FightRecord` in `RunState.history` keeps the replay path
 
 ### 4.4 ProfileState — persisted, separate file
 
-Cross-run: codex discoveries, unlocks, settings, statistics, rating (ranked). Never
-read by the sim. Never in a snapshot.
+Cross-run: codex discoveries, unlocks, settings, statistics, rating (ranked), and the
+last founder chosen (`lastFounderId`, pre-selected on the next run). Never read by the
+sim. The founder *of the current run* lives in the tower snapshot's `globals`, because
+the sim applies its effects — empty in v1 — like a modifier's.
 
 ### 4.5 Events
 
@@ -265,8 +267,8 @@ it costs nothing once loading is a pure function of the directory.
 ## 7. The client
 
 PixiJS 8, one `Application`, one root container per screen, one screen active at a
-time. Screens: `menu`, `map`, `build`, `battle`, `autopsy`, `codex`, `reward` (the
-result banner and win bonus — not an overlay of picks).
+time. Screens: `menu`, `founder`, `map`, `build`, `battle`, `autopsy`, `codex`,
+`reward` (the result banner and win bonus — not an overlay of picks).
 
 - **Rendering.** A single `RenderList` per frame: every visible entry becomes a
   `(sortKey, entryId, x, y, frame)` tuple, sorted by the five-key order

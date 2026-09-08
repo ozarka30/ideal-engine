@@ -438,6 +438,7 @@
       }
     ],
     "globals": {
+      "founderId": "founder.the_founder",
       "modifiers": [
         "mod.g_conglomerate"
       ],

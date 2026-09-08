@@ -27,6 +27,10 @@
         "Nakamura Trading",
         "Fujiwara Logistics"
       ],
+      "founderPool": [
+        "founder.sato",
+        "founder.kitamura"
+      ],
       "budgetPermille": 950,
       "rooms": [
         {
@@ -124,6 +128,10 @@
         "Mizuno Assurance",
         "Ishikawa & Ishikawa"
       ],
+      "founderPool": [
+        "founder.okada",
+        "founder.sato"
+      ],
       "budgetPermille": 950,
       "rooms": [
         {
@@ -215,6 +223,10 @@
         "Kurokawa Labs",
         "Yamashita Digital"
       ],
+      "founderPool": [
+        "founder.nakagawa",
+        "founder.kitamura"
+      ],
       "budgetPermille": 950,
       "rooms": [
         {
@@ -305,6 +317,10 @@
         "Ando Telemarketing",
         "Hayashi Retail"
       ],
+      "founderPool": [
+        "founder.hoshino",
+        "founder.kitamura"
+      ],
       "budgetPermille": 1050,
       "rooms": [
         {
@@ -390,6 +406,10 @@
         "Kimura Advisory",
         "Nishimura Group",
         "The Yoshida Practice"
+      ],
+      "founderPool": [
+        "founder.moriyama",
+        "founder.ueda"
       ],
       "budgetPermille": 950,
       "rooms": [
@@ -481,6 +501,10 @@
         "Shimizu Enterprises",
         "Goto Industrial",
         "Maeda Holdings"
+      ],
+      "founderPool": [
+        "founder.moriyama",
+        "founder.the_founder"
       ],
       "budgetPermille": 950,
       "rooms": [

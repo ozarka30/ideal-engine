@@ -263,6 +263,7 @@
       }
     ],
     "globals": {
+      "founderId": "founder.okada",
       "modifiers": [
         "mod.g_regulatory_capture"
       ],

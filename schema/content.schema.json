@@ -2405,6 +2405,14 @@
           },
           "minItems": 0
         },
+        "founderPool": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+          },
+          "minItems": 1
+        },
         "layout": {
           "type": "object",
           "properties": {
@@ -2435,6 +2443,7 @@
         "id",
         "archetype",
         "namePool",
+        "founderPool",
         "budgetPermille",
         "rooms",
         "staff",
@@ -2600,6 +2609,10 @@
         "globals": {
           "type": "object",
           "properties": {
+            "founderId": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+            },
             "modifiers": {
               "type": "array",
               "items": {
@@ -2634,6 +2647,7 @@
             }
           },
           "required": [
+            "founderId",
             "modifiers",
             "riders",
             "leasedB1"
@@ -2713,6 +2727,47 @@
         "exemptFromBudget",
         "note",
         "snapshot"
+      ],
+      "additionalProperties": false
+    },
+    "Founder": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "bio": {
+          "type": "string"
+        },
+        "portrait": {
+          "$ref": "#/$defs/ManifestId"
+        },
+        "badge": {
+          "$ref": "#/$defs/ManifestId"
+        },
+        "inShop": {
+          "type": "boolean"
+        },
+        "effects": {
+          "$ref": "#/$defs/Effects"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "title",
+        "bio",
+        "portrait",
+        "badge",
+        "inShop",
+        "effects"
       ],
       "additionalProperties": false
     },
@@ -2857,6 +2912,22 @@
       },
       "required": [
         "modes"
+      ],
+      "additionalProperties": false
+    },
+    "FounderFile": {
+      "type": "object",
+      "properties": {
+        "founders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Founder"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "founders"
       ],
       "additionalProperties": false
     },

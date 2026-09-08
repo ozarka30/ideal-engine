@@ -75,6 +75,7 @@ decisions.
 | [Q-PVP-2](#q-pvp-2--how-are-players-matched-once-ranked-exists) | Matchmaking | Bucketed by round and rating; ghost chosen from the match seed | DECIDED · [D-19](DECISION_LOG.md#d-19) |
 | [Q-PVP-3](#q-pvp-3--what-is-the-anti-cheat-posture-given-the-client-owns-the-sim) | Anti-cheat | Server re-simulation of submitted snapshots; client result advisory | DECIDED · [D-20](DECISION_LOG.md#d-20) |
 | [Q-ARCH-1](#q-arch-1--when-does-controller-navigation-arrive) | Controller navigation | Post-v1; mouse and keyboard ship first; Steam Deck verification waits on it | OPEN — scope |
+| [Q-UX-1](#q-ux-1--when-does-the-ux-review-happen) | UX review timing | A paper pass on the two most-seen screens now; the real pass at the greybox vertical slice | OPEN — process |
 | [Q-RISK-1](#q-risk-1--is-the-guttykreum-licence-cleared-for-commercial-release) | Asset licence | Verify before any spend; treat as a release blocker with an owner and a date | NEEDS SIGN-OFF |
 | [Q-RISK-2](#q-risk-2--is-the-room-commitment-tension-actually-load-bearing) | Room commitment | Demolition is genuinely painful; rewards for good commitment scale to compensate | DECIDED · [D-24](DECISION_LOG.md#d-24) |
 
@@ -1412,6 +1413,43 @@ per screen, which costs nothing now and everything later.
 
 ---
 
+### Q-UX-1 · When does the UX review happen?
+
+**Blocks:** nothing formally. In practice, the build screen's layout is the thing a
+player touches most, and a layout problem found after the greybox is built costs a
+re-layout plus every screenshot fixture that depends on it.
+
+Raised by the human at the end of Phase 4. The planning prompt's phases have no UX
+step: `GAME_DESIGN.md` §19 specifies *layouts* — rects, anchors, footprints — which is
+what an agent needs to build the greybox, but a layout is not a UX. Information
+hierarchy, click counts, what is visible without hover, whether the eye lands on the
+right thing during a fight: those are judged by *using* the screen, and the brief's
+own position is that the game must be judgeable in greybox.
+
+**Options**
+
+- **A — Now, on paper.** Review §19's rects as wireframes. Cheap, and it can only
+  catch layout-level problems: overlaps, things too small to read, a panel in the wrong
+  place. It cannot judge feel or flow.
+- **B — At the greybox vertical slice.** The first roadmap milestone. Every screen is
+  real, interactive and deterministic; screenshot fixtures exist; changes are cheap
+  because nothing has art. This is where "is the ledger readable at 4 lines a second"
+  and "does Ready feel like a decision" get answered — the §21 questions.
+- **C — After art.** Too late by construction: the whole workflow exists so that
+  nothing waits on art.
+
+**Recommendation: A now, B as the real pass.** Do a short paper review of the two
+most-seen screens — build and battle — as rendered wireframes from the manifest, before
+any greybox is built, to catch the class of problem that is cheap now and expensive in
+a week. Then treat the vertical slice as the UX milestone it already is: `ROADMAP.md`
+should name it that way, and the §21 human checks are its checklist. The distinction
+that matters is that A can fix a rect and B can fix a design.
+
+**Status:** OPEN — a process call for the roadmap. The paper pass can be produced from
+the manifest at any time.
+
+---
+
 ## Risks that are also decisions
 
 ### Q-RISK-1 · Is the GuttyKreum licence cleared for commercial release?
@@ -1488,7 +1526,7 @@ be painful, with the rewards for good decisions scaled up to compensate.
 closed. `GAME_DESIGN.md` and `SIMULATION_SPEC.md` can be written without a marked
 assumption anywhere in them.
 
-Nine items remain open. None blocked Phases 2–4, which are drafted; each is listed
+Ten items remain open. None blocked Phases 2–4, which are drafted; each is listed
 here against the phase where it first bites, so it can be answered when it is actually
 needed rather than in a batch.
 
@@ -1503,3 +1541,4 @@ needed rather than in a batch.
 | [Q-GBX-5](#q-gbx-5--can-the-packs-produce-the-decided-battle-and-portrait-dimensions) pack-fit | Phase 4 — first greybox of the battle view | Not a decision. An afternoon with the packs open |
 | [Q-LYR-3](#q-lyr-3--does-furniture-earn-its-tile) furniture trial | Vertical slice | A playtest gate with a fold-in plan already written |
 | [Q-ARCH-1](#q-arch-1--when-does-controller-navigation-arrive) controller navigation | Phase 5 — roadmap scope | Post-v1 on the recommendation; keep focusables enumerable |
+| [Q-UX-1](#q-ux-1--when-does-the-ux-review-happen) UX review timing | Phase 5 — the roadmap names the milestone | A paper pass is available now; the real pass is the vertical slice |

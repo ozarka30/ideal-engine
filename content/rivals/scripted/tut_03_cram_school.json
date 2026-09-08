@@ -98,6 +98,7 @@
       }
     ],
     "globals": {
+      "founderId": "founder.ueda",
       "modifiers": [],
       "riders": [],
       "leasedB1": false

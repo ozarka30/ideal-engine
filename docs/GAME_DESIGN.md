@@ -77,12 +77,20 @@ every round. The game is the argument between those two facts.
 | **Strike** | A life. A lost fight costs one. Three ends the run |
 | **Rider** | A visible permanent drawback attached to an extraplanar hire |
 | **Snapshot** | A tower serialised for combat. Campaign rivals, ranked ghosts and test fixtures are all snapshots |
+| **Founder** | The player's chosen avatar for a run: a portrait, a name, a title. Cosmetic in v1; carries an empty effects list reserved for later |
 
 ---
 
 ## 3. The core loop, beat by beat
 
 One round, from arrival to departure. Every step names the screen it happens on.
+
+**0. Found the firm.** *(Founder select screen, once per run.)* The player picks a
+founder from eight portraits and names the firm. Both modes. The founder appears on
+the build screen's firm panel, beside the Goodwill bar in every fight, in the run
+history, and — for rivals — in the dossier. In v1 the choice changes nothing the sim
+sees; the founder carries an empty effects list so that buildings, staff or abilities
+can be attached to founders later without a format change (D-46).
 
 **1. Arrive.** *(Map screen, campaign only.)* The player picks the next node from the
 ones their current position connects to. Fight nodes begin a round; interludes do not.
@@ -869,6 +877,7 @@ content database; the following table is the *entire* difference.
 | `metaUnlocks` | apply | everything available |
 | `rating` | none | Elo-style, per fight |
 | `snapshotCapture` | never | after every Ready, into the ghost pool |
+| `founderSelect` | at run start | at run start |
 
 Anything not in that table is identical by construction. A rule that would need a
 second row in the sim is a rule that does not get built.
@@ -940,6 +949,7 @@ Fonts: `font.ui.8` is an 8-pixel-line pixel font with variable-width glyphs aver
 | `ui.build.tower` | (8, 32, 176, 304) | Elevator shaft (8, 32, 16, 304) with floor labels drawn inside it; three floor viewports stacked: above at y=32, **selected** at y=136, below at y=240, each 160 × 96 at x=24. Unselected floors dimmed 50%, still interactive. Scrolls by whole floors |
 | `ui.build.shop` | (192, 32, 232, 304) | Tab bar (192, 32, 232, 16); four cards 52 × 80 at x = 192, 248, 304, 360, y = 56; Otherworld row label (192, 140, 232, 8) and two cards at x = 192, 248, y = 152; Lease section (192, 240, 232, 64) with three buttons 72 × 24 at x = 192, 272, 352, y = 260 |
 | `ui.build.inspector` | (432, 32, 200, 304) | Portrait slot 64 × 64 at (440, 40); name `font.ui.8` at (512, 40); dept and tier at (512, 50); detail rows every 10 px from y = 112; action button (440, 308, 184, 20) reading **LAY OFF · ¥1** or **DEMOLISH · ¥13** |
+| `ui.build.firm_panel` | (432, 32, 200, 304) | The inspector's default state when nothing is selected: founder portrait 64 × 64 at (440, 40); firm name at (512, 40); founder name and title at (512, 50) and (512, 60); run stats from y = 112 — round, strikes, fights won, Goodwill cap, floors leased, staff count |
 | `ui.build.hint` | (0, 344, 640, 16) | One line of hint text, first run only; otherwise the hovered element's one-line summary |
 
 Floor viewport internals: tiles 32 × 32 at `(24 + col × 32, floorY + row × 32)`.
@@ -958,6 +968,7 @@ Undo is a key, not a button. Ready has no confirmation.
 | `ui.battle.goodwill.a` | (8, 28, 200, 16) | Goodwill **bar**: frame 200 × 16; fill from the left, width = `goodwill / capAtStart × 200`; the frame's right end sits at `cap / capAtStart × 200` so Morale erosion visibly shortens what can be refilled; the number `4,200` in `font.ui.16` overlaid left-aligned at (12, 28). Dims 50% while regen is suppressed; flashes on break |
 | `ui.battle.goodwill.b` | (432, 28, 200, 16) | Mirror: fill from the right, frame erodes from the left, number right-aligned |
 | `ui.battle.banner` | (240, 48, 160, 12) | Month banner, centred |
+| `ui.battle.founder` | 36 × 36 | Founder badge in a 2 px frame; A at (8, 48), B at (596, 48). The firm name in `font.ui.8` beneath at y = 86 |
 | `fx.tower.floor_segment` | 96 × 32, anchor bottom-centre | One per above-ground floor. Tower A stacks upward from (200, 280); Tower B from (440, 280). Four segments: G at the base, 3F at the top, y = 280, 248, 216, 184 |
 | `fx.tower.roof` | 96 × 16, anchor bottom-centre | Above the top segment |
 | `fx.tower.basement` | 96 × 24, anchor top-centre | B1, drawn below street level at y = 280, darker tone |
@@ -1002,7 +1013,7 @@ after.
 
 | Region | Rect | Contents |
 | --- | --- | --- |
-| `ui.map.dossier` | 200 × 88, anchored to the hovered node, clamped to screen | Rival name `font.ui.8` at (4, 4); archetype and floor count at (4, 14); gimmick name at (4, 28) and its one-line effect at (4, 38), two lines; a 5-cell floor strip at (4, 64) showing which floors are occupied, 16 × 8 per cell; for bosses, the signature mechanic in the `anomalous` tone |
+| `ui.map.dossier` | 200 × 88, anchored to the hovered node, clamped to screen | Rival founder badge 32 × 32 in a frame at (160, 4); rival name `font.ui.8` at (4, 4); archetype and floor count at (4, 14); gimmick name at (4, 28) and its one-line effect at (4, 38), two lines; a 5-cell floor strip at (4, 64) showing which floors are occupied, 16 × 8 per cell; for bosses, the signature mechanic in the `anomalous` tone |
 
 Opens on hover over any fight node, in campaign only. There is no reward overlay; the
 win bonus is written to the top bar.
@@ -1018,7 +1029,23 @@ win bonus is written to the top bar.
 Undiscovered recipes draw outlined slots only; partially revealed ones fill the slots
 the player has held. Discovered ones draw the sprites.
 
-### 19.7 Entities
+### 19.7 Founder select
+
+| Region | Rect | Contents |
+| --- | --- | --- |
+| `ui.founder.header` | (0, 0, 640, 24) | `CHOOSE A FOUNDER` |
+| `ui.founder.grid` | (16, 40, 608, 208) | Eight founder cards in four columns at x = 16 + col × 152 and two rows at y = 40 + row × 104, each card centred in its 152 × 104 cell |
+| `ui.founder.card` | 72 × 96 | Portrait slot (4, 4, 64, 64); name (4, 72, 64, 8); title (4, 82, 64, 8). Selected state distinct. A reserved trait line below the title stays empty in v1 |
+| `ui.founder.bio` | (16, 256, 608, 40) | The selected founder's bio, up to four lines |
+| `ui.founder.firm_name` | (16, 304, 240, 16) | Text field; default is the founder's surname plus *Holdings* |
+| `ui.founder.confirm` | (504, 304, 120, 16) | **FOUND THE FIRM** |
+
+Shown once at run start in both modes. The profile remembers the last choice and
+pre-selects it. Founders are content (`content/founders.json`, eight in v1) with a
+portrait, a badge and an empty effects list; when a founder gains a mechanic, it is an
+effect in that list, applied like a modifier, and the sim already reads it.
+
+### 19.8 Entities
 
 | Entity | Sprite | Anchor | Footprint | `sortBias` | Notes |
 | --- | --- | --- | --- | --- | --- |
@@ -1035,6 +1062,8 @@ the player has held. Discovered ones draw the sprites.
 | `ui.link_line` | 1 px | — | — | +7 | Furniture → triggered employee |
 | `ui.tenure_pip` | 4 × 4 | in the sign | — | −9 | 0–3 pips |
 | `ui.portrait` | 64 × 64 | top-left | — | 0 | Inspector portrait. **To verify** against the Portraits pack in Phase 4; if the pack's portraits are another size, this entry changes before any greybox is built |
+| `founder.*.portrait` | 64 × 64 | top-left | — | 0 | One per founder. Same verification as `ui.portrait` |
+| `founder.*.badge` | 32 × 32 | top-left | — | 0 | One per founder; battle screen and dossier |
 
 Every one of these is a greybox on day one: a rectangle in its category tone with its
 id, footprint and dimensions drawn on it. Rooms draw a solid footprint; wall-mounted
@@ -1062,6 +1091,7 @@ obligations that fall out of this design:
 | Cap erosion (Morale) | Battle screen | The Goodwill bar's frame shortens |
 | Regen suppressed | Battle screen | The Goodwill bar dims while suppressed |
 | Rival gimmick | Map screen | The dossier, before the fight is chosen |
+| Whose firm this is | Build, battle, map | The founder's portrait on the firm panel, the badge beside the Goodwill bar, the rival's badge in the dossier |
 | Month transition | Battle screen | Banner, telegraphed one second early |
 | Status applied | Battle screen | Ledger line; the floor inset shows a status glyph on the employee |
 | Why I lost | Autopsy | Three findings, per-floor bars, full ledger |

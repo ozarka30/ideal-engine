@@ -74,8 +74,9 @@ history of a reversal is the most useful thing in a document like this.
 | [D-43](#d-43) | The build phase is a pure reducer; undo is action-log replay; the committed tower is the snapshot type itself | Craft | Phase 4 |
 | [D-44](#d-44) | Art and licence gates live only in the release workflow | Craft | Phase 4 |
 | [D-45](#d-45) | Steam sits behind a Platform interface; the Rust side owns Steamworks; the webview never links it | Craft | Phase 4 |
+| [D-46](#d-46) | A chosen founder avatar, cosmetic in v1, carried in the snapshot with an empty effects list | Human | Phase 4 |
 
-Thirty-eight craft decisions and seven human calls taken. Eight items remain open in
+Thirty-eight craft decisions and eight human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -932,3 +933,26 @@ Achievements become a content file in Phase 5. Controller navigation for Steam D
 deferred and recorded as Q-ARCH-1.
 
 Authority: Craft · Phase 4, `ARCHITECTURE.md` §8
+
+---
+
+## D-46
+
+**Each run begins by choosing a founder from eight portraits and naming the firm. The
+founder appears on the build screen's firm panel, beside the Goodwill bar in every
+fight, and in the rival dossier. It is content (`content/founders.json`) with a
+portrait, a badge and an `effects` list that is empty in v1, and it rides in the
+snapshot's `globals.founderId` where the sim applies its effects like a modifier's.**
+
+*Why:* The human's call — an avatar the player picks, present in the UI now, with
+buildings, staff or abilities possibly attached later. Putting it in the snapshot with
+an empty effects list is the same move as `attachments[]` (D-13): the format cost is
+paid once, now, so that giving a founder a mechanic later is a content edit.
+
+*Consequence:* Sixteen new manifest entries (eight portraits at 64 × 64, awaiting the
+same pack-fit verification as the inspector portrait; eight badges at 32 × 32), one new
+screen, and one new content type. The sim's determinism contract is unchanged because a
+founder is a modifier. Rival templates draw a founder from an archetype pool so the
+dossier always has a face.
+
+Authority: Human · Phase 4, `GAME_DESIGN.md` §3, §19.7; `CONTENT_SCHEMA.md` §9

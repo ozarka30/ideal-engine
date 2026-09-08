@@ -59,6 +59,10 @@
       "def": "Tutorial"
     },
     {
+      "path": "founders.json",
+      "def": "FounderFile"
+    },
+    {
       "path": "rivals/templates.json",
       "def": "TemplateFile"
     },

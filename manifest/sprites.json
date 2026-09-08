@@ -2992,6 +2992,762 @@
       }
     },
     {
+      "id": "founder.sato.portrait",
+      "kind": "ui",
+      "category": "people",
+      "label": "Sato Kenji portrait",
+      "footprint": null,
+      "sprite": {
+        "w": 64,
+        "h": 64,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/founder/sato/portrait.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder",
+        "build",
+        "map",
+        "codex"
+      ],
+      "visibility": 1,
+      "reads": "A face with a title: Sato Kenji, The Lifer. Reads as a person you would follow or would not",
+      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
+      "verify": true,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.sato.badge",
+      "kind": "ui",
+      "category": "people",
+      "label": "Sato Kenji badge",
+      "footprint": null,
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/founder/sato/badge.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle",
+        "map"
+      ],
+      "visibility": 2,
+      "reads": "The same person at 32px; recognisable beside the Goodwill bar",
+      "candidateSource": "JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.hoshino.portrait",
+      "kind": "ui",
+      "category": "people",
+      "label": "Hoshino Mari portrait",
+      "footprint": null,
+      "sprite": {
+        "w": 64,
+        "h": 64,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/founder/hoshino/portrait.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder",
+        "build",
+        "map",
+        "codex"
+      ],
+      "visibility": 1,
+      "reads": "A face with a title: Hoshino Mari, The Closer. Reads as a person you would follow or would not",
+      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
+      "verify": true,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.hoshino.badge",
+      "kind": "ui",
+      "category": "people",
+      "label": "Hoshino Mari badge",
+      "footprint": null,
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/founder/hoshino/badge.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle",
+        "map"
+      ],
+      "visibility": 2,
+      "reads": "The same person at 32px; recognisable beside the Goodwill bar",
+      "candidateSource": "JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.okada.portrait",
+      "kind": "ui",
+      "category": "people",
+      "label": "Okada Tetsuo portrait",
+      "footprint": null,
+      "sprite": {
+        "w": 64,
+        "h": 64,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/founder/okada/portrait.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder",
+        "build",
+        "map",
+        "codex"
+      ],
+      "visibility": 1,
+      "reads": "A face with a title: Okada Tetsuo, The Fixer. Reads as a person you would follow or would not",
+      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
+      "verify": true,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.okada.badge",
+      "kind": "ui",
+      "category": "people",
+      "label": "Okada Tetsuo badge",
+      "footprint": null,
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/founder/okada/badge.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle",
+        "map"
+      ],
+      "visibility": 2,
+      "reads": "The same person at 32px; recognisable beside the Goodwill bar",
+      "candidateSource": "JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.nakagawa.portrait",
+      "kind": "ui",
+      "category": "people",
+      "label": "Nakagawa Yui portrait",
+      "footprint": null,
+      "sprite": {
+        "w": 64,
+        "h": 64,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/founder/nakagawa/portrait.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder",
+        "build",
+        "map",
+        "codex"
+      ],
+      "visibility": 1,
+      "reads": "A face with a title: Nakagawa Yui, The Wunderkind. Reads as a person you would follow or would not",
+      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
+      "verify": true,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.nakagawa.badge",
+      "kind": "ui",
+      "category": "people",
+      "label": "Nakagawa Yui badge",
+      "footprint": null,
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/founder/nakagawa/badge.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle",
+        "map"
+      ],
+      "visibility": 2,
+      "reads": "The same person at 32px; recognisable beside the Goodwill bar",
+      "candidateSource": "JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.moriyama.portrait",
+      "kind": "ui",
+      "category": "people",
+      "label": "Moriyama Hiro portrait",
+      "footprint": null,
+      "sprite": {
+        "w": 64,
+        "h": 64,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/founder/moriyama/portrait.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder",
+        "build",
+        "map",
+        "codex"
+      ],
+      "visibility": 1,
+      "reads": "A face with a title: Moriyama Hiro, The Manager. Reads as a person you would follow or would not",
+      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
+      "verify": true,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.moriyama.badge",
+      "kind": "ui",
+      "category": "people",
+      "label": "Moriyama Hiro badge",
+      "footprint": null,
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/founder/moriyama/badge.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle",
+        "map"
+      ],
+      "visibility": 2,
+      "reads": "The same person at 32px; recognisable beside the Goodwill bar",
+      "candidateSource": "JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.ueda.portrait",
+      "kind": "ui",
+      "category": "people",
+      "label": "Ueda Kaori portrait",
+      "footprint": null,
+      "sprite": {
+        "w": 64,
+        "h": 64,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/founder/ueda/portrait.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder",
+        "build",
+        "map",
+        "codex"
+      ],
+      "visibility": 1,
+      "reads": "A face with a title: Ueda Kaori, The Nurturer. Reads as a person you would follow or would not",
+      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
+      "verify": true,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.ueda.badge",
+      "kind": "ui",
+      "category": "people",
+      "label": "Ueda Kaori badge",
+      "footprint": null,
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/founder/ueda/badge.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle",
+        "map"
+      ],
+      "visibility": 2,
+      "reads": "The same person at 32px; recognisable beside the Goodwill bar",
+      "candidateSource": "JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.the_founder.portrait",
+      "kind": "ui",
+      "category": "people",
+      "label": "The Founder portrait",
+      "footprint": null,
+      "sprite": {
+        "w": 64,
+        "h": 64,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/founder/the_founder/portrait.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder",
+        "build",
+        "map",
+        "codex"
+      ],
+      "visibility": 1,
+      "reads": "A face with a title: The Founder, Deceased, 1987. Reads as a person you would follow or would not",
+      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
+      "verify": true,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.the_founder.badge",
+      "kind": "ui",
+      "category": "people",
+      "label": "The Founder badge",
+      "footprint": null,
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/founder/the_founder/badge.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle",
+        "map"
+      ],
+      "visibility": 2,
+      "reads": "The same person at 32px; recognisable beside the Goodwill bar",
+      "candidateSource": "JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.kitamura.portrait",
+      "kind": "ui",
+      "category": "people",
+      "label": "Kitamura Sho portrait",
+      "footprint": null,
+      "sprite": {
+        "w": 64,
+        "h": 64,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/founder/kitamura/portrait.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder",
+        "build",
+        "map",
+        "codex"
+      ],
+      "visibility": 1,
+      "reads": "A face with a title: Kitamura Sho, The Salaryman. Reads as a person you would follow or would not",
+      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
+      "verify": true,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.kitamura.badge",
+      "kind": "ui",
+      "category": "people",
+      "label": "Kitamura Sho badge",
+      "footprint": null,
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/founder/kitamura/badge.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle",
+        "map"
+      ],
+      "visibility": 2,
+      "reads": "The same person at 32px; recognisable beside the Goodwill bar",
+      "candidateSource": "JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.founder.header",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Founder select header",
+      "footprint": null,
+      "sprite": {
+        "w": 640,
+        "h": 24,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/founder/header.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder"
+      ],
+      "visibility": 3,
+      "reads": "'CHOOSE A FOUNDER' and the firm name field",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 0,
+        "y": 0
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.founder.card",
+      "kind": "ui",
+      "category": "people",
+      "label": "Founder card",
+      "footprint": null,
+      "sprite": {
+        "w": 72,
+        "h": 96,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/founder/card.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder"
+      ],
+      "visibility": 3,
+      "reads": "Portrait slot (4,4,64,64); name (4,72,64,8); title (4,82,64,8); selected state distinct; a reserved trait line stays empty in v1",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.founder.grid",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Founder grid",
+      "footprint": null,
+      "sprite": {
+        "w": 608,
+        "h": 208,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/founder/grid.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder"
+      ],
+      "visibility": 3,
+      "reads": "Four columns at x = 16 + col × 152, two rows at y = 40 + row × 104; cards centred in 152 × 104 cells",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 16,
+        "y": 40
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.founder.bio",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Founder bio panel",
+      "footprint": null,
+      "sprite": {
+        "w": 608,
+        "h": 40,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/founder/bio.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder"
+      ],
+      "visibility": 3,
+      "reads": "The selected founder's bio, up to four lines of font.ui.8",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 16,
+        "y": 256
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.founder.firm_name",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Firm name field",
+      "footprint": null,
+      "sprite": {
+        "w": 240,
+        "h": 16,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/founder/firm_name.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder"
+      ],
+      "visibility": 3,
+      "reads": "Text field, default from the founder's surname + ' Holdings'",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 16,
+        "y": 304
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.founder.confirm",
+      "kind": "ui",
+      "category": "interface",
+      "label": "FOUND THE FIRM button",
+      "footprint": null,
+      "sprite": {
+        "w": 120,
+        "h": 16,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/founder/confirm.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder"
+      ],
+      "visibility": 3,
+      "reads": "The commit button",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 504,
+        "y": 304
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.battle.founder",
+      "kind": "ui",
+      "category": "people",
+      "label": "Battle founder badge frame",
+      "footprint": null,
+      "sprite": {
+        "w": 36,
+        "h": 36,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/battle/founder.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "A 2px frame around a 32x32 badge; A at (8,48), B at (596,48)",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.map.dossier_badge",
+      "kind": "ui",
+      "category": "people",
+      "label": "Dossier founder badge frame",
+      "footprint": null,
+      "sprite": {
+        "w": 36,
+        "h": 36,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/map/dossier_badge.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "map"
+      ],
+      "visibility": 3,
+      "reads": "A 2px frame around the rival founder's 32x32 badge at (160,4) inside the dossier",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.build.firm_panel",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Inspector default: the firm",
+      "footprint": null,
+      "sprite": {
+        "w": 200,
+        "h": 304,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/build/firm_panel.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "Shown when nothing is selected: founder portrait 64x64 at (440,40); firm name at (512,40); founder name and title at (512,50) and (512,60); run stats from y=112: round, strikes, fights won, Goodwill cap, floors leased, staff count",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 432,
+        "y": 32
+      },
+      "overhang": null
+    },
+    {
       "id": "ui.build.topbar",
       "kind": "ui",
       "category": "interface",

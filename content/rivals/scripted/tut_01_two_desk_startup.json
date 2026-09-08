@@ -65,6 +65,7 @@
       }
     ],
     "globals": {
+      "founderId": "founder.nakagawa",
       "modifiers": [],
       "riders": [],
       "leasedB1": false

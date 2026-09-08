@@ -224,7 +224,8 @@
               "map",
               "codex",
               "menu",
-              "reward"
+              "reward",
+              "founder"
             ]
           },
           "minItems": 1
