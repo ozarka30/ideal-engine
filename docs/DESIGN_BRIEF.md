@@ -1,0 +1,139 @@
+# Company Wars — Design Brief
+
+Status: **locked foundation**. This document records decisions already made. It is
+the ground truth that `PLANNING_PROMPT.md` builds on. Anything not listed here is
+still open and should be treated as a design question, not an assumption.
+
+---
+
+## 1. One-line pitch
+
+An auto-battler where you build a haunted Japanese office tower floor by floor,
+hire the staff to fill it, and send it into quarterly combat against another
+player's building for market share.
+
+## 2. Genre and reference points
+
+- **Primary reference: Backpack Battles.** The target is its *depth model* — a
+  scarce spatial grid, adjacency synergies, hidden combine recipes, and a
+  cooldown-driven fight you cannot influence once it starts. Depth lives entirely
+  in the build phase.
+- **Divergence from Backpack Battles:** two asset classes instead of one.
+  - **Rooms** are *static* — multi-tile footprints, bought once, expensive and
+    painful to undo. They define zones and auras.
+  - **Employees** are *flexible* — small units, freely repositioned between
+    rounds, they carry the cooldowns and do the acting.
+  - This creates a commitment-vs-reoptimisation tension Backpack Battles does not
+    have, and it is the core strategic identity of the game.
+- **Secondary reference (campaign mode only): Slay the Spire** — branching map,
+  scripted encounters, run-scoped modifiers, meta-unlocks.
+
+## 3. Locked decisions
+
+| Area | Decision |
+| --- | --- |
+| Title | **Company Wars** |
+| Genre | Auto-battler; shop/build round then async PvP round |
+| Setting & tone | Retro Japanese corporate occult — 90s salaryman satire that quietly turns supernatural |
+| Build space | **Multi-floor building.** Several small grids stacked vertically, connected by an elevator. Floors have distinct mechanical identity. Portal is literally a basement floor |
+| Combat model | **Cooldown duel.** Nothing moves during combat. Employees fire abilities on their own cooldowns. Layout is a pure build-time puzzle |
+| Win condition | **Market share tug-of-war.** One shared bar between the two firms, starts 50/50. Both sides push. Fight ends on full claim or on the quarterly bell |
+| Crafting | **Full hidden-recipe crafting.** Employees + equipment + room context combine into upgraded staff. Discovery is a primary retention driver |
+| Hiring | **Shop with paid rerolls.** The portal unlocks mid-run and adds a second, riskier stock of extraplanar hires alongside the normal one |
+| Modes | **Two.** A ranked/competitive ladder mode for the endgame audience, and a Slay-the-Spire-style campaign mode. Both share one sim and one content database |
+| Platform | **Steam** |
+| Tech | TypeScript + PixiJS + Vite; packaged for Steam via Tauri. Sim is a pure headless TS module |
+| Development style | Primarily agentic coding, with human intervention for layout and hard design problems |
+
+## 4. Art direction and the perspective split
+
+Base asset pack: **GuttyKreum's "The Japan Collection"** (itch.io). All tiles are
+32x32 pixel art. Relevant packs:
+
+| Pack | Use |
+| --- | --- |
+| Office Interior (869 tiles) | Rooms, furniture, floor surfaces. Includes executive desks, fax machines, 90s PCs, water coolers, filing cabinets, whiteboards, monitoring stations, a Yakult cart |
+| JRPG Characters Vol. 1 (20 sprites, 4-dir 8-frame walks) | Employee sprites |
+| Portraits | Hiring shop / applicant cards |
+| Interior Essentials (721 tiles) | Break rooms, lounges, non-office interiors |
+| Horror Interiors | Basement / portal floor — the occult reveal, still in-style |
+| Bar, Train Station, Train Interiors, School Interiors | Campaign event locations |
+| Japanese City / Osaka / Dotonbori (isometric) | Exteriors, meta map, battle backdrop |
+| Backgrounds | Menus, transitions |
+
+**The city packs are isometric; the interior packs and characters are top-down.**
+Do not mix them inside one view. This is resolved by assigning each perspective a
+job:
+
+- **Interior / build view — top-down.** The floorplan grid the player edits.
+- **Exterior / battle view — isometric.** Two buildings facing each other across a
+  street.
+
+Extending to non-GuttyKreum art later is handled diegetically: the **Otherworld
+Temp Agency** behind the portal supplies extraplanar contractors, so any future
+pack in any style arrives as an in-fiction foreign body rather than an
+inconsistency.
+
+**Ship blocker to verify before any commercial release:** confirm the GuttyKreum
+licence permits commercial use and redistribution-in-game for every pack used.
+
+## 5. Battle presentation
+
+The known hard problem with multi-floor: how does a player watch, and more
+importantly *understand*, a fight spread across four grids?
+
+Direction to develop:
+
+- Camera sits on the street. Both towers face each other, drawn with isometric
+  city art.
+- Effects pop from windows — a floor firing an ability produces a burst, a
+  floating number, an icon at that floor's windows.
+- Hovering a floor opens its top-down floorplan as an inset/tooltip, showing which
+  employee fired and what triggered.
+- The market share bar is the single always-visible readout.
+- **Post-battle diagnosis is mandatory, not optional.** A scrubbable timeline plus
+  a per-floor contribution breakdown. In a build-craft game, a player who cannot
+  work out *why* they lost will quit. This is a first-class feature, not polish.
+
+## 6. Systems sketch (starting point, not settled)
+
+Mappings from the Backpack Battles depth model:
+
+| Source system | Company Wars form |
+| --- | --- |
+| Polyomino packing in a scarce bag | Room footprints on a scarce floor grid |
+| Adjacency buffs | Employees must occupy a room to gain its effect; rooms are auras, furniture are triggers |
+| Recipe crafting | Promotions and renovations — e.g. 2 Junior Devs + a whiteboard becomes a Senior Dev |
+| Cooldown combat archetypes | Engineering pushes, Legal resists, HR restores, Sales grows economy, Middle Management retriggers neighbours |
+| Status effects | **Burnout** (stacking damage over time), **Overtime** (haste at a cost), **Bureaucracy** (slow) |
+| Gold / reroll / sell | **Budget**, reroll is reposting the job listing, selling is a layoff **with a severance fee** — so flexibility is real but never free |
+
+Floor identity gives the vertical axis meaning rather than just more space:
+Ground/Reception is exposed, mid floors are the engine, Executive is expensive and
+high-multiplier, B4 is the portal and is cursed. Rival abilities that target "the
+highest floor" or "the lowest floor" make floor assignment a genuine decision even
+though nothing moves in combat.
+
+## 7. Known risks
+
+1. **Layer bloat.** Rooms + furniture + employees + equipment may be one layer too
+   many. Plan for MVP to fold equipment into furniture and keep the expansion room.
+2. **Two modes is two balance problems.** Mitigated by forcing one sim and one
+   content database, with modes as a configuration layer only.
+3. **Tug-of-war doubles balance difficulty** versus a plain HP bar, because both
+   offence and defence push the same axis.
+4. **Cold-start PvP.** Async ghosts need a seeded bot pool or the first players
+   fight nothing.
+5. **Recipe discovery needs an in-game codex** or it reads as opaque rather than
+   deep.
+
+## 8. Still open
+
+Carried into `PLANNING_PROMPT.md` as work to be done:
+
+- How exactly floor output aggregates into the single market share bar.
+- Number of floors, grid dimensions per floor, and the expansion curve.
+- Whether the campaign or the ranked ladder ships first.
+- Round count, fight duration, and lives per run.
+- Whether furniture is a distinct layer in v1.
+- Economy numbers of every kind.
