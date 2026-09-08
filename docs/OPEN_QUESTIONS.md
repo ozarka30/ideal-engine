@@ -25,11 +25,11 @@ explicitly under **Tension with the lock**.
 | **Trade-off** | What the recommendation gives up. Every recommendation gives something up |
 | **Status** | `DECIDED` (craft call, taken, see decision log) or `NEEDS SIGN-OFF` (the human's call) |
 
-**Status vocabulary.** `DECIDED` means the call was a matter of craft — data
-structures, ordering rules, methodology — and has been made under the planning
-prompt's grant of authority to make such calls. It is still reversible; it is not
+**Status vocabulary.** `DECIDED` means the call has been taken — either as a matter
+of craft under the planning prompt's grant of authority, or by the human where the
+call was theirs. The decision log records which. It is still reversible; it is not
 still pending. `NEEDS SIGN-OFF` means the call is about tone, feel, scope or what
-the game is *about*, and is the human's to make. Phase 2 may proceed on the
+the game is *about*, and is the human's to make. Later phases may proceed on the
 recommendation for `NEEDS SIGN-OFF` items, but must mark anything built on one.
 
 **ID scheme.** `Q-<AREA>-<n>`. Areas: `STR` structure and pacing, `GW` Goodwill and
@@ -45,14 +45,14 @@ decisions.
 | --- | --- | --- | --- |
 | [Q-STR-1](#q-str-1--how-many-floors-and-what-grid-size) | Floors and grid size | 5 floor slots, 5x3 standard, start with 2 | DECIDED · [D-01](DECISION_LOG.md#d-01) |
 | [Q-STR-2](#q-str-2--what-is-the-floor-expansion-curve) | Expansion curve | Floors are the biggest purchase in the game; three unlocks per run | DECIDED · [D-02](DECISION_LOG.md#d-02) |
-| [Q-STR-3](#q-str-3--rounds-per-run-fight-length-and-lives) | Rounds, fight length, lives | 16 fights, 60s quarter, 3 lives, ~45min run | NEEDS SIGN-OFF |
-| [Q-STR-4](#q-str-4--what-shape-is-the-campaign-map-and-what-are-its-bosses) | Campaign map and bosses | 3 acts, branching, 4 node types, 3 named bosses | NEEDS SIGN-OFF |
+| [Q-STR-3](#q-str-3--rounds-per-run-fight-length-and-lives) | Rounds, fight length, lives | 16 fights, 60s quarter, 3 lives, ~45min run | DECIDED · [D-21](DECISION_LOG.md#d-21) |
+| [Q-STR-4](#q-str-4--what-shape-is-the-campaign-map-and-what-are-its-bosses) | Campaign map and bosses | 3 acts, branching, 5 node types, 3 named bosses | DECIDED · [D-22](DECISION_LOG.md#d-22) |
 | [Q-GW-1](#q-gw-1--how-does-floor-output-aggregate-into-goodwill-damage-and-then-into-the-bar) | Output aggregation | Per-ability resolution tagged by floor; no separate floor cadence | DECIDED · [D-03](DECISION_LOG.md#d-03) |
 | [Q-GW-2](#q-gw-2--does-goodwill-regenerate) | Regeneration | Yes — discrete 2s ticks, suppressed 1s after any hit | DECIDED · [D-04](DECISION_LOG.md#d-04) |
 | [Q-GW-3](#q-gw-3--what-is-the-shape-of-the-quarter-close-pressure-curve) | Quarter Close curve | Three months plus a Bell; push up, regen down, stepped | DECIDED · [D-05](DECISION_LOG.md#d-05) |
 | [Q-GW-4](#q-gw-4--does-overflow-carry) | Overflow | Yes, in full, uncapped | DECIDED · [D-06](DECISION_LOG.md#d-06) |
 | [Q-GW-5](#q-gw-5--what-pierces-goodwill) | Piercing | Two sources only: Burnout (morale) and portal Anomaly | DECIDED · [D-07](DECISION_LOG.md#d-07) |
-| [Q-GW-6](#q-gw-6--does-the-bar-travel-back-through-the-centre) | Comebacks | Yes, free travel, no ratchet | NEEDS SIGN-OFF |
+| [Q-GW-6](#q-gw-6--does-the-bar-travel-back-through-the-centre) | Comebacks | Yes, free travel, no ratchet | DECIDED · [D-23](DECISION_LOG.md#d-23) |
 | [Q-GW-7](#q-gw-7--what-does-the-ledger-show-and-at-what-granularity) | Ledger granularity | Full fidelity in the log, coalesced in the live view, budget of 4 lines/sec | DECIDED · [D-08](DECISION_LOG.md#d-08) |
 | [Q-FLR-1](#q-flr-1--what-makes-each-floor-mechanically-distinct) | Floor identity | Four levers: multiplier, room legality, exposure, upkeep | DECIDED · [D-09](DECISION_LOG.md#d-09) |
 | [Q-FLR-2](#q-flr-2--how-do-floor-targeting-abilities-work) | Floor targeting | Closed selector vocabulary, pure over the snapshot, explicit tie-breaks | DECIDED · [D-10](DECISION_LOG.md#d-10) |
@@ -183,7 +183,7 @@ concern only and never touches the sim.
 fight is not readable, that is 16 minutes of noise, and the run length amplifies
 every readability failure rather than hiding it.
 
-**Status:** NEEDS SIGN-OFF
+**Status:** DECIDED · [D-21](DECISION_LOG.md#d-21) — recommendation accepted.
 
 ---
 
@@ -225,7 +225,7 @@ having bigger numbers:
 survive every balance change, since they are fixtures as well as content. Budget
 for re-authoring them each time the pressure curve moves.
 
-**Status:** NEEDS SIGN-OFF
+**Status:** DECIDED · [D-22](DECISION_LOG.md#d-22) — recommendation accepted.
 
 ---
 
@@ -485,7 +485,8 @@ window, where the push multiplier is 3.0. That is a real feel-bad. Watch it in
 playtest; if it bites, the fix is to cap Bell-window multipliers rather than to
 adopt the ratchet.
 
-**Status:** NEEDS SIGN-OFF — this is a feel decision about what the game is about.
+**Status:** DECIDED · [D-23](DECISION_LOG.md#d-23) — recommendation accepted. Comebacks
+exist; recapture friction stays on the shelf as the tuning lever.
 
 ---
 
@@ -1256,14 +1257,22 @@ demolition cost — keep the rule sharp and the resources loose.
 
 ## What Phase 2 needs before it can start
 
-Phase 2 (`GAME_DESIGN.md`, `SIMULATION_SPEC.md`) can proceed on every `DECIDED`
-answer above. It is blocked, or must proceed on an explicitly marked assumption, on:
+**Nothing.** The three questions that blocked the loop and the sim — run length
+([Q-STR-3](#q-str-3--rounds-per-run-fight-length-and-lives)), the bar model
+([Q-GW-6](#q-gw-6--does-the-bar-travel-back-through-the-centre)) and campaign shape
+([Q-STR-4](#q-str-4--what-shape-is-the-campaign-map-and-what-are-its-bosses)) — are
+closed. `GAME_DESIGN.md` and `SIMULATION_SPEC.md` can be written without a marked
+assumption anywhere in them.
 
-| Blocking | Why Phase 2 needs it |
-| --- | --- |
-| [Q-STR-3](#q-str-3--rounds-per-run-fight-length-and-lives) | Quarter length in ticks is a constant in `SIMULATION_SPEC` |
-| [Q-GW-6](#q-gw-6--does-the-bar-travel-back-through-the-centre) | The bar model is core sim, not presentation |
-| [Q-STR-4](#q-str-4--what-shape-is-the-campaign-map-and-what-are-its-bosses) | Needed for `GAME_DESIGN`, not for `SIMULATION_SPEC` |
+Six questions remain open. None blocks Phase 2; each is listed here against the phase
+where it first bites, so it can be answered when it is actually needed rather than in
+a batch.
 
-Everything else with `NEEDS SIGN-OFF` can be deferred to Phase 3 or 4 without
-blocking the loop and the sim.
+| Open question | First blocks | Cost of proceeding on the recommendation |
+| --- | --- | --- |
+| [Q-PTL-1](#q-ptl-1--what-makes-an-extraplanar-hire-a-real-gamble) portal risk | Phase 2 — `GAME_DESIGN` portal section | Low. The rider pool is content; changing its shape does not move the sim |
+| [Q-PTL-2](#q-ptl-2--what-unlocks-the-portal-and-how-does-the-reveal-land) portal unlock | Phase 2 — `GAME_DESIGN` campaign structure | Low. One configured condition, two values |
+| [Q-RISK-2](#q-risk-2--is-the-room-commitment-tension-actually-load-bearing) demolition pain | Phase 2 — the economy section | Medium. It sets the budget curve, which every later number is fitted against |
+| [Q-RCP-1](#q-rcp-1--how-many-recipes-at-launch-and-how-are-they-discovered) recipe count | Phase 3 — catalogue volume | Medium. ~40 result entities is a large share of the art worklist |
+| [Q-GBX-3](#q-gbx-3--what-is-the-greybox-palette) greybox palette | Phase 4 — `ART_PIPELINE` | Low to change on paper, high to change once screens exist |
+| [Q-RISK-1](#q-risk-1--is-the-guttykreum-licence-cleared-for-commercial-release) asset licence | Release, and any art spend | Not a design decision. It needs an owner and a date, and it is cheapest to answer now |

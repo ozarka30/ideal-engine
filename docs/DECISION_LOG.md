@@ -49,9 +49,12 @@ history of a reversal is the most useful thing in a document like this.
 | [D-18](#d-18) | The tower snapshot format, and the pure `simulate()` entry point | Craft | Q-PVP-1 |
 | [D-19](#d-19) | Ranked matchmaking buckets by round and rating; rating lives outside the snapshot | Craft | Q-PVP-2 |
 | [D-20](#d-20) | Anti-cheat is server re-simulation plus snapshot legality validation | Craft | Q-PVP-3 |
+| [D-21](#d-21) | 16 fights across three acts, a 60s quarter, three lives | Human | Q-STR-3 |
+| [D-22](#d-22) | Branching campaign map, five node types, three thesis bosses | Human | Q-STR-4 |
+| [D-23](#d-23) | Comebacks exist — the bar travels freely back through the centre | Human | Q-GW-6 |
 
-Twenty craft decisions taken. Nine questions remain open in
-[`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md) awaiting human sign-off.
+Twenty craft decisions and three human calls taken. Six questions remain open in
+[`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); none of them blocks Phase 2.
 
 ---
 
@@ -420,3 +423,64 @@ validator is dual-use: it also checks that hand-authored campaign rivals are leg
 towers.
 
 Authority: Craft · Question: [Q-PVP-3](OPEN_QUESTIONS.md#q-pvp-3--what-is-the-anti-cheat-posture-given-the-client-owns-the-sim)
+
+---
+
+## D-21
+
+**A run is 16 fights across three acts of 6 / 6 / 4. The quarter is 60 seconds —
+1,200 ticks at 20 Hz. Three lives, framed as strikes on a performance review. Build
+phase untimed.**
+
+*Why:* 45 minutes is the right size for the depth on offer — long enough that a room
+committed in Act 1 still matters in Act 3, short enough that a run lost to a bad
+opening does not cost an evening.
+
+*Consequence:* 1,200 ticks is now a fixed constant in `SIMULATION_SPEC`, and the
+Quarter Close phase boundaries in [D-05](#d-05) are absolute tick numbers rather than
+fractions. 60s is a ceiling, not a target: the median fight should resolve at 35–50s
+with the bell as a backstop. Roughly 16 minutes of watching per run means run length
+amplifies every readability failure rather than hiding it — which makes the event
+budget in [D-08](#d-08) load-bearing rather than tidy.
+
+Authority: Human · Question: [Q-STR-3](OPEN_QUESTIONS.md#q-str-3--rounds-per-run-fight-length-and-lives)
+
+---
+
+## D-22
+
+**The campaign map is a Slay-the-Spire branching DAG with five node types — Hostile
+Takeover, Recruiter, Board Meeting, Consultant, Audit — and one boss per act: the
+Regional Rival, the Compliance Office, the Parent Company.**
+
+*Why:* Each boss attacks a different assumption rather than carrying bigger numbers —
+a mirror that proves the ledger is readable, a turtle unwinnable without piercing, and
+a five-floor tower that punishes concentration — so the act structure teaches the three
+things a player must understand to be good at the game.
+
+*Consequence:* Three hand-authored rival towers that are balance fixtures as well as
+content, and must be re-authored whenever the pressure curve moves. The Act 1 boss
+carries the portal unlock, so [Q-PTL-2](OPEN_QUESTIONS.md#q-ptl-2--what-unlocks-the-portal-and-how-does-the-reveal-land)
+is now scoped to timing and presentation, not to the trigger.
+
+Authority: Human · Question: [Q-STR-4](OPEN_QUESTIONS.md#q-str-4--what-shape-is-the-campaign-map-and-what-are-its-bosses)
+
+---
+
+## D-23
+
+**The Market Share bar is a single free-travelling position. A trailing firm that
+breaks through pushes it back through the centre. No ratchet, no territory held.**
+
+*Why:* The fight is a spectator event the player cannot influence, so uncertainty is
+the only thing holding attention — and a ratchet destroys it precisely in the fights
+the player most needs to sit and watch, which are the ones they lose.
+
+*Consequence:* A dominant 50-second performance can be erased inside the Bell window
+where the push multiplier is 3.0. If that feel-bad bites in playtest, the fix is to cap
+Bell-window multipliers, not to adopt the ratchet. Recapture friction (a multiplier on
+pushing into held ground) stays on the shelf as the tuning lever if leads prove
+meaningless — it is one constant and needs no content change. The bar model also stays
+arithmetically trivial, which keeps the replay format and the CI assertions simple.
+
+Authority: Human · Question: [Q-GW-6](OPEN_QUESTIONS.md#q-gw-6--does-the-bar-travel-back-through-the-centre)

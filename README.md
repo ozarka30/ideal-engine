@@ -28,12 +28,13 @@ Pre-production. No code yet — design first.
 
 | Phase | Deliverables | Status |
 | --- | --- | --- |
-| 1 — Open questions | `OPEN_QUESTIONS.md`, `DECISION_LOG.md` | Drafted, awaiting sign-off |
+| 1 — Open questions | `OPEN_QUESTIONS.md`, `DECISION_LOG.md` | Complete |
 | 2 — Loop and sim | `GAME_DESIGN.md`, `SIMULATION_SPEC.md` | Not started |
 | 3 — Content and data | `CONTENT_SCHEMA.md`, first catalogue pass | Not started |
 | 4 — Technical | `ARCHITECTURE.md`, `ART_PIPELINE.md` | Not started |
 | 5 — Balance and plan | `BALANCE_PLAN.md`, `ROADMAP.md` | Not started |
 
-Twenty of the twenty-nine Phase 1 questions are closed as craft calls; nine need a
-human decision before Phase 2 can proceed without marked assumptions. See the summary
-table in [`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md).
+Twenty-three of the twenty-nine Phase 1 questions are closed — twenty craft calls and
+three human decisions. The remaining six are open but block nothing in Phase 2; each is
+listed against the phase where it first bites. See the summary table in
+[`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md).
