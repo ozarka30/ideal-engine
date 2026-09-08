@@ -1,0 +1,422 @@
+# Company Wars — Decision Log
+
+Status: **append-only**. Phase 1 output, alongside
+[`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md).
+
+This is the record of decisions taken during design, with the reasoning compressed to
+the line that actually did the work. It exists so that a reader with no memory of the
+conversation — a coding agent, a future contributor, the author in six months — can
+find out *why* something is the way it is without re-deriving it or, worse,
+"improving" it back to the option that was already rejected.
+
+**Append-only.** Entries are never edited or deleted. A reversal is a new entry that
+names what it supersedes, and the superseded entry gets a `Superseded by` line. The
+history of a reversal is the most useful thing in a document like this.
+
+**Authority.** Every entry records who the call belonged to:
+
+- **Craft** — data structures, ordering rules, formats, methodology. Made by the
+  designer under the planning prompt's grant of authority to make such calls without
+  asking. Reversible, but currently taken.
+- **Human** — tone, feel, scope, what the game is about. Recorded here only once the
+  human has signed off. Until then it lives in `OPEN_QUESTIONS.md` as
+  `NEEDS SIGN-OFF`.
+- **Locked** — from `DESIGN_BRIEF.md`, predating this log. Not relitigated here.
+
+---
+
+## Index
+
+| # | Decision | Authority | Question |
+| --- | --- | --- | --- |
+| [D-01](#d-01) | Five floor slots; 5x3 standard, asymmetric Executive and basement | Craft | Q-STR-1 |
+| [D-02](#d-02) | Floors are purchased, expensive, and carry per-round upkeep | Craft | Q-STR-2 |
+| [D-03](#d-03) | Per-ability resolution tagged by floor; aggregation is a view | Craft | Q-GW-1 |
+| [D-04](#d-04) | Goodwill regenerates in discrete 2s ticks, suppressed 1s after a hit | Craft | Q-GW-2 |
+| [D-05](#d-05) | Quarter Close is a four-phase step function, global and untunable | Craft | Q-GW-3 |
+| [D-06](#d-06) | Overflow carries in full, uncapped | Craft | Q-GW-4 |
+| [D-07](#d-07) | Pierce is a property of damage kind; exactly three kinds exist | Craft | Q-GW-5 |
+| [D-08](#d-08) | One event array; ledger, replay and autopsy are views over it | Craft | Q-GW-7 |
+| [D-09](#d-09) | Floor identity uses four light levers, not one heavy one | Craft | Q-FLR-1 |
+| [D-10](#d-10) | Floor targeting is a closed selector vocabulary with specified tie-breaks | Craft | Q-FLR-2 |
+| [D-11](#d-11) | The elevator's landing column provides scarce vertical adjacency | Craft | Q-FLR-3 |
+| [D-12](#d-12) | Rooms are zones; furniture stays, equipment is cut | Craft | Q-LYR-1 |
+| [D-13](#d-13) | Employees carry nothing; `attachments[]` is reserved and always empty | Craft | Q-LYR-2 |
+| [D-14](#d-14) | Nine required manifest fields; overhang is derived, absence is valid | Craft | Q-GBX-1 |
+| [D-15](#d-15) | Draw order is a five-key total order with a required `sortBias` | Craft | Q-GBX-2 |
+| [D-16](#d-16) | "Art complete" is reachability-based; tiers rank, they do not exempt | Craft | Q-GBX-4 |
+| [D-17](#d-17) | Crafting consumes inputs and is reversible only within the build round | Craft | Q-RCP-2 |
+| [D-18](#d-18) | The tower snapshot format, and the pure `simulate()` entry point | Craft | Q-PVP-1 |
+| [D-19](#d-19) | Ranked matchmaking buckets by round and rating; rating lives outside the snapshot | Craft | Q-PVP-2 |
+| [D-20](#d-20) | Anti-cheat is server re-simulation plus snapshot legality validation | Craft | Q-PVP-3 |
+
+Twenty craft decisions taken. Nine questions remain open in
+[`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md) awaiting human sign-off.
+
+---
+
+## D-01
+
+**Five floor slots — `G`, `1F`, `2F`, `3F` (Executive), `B1` (Portal). Standard
+floors are 5x3; Executive is 4x2; B1 is 3x3. A run starts with `G` and `1F`.**
+
+*Why:* The binding constraint is ledger legibility, not space — sizing backwards from
+"a human can follow this fight" gives a late-run roster of 12–16 employees, and 62
+maximum tiles is what produces that. Asymmetric floor shapes generate per-floor
+identity for free, before a single stat is involved.
+
+*Consequence:* Rooms must be predominantly 2x2 and smaller; 3x3 rooms cannot exist on
+standard floors.
+
+Authority: Craft · Question: [Q-STR-1](OPEN_QUESTIONS.md#q-str-1--how-many-floors-and-what-grid-size)
+
+---
+
+## D-02
+
+**Floors are purchased, cost roughly three rounds of income, and carry per-round
+upkeep. Three are purchasable per run.**
+
+*Why:* A floor has to be the game's tempo-versus-scaling decision, and it can only be
+that if buying one visibly weakens the next two or three fights; upkeep is what stops
+"buy everything" from being trivially correct.
+
+*Consequence:* Over-leasing is a real losing line, so the purchase UI must show
+projected upkeep before committing.
+
+Authority: Craft · Question: [Q-STR-2](OPEN_QUESTIONS.md#q-str-2--what-is-the-floor-expansion-curve)
+
+---
+
+## D-03
+
+**Every ability resolves individually and immediately, tagged with
+`(floor, employee, ability)`. Floor multipliers and room auras apply at resolve time.
+Per-floor aggregation is a renderer-side view, never a sim step.**
+
+*Why:* A floor-buffered design would make the battle presentation easier and destroy
+causality in the ledger — "Floor 3 dealt 900" does not answer "why did I lose", and
+answering that question is the design's central promise.
+
+*Consequence:* The sim emits 6–12 events/second in a late fight, pushing the
+readability problem into the live view, where
+[D-08](#d-08) handles it. Multiplier order is fixed, with a single rounding step at
+the end so no float reaches the ledger.
+
+Authority: Craft · Question: [Q-GW-1](OPEN_QUESTIONS.md#q-gw-1--how-does-floor-output-aggregate-into-goodwill-damage-and-then-into-the-bar)
+
+---
+
+## D-04
+
+**Goodwill regenerates as a discrete ledger entry every 40 ticks (2s), suppressed if
+that side took Push in the preceding 20 ticks (1s). Excess above cap is discarded.**
+
+*Why:* Continuous regen is invisible, and an invisible defensive mechanic fails the
+exact problem the ledger was invented to solve — a discrete, named, positive entry
+every two seconds is what makes turtling look like something happening.
+
+*Consequence:* Regen timing is gameable by cheap chip damage, so a minimum-Push
+suppression threshold is required and belongs in `BALANCE_PLAN` as an assertion.
+Discrete events are also countable in CI, which a continuous integral is not.
+
+Authority: Craft · Question: [Q-GW-2](OPEN_QUESTIONS.md#q-gw-2--does-goodwill-regenerate)
+
+---
+
+## D-05
+
+**The Quarter Close curve is a four-phase step function over a 1,200-tick quarter —
+Month 1 (push x1.0 / regen x1.0), Month 2 (x1.4 / x0.6), Crunch (x2.0 / x0.2), Bell
+(x3.0 / x0.0). It is a global constant that no content may modify.**
+
+*Why:* This curve is the fixed frame every other number is tuned against; the moment
+it becomes per-content data the balance space stops being searchable, and the
+guarantee it exists to provide — that no defence survives to the bell — stops being
+provable.
+
+*Consequence:* Three discrete power spikes, so each transition must be telegraphed a
+second early. Applying the curve to regen as well as push is what makes the guarantee
+hold against the *strongest* defence rather than the average one.
+
+Authority: Craft · Question: [Q-GW-3](OPEN_QUESTIONS.md#q-gw-3--what-is-the-shape-of-the-quarter-close-pressure-curve)
+
+---
+
+## D-06
+
+**Overflow carries into the Market Share bar in full, uncapped and untaxed.**
+
+*Why:* The ledger's value is that it is arithmetic the player can check, and a capped
+or discounted overflow produces a line whose number does not match what the player
+watched happen.
+
+*Consequence:* A single large hit can end a near-parity fight, so burst must be
+constrained through visible cooldowns and costs, guarded by a `BALANCE_PLAN`
+assertion bounding any single resolution as a fraction of bar capacity.
+
+Authority: Craft · Question: [Q-GW-4](OPEN_QUESTIONS.md#q-gw-4--does-overflow-carry)
+
+---
+
+## D-07
+
+**Piercing is a property of the damage kind, not the ability. Three kinds exist:
+Push (default, buffered, overflows), Morale (pierces, moves the bar at a reduced
+rate, lowers Goodwill cap and regen), Anomaly (pierces at full rate, costs the
+attacker Goodwill).**
+
+*Why:* A per-ability pierce flag proliferates until Goodwill is a rounding error;
+binding pierce to a kind caps the design space structurally instead of relying on
+authoring discipline.
+
+*Consequence:* Morale also solves the dead-air risk — the bar moves from tick 1
+whenever either side fields Burnout. Cards carry three numbers and the ledger three
+colours, which is the UI cost of the mechanic being meaningful.
+
+Authority: Craft · Question: [Q-GW-5](OPEN_QUESTIONS.md#q-gw-5--what-pierces-goodwill)
+
+---
+
+## D-08
+
+**The sim emits one full-fidelity, tick-ordered event array. The live ledger, the
+replay, the scrub timeline and the per-floor breakdown are all views over it. The live
+view coalesces same-`(source, ability, kind)` entries within 1.0s and is capped at
+4 new lines per second.**
+
+*Why:* The brief requires the live defensive readout and the post-battle autopsy to be
+one component, and the only way to be both is to record everything and filter at the
+view — anything summed away in the sim is unrecoverable for diagnosis.
+
+*Consequence:* The 4-lines/second budget is a constraint on content design as well as
+UI; a build that routinely exceeds it is illegible and `BALANCE_PLAN` should say so.
+There is exactly one serialisation format for combat history.
+
+Authority: Craft · Question: [Q-GW-7](OPEN_QUESTIONS.md#q-gw-7--what-does-the-ledger-show-and-at-what-granularity)
+
+---
+
+## D-09
+
+**Floor identity comes from four light levers used together — output multiplier, room
+legality, exposure to floor-targeting, and per-round upkeep. Reception additionally
+grants flat Goodwill proportional to occupancy.**
+
+*Why:* Any single strong lever collapses into one correct stacking pattern; four weak
+ones interact, and the Executive floor having the best multiplier *and* the smallest
+grid *and* the highest upkeep *and* every `highest_floor` ability aimed at it is what
+makes stacking a punishable choice rather than a free optimum.
+
+*Consequence:* The room catalogue must be authored per-floor and the shop must filter
+on owned floors — real content and UI work, without which floors differ only by a
+number and will collapse.
+
+Authority: Craft · Question: [Q-FLR-1](OPEN_QUESTIONS.md#q-flr-1--what-makes-each-floor-mechanically-distinct)
+
+---
+
+## D-10
+
+**Floor targeting uses a closed vocabulary of seven selectors, each a pure function of
+the opponent's snapshot, with tie-breaks specified as part of the rules: fewest
+employees, then lowest floor index, then lowest instance id. A selector with no legal
+target emits a `whiff` entry rather than being skipped.**
+
+*Why:* Targeting is a rules concern; leaving it expressible in content data would make
+every new card a potential determinism bug, and unspecified tie-breaks are the classic
+way two implementations of the same spec disagree.
+
+*Consequence:* Adding a selector is deliberately a code change. Floor assignment only
+stays a real decision if selectors are dense enough in the rival pool to punish
+concentration — a `BALANCE_PLAN` assertion, not a hope.
+
+Authority: Craft · Question: [Q-FLR-2](OPEN_QUESTIONS.md#q-flr-2--how-do-floor-targeting-abilities-work)
+
+---
+
+## D-11
+
+**The leftmost column of each floor is a landing column; its tiles are adjacent to the
+landing tiles of the floors directly above and below.**
+
+*Why:* Without it the tower has no vertical adjacency at all and every synergy is
+trapped on its own floor, which makes the building an organisational chart rather than
+a board; a single scarce column gives Middle Management somewhere to live and makes
+floor *ordering* matter, while staying drawable in a top-down view.
+
+*Consequence:* Landing tiles become contested and risk every optimal build looking
+identical down the left-hand side — countered by making some strong rooms illegal on
+the landing column.
+
+Authority: Craft · Question: [Q-FLR-3](OPEN_QUESTIONS.md#q-flr-3--does-the-elevator-do-anything)
+
+---
+
+## D-12
+
+**Rooms are zones drawn over tiles, not objects consuming them. Furniture occupies
+tiles inside rooms and competes with employees for them. Equipment does not exist in
+v1.**
+
+*Why:* Furniture creates the central scarcity — a tile is either output or support,
+never both — for the cost of one placement rule, which is the best depth-per-complexity
+trade available; equipment would add a fourth layer and a second inventory screen for
+customisation that promotions already provide.
+
+*Consequence:* This is the answer to the brief's layer-bloat risk, and it is cut now
+rather than deferred, because designing around a hole is worse than not having the
+feature. Recipes take furniture, not equipment, as their third input, and promotions
+must carry the customisation weight — which raises the required recipe count.
+
+Authority: Craft · Question: [Q-LYR-1](OPEN_QUESTIONS.md#q-lyr-1--is-furniture-a-distinct-layer-in-v1)
+
+---
+
+## D-13
+
+**Employees carry nothing. The employee schema nonetheless carries a serialised,
+always-empty `attachments[]` from the first commit.**
+
+*Why:* Keeping the field costs one always-empty array; omitting it costs a snapshot
+version bump that invalidates every stored ghost on the day equipment is added.
+
+*Consequence:* A small permanent smell in the schema, accepted deliberately as the
+cheapest possible insurance on the format that
+[D-18](#d-18) makes load-bearing.
+
+Authority: Craft · Question: [Q-LYR-2](OPEN_QUESTIONS.md#q-lyr-2--what-can-an-employee-carry)
+
+---
+
+## D-14
+
+**A manifest entry requires nine fields: `id`, `kind`, `category`, `label`,
+`footprint`, `sprite.w/h`, `sprite.anchor`, `sprite.asset`, `sortBias`. Overhang is
+derived from those, never authored. An absent asset file is valid; only a dimension
+mismatch fails validation.**
+
+*Why:* The brief forbids approximate greyboxes, so an entry that cannot be completed
+is a design decision that has not been made — making the fields required turns that
+from a review note into a build error. Deriving overhang removes the possibility of
+a manifest contradicting itself.
+
+*Consequence:* Stubbing an entity is heavier than it would otherwise be, which is why
+the slicer generates conforming stubs — the friction lands on the tool, not the
+author. Adding art is a file copy that never edits the manifest.
+
+Authority: Craft · Question: [Q-GBX-1](OPEN_QUESTIONS.md#q-gbx-1--what-is-the-minimum-a-manifest-entry-needs-before-a-greybox-can-be-built)
+
+---
+
+## D-15
+
+**Draw order is the total order `(floorIndex, anchorTileRow, sortBias, tileCol, id)`.
+`sortBias` is a required field, default 0, range -10..10, by convention -5 wall-mounted
+/ 0 floor-standing / +5 hanging.**
+
+*Why:* Pure y-sorting cannot express a wall-mounted whiteboard drawing behind a desk on
+the same row, and a *total* order — the trailing `id` key — is what makes a greybox
+screenshot reproducible, and therefore usable as a regression test.
+
+*Consequence:* A hand-tuned bias can be wrong and is invisible until art lands, so the
+greybox debug overlay must be able to draw the sort key on each placeholder.
+
+Authority: Craft · Question: [Q-GBX-2](OPEN_QUESTIONS.md#q-gbx-2--what-is-the-draw-order-rule-for-overhanging-sprites)
+
+---
+
+## D-16
+
+**"Art complete" means every manifest entry reachable in a normal campaign run has a
+present asset passing dimension validation, nothing renders in the `invalid` tone, and
+no screen mixes perspectives. Visibility tiers rank the worklist; they never exempt an
+entry. Coverage is emitted by CI from the first commit.**
+
+*Why:* A gate covering literally every entry is unachievable and therefore stops being
+believed, while a tiered gate with exemptions means shipping visible placeholders —
+reachability is the line that is both strict and reachable.
+
+*Consequence:* The gate is far away and strict, which the worklist ranking mitigates:
+the top of the list carries most of the perceived polish, so felt completeness runs
+well ahead of measured completeness. It is a release gate on its own `ROADMAP` line,
+never a phase dependency.
+
+Authority: Craft · Question: [Q-GBX-4](OPEN_QUESTIONS.md#q-gbx-4--what-defines-art-complete)
+
+---
+
+## D-17
+
+**Crafting consumes its inputs, costs no budget, and is reversible by undo until Ready
+is pressed. After Ready it is permanent. Crafting is build-phase only and never occurs
+during a fight.**
+
+*Why:* The commitment tension the design needs lives *across* rounds — in rooms and in
+severance fees — not in punishing a misclick that looks identical to a strategy; and a
+build round that is a pure function from (start state, action list) to (end state) is
+testable in a way one with irreversible mid-round side effects is not.
+
+*Consequence:* The drama of an irreversible combine is lost and must be recovered in
+presentation — animate every craft at once on commit, as the quarter opens.
+
+Authority: Craft · Question: [Q-RCP-2](OPEN_QUESTIONS.md#q-rcp-2--do-recipes-consume-inputs-and-can-they-be-undone)
+
+---
+
+## D-18
+
+**A tower snapshot contains schema and content versions, round, floors with their
+grids, rooms and occupants, and globals (Goodwill max and regen, run modifiers, portal
+riders). It excludes budget, shop stock, RNG state, map position and cosmetics. The sim
+entry point is `simulate(seed, a, b, rules): MatchResult` — pure, headless,
+deterministic.**
+
+*Why:* A snapshot is a combatant, not a save file, and keeping it to exactly what the
+sim reads is what lets campaign rivals, ranked ghosts and CI balance fixtures be the
+same format with the same entry point — which is the difference between adding ranked
+later and rewriting for it.
+
+*Consequence:* Snapshots must be versioned and migrated from day one, including the
+authored campaign rivals stored in the repo. That ongoing cost buys a ghost pool that
+survives content patches. This is the highest-leverage decision in the deferred set,
+because it must be right now and only pays out later.
+
+Authority: Craft · Question: [Q-PVP-1](OPEN_QUESTIONS.md#q-pvp-1--what-is-stored-in-a-tower-snapshot)
+
+---
+
+## D-19
+
+**Ranked ghosts bucket by `(round, ratingBand)`; a match draws deterministically from
+the match seed, so any result is re-runnable from `(seed, ghostId, ghostId)`. Fallback
+widens rating, then round, then draws from the scripted campaign rival pool. Rating
+lives on the ghost record, never in the snapshot.**
+
+*Why:* Recorded now purely to protect the snapshot format — matchmaking needs `round`
+in the snapshot and needs rating *out* of it, and discovering either later means a
+format migration.
+
+*Consequence:* The campaign shipping first is also the cold-start answer: by the time
+ranked exists there are dozens of authored towers per round to seed the pool.
+
+Authority: Craft · Question: [Q-PVP-2](OPEN_QUESTIONS.md#q-pvp-2--how-are-players-matched-once-ranked-exists)
+
+---
+
+## D-20
+
+**Anti-cheat for ranked is server re-simulation using the same headless module, with
+the client result treated as advisory. Snapshots are validated for constructibility
+before entering the ghost pool. Campaign is deliberately unpoliced.**
+
+*Why:* A client that owns the simulation cannot be trusted with a result and no
+obfuscation changes that; the locked requirement that the sim be pure and headless is
+exactly what makes running it server-side cheap rather than a second implementation.
+
+*Consequence:* Nothing in v1 must be *built* for this, but nothing in v1 may make it
+impossible — keeping `simulate()` pure is the entire obligation. The constructibility
+validator is dual-use: it also checks that hand-authored campaign rivals are legal
+towers.
+
+Authority: Craft · Question: [Q-PVP-3](OPEN_QUESTIONS.md#q-pvp-3--what-is-the-anti-cheat-posture-given-the-client-owns-the-sim)
