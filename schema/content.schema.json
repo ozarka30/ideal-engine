@@ -1889,6 +1889,25 @@
           "type": "integer",
           "minimum": 0
         },
+        "drawModel": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "bag",
+                "independent"
+              ]
+            },
+            "note": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        },
         "recruiterNode": {
           "type": "object",
           "properties": {
@@ -1997,6 +2016,7 @@
         "id",
         "cardsPerTab",
         "rerollCost",
+        "drawModel",
         "recruiterNode",
         "otherworld",
         "tiers",

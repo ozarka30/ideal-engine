@@ -285,6 +285,18 @@
       "source": "D-51"
     },
     {
+      "id": "inv.standing_pat_loses",
+      "name": "Holding is not a strategy",
+      "statement": "A builder that stops buying after round 8 and relies on Tenure alone loses to the field in the late rounds; if it does not, Tenure outpays active spending.",
+      "population": "agent_run variant: no purchases after round 8",
+      "measure": "win rate permille vs field over rounds 12-16",
+      "comparator": "<=",
+      "threshold": 400,
+      "cadence": "nightly",
+      "severity": "fail",
+      "source": "D-57; TFT interest-versus-spending lesson"
+    },
+    {
       "id": "inv.selector_density",
       "name": "Floors stay a decision",
       "statement": "From round 8, at least half of field towers carry a floor-selected status ability.",

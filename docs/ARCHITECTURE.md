@@ -67,6 +67,12 @@ A dependency in the wrong direction fails CI. The one that matters most is the f
 if `sim` ever imports a renderer type, a clock, or a content file, the determinism
 contract is already broken.
 
+Tooling: `eslint-plugin-boundaries` ≥ 5.4.0 for in-editor feedback (earlier versions
+silently did not fire on pnpm workspace packages) and `dependency-cruiser` in CI for
+`no-circular` and the forbidden edges, with a deliberate-violation test that must fail.
+The `sim` package additionally lints out `Math.pow`, `Math.sqrt`, `Math.random`,
+`Date`, `performance` and float division (`/` not followed by `| 0` or `Math.trunc`).
+
 ---
 
 ## 2. Packages
@@ -110,6 +116,10 @@ window bursts and the ledger are all views over `entries` filtered to
 
 Consequences, each of which is a rule:
 
+- **The playback clock is an accumulator.** WKWebView on macOS 13–15 caps
+  `requestAnimationFrame` at 60 Hz; WebView2 may run at the display rate or uncapped.
+  Playback advances by elapsed wall time divided by the tick length, never by one tick
+  per frame, so 1× is 20 ticks per second on every platform.
 - **The renderer never calls into `sim` except `simulate()`.** No per-tick sim calls,
   no "ask the sim what the Goodwill is now" — it computes that from entries.
 - **Playback state is derived, not stored.** Goodwill at playback tick `t` is
@@ -270,6 +280,12 @@ PixiJS 8, one `Application`, one root container per screen, one screen active at
 time. Screens: `menu`, `founder`, `map`, `build`, `battle`, `autopsy`, `codex`,
 `reward` (the result banner and win bonus — not an overlay of picks).
 
+- **PixiJS settings, fixed at start-up.** `TextureStyle.defaultOptions.scaleMode =
+  'nearest'` before any texture is created (it only affects later textures);
+  `preference: 'webgl'` because WKWebView and WebKitGTK lack default WebGPU and one
+  renderer keeps screenshot fixtures comparable; the Pixi version pinned, since
+  `roundPixels` has had rounding regressions; integer snapping done by the render list,
+  not by `roundPixels`.
 - **Rendering.** A single `RenderList` per frame: every visible entry becomes a
   `(sortKey, entryId, x, y, frame)` tuple, sorted by the five-key order
   (`ART_PIPELINE.md` §3), drawn in that order. No scene-graph z-ordering; the list is
@@ -307,9 +323,21 @@ interface Platform {
 - `NullPlatform` — local filesystem storage, no-op everything else. Used in
   development, in the harness, and as the fallback when Steam is not present.
 - `SteamPlatform` — in `apps/desktop`, implemented in the Tauri Rust process over the
-  `steamworks` crate, exposed to the webview through a handful of Tauri commands.
-  Storage maps to Steam Cloud (`profile.json` and `run.json` only; replays stay
-  local). Achievements are a fixed list authored in `content/achievements.json`
+  `steamworks` crate (0.13, SDK 1.80), exposed to the webview through a handful of
+  Tauri commands. Storage maps to Steam Cloud through the Remote Storage API with
+  write batches, not Auto-Cloud (`profile.json` and `run.json` only; replays stay
+  local); Dynamic Cloud Sync is enabled only once the game reloads on the file-changed
+  callback. Linux builds set an `$ORIGIN` rpath so `libsteam_api.so` is found beside
+  the binary.
+
+**Known limitation — the Steam overlay.** The overlay hooks a process's graphics
+present call, and every Tauri webview renders in a separate GPU process it cannot
+reach. Shift+Tab, achievement toasts and the Deck on-screen keyboard therefore do not
+appear in a Tauri build; a young decoy-swapchain plugin exists for Windows and macOS
+and none for Linux. This is Q-TECH-1 in the register, and the reason no screen may
+require text input (D-55). If the answer to Q-TECH-1 is Electron, only this package
+changes: `Platform` stays, and Steamworks moves from the Rust crate to `steamworks.js`
+in the Node main process. Achievements are a fixed list authored in `content/achievements.json`
   (a Phase 5 addition) and unlocked from `ProfileState` transitions.
 
 The webview never links Steamworks. The Rust side owns the Steam API lifecycle
@@ -340,8 +368,14 @@ runs the balance matrix in Node. `pnpm tools <cmd>` runs a tool.
 5. unit tests                   (sim, build reducer, migrations, content loader, manifest loader)
 6. screenshot fixtures          (greybox screens must pixel-match)
 7. balance smoke                (a few hundred matchups; the invariants in BALANCE_PLAN must hold)
-8. build                        (Vite → dist; atlas step; derived manifest)
+8. fixture guard                (fails if fixtures/** or screenshot baselines changed without a human-applied `fixtures-approved` label)
+9. build                        (Vite → dist; atlas step; derived manifest)
 ```
+
+Step 8 exists because agents that can edit a test will, under pressure, edit the test.
+A solo developer cannot approve their own pull request, so CODEOWNERS is no guard; a
+label only a person can apply is. The same rule is a `PreToolUse` hook in
+`.claude/settings.json` so that an agent cannot write under `fixtures/` at all.
 
 Steps 2–4 are the ones the brief calls out as CI checks rather than review steps.
 Step 7 is small on every commit and full on a nightly.
@@ -424,7 +458,14 @@ client ──claim result─────▶ ranked API ──▶ re-simulate (pa
 - **Matchmaking.** D-19: draw deterministically from the bucket with the match seed;
   widen rating, then round, then fall back to the template expander with a server
   seed. The fallback is the cold-start answer, and it is the same expander the
-  campaign uses.
+  campaign uses. Two lessons from shipped ghost systems: bucket on a **build-strength
+  score** (the harness's own scoring of the snapshot) as well as round and rating,
+  because players cannot gauge a ghost's strength from its record; and **decay the
+  pool** rather than replacing beaten ghosts with their beaters, or its difficulty
+  drifts upward over a season.
+- **Authentication.** Session tickets for the web API come from
+  `GetAuthTicketForWebApi` with an identity string, not `GetAuthSessionTicket`, which
+  is not valid for `AuthenticateUserTicket`.
 - **Re-simulation.** D-20: the server runs `simulate(seed, a, b, rules)` from
   `packages/sim` — the identical module — and the server's `MatchResult` is
   authoritative. The client's claimed result is compared by `stateHash`; a mismatch

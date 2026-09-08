@@ -185,12 +185,13 @@ defs["Economy"] = obj(OD([
 
 defs["Shop"] = obj(OD([
     ("id", ID), ("cardsPerTab", NONNEG), ("rerollCost", NONNEG),
+    ("drawModel", obj(OD([("kind", enum("bag", "independent")), ("note", STR)]), ["kind"])),
     ("recruiterNode", obj(OD([("cardsPerTab", NONNEG), ("firstRerollFree", BOOL)]), ["cardsPerTab", "firstRerollFree"])),
     ("otherworld", obj(OD([("cards", NONNEG), ("rerollCost", NONNEG), ("requiresPortal", BOOL)]), ["cards", "rerollCost", "requiresPortal"])),
     ("tiers", arr(obj(OD([("rounds", arr(NONNEG, 2)), ("staff", {"type": "object", "patternProperties": {"^[123]$": NONNEG}, "additionalProperties": False}),
                           ("roomTiles", arr(NONNEG, 1)), ("furnitureRarity", arr(enum("common", "uncommon"), 1))]), ["rounds", "staff", "roomTiles", "furnitureRarity"]), 1)),
     ("roomsOnlyForOwnedFloors", BOOL), ("leases", arr(ID)),
-]), ["id", "cardsPerTab", "rerollCost", "recruiterNode", "otherworld", "tiers", "roomsOnlyForOwnedFloors", "leases"])
+]), ["id", "cardsPerTab", "rerollCost", "drawModel", "recruiterNode", "otherworld", "tiers", "roomsOnlyForOwnedFloors", "leases"])
 
 defs["Mode"] = obj(OD([
     ("id", ID), ("name", STR), ("map", {"oneOf": [{"type": "null"}, ID]}), ("interludes", BOOL),

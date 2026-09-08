@@ -2,6 +2,10 @@
   "id": "shop.default",
   "cardsPerTab": 4,
   "rerollCost": 1,
+  "drawModel": {
+    "kind": "bag",
+    "note": "Each tab draws from a per-round bag without replacement; the bag refills from the tier table only when exhausted, so a reroll never repeats a card until every eligible card has been offered once (D-54)"
+  },
   "recruiterNode": {
     "cardsPerTab": 6,
     "firstRerollFree": true

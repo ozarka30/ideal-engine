@@ -89,8 +89,16 @@ reach the renderer.
 **Throwaway:** the fixture-picker debug page. **Carries forward:** everything else;
 the sim package is the one that the ranked server runs unchanged.
 
-**Human:** none required. A good moment to buy the packs and do the pack-fit pass
-(`ART_PIPELINE.md` §15), which is independent of all of this.
+**The stack spike.** Before any package depends on Tauri, one day: a hello-world
+Tauri build launched through Steam on Windows, macOS, and a Steam Deck (native Linux
+depot in the steamrt4 container), recording whether it launches, whether
+`libwebkit2gtk-4.1` is present, and what the overlay and on-screen keyboard do. The
+result answers Q-TECH-1. If it is Electron, `apps/desktop` changes and nothing else
+does (D-45). Also in the spike: the sim's conformance fixtures run in Node, WebView2,
+WKWebView and WebKitGTK and hash-match — the cross-engine determinism check.
+
+**Human:** the Q-TECH-1 decision after the spike. A good moment to buy the packs and
+do the pack-fit pass (`ART_PIPELINE.md` §15), which is independent of all of this.
 
 ---
 
@@ -317,6 +325,7 @@ all must be green to ship.
 
 | Gate | What green means | Tracked by |
 | --- | --- | --- |
+| **Store-ready** (earlier) | Every visibility tier 1 and 2 manifest entry has a validated asset — the build screen and the battle screen are real — so that five gameplay screenshots, the capsules and a trailer can exist. Steam's Coming Soon page needs these months before release, and greybox screenshots on a store page cost wishlists (D-56) | `art_coverage.json` by tier; the store-page checklist in `RESEARCH_NOTES.md` §4 |
 | **Art complete** | Every `releaseGate: true` manifest entry has a validated asset; nothing renders in the `invalid` tone in a full playthrough capture; the perspective rule holds; every `verify` flag cleared (`ART_PIPELINE.md` §8) | `art_coverage.json` on every build; the README badge; the release workflow |
 | **Licence** | `packs/guttykreum/LICENSE.md` records a positive verdict for commercial use and in-game redistribution of the complete edition (Q-RISK-1) | The release workflow's licence gate |
 | **Balance** | The full nightly matrix green, with no invariant row owned-but-red, for the release candidate's content version | `balance_report.json` |
@@ -327,6 +336,13 @@ Art is the gate that will close last, and the design accepts that: the campaign 
 fully playable in greybox at M4, and the ranked worklist (`ART_PIPELINE.md` §7.3)
 exists so that the assets that carry the most perceived polish land first. Nothing
 above M0 ever waits for it.
+
+**Steam's own clock**, from `RESEARCH_NOTES.md` §4: thirty days between paying the
+fee and release; a public Coming Soon page for at least two weeks; store and build
+reviews of three to five business days each; Next Fest once per title, with the
+February 2027 edition needing a demo and page by 25 January 2027 and a release after
+1 March 2027. A **demo build** — the first six rounds, the tutorial rivals, no save —
+is therefore a named M5 item, not an afterthought.
 
 **Not a v1 gate:** Steam Deck verification. Controller navigation is post-v1 (D-47),
 so the Deck compatibility badge is a post-v1 goal. The build runs on a Deck at 2× with

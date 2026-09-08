@@ -82,8 +82,12 @@ history of a reversal is the most useful thing in a document like this.
 | [D-51](#d-51) | Relocate: move a room for the fee and three Tenure rounds; Restructuring becomes one free relocation | Human | Q-ECO-2 |
 | [D-52](#d-52) | No free Restructuring; paid relocation is the only recovery valve | Human | Q-ECO-2 |
 | [D-53](#d-53) | The design phase is signed off; implementation begins at ROADMAP M0 | Human | — |
+| [D-54](#d-54) | The shop draws from a per-tab bag without replacement | Craft | Research |
+| [D-55](#d-55) | No screen may require text input | Craft | Research |
+| [D-56](#d-56) | A store-ready art gate on visibility tiers 1–2, ahead of art complete | Craft | Research |
+| [D-57](#d-57) | `inv.standing_pat_loses`: Tenure alone must lose to active spending | Craft | Research |
 
-Forty craft decisions and thirteen human calls taken. Eight items remain open in
+Forty-four craft decisions and thirteen human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -1105,3 +1109,75 @@ phase.
 finding that alters a locked or logged decision is appended here with the source.
 
 Authority: Human · Phase 5 close
+
+---
+
+## D-54
+
+**Each shop tab draws from a bag: the cards eligible at the round, shuffled, drawn
+without replacement, refilled only when empty. A reroll never repeats a card until
+every eligible card has been offered once.**
+
+*Why:* Super Auto Pets' most repeated shop complaint is the same card cycling back
+after a paid reroll, and the genre's mitigations are shared pools and pity systems;
+a bag is the simplest of them, it is deterministic from the run seed, and it is one
+field in `content/shop.json`.
+
+*Consequence:* The build-phase RNG consumes one shuffle per bag refill rather than one
+draw per card. `inv.dead_content` gains meaning: a card the optimizer never picks is
+now guaranteed to have been *offered*.
+
+Authority: Craft · `RESEARCH_NOTES.md` §2
+
+---
+
+## D-55
+
+**No screen in the game requires text input. The firm-name field has a generated
+default and typing is optional; nothing else takes text.**
+
+*Why:* The Steam Deck's on-screen keyboard is drawn by the Steam overlay, and the
+overlay does not work in Tauri webviews (Q-TECH-1). A required text field would make
+the game unplayable on a Deck under the current stack; an optional one costs nothing.
+
+*Consequence:* One sentence in `GAME_DESIGN.md` §19.7 and a rule for every future
+screen. Independent of how Q-TECH-1 is answered, since a game that never needs a
+keyboard is better on a couch either way.
+
+Authority: Craft · `RESEARCH_NOTES.md` §1, §4
+
+---
+
+## D-56
+
+**A second, earlier art gate — store-ready — requires every manifest entry in
+visibility tiers 1 and 2 to have validated art. It sits ahead of art complete on the
+roadmap's release-gate lines and is read from the same coverage report.**
+
+*Why:* Steam's Coming Soon page needs five real gameplay screenshots, capsules and a
+trailer months before release, and greybox screenshots on a store page cost wishlists;
+tiers 1 and 2 are exactly the build and battle screens those screenshots show.
+
+*Consequence:* The worklist ranking, which already puts tiers 1 and 2 first, now has a
+deadline attached to its top half. Nothing in development waits on this either: it is
+a release-side gate like the other (D-44).
+
+Authority: Craft · `RESEARCH_NOTES.md` §4
+
+---
+
+## D-57
+
+**A new harness invariant, `inv.standing_pat_loses`: a builder that stops buying after
+round 8 and relies on Tenure alone must win at most 40% against the field in rounds
+12–16.**
+
+*Why:* Teamfight Tactics' documented lesson is that passive interest must not outpay
+active spending or the game solves toward holding; Tenure is interest-shaped, and D-24
+made holding deliberately rewarding, so the failure mode needs a guard the harness can
+run.
+
+*Consequence:* Eighteen invariants become nineteen. If the invariant fails, the knob is
+the Tenure step or the late-round income, in that order.
+
+Authority: Craft · `RESEARCH_NOTES.md` §2

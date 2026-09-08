@@ -29,6 +29,8 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 | [`docs/BALANCE_PLAN.md`](docs/BALANCE_PLAN.md) | The harness, the populations, the bands, the six-archetype counter web, seventeen CI invariants, the tuning loop, what is not a knob |
 | [`content/balance.json`](content/balance.json) | The invariants as data the harness reads |
 | [`docs/ROADMAP.md`](docs/ROADMAP.md) | Six milestones from foundations to ship-ready, each with what becomes playable and the question it answers; release gates on their own lines; post-v1; what the human does |
+| [`docs/RESEARCH_NOTES.md`](docs/RESEARCH_NOTES.md) | The post-sign-off verification pass: genre practice, stack risks, Steam requirements, licensing, agentic process — what was found, how far to trust it, what changed |
+| [`docs/INDEX.md`](docs/INDEX.md) | Routing table: which document to read before changing what |
 
 ## At a glance
 
@@ -49,7 +51,9 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 | 4 — Technical | `ARCHITECTURE.md`, `ART_PIPELINE.md`, `manifest/` | Signed off (D-53) |
 | 5 — Balance and plan | `BALANCE_PLAN.md`, `ROADMAP.md`, `content/balance.json` | Signed off (D-53) |
 
-Fifty-three decisions are logged — forty craft calls and thirteen human ones. The
-design phase is signed off (D-53); a research verification pass follows. Seven items are open, none blocking; each is listed against the phase where it first bites.
+Fifty-seven decisions are logged — forty-four craft calls and thirteen human ones.
+The design phase is signed off (D-53) and a research verification pass has been run;
+its findings are in `docs/RESEARCH_NOTES.md`, and three of them wait on the human:
+the stack question raised by the Steam overlay, the strike count, and the title. Ten items are open; one — Q-TECH-1 — must be answered before M0 begins; each is listed against the phase where it first bites.
 See the summary table in
 [`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md).

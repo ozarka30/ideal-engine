@@ -47,6 +47,7 @@ decisions.
 | [Q-STR-2](#q-str-2--what-is-the-floor-expansion-curve) | Expansion curve | Floors are the biggest purchase in the game; three unlocks per run | DECIDED · [D-02](DECISION_LOG.md#d-02) |
 | [Q-STR-3](#q-str-3--rounds-per-run-fight-length-and-lives) | Rounds, fight length, lives | 16 fights, 60s quarter, 3 lives, ~45min run | DECIDED · [D-21](DECISION_LOG.md#d-21) |
 | [Q-STR-4](#q-str-4--what-shape-is-the-campaign-map-and-what-are-its-bosses) | Campaign map and bosses | 3 acts, branching, 5 node types, 3 named bosses | DECIDED · [D-22](DECISION_LOG.md#d-22) |
+| [Q-STR-5](#q-str-5--how-many-strikes) | Strikes | Five, not three — the genre's ~70% win floor rather than 87% | NEEDS SIGN-OFF |
 | [Q-GW-1](#q-gw-1--how-does-floor-output-aggregate-into-goodwill-damage-and-then-into-the-bar) | Output aggregation | Per-ability resolution tagged by floor; no separate floor cadence | DECIDED · [D-03](DECISION_LOG.md#d-03) |
 | [Q-GW-2](#q-gw-2--does-goodwill-regenerate) | Regeneration | Yes — discrete 2s ticks, suppressed 1s after any hit | DECIDED · [D-04](DECISION_LOG.md#d-04) |
 | [Q-GW-3](#q-gw-3--what-is-the-shape-of-the-quarter-close-pressure-curve) | Quarter Close curve | Three months plus a Bell; push up, regen down, stepped | DECIDED · [D-05](DECISION_LOG.md#d-05) |
@@ -75,9 +76,11 @@ decisions.
 | [Q-PVP-2](#q-pvp-2--how-are-players-matched-once-ranked-exists) | Matchmaking | Bucketed by round and rating; ghost chosen from the match seed | DECIDED · [D-19](DECISION_LOG.md#d-19) |
 | [Q-PVP-3](#q-pvp-3--what-is-the-anti-cheat-posture-given-the-client-owns-the-sim) | Anti-cheat | Server re-simulation of submitted snapshots; client result advisory | DECIDED · [D-20](DECISION_LOG.md#d-20) |
 | [Q-ARCH-1](#q-arch-1--when-does-controller-navigation-arrive) | Controller navigation | Post-v1; mouse and keyboard ship first; Steam Deck verification waits on it | DECIDED · [D-47](DECISION_LOG.md#d-47) |
+| [Q-TECH-1](#q-tech-1--tauri-or-electron-given-the-steam-overlay-and-the-deck) | Tauri or Electron | Keep Tauri, accept no overlay, verify the Deck in an M0 spike; Electron if the spike fails | NEEDS SIGN-OFF |
 | [Q-UX-1](#q-ux-1--when-does-the-ux-review-happen) | UX review timing | Wireframes deferred; the greybox vertical slice is the UX milestone | DECIDED · [D-48](DECISION_LOG.md#d-48) |
 | [Q-RISK-1](#q-risk-1--is-the-guttykreum-licence-cleared-for-commercial-release) | Asset licence | Verify before any spend; treat as a release blocker with an owner and a date | NEEDS SIGN-OFF |
 | [Q-RISK-2](#q-risk-2--is-the-room-commitment-tension-actually-load-bearing) | Room commitment | Demolition is genuinely painful; rewards for good commitment scale to compensate | DECIDED · [D-24](DECISION_LOG.md#d-24) |
+| [Q-RISK-3](#q-risk-3--is-the-title-clear) | Title clearance | No collision found on Steam; run the free USPTO and EUIPO searches before the store page | NEEDS SIGN-OFF |
 
 ---
 
@@ -232,6 +235,35 @@ survive every balance change, since they are fixtures as well as content. Budget
 for re-authoring them each time the pressure curve moves.
 
 **Status:** DECIDED · [D-22](DECISION_LOG.md#d-22) — recommendation accepted.
+
+---
+
+### Q-STR-5 · How many strikes?
+
+**Blocks:** `content/modes.json` (`strikes`), `inv.fight_length` is unaffected, the
+feel of a lost run.
+
+Raised by the research pass (`RESEARCH_NOTES.md` §2). D-21 set three strikes over
+sixteen fights. The reference games end at ten wins or five losses — Backpack Battles
+and Super Auto Pets both — which is a win floor of about 70% over at most fourteen
+fights. Three strikes over a fixed sixteen allows two losses: an 87% floor. The
+Bazaar softens further with a loss cost that scales by day and a "blessing" the first
+time prestige reaches zero.
+
+**Options**
+
+- **A — Keep three.** The harshest run in the genre. Every loss matters enormously,
+  which is a kind of tension, but the genre's evidence is that early luck-losses
+  drive churn.
+- **B — Five.** Four losses allowed: a 75% floor, in line with the references. The
+  strike icons row grows from three to five (8 px each; the top bar has room).
+- **C — Three, with a scaled cost.** A loss in Act 1 costs half a strike. Softer
+  opening, same late tension, but a fractional strike is a UI and a rule.
+
+**Recommendation: B.** It is the number the genre converged on, it is one content
+field, and it keeps the rule legible. D-21's other numbers stand.
+
+**Status:** NEEDS SIGN-OFF — it changes how a lost run feels, which is the human's.
 
 ---
 
@@ -1421,6 +1453,56 @@ per screen, which costs nothing now and everything later.
 
 ---
 
+### Q-TECH-1 · Tauri or Electron, given the Steam overlay and the Deck?
+
+**Blocks:** `ROADMAP.md` M0 — nothing may depend on `apps/desktop` until this is
+answered. Nothing else: D-45 put Steam behind one interface so that this question
+would be cheap whenever it came.
+
+Raised by the research pass (`RESEARCH_NOTES.md` §1, §3). Locked decision 10 names
+Tauri, and the planning prompt forbids relitigating the stack unless a hard blocker is
+found. Two findings qualify as candidates:
+
+1. **The Steam overlay does not work in any Tauri webview.** The overlay hooks the
+   process's graphics present call; WebView2, WKWebView and WebKitGTK render in a
+   separate GPU process. Tauri closed the issue as not planned. A decoy-swapchain
+   plugin from mid-2026 restores it on Windows and macOS; it is two months old and
+   single-maintainer; Linux is judged unsolvable. Without the overlay there is no
+   Shift+Tab, no achievement toast, and on Steam Deck no on-screen keyboard.
+2. **Linux and Steam Deck are unverified.** Tauri needs the system's
+   `libwebkit2gtk-4.1` and cannot bundle it; whether SteamOS or the Steam Linux
+   Runtime provides it is unknown. Proton offers no WebView2. A shipped Tauri game on
+   Steam has Linux users hitting exactly this.
+
+Electron has none of these problems — one Chromium renderer everywhere, no system
+webview, mature overlay support through `steamworks.js` — at the cost of roughly 100 MB
+and moving Steamworks from the Rust crate into the Node main process.
+
+**Options**
+
+- **A — Stay on Tauri; accept no overlay; verify the Deck by a spike.** The spike
+  is one day at M0. If the Deck launches, ship without overlay features (D-55 already
+  removes required text input). If it does not, the Deck is dropped from v1 or the
+  answer becomes B.
+- **B — Switch to Electron now.** Overlay, Deck and Linux stop being questions. The
+  cost is size, a slower start-up, and the Steam integration living in Node rather
+  than Rust. `apps/desktop` changes; nothing under `packages/` does.
+- **C — Stay on Tauri and adopt the decoy-swapchain plugin.** Overlay on Windows and
+  macOS today, none on Linux, and a dependency on very young code in the release
+  path.
+
+**Recommendation: A, with B as the pre-agreed fallback.** The design does not need the
+overlay: achievements can be shown in-game, text input is never required, and the Deck
+is post-v1 for verification anyway (D-47). What it needs is to *know* about Linux, and
+a one-day spike answers that before any Tauri-specific code exists. If the human
+values the overlay or wants the Deck certain, B is the honest choice and the
+architecture makes it cheap.
+
+**Status:** NEEDS SIGN-OFF — a stack decision is the human's, and the planning
+prompt's "state the blocker plainly" clause applies: this is one.
+
+---
+
 ### Q-UX-1 · When does the UX review happen?
 
 **Blocks:** nothing formally. In practice, the build screen's layout is the thing a
@@ -1483,6 +1565,15 @@ The packs are to be bought as the complete edition, which makes this one licence
 record to read rather than eleven: read it at purchase, before the first slice, and
 put the verdict in `packs/guttykreum/LICENSE.md` so the release gate can find it.
 
+The research pass (`RESEARCH_NOTES.md` §5) read the licence text as surfaced from the
+store pages: **clear with conditions**. Commercial use and derivative works are
+explicit; redistribution is permitted only as part of the game, and the game may not
+let players extract the assets. Conditions adopted: ship packed atlases only, credit
+GuttyKreum for every pack, never open-source the art. Two questions to ask the creator
+at purchase: is credit required on the tile packs or only on Backgrounds, and are
+heavy recolours fine. Re-read the licence on the page itself; the research saw
+search-engine excerpts.
+
 ---
 
 ### Q-RISK-2 · Is the room-commitment tension actually load-bearing?
@@ -1528,9 +1619,29 @@ be painful, with the rewards for good decisions scaled up to compensate.
 
 ---
 
+### Q-RISK-3 · Is the title clear?
+
+**Blocks:** the Steam store page. Nothing in development.
+
+Raised by the research pass (`RESEARCH_NOTES.md` §5). No game titled "Company Wars"
+was found on Steam, itch.io or the mobile stores. Nearest are *Store Wars*, *Business
+Wars*, *Corporate Wars* (1998), and *STAR WARS Zero Company*; *The Company War* is a
+dormant 1983 board game. Trademark registries were not reachable from the research
+environment. "Wars" marks are policed by Lucasfilm; "X Wars" titles routinely survive.
+
+**What has to happen.** Before the store page: the free knock-out searches on USPTO
+(`tmsearch.uspto.gov`) and EUIPO (`euipo.europa.eu/eSearch`) in classes 9 and 41, and
+a direct Steam and SteamDB search. An attorney search is roughly $150–500; filing, if
+wanted, is $350 per class at the USPTO plus fees.
+
+**Status:** NEEDS SIGN-OFF — the searches are the human's, and a rename, if one is
+needed, is a decision only they can make.
+
+---
+
 ## What remains open, and when it bites
 
-Seven items remain open. None blocked any phase; all five are drafted. Each is
+Ten items remain open. None blocked any phase; all five are drafted. Each is
 listed here against the moment it first bites, so it can be answered when it is
 actually needed rather than in a batch.
 
@@ -1542,5 +1653,8 @@ actually needed rather than in a batch.
 | [Q-GBX-3](#q-gbx-3--what-is-the-greybox-palette) greybox palette | Phase 4 — `ART_PIPELINE` | Low to change on paper, high to change once screens exist |
 | [Q-RISK-1](#q-risk-1--is-the-guttykreum-licence-cleared-for-commercial-release) asset licence | Release, and any art spend | Not a design decision. It needs an owner and a date, and it is cheapest to answer now |
 | [Q-GBX-5](#q-gbx-5--can-the-packs-produce-the-decided-battle-and-portrait-dimensions) pack-fit | Phase 4 — first greybox of the battle view | Not a decision. An afternoon with the packs open |
+| [Q-TECH-1](#q-tech-1--tauri-or-electron-given-the-steam-overlay-and-the-deck) stack | M0 — before `apps/desktop` exists | A one-day spike answers the unknown; the architecture makes either answer cheap |
+| [Q-STR-5](#q-str-5--how-many-strikes) strikes | M2 — the first runs | One content field |
+| [Q-RISK-3](#q-risk-3--is-the-title-clear) title | The store page | Two free searches |
 | [Q-LYR-3](#q-lyr-3--does-furniture-earn-its-tile) furniture trial | Vertical slice | A playtest gate with a fold-in plan already written |
 

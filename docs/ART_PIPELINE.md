@@ -404,6 +404,11 @@ D-16, as the release gate:
 5. Every `verify: true` entry has been verified (§15) — its `verify` flag cleared by
    a commit that either confirms the dimensions or changes them.
 
+A second, earlier gate — **store-ready** — requires tiers 1 and 2 only, because Steam's
+store page needs real screenshots of the build and battle screens months before
+release (D-56; `ROADMAP.md` §8). It is the same coverage report read at a different
+threshold.
+
 Tiers **order** the worklist. They never exempt. The only exempt entries are the three
 with `releaseGate: false`: the invalid flash and two debug overlays, which never get
 art because the tone is the art.
@@ -426,7 +431,7 @@ Fixed globally, in the manifest header, and asserted by the renderer at start-up
 | Scale factors | integers only: 2, 3, 4, 6. Never fractional. Letterbox otherwise |
 | Filtering | nearest-neighbour, everywhere, including UI and fonts |
 | Positions | integer logical pixels. The renderer rounds any computed position before draw and asserts in debug builds that nothing fractional reached it |
-| Fonts | `font.ui.8` at 1×; `font.ui.16` is the same face at exactly 2×; no other sizes |
+| Fonts | `font.ui.8` at 1×; `font.ui.16` is the same face at exactly 2×; no other sizes. Candidate face: **m5x7** (Daniel Linssen, CC0), a 5×7 proportional pixel font matching the spec; confirm tabular digits before adopting, else Pixel Operator (CC0) |
 | Camera | integer logical offsets; the build viewport scrolls by whole floors |
 
 A greybox authored at a fractional scale would not match the art that replaces it;

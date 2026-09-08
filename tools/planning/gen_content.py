@@ -570,6 +570,7 @@ mod("mod.g_ghost_floor", "Ghost Floor", "B1 is leased at no Goodwill cost.", [st
 shop = OD([
     ("id", "shop.default"),
     ("cardsPerTab", 4), ("rerollCost", 1),
+    ("drawModel", OD([("kind", "bag"), ("note", "Each tab draws from a per-round bag without replacement; the bag refills from the tier table only when exhausted, so a reroll never repeats a card until every eligible card has been offered once (D-54)")])),
     ("recruiterNode", OD([("cardsPerTab", 6), ("firstRerollFree", True)])),
     ("otherworld", OD([("cards", 2), ("rerollCost", 1), ("requiresPortal", True)])),
     ("tiers", [
@@ -742,6 +743,8 @@ balance = OD([
             "agent_run", "median rooms demolished per run, permille", "<=", 1000, "nightly", "fail", "D-24; Q-RISK-2"),
         inv("inv.relocation_rare", "Relocation is a valve, not a habit", "A greedy agent playing full runs relocates rooms rarely; if it relocates freely, the fee or the Tenure penalty is too soft.",
             "agent_run", "median rooms relocated per run, permille", "<=", 2000, "nightly", "warn", "D-51"),
+        inv("inv.standing_pat_loses", "Holding is not a strategy", "A builder that stops buying after round 8 and relies on Tenure alone loses to the field in the late rounds; if it does not, Tenure outpays active spending.",
+            "agent_run variant: no purchases after round 8", "win rate permille vs field over rounds 12-16", "<=", 400, "nightly", "fail", "D-57; TFT interest-versus-spending lesson"),
         inv("inv.selector_density", "Floors stay a decision", "From round 8, at least half of field towers carry a floor-selected status ability.",
             "field per round >= 8", "fraction permille of towers with >=1 enemy-targeted status effect", ">=", 500, "nightly", "fail", "D-10"),
         inv("inv.ledger_rate", "The live ledger stays readable", "After coalescing, the live ledger's line rate stays under budget.",

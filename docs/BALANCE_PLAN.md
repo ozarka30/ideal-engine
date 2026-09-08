@@ -185,7 +185,7 @@ burst because a concentrated tower is what its gimmick exists to hurt.
 
 ## 6. The invariants
 
-Eighteen, each an entry in `content/balance.json` with a population, a measure, a
+Nineteen, each an entry in `content/balance.json` with a population, a measure, a
 comparator, a threshold, a cadence and a severity. The harness reads the file; a new
 invariant is a content edit plus a measure implementation, never a spec change.
 
@@ -202,6 +202,7 @@ invariant is a content edit plus a measure implementation, never a spec change.
 | `rider_net_negative` | The portal is a gamble, not an upgrade | field with substitution vs field | nightly | fail |
 | `demolition_rare` | Rooms are commitments | agent_run | nightly | fail |
 | `relocation_rare` | Relocation is a valve, not a habit | agent_run | nightly | warn |
+| `standing_pat_loses` | Holding is not a strategy | agent_run variant: no purchases after round 8 | nightly | fail |
 | `selector_density` | Floors stay a decision | field per round >= 8 | nightly | fail |
 | `ledger_rate` | The live ledger stays readable | field vs field | nightly | warn+fail |
 | `ability_diversity` | Wins are not one card | field vs field, winners | nightly | fail |

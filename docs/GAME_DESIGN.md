@@ -172,7 +172,11 @@ Everything the player does between fights, in the order they usually do it.
 ### 5.1 The shop
 
 Three tabs — **Staff**, **Rooms**, **Furniture** — each showing four cards. Rerolling
-a tab costs `¥1` and replaces its four cards. Stock quality scales with round:
+a tab costs `¥1` and replaces its four cards. Each tab draws from a **bag**: the
+eligible cards for the round, shuffled, drawn without replacement, refilled only when
+empty (D-54). A reroll therefore never shows the same card twice until every eligible
+card has been offered once, which is the genre's answer to "the shop keeps cycling the
+same thing". Stock quality scales with round:
 
 | Round | Staff tiers offered | Rooms | Furniture |
 | --- | --- | --- | --- |
@@ -691,6 +695,10 @@ Progressive reveal:
 - Trigger a near-miss: the slot shows the inputs you had.
 - Discover it: the slot fills. It stays filled in every future run.
 - Visit a **Consultant** node: pick one outlined slot and reveal it outright.
+- **Compatibility glow.** Hovering any card in the shop, or any placed employee or
+  furniture, softly highlights the owned items it shares an undiscovered recipe with.
+  It says *these two go together*, not what they make — Backpack Battles' hint line,
+  which is the disclosure step players there ask for most.
 
 The codex is a screen (§19.6) and also a hover on any card: a card shows the count of
 recipes it participates in, discovered and not.
@@ -1049,7 +1057,7 @@ the player has held. Discovered ones draw the sprites.
 | `ui.founder.grid` | (16, 40, 608, 208) | Eight founder cards in four columns at x = 16 + col × 152 and two rows at y = 40 + row × 104, each card centred in its 152 × 104 cell |
 | `ui.founder.card` | 72 × 96 | Portrait slot (4, 4, 64, 64); name (4, 72, 64, 8); title (4, 82, 64, 8). Selected state distinct. A reserved trait line below the title stays empty in v1 |
 | `ui.founder.bio` | (16, 256, 608, 40) | The selected founder's bio, up to four lines |
-| `ui.founder.firm_name` | (16, 304, 240, 16) | Text field; default is the founder's surname plus *Holdings* |
+| `ui.founder.firm_name` | (16, 304, 240, 16) | Text field; default is the founder's surname plus *Holdings*. Typing is optional and never required — no screen in the game requires text input (D-55), because the Steam Deck's on-screen keyboard is drawn by an overlay the stack may not have |
 | `ui.founder.confirm` | (504, 304, 120, 16) | **FOUND THE FIRM** |
 
 Shown once at run start in both modes. The profile remembers the last choice and
