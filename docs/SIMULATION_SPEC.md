@@ -211,6 +211,11 @@ Definitions (`emp.*`, `room.*`, `furn.*`, `rider.*`, `mod.*`) resolve through th
 content database at `contentVersion`. The sim is handed a resolved content table; it
 never loads files.
 
+`globals.modifiers` is the same field on both sides. A campaign rival's gimmick
+(`GAME_DESIGN.md` §15.5) and a player's Board Meeting modifier are both entries in it;
+the sim applies whatever it finds and does not know which side is the player. The
+content database, not the sim, marks a modifier as rival-only.
+
 ### 4.3 RuleSet
 
 Every constant in §3, plus:

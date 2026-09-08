@@ -44,8 +44,8 @@ rooms and furniture, arrange them across the floors, and press Ready. Your tower
 fights another tower for sixty seconds. Nothing moves. Your employees fire their
 abilities on cooldowns, their output is scaled by the room they stand in and the floor
 they stand on, and it lands on the rival's **Goodwill** — a defensive buffer with a
-visible number. When Goodwill breaks, further damage moves the shared **Market Share**
-bar. Claim the whole bar, or lead it when the quarterly bell rings, and you win.
+visible bar and number. When Goodwill is empty, further damage moves the shared
+**Market Share** bar. Claim the whole bar, or lead it when the quarterly bell rings, and you win.
 
 Beneath each Goodwill number scrolls a **ledger** of named entries. It is the fight's
 running commentary while it happens and its complete post-mortem afterwards. A player
@@ -109,9 +109,10 @@ The player can change playback speed or skip to the result. They cannot interven
 The autopsy opens automatically on a loss and on the first fight of a run; otherwise it
 is one button away.
 
-**7. Reward.** *(Reward overlay, campaign only.)* A win gives `¥3` and a pick of one
-from three offered items. An Audit win offers rarer picks. A boss win gives a fixed
-reward and, after Act 1, opens the portal.
+**7. Reward.** *(Top bar.)* A win gives `¥3`, in both modes. Nothing else. A boss
+win in Act 1 opens the portal. The campaign's extra opportunities come from interlude
+nodes, never from winning fights — the player's economy is the same in campaign and
+ranked, so a build that works in one works in the other.
 
 **8. Depart.** Back to the map, or to the next round in ranked.
 
@@ -354,6 +355,14 @@ the top-left tile — carrying the name and Tenure pips. Rooms are the ground la
 Furniture occupies tiles inside rooms and does things to the employees **orthogonally
 adjacent** to it. A tile holding furniture is a tile not holding an employee; that is
 the cost.
+
+**Furniture is in v1 on trial** (D-34). Equipment is cut for good; furniture stays
+because it is the cheapest source of tile scarcity in the design, and it is kept only
+until the vertical slice can answer whether it earns its layer. The test is named in
+§21. If it fails, every furniture effect folds into a room's aura or Tier III clause,
+and recipes take rooms as their third input instead. Nothing in the sim changes either
+way — furniture is a set of flat bonuses and periodic events, and both survive the
+fold.
 
 | Furniture | Size | Cost | Effect on adjacent employees | Notes |
 | --- | --- | --- | --- | --- |
@@ -749,12 +758,12 @@ interludes, every run.
 
 | Node | What happens |
 | --- | --- |
-| **Hostile Takeover** | A fight against a scripted rival tower from this round's pool |
-| **Audit** | A harder fight — the rival is drawn from the pool two rounds ahead. Reward from the rare list |
+| **Hostile Takeover** | A fight against a rival from this round's pool (§15.5) |
+| **Audit** | A harder fight — the rival is drawn from the pool two rounds ahead and always carries a gimmick. Win bonus `¥5` instead of `¥3` |
 | **Recruiter** | Build phase with an upgraded shop: six cards per tab, first reroll free. No fight |
 | **Board Meeting** | A choice of two or three run modifiers with a cost and a benefit each. No fight |
 | **Consultant** | Reveal one codex recipe, or grant one room +1 Tenure round. No fight |
-| **Boss** | The act's boss tower. Fixed reward |
+| **Boss** | The act's boss tower, with its signature mechanic. Win bonus `¥5`; Act 1 opens the portal |
 
 ### 15.2 Bosses
 
@@ -796,6 +805,46 @@ is a win; its score is strikes remaining and total Market Share claimed.
 
 Modifiers are snapshot globals. They ride into the fight in `globals.modifiers`.
 
+### 15.5 Rivals: scripted, semi-scripted, and their gimmicks
+
+The campaign's whole difference from ranked is who you fight (D-36). The player's
+rules, shop, economy and building are identical; the opponent is not a stored player
+but a tower built to teach or test something. Three kinds:
+
+| Kind | Authored how | Used for |
+| --- | --- | --- |
+| **Scripted** | Hand-authored snapshot, checked in | The three bosses; the first six tutorial rivals |
+| **Semi-scripted** | A **rival template** — an archetype, a round, and a seeded variation — expanded into a snapshot at run start and validated for constructibility | Every ordinary Hostile Takeover and Audit |
+| **Ghost** | A captured player snapshot | Ranked only |
+
+A rival template names an archetype (`turtle`, `burst`, `economy`, `burnout`,
+`management`, `generalist`), a round, a budget envelope, and a seed; the expander
+picks rooms and staff from the archetype's shopping list within the envelope, places
+them by the archetype's layout rules, and assigns Tenure consistent with the round.
+The result is a snapshot like any other. Sixteen rounds times several rivals each is
+too many towers to hand-author and keep balanced, and templates are also what the
+balance harness runs, so the rival pool and the test fixtures are the same thing.
+
+**Gimmicks.** A rival may carry a **rival-only modifier** — a buff or a mechanic the
+player can never have — in `globals.modifiers`, the same field Board Meeting
+modifiers use. The sim does not know the difference; the content database marks which
+modifiers are rival-only. Every Audit carries one; every boss carries its signature
+one; ordinary rivals carry one from round 8 onward. Phase 2 set:
+
+| Gimmick | Effect | Teaches |
+| --- | --- | --- |
+| *Deep Pockets* | Goodwill cap × 1.5 | Push alone is slow; bring Burnout |
+| *Franchise* | Every floor counts as `most_populated_floor` | Floor-selected statuses land everywhere |
+| *Old Money* | All rooms at Tier III | What Tenure looks like fully grown |
+| *Night Shift* | All staff hold 1 permanent Overtime; no Burnout on expiry | Haste without the cost, and how to slow it |
+| *Regulatory Capture* (Compliance Office) | Regen is never suppressed | The Act 2 boss's signature; unwinnable without Morale or Anomaly |
+| *Conglomerate* (Parent Company) | Every status ability is floor-selected, and `highest_occupied_floor` also hits `lowest_occupied_floor` | The Act 3 boss's signature; concentration is punished twice |
+| *Mirror* (Regional Rival) | None — the tower is a competent copy of the player's own archetype at this round | The Act 1 boss's signature is having no gimmick; the ledger is the lesson |
+
+A gimmick is always shown before the fight. The map node's hover opens a **dossier**
+(§19.5) with the rival's name, archetype, floor count and gimmick, so the player is
+building against something they can see.
+
 ---
 
 ## 16. Ranked mode and the configuration layer
@@ -807,9 +856,10 @@ content database; the following table is the *entire* difference.
 | --- | --- | --- |
 | `map` | branching, three acts | none — sixteen rounds in sequence |
 | `interludes` | on | off |
-| `rivalSource` | scripted pool by round | ghost pool by round and rating band, scripted pool as fallback |
+| `rivalSource` | scripted bosses and tutorial rivals; semi-scripted templates otherwise | ghost pool by round and rating band; templates as fallback |
+| `rivalGimmicks` | on | off |
 | `portalUnlock` | Act 1 boss defeated | round ≥ 5 |
-| `rewards` | win: `¥3` + pick; boss: fixed | win: `¥3` only |
+| `winBonus` | `¥3`; Audit and boss `¥5` | `¥3` |
 | `strikes` | 3 | 3 |
 | `metaUnlocks` | apply | everything available |
 | `rating` | none | Elo-style, per fight |
@@ -900,8 +950,8 @@ Undo is a key, not a button. Ready has no confirmation.
 | --- | --- | --- |
 | `bg.battle.street` | (0, 0, 640, 360) | Isometric street backdrop |
 | `ui.battle.bar` | (160, 8, 320, 12) | Market Share bar; A fills from the left; ticks every 10%; percent labels at each end in `font.ui.8` |
-| `ui.battle.goodwill.a` | (8, 28, 200, 16) | `GOODWILL 4,200` in `font.ui.16`, left-aligned |
-| `ui.battle.goodwill.b` | (432, 28, 200, 16) | Same, right-aligned |
+| `ui.battle.goodwill.a` | (8, 28, 200, 16) | Goodwill **bar**: frame 200 × 16; fill from the left, width = `goodwill / capAtStart × 200`; the frame's right end sits at `cap / capAtStart × 200` so Morale erosion visibly shortens what can be refilled; the number `4,200` in `font.ui.16` overlaid left-aligned at (12, 28). Dims 50% while regen is suppressed; flashes on break |
+| `ui.battle.goodwill.b` | (432, 28, 200, 16) | Mirror: fill from the right, frame erodes from the left, number right-aligned |
 | `ui.battle.banner` | (240, 48, 160, 12) | Month banner, centred |
 | `fx.tower.floor_segment` | 96 × 32, anchor bottom-centre | One per above-ground floor. Tower A stacks upward from (200, 280); Tower B from (440, 280). Four segments: G at the base, 3F at the top, y = 280, 248, 216, 184 |
 | `fx.tower.roof` | 96 × 16, anchor bottom-centre | Above the top segment |
@@ -943,14 +993,14 @@ after.
 | `ui.map.marker` | 16 × 16, anchor centre | The firm's position |
 | `ui.map.legend` | (0, 336, 640, 24) | Node kind legend |
 
-### 19.5 Reward overlay
+### 19.5 Rival dossier
 
 | Region | Rect | Contents |
 | --- | --- | --- |
-| `ui.reward.panel` | (160, 100, 320, 160) | Title `QUARTER WON · PICK ONE` at (168, 108); three pick cards 52 × 80 at x = 176, 260, 344, y = 132; **SKIP** button (392, 236, 80, 16) |
+| `ui.map.dossier` | 200 × 88, anchored to the hovered node, clamped to screen | Rival name `font.ui.8` at (4, 4); archetype and floor count at (4, 14); gimmick name at (4, 28) and its one-line effect at (4, 38), two lines; a 5-cell floor strip at (4, 64) showing which floors are occupied, 16 × 8 per cell; for bosses, the signature mechanic in the `anomalous` tone |
 
-Pick cards reuse `ui.card.applicant`, `ui.card.room` and `ui.card.furniture`
-unchanged. The panel is modal over a dimmed battle screen.
+Opens on hover over any fight node, in campaign only. There is no reward overlay; the
+win bonus is written to the top bar.
 
 ### 19.6 Codex
 
@@ -1002,8 +1052,11 @@ obligations that fall out of this design:
 | Near-miss | Build screen | Inputs flicker once, `?` glyph |
 | Recipe available | Build screen | Inputs pulse, **Promote** glyph |
 | Ability resolution | Battle screen | Window burst on the floor, floating number, ledger line |
-| Goodwill break | Battle screen | Goodwill number flashes, bar begins to move, ledger banner `— GOODWILL BROKEN —` |
-| Regen suppressed | Battle screen | The Goodwill number dims while suppressed |
+| Goodwill level | Battle screen | Each firm's Goodwill bar, with the number on it |
+| Goodwill break | Battle screen | The Goodwill bar empties and flashes, the Market Share bar begins to move, ledger banner `— GOODWILL BROKEN —` |
+| Cap erosion (Morale) | Battle screen | The Goodwill bar's frame shortens |
+| Regen suppressed | Battle screen | The Goodwill bar dims while suppressed |
+| Rival gimmick | Map screen | The dossier, before the fight is chosen |
 | Month transition | Battle screen | Banner, telegraphed one second early |
 | Status applied | Battle screen | Ledger line; the floor inset shows a status glyph on the employee |
 | Why I lost | Autopsy | Three findings, per-floor bars, full ledger |
@@ -1026,4 +1079,5 @@ and the earliest moment it can be answered.
 | Does a Promote glyph feel like a discovery? | First near-miss | The `?` reads as an error |
 | Are Tenure tiers felt, not just seen? | First Tier II | You cannot say without looking what a Tier II room is doing for you |
 | Is demolishing a room a decision? | First time you want to | You do it without pausing |
+| Does furniture earn its tile? (D-34) | Vertical slice, twenty runs | You place furniture only when a recipe wants it, or you never choose between a desk and a hire. Either means fold it into rooms |
 | Does the part-arted build screen look deliberate? | First real asset dropped in | The screen reads as broken, not stylised |

@@ -59,6 +59,7 @@ decisions.
 | [Q-FLR-3](#q-flr-3--does-the-elevator-do-anything) | The elevator | Yes — landing column gives vertical adjacency | DECIDED · [D-11](DECISION_LOG.md#d-11) |
 | [Q-LYR-1](#q-lyr-1--is-furniture-a-distinct-layer-in-v1) | Furniture layer | Keep furniture, cut equipment | DECIDED · [D-12](DECISION_LOG.md#d-12) |
 | [Q-LYR-2](#q-lyr-2--what-can-an-employee-carry) | Employee carry | Nothing in v1; schema keeps an empty `attachments[]` | DECIDED · [D-13](DECISION_LOG.md#d-13) |
+| [Q-LYR-3](#q-lyr-3--does-furniture-earn-its-tile) | Furniture on trial | Keep it through the vertical slice; fold into rooms if the named test fails | OPEN — playtest gate |
 | [Q-ECO-1](#q-eco-1--how-is-the-reward-for-a-correct-commitment-made-impactful) | Reward shape | Tenure — rooms compound while they stay put and stay staffed | DECIDED · [D-25](DECISION_LOG.md#d-25) |
 | [Q-ECO-2](#q-eco-2--does-a-run-need-a-mid-run-recovery-valve) | Recovery valve | One Restructuring per run, from a Board Meeting node | NEEDS SIGN-OFF |
 | [Q-GBX-1](#q-gbx-1--what-is-the-minimum-a-manifest-entry-needs-before-a-greybox-can-be-built) | Manifest minimum | Nine required fields; overhang is derived, never authored | DECIDED · [D-14](DECISION_LOG.md#d-14) |
@@ -716,7 +717,9 @@ designing around a hole.
 the shop has one fewer thing to sell. Promotions ([Q-RCP-1](#q-rcp-1--how-many-recipes-at-launch-and-how-are-they-discovered))
 must carry that weight, which raises the required recipe count.
 
-**Status:** DECIDED · [D-12](DECISION_LOG.md#d-12)
+**Status:** DECIDED · [D-12](DECISION_LOG.md#d-12), confirmed on equipment by
+[D-34](DECISION_LOG.md#d-34). Furniture is provisional — see
+[Q-LYR-3](#q-lyr-3--does-furniture-earn-its-tile).
 
 ---
 
@@ -738,6 +741,35 @@ version bump that invalidates every stored ghost.
 in every serialised snapshot. It is far cheaper than migrating a ghost pool.
 
 **Status:** DECIDED · [D-13](DECISION_LOG.md#d-13)
+
+---
+
+### Q-LYR-3 · Does furniture earn its tile?
+
+**Blocks:** nothing before the vertical slice. After it: the shape of the room
+catalogue and the third input of every recipe.
+
+Raised by [D-34](DECISION_LOG.md#d-34). Furniture is in v1 because it is the cheapest
+tile scarcity in the design, and it is on trial because the human is unsure it is
+worth a layer. The question is not whether furniture is *fun* — that is not
+answerable — but whether it produces a decision the game would otherwise lack.
+
+**The test.** Twenty vertical-slice runs, greybox, by the developer. Furniture fails
+if either holds:
+
+- Furniture is placed only when a recipe wants it — it is a crafting reagent, not a
+  layout choice.
+- The player never faces a real choice between a piece of furniture and a hire for the
+  same tile — scarcity never bites.
+
+**If it fails:** every furniture effect folds into a room aura or a Tier III clause;
+recipes take a room context as their third input; the manifest entries and greyboxes
+are deleted. The sim is unchanged, because furniture is flat bonuses and periodic
+events and rooms already carry both.
+
+**If it passes:** Phase 3's catalogue extends it. Nothing else changes.
+
+**Status:** OPEN — a playtest gate, answerable only once the slice exists.
 
 ---
 
@@ -1415,7 +1447,7 @@ be painful, with the rewards for good decisions scaled up to compensate.
 closed. `GAME_DESIGN.md` and `SIMULATION_SPEC.md` can be written without a marked
 assumption anywhere in them.
 
-Seven items remain open. None blocked Phase 2, which is now drafted; each is listed
+Eight items remain open. None blocked Phase 2, which is now drafted; each is listed
 here against the phase where it first bites, so it can be answered when it is actually
 needed rather than in a batch.
 
@@ -1428,3 +1460,4 @@ needed rather than in a batch.
 | [Q-GBX-3](#q-gbx-3--what-is-the-greybox-palette) greybox palette | Phase 4 — `ART_PIPELINE` | Low to change on paper, high to change once screens exist |
 | [Q-RISK-1](#q-risk-1--is-the-guttykreum-licence-cleared-for-commercial-release) asset licence | Release, and any art spend | Not a design decision. It needs an owner and a date, and it is cheapest to answer now |
 | [Q-GBX-5](#q-gbx-5--can-the-packs-produce-the-decided-battle-and-portrait-dimensions) pack-fit | Phase 4 — first greybox of the battle view | Not a decision. An afternoon with the packs open |
+| [Q-LYR-3](#q-lyr-3--does-furniture-earn-its-tile) furniture trial | Vertical slice | A playtest gate with a fold-in plan already written |

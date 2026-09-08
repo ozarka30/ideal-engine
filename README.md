@@ -36,7 +36,7 @@ Pre-production. No code yet — design first.
 | 4 — Technical | `ARCHITECTURE.md`, `ART_PIPELINE.md` | Not started |
 | 5 — Balance and plan | `BALANCE_PLAN.md`, `ROADMAP.md` | Not started |
 
-Thirty-three decisions are logged — twenty-nine craft calls and four human ones. Seven
+Thirty-six decisions are logged — twenty-nine craft calls and seven human ones. Eight
 items remain open; none blocked Phase 2, and each is listed against the phase where it
 first bites. See the summary table in
 [`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md).

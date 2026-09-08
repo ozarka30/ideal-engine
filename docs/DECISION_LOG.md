@@ -62,9 +62,13 @@ history of a reversal is the most useful thing in a document like this.
 | [D-31](#d-31) | Interludes do not advance the round; unpaid upkeep is paid in Goodwill cap | Craft | Phase 2 |
 | [D-32](#d-32) | Push has no target; floor selectors apply only to employee-affecting effects | Craft | Phase 2 |
 | [D-33](#d-33) | One entry per event, tagged source and target; the replay is the result | Craft | Phase 2 |
+| [D-34](#d-34) | Equipment is cut for good; furniture stays in v1 on trial with a named test | Human | Q-LYR-1, Q-LYR-3 |
+| [D-35](#d-35) | Goodwill is shown as a per-side bar with its number; the frame erodes with the cap | Human | Phase 2 |
+| [D-36](#d-36) | Campaign player rules equal ranked; the difference is scripted and semi-scripted rivals with gimmicks | Human | Phase 2 |
 
-Twenty-nine craft decisions and four human calls taken. Seven questions remain open in
-[`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one of them blocks a Phase 4 greybox.
+Twenty-nine craft decisions and seven human calls taken. Eight items remain open in
+[`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
+vertical-slice playtest gate.
 
 ---
 
@@ -684,3 +688,64 @@ example already showed. Supersedes the `side` field sketched in Q-GW-7's entry
 example; the field list in `SIMULATION_SPEC.md` §16.1 is now normative.
 
 Authority: Craft · Phase 2, `SIMULATION_SPEC.md` §16
+
+---
+
+## D-34
+
+**Equipment is cut from v1 and not deferred. Furniture stays in v1 on trial: it is kept
+until the vertical slice can answer whether it earns its layer, and the test is named
+in `GAME_DESIGN.md` §21. If it fails, its effects fold into room auras and Tier III
+clauses and recipes take rooms as their third input.**
+
+*Why:* The human's call — equipment is one layer too many, and furniture is worth
+testing rather than deciding on paper; it is the cheapest source of tile scarcity in
+the design, and the sim treats it as flat bonuses and periodic events, both of which
+survive a fold into rooms unchanged.
+
+*Consequence:* D-12 is confirmed on equipment and made provisional on furniture. The
+vertical slice must be built with furniture in, so the fold is a content edit rather
+than a re-architecture, and Q-LYR-3 holds the gate.
+
+Authority: Human · Question: [Q-LYR-1](OPEN_QUESTIONS.md#q-lyr-1--is-furniture-a-distinct-layer-in-v1), [Q-LYR-3](OPEN_QUESTIONS.md#q-lyr-3--does-furniture-earn-its-tile)
+
+---
+
+## D-35
+
+**Each firm's Goodwill is displayed as a bar on its own side of the battle screen, with
+the number overlaid. The bar fills and empties; its frame shortens as Morale erodes the
+cap; it dims while regen is suppressed. The Market Share bar moves only while a firm's
+Goodwill bar is empty.**
+
+*Why:* A number that drifts is not a shape the eye can track at combat speed; a bar
+that visibly drains and then *stays empty while the other bar starts moving* makes the
+two-stage rule legible without a word of explanation.
+
+*Consequence:* Presentation only — nothing in the sim changes. The eroding frame is the
+first place Morale becomes visible without reading the ledger, which is what makes the
+Compliance Office fight teachable.
+
+Authority: Human · Phase 2, `GAME_DESIGN.md` §19.2
+
+---
+
+## D-36
+
+**The player's rules, shop, economy and building are identical in campaign and ranked.
+The campaign's difference is the map layer and the opponent: scripted bosses and
+tutorial rivals, semi-scripted templated rivals everywhere else, and rival-only
+gimmicks carried in the same `globals.modifiers` field the player's Board Meeting
+modifiers use. The win-reward pick is cut; a win pays `¥3` in both modes.**
+
+*Why:* The human's framing — campaign is PvP against scripted or semi-scripted
+opponents with a special buff or mechanic — is a stronger form of the locked "one sim,
+modes as configuration" rule, and it removes the last place the two modes' economies
+diverged.
+
+*Consequence:* Rival templates become the same artefact as balance fixtures and, later,
+ghost-pool seeds. Gimmicks are content, shown in a pre-fight dossier so the player
+builds against something visible. A build that works in campaign works in ranked by
+construction.
+
+Authority: Human · Phase 2, `GAME_DESIGN.md` §3, §15.5, §16
