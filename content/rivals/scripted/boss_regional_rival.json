@@ -1,0 +1,190 @@
+{
+  "id": "rival.boss_regional_rival",
+  "name": "The Regional Rival",
+  "kind": "scripted",
+  "archetype": "generalist",
+  "round": 6,
+  "gimmick": "mod.g_mirror",
+  "exemptFromBudget": true,
+  "note": "Act 1 boss. A competent generalist with a Tier I Open Plan and a leased 2F. No tricks. Its defeat opens the portal. When the Mirror gimmick is implemented, this authored tower is the fallback if the player's archetype cannot be inferred.",
+  "snapshot": {
+    "schemaVersion": 1,
+    "contentVersion": "0.1.0",
+    "round": 6,
+    "floors": [
+      {
+        "index": 0,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "g_reception",
+            "defId": "room.reception",
+            "rect": [
+              1,
+              0,
+              2,
+              2
+            ],
+            "tenureRounds": 0
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.paralegal",
+            "instanceId": "e_001",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.sales_rep",
+            "instanceId": "e_002",
+            "attachments": []
+          }
+        ]
+      },
+      {
+        "index": 1,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "f1_open",
+            "defId": "room.open_plan",
+            "rect": [
+              0,
+              0,
+              2,
+              3
+            ],
+            "tenureRounds": 4
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              0,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.junior_dev",
+            "instanceId": "e_003",
+            "attachments": []
+          },
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.senior_dev",
+            "instanceId": "e_004",
+            "attachments": []
+          },
+          {
+            "tile": [
+              0,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.junior_dev",
+            "instanceId": "e_005",
+            "attachments": []
+          },
+          {
+            "tile": [
+              1,
+              1
+            ],
+            "kind": "furniture",
+            "defId": "furn.whiteboard",
+            "instanceId": "f_006",
+            "attachments": []
+          },
+          {
+            "tile": [
+              0,
+              2
+            ],
+            "kind": "employee",
+            "defId": "emp.qa_tester",
+            "instanceId": "e_007",
+            "attachments": []
+          }
+        ]
+      },
+      {
+        "index": 2,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "f2_sales",
+            "defId": "room.sales_floor",
+            "rect": [
+              1,
+              0,
+              2,
+              2
+            ],
+            "tenureRounds": 2
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.sales_rep",
+            "instanceId": "e_008",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.sales_rep",
+            "instanceId": "e_009",
+            "attachments": []
+          },
+          {
+            "tile": [
+              1,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.team_lead",
+            "instanceId": "e_010",
+            "attachments": []
+          }
+        ]
+      }
+    ],
+    "globals": {
+      "modifiers": [
+        "mod.g_mirror"
+      ],
+      "riders": [],
+      "leasedB1": false
+    }
+  }
+}

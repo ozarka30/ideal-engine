@@ -1,0 +1,118 @@
+{
+  "floors": [
+    {
+      "id": "floor.b1",
+      "index": -1,
+      "name": "B1 — Portal",
+      "kind": "portal",
+      "grid": {
+        "w": 3,
+        "h": 3
+      },
+      "outputPermille": 1000,
+      "roomKinds": [
+        "extraplanar"
+      ],
+      "upkeepBudget": 0,
+      "capTax": 150,
+      "lease": 20,
+      "starting": false,
+      "requiresPortal": true,
+      "targetable": false
+    },
+    {
+      "id": "floor.g",
+      "index": 0,
+      "name": "G — Reception",
+      "kind": "reception",
+      "grid": {
+        "w": 5,
+        "h": 3
+      },
+      "outputPermille": 900,
+      "roomKinds": [
+        "reception",
+        "security",
+        "general"
+      ],
+      "upkeepBudget": 0,
+      "capTax": 0,
+      "lease": 0,
+      "starting": true,
+      "requiresPortal": false,
+      "targetable": true,
+      "fixedRooms": [
+        {
+          "defId": "room.reception",
+          "rect": [
+            1,
+            0,
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "floor.f1",
+      "index": 1,
+      "name": "1F — Operations",
+      "kind": "operations",
+      "grid": {
+        "w": 5,
+        "h": 3
+      },
+      "outputPermille": 1000,
+      "roomKinds": [
+        "general"
+      ],
+      "upkeepBudget": 0,
+      "capTax": 0,
+      "lease": 0,
+      "starting": true,
+      "requiresPortal": false,
+      "targetable": true
+    },
+    {
+      "id": "floor.f2",
+      "index": 2,
+      "name": "2F — Operations",
+      "kind": "operations",
+      "grid": {
+        "w": 5,
+        "h": 3
+      },
+      "outputPermille": 1150,
+      "roomKinds": [
+        "general"
+      ],
+      "upkeepBudget": 2,
+      "capTax": 0,
+      "lease": 28,
+      "starting": false,
+      "requiresPortal": false,
+      "targetable": true
+    },
+    {
+      "id": "floor.f3",
+      "index": 3,
+      "name": "3F — Executive",
+      "kind": "executive",
+      "grid": {
+        "w": 4,
+        "h": 2
+      },
+      "outputPermille": 1450,
+      "roomKinds": [
+        "executive",
+        "general"
+      ],
+      "upkeepBudget": 4,
+      "capTax": 0,
+      "lease": 36,
+      "starting": false,
+      "requiresPortal": false,
+      "targetable": true
+    }
+  ]
+}

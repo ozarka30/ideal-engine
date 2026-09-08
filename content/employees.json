@@ -1,0 +1,1431 @@
+{
+  "employees": [
+    {
+      "id": "emp.intern",
+      "name": "Intern",
+      "dept": "engineering",
+      "tier": 1,
+      "cost": 2,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [
+        "junior"
+      ],
+      "cooldownTicks": 60,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "push",
+          "value": 35,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          }
+        }
+      ],
+      "sprite": "emp.intern",
+      "flavor": "Unpaid, in the sense that the invoice is emotional."
+    },
+    {
+      "id": "emp.junior_dev",
+      "name": "Junior Developer",
+      "dept": "engineering",
+      "tier": 1,
+      "cost": 3,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [
+        "junior"
+      ],
+      "cooldownTicks": 80,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "push",
+          "value": 60,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Ship Feature"
+        }
+      ],
+      "sprite": "emp.junior_dev",
+      "flavor": "Ships it. Whether it works is a Month 2 problem."
+    },
+    {
+      "id": "emp.qa_tester",
+      "name": "QA Tester",
+      "dept": "engineering",
+      "tier": 1,
+      "cost": 3,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 40,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "push",
+          "value": 25,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Bug Report"
+        }
+      ],
+      "sprite": "emp.qa_tester",
+      "flavor": "Small, frequent, and never quite enough to register."
+    },
+    {
+      "id": "emp.senior_dev",
+      "name": "Senior Developer",
+      "dept": "engineering",
+      "tier": 2,
+      "cost": 6,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 80,
+      "cooldownTicksByMonth": {
+        "2": 60
+      },
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "push",
+          "value": 150,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Ship Feature"
+        }
+      ],
+      "sprite": "emp.senior_dev",
+      "flavor": "Accelerates during Crunch. This is not a compliment."
+    },
+    {
+      "id": "emp.devops",
+      "name": "DevOps",
+      "dept": "engineering",
+      "tier": 2,
+      "cost": 6,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 120,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "push",
+          "value": 90,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Deploy"
+        },
+        {
+          "on": "afterFire",
+          "do": "status",
+          "status": "status.overtime",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "adjacent",
+            "dept": [
+              "engineering"
+            ]
+          },
+          "everyN": 1
+        }
+      ],
+      "sprite": "emp.devops",
+      "flavor": "Every deploy is someone else's overtime."
+    },
+    {
+      "id": "emp.sysadmin",
+      "name": "Sysadmin",
+      "dept": "engineering",
+      "tier": 2,
+      "cost": 6,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 100,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "push",
+          "value": 100,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Reboot"
+        },
+        {
+          "on": "static",
+          "do": "flag",
+          "flag": "bureaucracyImmune",
+          "subject": {
+            "scope": "self"
+          }
+        }
+      ],
+      "sprite": "emp.sysadmin",
+      "flavor": "Cannot be slowed. Has never once been in a meeting."
+    },
+    {
+      "id": "emp.architect",
+      "name": "Architect",
+      "dept": "engineering",
+      "tier": 3,
+      "cost": 10,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 160,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "push",
+          "value": 400,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Refactor"
+        },
+        {
+          "on": "afterFire",
+          "do": "status",
+          "status": "status.overtime",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "adjacent",
+            "dept": [
+              "engineering"
+            ]
+          },
+          "everyN": 3
+        }
+      ],
+      "sprite": "emp.architect",
+      "flavor": "Every third Refactor is the one that makes everyone stay late."
+    },
+    {
+      "id": "emp.cto",
+      "name": "CTO",
+      "dept": "engineering",
+      "tier": 3,
+      "cost": 10,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 200,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "push",
+          "value": 250,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Roadmap"
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "cooldown",
+          "subject": {
+            "scope": "sameFloor",
+            "dept": [
+              "engineering"
+            ]
+          },
+          "permille": 900
+        }
+      ],
+      "sprite": "emp.cto",
+      "flavor": "Technical leadership: everyone on the floor works 10% faster and 100% more anxiously."
+    },
+    {
+      "id": "emp.paralegal",
+      "name": "Paralegal",
+      "dept": "legal",
+      "tier": 1,
+      "cost": 3,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 60,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "status",
+          "status": "status.bureaucracy",
+          "stacks": 1,
+          "target": {
+            "side": "enemy",
+            "floor": "most_populated_floor",
+            "unit": "lowest_cooldown_remaining"
+          },
+          "name": "Paperwork"
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 100
+        }
+      ],
+      "sprite": "emp.paralegal",
+      "flavor": "Generates forms. The forms are the weapon."
+    },
+    {
+      "id": "emp.compliance_officer",
+      "name": "Compliance Officer",
+      "dept": "legal",
+      "tier": 1,
+      "cost": 3,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 80,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "cleanse",
+          "status": "status.bureaucracy",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "adjacent"
+          },
+          "name": "Waiver"
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 150
+        }
+      ],
+      "sprite": "emp.compliance_officer",
+      "flavor": "Unblocks the people next to them. Files a report about it."
+    },
+    {
+      "id": "emp.counsel",
+      "name": "Counsel",
+      "dept": "legal",
+      "tier": 2,
+      "cost": 6,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 120,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "push",
+          "value": 90,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Cease & Desist"
+        },
+        {
+          "on": "afterFire",
+          "do": "status",
+          "status": "status.bureaucracy",
+          "stacks": 2,
+          "target": {
+            "side": "enemy",
+            "floor": "highest_occupied_floor",
+            "unit": "highest_base_value"
+          },
+          "everyN": 1
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 250
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "regenPerEvent",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 40
+        }
+      ],
+      "sprite": "emp.counsel",
+      "flavor": "Sends a letter. The letter has consequences."
+    },
+    {
+      "id": "emp.patent_attorney",
+      "name": "Patent Attorney",
+      "dept": "legal",
+      "tier": 2,
+      "cost": 6,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 140,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "push",
+          "value": 130,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Litigation"
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 150
+        }
+      ],
+      "sprite": "emp.patent_attorney",
+      "flavor": "Legal that attacks. Rare, expensive, and very slow."
+    },
+    {
+      "id": "emp.general_counsel",
+      "name": "General Counsel",
+      "dept": "legal",
+      "tier": 3,
+      "cost": 10,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 200,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "status",
+          "status": "status.frozen",
+          "stacks": 1,
+          "target": {
+            "side": "enemy",
+            "floor": "highest_occupied_floor",
+            "unit": "highest_base_value"
+          },
+          "name": "Injunction",
+          "durationTicks": 60
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 500
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "regenPerEvent",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 80
+        }
+      ],
+      "sprite": "emp.general_counsel",
+      "flavor": "Freezes their best person for three seconds. Bills for six."
+    },
+    {
+      "id": "emp.recruiter",
+      "name": "Recruiter",
+      "dept": "hr",
+      "tier": 1,
+      "cost": 3,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 100,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "restore",
+          "value": 80,
+          "target": {
+            "side": "own",
+            "scope": "firm"
+          },
+          "name": "Team Building"
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "regenPerEvent",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 30
+        }
+      ],
+      "sprite": "emp.recruiter",
+      "flavor": "Restores Goodwill. Has a lanyard."
+    },
+    {
+      "id": "emp.office_manager",
+      "name": "Office Manager",
+      "dept": "hr",
+      "tier": 1,
+      "cost": 3,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 120,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "cleanse",
+          "status": "status.burnout",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "adjacent"
+          },
+          "name": "Snack Run"
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 50
+        }
+      ],
+      "sprite": "emp.office_manager",
+      "flavor": "Removes one Burnout from each neighbour. Knows where the good stapler is."
+    },
+    {
+      "id": "emp.hr_manager",
+      "name": "HR Manager",
+      "dept": "hr",
+      "tier": 2,
+      "cost": 6,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 120,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "restore",
+          "value": 150,
+          "target": {
+            "side": "own",
+            "scope": "firm"
+          },
+          "name": "Wellness Program"
+        },
+        {
+          "on": "afterFire",
+          "do": "cleanse",
+          "status": "status.burnout",
+          "stacks": 2,
+          "target": {
+            "side": "own",
+            "scope": "sameFloor"
+          },
+          "everyN": 1
+        }
+      ],
+      "sprite": "emp.hr_manager",
+      "flavor": "A wellness program is a Burnout cleanse with a budget line."
+    },
+    {
+      "id": "emp.trainer",
+      "name": "Trainer",
+      "dept": "hr",
+      "tier": 2,
+      "cost": 6,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 160,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "status",
+          "status": "status.overtime",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "adjacent"
+          },
+          "name": "Workshop"
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "regenPerEvent",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 20
+        }
+      ],
+      "sprite": "emp.trainer",
+      "flavor": "Everyone leaves the workshop energised. For three seconds."
+    },
+    {
+      "id": "emp.head_of_people",
+      "name": "Head of People",
+      "dept": "hr",
+      "tier": 3,
+      "cost": 10,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 160,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "restore",
+          "value": 300,
+          "target": {
+            "side": "own",
+            "scope": "firm"
+          },
+          "name": "Retention Bonus"
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "burnoutMaxOverride",
+          "subject": {
+            "scope": "all"
+          },
+          "amount": 3
+        }
+      ],
+      "sprite": "emp.head_of_people",
+      "flavor": "Nobody in the building can burn out past three stacks. The fourth was never on the table."
+    },
+    {
+      "id": "emp.telemarketer",
+      "name": "Telemarketer",
+      "dept": "sales",
+      "tier": 1,
+      "cost": 2,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 40,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "push",
+          "value": 20,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Cold Call"
+        },
+        {
+          "on": "economy",
+          "do": "stat",
+          "stat": "income",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 1
+        }
+      ],
+      "sprite": "emp.telemarketer",
+      "flavor": "Twenty Push every two seconds. Never enough to suppress anything. That is the joke."
+    },
+    {
+      "id": "emp.sales_rep",
+      "name": "Sales Rep",
+      "dept": "sales",
+      "tier": 1,
+      "cost": 3,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 60,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "push",
+          "value": 40,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Cold Call"
+        },
+        {
+          "on": "economy",
+          "do": "stat",
+          "stat": "income",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 1
+        }
+      ],
+      "sprite": "emp.sales_rep",
+      "flavor": "Grows the budget between fights and chips at Goodwill during them."
+    },
+    {
+      "id": "emp.account_manager",
+      "name": "Account Manager",
+      "dept": "sales",
+      "tier": 2,
+      "cost": 6,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 100,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "push",
+          "value": 110,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Close Deal"
+        },
+        {
+          "on": "economy",
+          "do": "stat",
+          "stat": "income",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 2
+        }
+      ],
+      "sprite": "emp.account_manager",
+      "flavor": "Closes. Expenses lunch."
+    },
+    {
+      "id": "emp.headhunter",
+      "name": "Headhunter",
+      "dept": "sales",
+      "tier": 2,
+      "cost": 6,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 140,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "status",
+          "status": "status.burnout",
+          "stacks": 2,
+          "target": {
+            "side": "enemy",
+            "floor": "highest_occupied_floor",
+            "unit": "highest_base_value"
+          },
+          "name": "Poach"
+        },
+        {
+          "on": "economy",
+          "do": "stat",
+          "stat": "income",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 1
+        }
+      ],
+      "sprite": "emp.headhunter",
+      "flavor": "Burns out their best person by offering them a job. Morale damage does not appear on a balance sheet."
+    },
+    {
+      "id": "emp.sales_director",
+      "name": "Sales Director",
+      "dept": "sales",
+      "tier": 3,
+      "cost": 10,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 240,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "push",
+          "value": {
+            "base": 300,
+            "perTag": "sales",
+            "each": 50
+          },
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Quarterly Target"
+        },
+        {
+          "on": "economy",
+          "do": "stat",
+          "stat": "income",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 3
+        }
+      ],
+      "sprite": "emp.sales_director",
+      "flavor": "Hits a number that grows with every salesperson in the building."
+    },
+    {
+      "id": "emp.key_account_manager",
+      "name": "Key Account Manager",
+      "dept": "sales",
+      "tier": 3,
+      "cost": 10,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 160,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "push",
+          "value": 200,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Enterprise Deal"
+        },
+        {
+          "on": "afterFire",
+          "do": "restore",
+          "value": 100,
+          "target": {
+            "side": "own",
+            "scope": "firm"
+          },
+          "everyN": 1
+        },
+        {
+          "on": "economy",
+          "do": "stat",
+          "stat": "income",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 2
+        }
+      ],
+      "sprite": "emp.key_account_manager",
+      "flavor": "A deal so large it improves the balance sheet on the way out."
+    },
+    {
+      "id": "emp.team_lead",
+      "name": "Team Lead",
+      "dept": "management",
+      "tier": 1,
+      "cost": 3,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 120,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "retrigger",
+          "target": {
+            "side": "own",
+            "scope": "adjacent",
+            "pick": "highest_base_value"
+          },
+          "name": "Delegate"
+        }
+      ],
+      "sprite": "emp.team_lead",
+      "flavor": "Makes the best person next to them do it again. Does nothing personally."
+    },
+    {
+      "id": "emp.project_manager",
+      "name": "Project Manager",
+      "dept": "management",
+      "tier": 1,
+      "cost": 3,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 100,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "status",
+          "status": "status.bureaucracy",
+          "stacks": 1,
+          "target": {
+            "side": "enemy",
+            "floor": "same_floor_index",
+            "unit": "lowest_cooldown_remaining"
+          },
+          "name": "Scope Creep"
+        }
+      ],
+      "sprite": "emp.project_manager",
+      "flavor": "Slows down the rival's mirror floor with requirements."
+    },
+    {
+      "id": "emp.middle_manager",
+      "name": "Middle Manager",
+      "dept": "management",
+      "tier": 2,
+      "cost": 6,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 160,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "status",
+          "status": "status.overtime",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "adjacent"
+          },
+          "name": "Standup"
+        }
+      ],
+      "sprite": "emp.middle_manager",
+      "flavor": "Everyone adjacent works faster. Everyone adjacent burns out. Both are the standup."
+    },
+    {
+      "id": "emp.consultant",
+      "name": "Consultant",
+      "dept": "management",
+      "tier": 2,
+      "cost": 6,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 180,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "status",
+          "status": "status.burnout",
+          "stacks": 1,
+          "target": {
+            "side": "enemy",
+            "floor": "most_populated_floor",
+            "unit": "all"
+          },
+          "name": "Efficiency Review"
+        }
+      ],
+      "sprite": "emp.consultant",
+      "flavor": "Burns out an entire floor of the rival's building. Invoices separately."
+    },
+    {
+      "id": "emp.director",
+      "name": "Director",
+      "dept": "management",
+      "tier": 3,
+      "cost": 10,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 200,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "retrigger",
+          "target": {
+            "side": "own",
+            "scope": "adjacent"
+          },
+          "name": "Reorg",
+          "then": {
+            "status": "status.burnout",
+            "stacks": 1
+          }
+        }
+      ],
+      "sprite": "emp.director",
+      "flavor": "Everyone adjacent fires, then gains Burnout. Fire-then-burn, per person."
+    },
+    {
+      "id": "emp.vp_operations",
+      "name": "VP Operations",
+      "dept": "management",
+      "tier": 3,
+      "cost": 10,
+      "extraplanar": false,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 240,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "retrigger",
+          "target": {
+            "side": "own",
+            "scope": "sameFloor"
+          },
+          "name": "All-Hands"
+        }
+      ],
+      "sprite": "emp.vp_operations",
+      "flavor": "The whole floor fires again. No Burnout. That is what the extra four seconds buy."
+    },
+    {
+      "id": "emp.x_salaryman_ghost",
+      "name": "Salaryman Ghost",
+      "dept": "extraplanar",
+      "tier": 2,
+      "cost": 5,
+      "extraplanar": true,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 60,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "anomaly",
+          "value": 90,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Overtime Eternal"
+        },
+        {
+          "on": "static",
+          "do": "flag",
+          "flag": "overtimePermanent",
+          "subject": {
+            "scope": "self"
+          }
+        }
+      ],
+      "sprite": "emp.x_salaryman_ghost",
+      "flavor": "Holds two Overtime forever and never burns out. He did that already."
+    },
+    {
+      "id": "emp.x_office_lady",
+      "name": "Office Lady of the Third Floor",
+      "dept": "extraplanar",
+      "tier": 2,
+      "cost": 5,
+      "extraplanar": true,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 120,
+      "initialProgressPermille": 0,
+      "placement": {
+        "floors": [
+          "floor.f3"
+        ]
+      },
+      "effects": [
+        {
+          "on": "ability",
+          "do": "anomaly",
+          "value": 60,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Filing"
+        },
+        {
+          "on": "afterFire",
+          "do": "status",
+          "status": "status.bureaucracy",
+          "stacks": 1,
+          "target": {
+            "side": "enemy",
+            "floor": "same_floor_index",
+            "unit": "lowest_cooldown_remaining"
+          },
+          "everyN": 1
+        }
+      ],
+      "sprite": "emp.x_office_lady",
+      "flavor": "Must be placed on 3F. Nobody has asked why."
+    },
+    {
+      "id": "emp.x_auditor",
+      "name": "The Auditor",
+      "dept": "extraplanar",
+      "tier": 3,
+      "cost": 5,
+      "extraplanar": true,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 240,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "anomaly",
+          "value": {
+            "permilleOfTargetCap": 150
+          },
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Audit"
+        },
+        {
+          "on": "static",
+          "do": "flag",
+          "flag": "cannotBeRetriggered",
+          "subject": {
+            "scope": "self"
+          }
+        }
+      ],
+      "sprite": "emp.x_auditor",
+      "flavor": "Deals 15% of the rival's Goodwill cap, straight to the bar. Cannot be hurried."
+    },
+    {
+      "id": "emp.x_fax_spirit",
+      "name": "Fax Spirit",
+      "dept": "extraplanar",
+      "tier": 2,
+      "cost": 5,
+      "extraplanar": true,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 100,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "anomaly",
+          "value": 40,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Transmission"
+        },
+        {
+          "on": "afterFire",
+          "do": "retrigger",
+          "target": {
+            "side": "own",
+            "scope": "adjacent",
+            "dept": [
+              "legal"
+            ],
+            "pick": "highest_base_value"
+          },
+          "everyN": 1
+        }
+      ],
+      "sprite": "emp.x_fax_spirit",
+      "flavor": "A fax machine that died and kept working."
+    },
+    {
+      "id": "emp.x_kappa_intern",
+      "name": "Kappa Intern",
+      "dept": "extraplanar",
+      "tier": 1,
+      "cost": 5,
+      "extraplanar": true,
+      "inShop": true,
+      "tags": [],
+      "cooldownTicks": 40,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "anomaly",
+          "value": 30,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Splash"
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "regenPerEvent",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": 40
+        }
+      ],
+      "sprite": "emp.x_kappa_intern",
+      "flavor": "Keeps the water cooler full. Do not ask what with."
+    },
+    {
+      "id": "emp.x_salaryman_who_never_left",
+      "name": "Salaryman Who Never Left",
+      "dept": "extraplanar",
+      "tier": 3,
+      "cost": 0,
+      "extraplanar": true,
+      "inShop": false,
+      "tags": [
+        "ritual"
+      ],
+      "cooldownTicks": 80,
+      "initialProgressPermille": 0,
+      "countsAsDept": "engineering",
+      "effects": [
+        {
+          "on": "ability",
+          "do": "anomaly",
+          "value": 200,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Loyalty"
+        },
+        {
+          "on": "static",
+          "do": "flag",
+          "flag": "bureaucracyImmune",
+          "subject": {
+            "scope": "self"
+          }
+        },
+        {
+          "on": "static",
+          "do": "flag",
+          "flag": "frozenImmune",
+          "subject": {
+            "scope": "self"
+          }
+        }
+      ],
+      "sprite": "emp.x_salaryman_who_never_left",
+      "flavor": "Counts as Engineering for rooms. Immune to Bureaucracy and Frozen. Has a desk."
+    },
+    {
+      "id": "emp.x_the_chairman",
+      "name": "The Chairman",
+      "dept": "extraplanar",
+      "tier": 3,
+      "cost": 0,
+      "extraplanar": true,
+      "inShop": false,
+      "tags": [
+        "ritual"
+      ],
+      "cooldownTicks": 300,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "anomaly",
+          "value": 600,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Board Resolution"
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": -300
+        }
+      ],
+      "sprite": "emp.x_the_chairman",
+      "flavor": "Six hundred Anomaly every fifteen seconds. The firm's reputation pays for the chair."
+    },
+    {
+      "id": "emp.x_the_partner",
+      "name": "The Partner",
+      "dept": "extraplanar",
+      "tier": 3,
+      "cost": 0,
+      "extraplanar": true,
+      "inShop": false,
+      "tags": [
+        "ritual"
+      ],
+      "cooldownTicks": 160,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "anomaly",
+          "value": 250,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Equity"
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "self"
+          },
+          "amount": -200
+        }
+      ],
+      "sprite": "emp.x_the_partner",
+      "flavor": "Made partner. Nobody remembers the vote."
+    },
+    {
+      "id": "emp.x_efficiency_wraith",
+      "name": "Efficiency Wraith",
+      "dept": "extraplanar",
+      "tier": 2,
+      "cost": 0,
+      "extraplanar": true,
+      "inShop": false,
+      "tags": [
+        "ritual"
+      ],
+      "cooldownTicks": 100,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "anomaly",
+          "value": 50,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Review"
+        },
+        {
+          "on": "afterFire",
+          "do": "status",
+          "status": "status.burnout",
+          "stacks": 1,
+          "target": {
+            "side": "enemy",
+            "floor": "most_populated_floor",
+            "unit": "all"
+          },
+          "everyN": 1
+        }
+      ],
+      "sprite": "emp.x_efficiency_wraith",
+      "flavor": "A Consultant that never left either."
+    },
+    {
+      "id": "emp.x_recruiting_oni",
+      "name": "Recruiting Oni",
+      "dept": "extraplanar",
+      "tier": 2,
+      "cost": 0,
+      "extraplanar": true,
+      "inShop": false,
+      "tags": [
+        "ritual"
+      ],
+      "cooldownTicks": 140,
+      "initialProgressPermille": 0,
+      "effects": [
+        {
+          "on": "ability",
+          "do": "anomaly",
+          "value": 80,
+          "target": {
+            "side": "enemy",
+            "scope": "firm"
+          },
+          "name": "Offer"
+        },
+        {
+          "on": "afterFire",
+          "do": "status",
+          "status": "status.burnout",
+          "stacks": 2,
+          "target": {
+            "side": "enemy",
+            "floor": "highest_occupied_floor",
+            "unit": "highest_base_value"
+          },
+          "everyN": 1
+        }
+      ],
+      "sprite": "emp.x_recruiting_oni",
+      "flavor": "The offer is very good. The offer is not optional."
+    }
+  ]
+}

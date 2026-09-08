@@ -1,0 +1,83 @@
+{
+  "id": "rival.tut_02_copy_shop",
+  "name": "Copy Shop",
+  "kind": "scripted",
+  "archetype": "generalist",
+  "round": 2,
+  "gimmick": null,
+  "exemptFromBudget": false,
+  "note": "Fight 2. Three staff, no rooms. The player has just learned the shop.",
+  "snapshot": {
+    "schemaVersion": 1,
+    "contentVersion": "0.1.0",
+    "round": 2,
+    "floors": [
+      {
+        "index": 0,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "g_reception",
+            "defId": "room.reception",
+            "rect": [
+              1,
+              0,
+              2,
+              2
+            ],
+            "tenureRounds": 0
+          }
+        ],
+        "occupants": []
+      },
+      {
+        "index": 1,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [],
+        "occupants": [
+          {
+            "tile": [
+              1,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.junior_dev",
+            "instanceId": "e_001",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.sales_rep",
+            "instanceId": "e_002",
+            "attachments": []
+          },
+          {
+            "tile": [
+              3,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.qa_tester",
+            "instanceId": "e_003",
+            "attachments": []
+          }
+        ]
+      }
+    ],
+    "globals": {
+      "modifiers": [],
+      "riders": [],
+      "leasedB1": false
+    }
+  }
+}

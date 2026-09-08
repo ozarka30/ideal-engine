@@ -1,0 +1,2921 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://companywars.invalid/schema/content.schema.json",
+  "title": "Company Wars content database",
+  "description": "Every content file under content/ validates against one $def named in content/index.json. The enums in Effect are the closed vocabulary: adding a value here is a rules change and a sim change; adding an entity to a content file is not.",
+  "$defs": {
+    "Id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+    },
+    "ManifestId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(\\.[a-z0-9_]+)+$"
+    },
+    "Dept": {
+      "type": "string",
+      "enum": [
+        "engineering",
+        "legal",
+        "hr",
+        "sales",
+        "management",
+        "extraplanar"
+      ]
+    },
+    "FloorSelector": {
+      "type": "string",
+      "enum": [
+        "highest_occupied_floor",
+        "lowest_occupied_floor",
+        "most_populated_floor",
+        "least_populated_floor",
+        "same_floor_index",
+        "random_floor",
+        "all_floors"
+      ]
+    },
+    "UnitSelector": {
+      "type": "string",
+      "enum": [
+        "lowest_cooldown_remaining",
+        "highest_base_value",
+        "random",
+        "all"
+      ]
+    },
+    "TargetEnemy": {
+      "type": "object",
+      "properties": {
+        "side": {
+          "type": "string",
+          "enum": [
+            "enemy"
+          ]
+        },
+        "floor": {
+          "$ref": "#/$defs/FloorSelector"
+        },
+        "unit": {
+          "$ref": "#/$defs/UnitSelector"
+        }
+      },
+      "required": [
+        "side",
+        "floor",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "TargetOwn": {
+      "type": "object",
+      "properties": {
+        "side": {
+          "type": "string",
+          "enum": [
+            "own"
+          ]
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "self",
+            "adjacent",
+            "sameFloor",
+            "occupants",
+            "all"
+          ]
+        },
+        "dept": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Dept"
+          },
+          "minItems": 1
+        },
+        "tag": {
+          "type": "string"
+        },
+        "pick": {
+          "type": "string",
+          "enum": [
+            "highest_base_value",
+            "lowest_cooldown_remaining",
+            "random"
+          ]
+        }
+      },
+      "required": [
+        "side",
+        "scope"
+      ],
+      "additionalProperties": false
+    },
+    "TargetFirm": {
+      "type": "object",
+      "properties": {
+        "side": {
+          "type": "string",
+          "enum": [
+            "own",
+            "enemy"
+          ]
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "firm"
+          ]
+        }
+      },
+      "required": [
+        "side",
+        "scope"
+      ],
+      "additionalProperties": false
+    },
+    "Target": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/TargetEnemy"
+        },
+        {
+          "$ref": "#/$defs/TargetOwn"
+        },
+        {
+          "$ref": "#/$defs/TargetFirm"
+        }
+      ]
+    },
+    "Subject": {
+      "type": "object",
+      "properties": {
+        "scope": {
+          "type": "string",
+          "enum": [
+            "self",
+            "adjacent",
+            "sameFloor",
+            "occupants",
+            "all",
+            "firm",
+            "allRooms"
+          ]
+        },
+        "dept": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Dept"
+          },
+          "minItems": 1
+        },
+        "notDept": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Dept"
+          },
+          "minItems": 1
+        },
+        "tag": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope"
+      ],
+      "additionalProperties": false
+    },
+    "Value": {
+      "oneOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "object",
+          "properties": {
+            "base": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "perTag": {
+              "type": "string"
+            },
+            "each": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "base",
+            "perTag",
+            "each"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "permilleOfTargetCap": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "permilleOfTargetCap"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Then": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "stacks": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "status",
+        "stacks"
+      ],
+      "additionalProperties": false
+    },
+    "Effect": {
+      "type": "object",
+      "properties": {
+        "on": {
+          "type": "string",
+          "enum": [
+            "ability",
+            "afterFire",
+            "static",
+            "periodic",
+            "banner",
+            "economy",
+            "onHire",
+            "onAccept"
+          ]
+        },
+        "do": {
+          "type": "string",
+          "enum": [
+            "push",
+            "anomaly",
+            "morale",
+            "restore",
+            "status",
+            "cleanse",
+            "retrigger",
+            "stat",
+            "flag",
+            "override",
+            "consumeAdjacentFurniture",
+            "roomTenure"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/Value"
+        },
+        "target": {
+          "$ref": "#/$defs/Target"
+        },
+        "subject": {
+          "$ref": "#/$defs/Subject"
+        },
+        "status": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "stacks": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "durationTicks": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "stat": {
+          "type": "string",
+          "enum": [
+            "push",
+            "anomaly",
+            "restore",
+            "flatPush",
+            "cooldown",
+            "goodwillCap",
+            "goodwillCapMult",
+            "regenPerEvent",
+            "passiveMult",
+            "statusStacksBonus",
+            "burnoutMaxOverride",
+            "burnoutMaxDelta",
+            "anomalySelfCost",
+            "retriggerBonus",
+            "floorOutput",
+            "income",
+            "upkeep",
+            "rerollCost",
+            "severance",
+            "severanceMult"
+          ]
+        },
+        "amount": {
+          "type": "integer"
+        },
+        "permille": {
+          "type": "integer"
+        },
+        "floor": {
+          "type": "string"
+        },
+        "flag": {
+          "type": "string",
+          "enum": [
+            "untargetable",
+            "bureaucracyImmune",
+            "frozenImmune",
+            "burnoutImmune",
+            "overtimePermanent",
+            "cannotBeRetriggered",
+            "wholeFloorAdjacency",
+            "capProtected",
+            "regenNeverSuppressed",
+            "receptionDisabled",
+            "everyFloorMostPopulated",
+            "floorSelectorMirror",
+            "cannotBeLaidOff",
+            "landingOnly",
+            "restructuringCharge"
+          ]
+        },
+        "override": {
+          "type": "string",
+          "enum": [
+            "floorSelector",
+            "tenureTier"
+          ]
+        },
+        "to": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        },
+        "every": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "everyN": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "month": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "fromTier": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "untilTier": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "then": {
+          "$ref": "#/$defs/Then"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "rounds": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "on",
+        "do"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "do": {
+                "const": "push"
+              }
+            },
+            "required": [
+              "do"
+            ]
+          },
+          "then": {
+            "required": [
+              "value",
+              "target"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "do": {
+                "const": "anomaly"
+              }
+            },
+            "required": [
+              "do"
+            ]
+          },
+          "then": {
+            "required": [
+              "value",
+              "target"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "do": {
+                "const": "morale"
+              }
+            },
+            "required": [
+              "do"
+            ]
+          },
+          "then": {
+            "required": [
+              "value",
+              "target"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "do": {
+                "const": "restore"
+              }
+            },
+            "required": [
+              "do"
+            ]
+          },
+          "then": {
+            "required": [
+              "value",
+              "target"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "do": {
+                "const": "status"
+              }
+            },
+            "required": [
+              "do"
+            ]
+          },
+          "then": {
+            "required": [
+              "status",
+              "stacks",
+              "target"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "do": {
+                "const": "cleanse"
+              }
+            },
+            "required": [
+              "do"
+            ]
+          },
+          "then": {
+            "required": [
+              "status",
+              "stacks",
+              "target"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "do": {
+                "const": "retrigger"
+              }
+            },
+            "required": [
+              "do"
+            ]
+          },
+          "then": {
+            "required": [
+              "target"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "do": {
+                "const": "stat"
+              }
+            },
+            "required": [
+              "do"
+            ]
+          },
+          "then": {
+            "required": [
+              "stat",
+              "subject"
+            ],
+            "anyOf": [
+              {
+                "required": [
+                  "amount"
+                ]
+              },
+              {
+                "required": [
+                  "permille"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "do": {
+                "const": "flag"
+              }
+            },
+            "required": [
+              "do"
+            ]
+          },
+          "then": {
+            "required": [
+              "flag",
+              "subject"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "do": {
+                "const": "override"
+              }
+            },
+            "required": [
+              "do"
+            ]
+          },
+          "then": {
+            "required": [
+              "override",
+              "to",
+              "subject"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "do": {
+                "const": "consumeAdjacentFurniture"
+              }
+            },
+            "required": [
+              "do"
+            ]
+          },
+          "then": {
+            "required": [
+              "subject",
+              "count"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "do": {
+                "const": "roomTenure"
+              }
+            },
+            "required": [
+              "do"
+            ]
+          },
+          "then": {
+            "required": [
+              "rounds",
+              "subject"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "on": {
+                "const": "periodic"
+              }
+            },
+            "required": [
+              "on"
+            ]
+          },
+          "then": {
+            "required": [
+              "every"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "on": {
+                "const": "banner"
+              }
+            },
+            "required": [
+              "on"
+            ]
+          },
+          "then": {
+            "required": [
+              "month"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "on": {
+                "const": "afterFire"
+              }
+            },
+            "required": [
+              "on"
+            ]
+          },
+          "then": {
+            "required": [
+              "everyN"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "stat": {
+                "const": "floorOutput"
+              }
+            },
+            "required": [
+              "stat"
+            ]
+          },
+          "then": {
+            "required": [
+              "floor"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "stat": {
+                "const": "statusStacksBonus"
+              }
+            },
+            "required": [
+              "stat"
+            ]
+          },
+          "then": {
+            "required": [
+              "status"
+            ]
+          }
+        }
+      ]
+    },
+    "Effects": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Effect"
+      },
+      "minItems": 0
+    },
+    "Footprint": {
+      "type": "object",
+      "properties": {
+        "w": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "h": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        }
+      },
+      "required": [
+        "w",
+        "h"
+      ],
+      "additionalProperties": false
+    },
+    "Employee": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "dept": {
+          "$ref": "#/$defs/Dept"
+        },
+        "tier": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "cost": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "extraplanar": {
+          "type": "boolean"
+        },
+        "inShop": {
+          "type": "boolean"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 0
+        },
+        "cooldownTicks": {
+          "type": "integer",
+          "minimum": 20
+        },
+        "cooldownTicksByMonth": {
+          "type": "object",
+          "patternProperties": {
+            "^[0-3]$": {
+              "type": "integer",
+              "minimum": 20
+            }
+          },
+          "additionalProperties": false
+        },
+        "initialProgressPermille": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "placement": {
+          "type": "object",
+          "properties": {
+            "floors": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "floors"
+          ],
+          "additionalProperties": false
+        },
+        "countsAsDept": {
+          "$ref": "#/$defs/Dept"
+        },
+        "effects": {
+          "$ref": "#/$defs/Effects"
+        },
+        "sprite": {
+          "$ref": "#/$defs/ManifestId"
+        },
+        "flavor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "dept",
+        "tier",
+        "cost",
+        "extraplanar",
+        "inShop",
+        "tags",
+        "cooldownTicks",
+        "initialProgressPermille",
+        "effects",
+        "sprite"
+      ],
+      "additionalProperties": false
+    },
+    "Room": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "general",
+            "reception",
+            "security",
+            "executive",
+            "extraplanar"
+          ]
+        },
+        "footprint": {
+          "$ref": "#/$defs/Footprint"
+        },
+        "floors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+          },
+          "minItems": 1
+        },
+        "landingLegal": {
+          "type": "boolean"
+        },
+        "cost": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fixed": {
+          "type": "boolean"
+        },
+        "maxOccupants": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "effects": {
+          "$ref": "#/$defs/Effects"
+        },
+        "tile": {
+          "$ref": "#/$defs/ManifestId"
+        },
+        "flavor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "footprint",
+        "floors",
+        "landingLegal",
+        "cost",
+        "fixed",
+        "effects",
+        "tile"
+      ],
+      "additionalProperties": false
+    },
+    "Furniture": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "footprint": {
+          "$ref": "#/$defs/Footprint"
+        },
+        "wallMounted": {
+          "type": "boolean"
+        },
+        "cost": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rarity": {
+          "type": "string",
+          "enum": [
+            "common",
+            "uncommon"
+          ]
+        },
+        "floors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+          },
+          "minItems": 1
+        },
+        "effects": {
+          "$ref": "#/$defs/Effects"
+        },
+        "sprite": {
+          "$ref": "#/$defs/ManifestId"
+        },
+        "flavor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "footprint",
+        "wallMounted",
+        "cost",
+        "rarity",
+        "effects",
+        "sprite"
+      ],
+      "additionalProperties": false
+    },
+    "RecipeMatch": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "defId": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+            }
+          },
+          "required": [
+            "defId"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "employee",
+                "furniture"
+              ]
+            },
+            "tier": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "dept": {
+              "$ref": "#/$defs/Dept"
+            },
+            "tag": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "RecipeInput": {
+      "type": "object",
+      "properties": {
+        "match": {
+          "$ref": "#/$defs/RecipeMatch"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "consumed": {
+          "type": "boolean"
+        },
+        "adjacency": {
+          "type": "string",
+          "enum": [
+            "adjacent",
+            "any"
+          ]
+        }
+      },
+      "required": [
+        "match",
+        "count",
+        "consumed",
+        "adjacency"
+      ],
+      "additionalProperties": false
+    },
+    "RecipeResult": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "employee",
+                "furniture"
+              ]
+            },
+            "defId": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+            }
+          },
+          "required": [
+            "kind",
+            "defId"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "roomTier"
+              ]
+            },
+            "tier": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            }
+          },
+          "required": [
+            "kind",
+            "tier"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "roomTenure"
+              ]
+            },
+            "rounds": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "kind",
+            "rounds"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Recipe": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string",
+          "enum": [
+            "promotion",
+            "renovation",
+            "ritual"
+          ]
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RecipeInput"
+          },
+          "minItems": 1
+        },
+        "context": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "room": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+                }
+              },
+              "required": [
+                "room"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "result": {
+          "$ref": "#/$defs/RecipeResult"
+        },
+        "codexHint": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "class",
+        "inputs",
+        "context",
+        "result",
+        "codexHint"
+      ],
+      "additionalProperties": false
+    },
+    "Rider": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "effects": {
+          "$ref": "#/$defs/Effects"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "text",
+        "effects"
+      ],
+      "additionalProperties": false
+    },
+    "Modifier": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "rivalOnly": {
+          "type": "boolean"
+        },
+        "boardMeeting": {
+          "type": "object",
+          "properties": {
+            "cost": {
+              "type": "string"
+            },
+            "benefit": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cost",
+            "benefit"
+          ],
+          "additionalProperties": false
+        },
+        "teaches": {
+          "type": "string"
+        },
+        "effects": {
+          "$ref": "#/$defs/Effects"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "text",
+        "rivalOnly",
+        "effects"
+      ],
+      "additionalProperties": false
+    },
+    "Floor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "index": {
+          "type": "integer",
+          "minimum": -1,
+          "maximum": 3
+        },
+        "name": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "portal",
+            "reception",
+            "operations",
+            "executive"
+          ]
+        },
+        "grid": {
+          "$ref": "#/$defs/Footprint"
+        },
+        "outputPermille": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "roomKinds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "general",
+              "reception",
+              "security",
+              "executive",
+              "extraplanar"
+            ]
+          },
+          "minItems": 1
+        },
+        "upkeepBudget": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "capTax": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "lease": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "starting": {
+          "type": "boolean"
+        },
+        "requiresPortal": {
+          "type": "boolean"
+        },
+        "targetable": {
+          "type": "boolean"
+        },
+        "fixedRooms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "defId": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+              },
+              "rect": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "minItems": 4
+              }
+            },
+            "required": [
+              "defId",
+              "rect"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "id",
+        "index",
+        "name",
+        "kind",
+        "grid",
+        "outputPermille",
+        "roomKinds",
+        "upkeepBudget",
+        "capTax",
+        "lease",
+        "starting",
+        "requiresPortal",
+        "targetable"
+      ],
+      "additionalProperties": false
+    },
+    "Status": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "maxStacks": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "durationTicks": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 1
+            }
+          ]
+        },
+        "expires": {
+          "type": "boolean"
+        },
+        "cooldownRatePermillePerStack": {
+          "type": "integer"
+        },
+        "pushPenaltyPermillePerStack": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "moralePerStackPerEvent": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "onExpire": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Then"
+          },
+          "minItems": 0
+        },
+        "tone": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "maxStacks",
+        "durationTicks",
+        "expires",
+        "cooldownRatePermillePerStack",
+        "pushPenaltyPermillePerStack",
+        "moralePerStackPerEvent",
+        "onExpire",
+        "tone",
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "RuleSet": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "schemaVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "time": {
+          "type": "object",
+          "properties": {
+            "ticksPerSecond": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "quarterTicks": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "monthStart": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "minItems": 4
+            },
+            "pushMult": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "minItems": 4
+            },
+            "regenMult": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "minItems": 4
+            }
+          },
+          "required": [
+            "ticksPerSecond",
+            "quarterTicks",
+            "monthStart",
+            "pushMult",
+            "regenMult"
+          ],
+          "additionalProperties": false
+        },
+        "goodwill": {
+          "type": "object",
+          "properties": {
+            "baseCap": {
+              "type": "object",
+              "properties": {
+                "constant": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "perRound": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "constant",
+                "perRound"
+              ],
+              "additionalProperties": false
+            },
+            "regenBasePermille": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "regenInterval": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "regenSuppressWindow": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "suppressThresholdPermille": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "baseCap",
+            "regenBasePermille",
+            "regenInterval",
+            "regenSuppressWindow",
+            "suppressThresholdPermille"
+          ],
+          "additionalProperties": false
+        },
+        "morale": {
+          "type": "object",
+          "properties": {
+            "interval": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "perStack": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "ratePermille": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "interval",
+            "perStack",
+            "ratePermille"
+          ],
+          "additionalProperties": false
+        },
+        "anomaly": {
+          "type": "object",
+          "properties": {
+            "selfCostPermille": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "selfCostPermille"
+          ],
+          "additionalProperties": false
+        },
+        "share": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "start": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "spPerPushPermille": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "minItems": 16
+            }
+          },
+          "required": [
+            "total",
+            "start",
+            "spPerPushPermille"
+          ],
+          "additionalProperties": false
+        },
+        "floors": {
+          "type": "object",
+          "properties": {
+            "corridorMult": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "corridorMult"
+          ],
+          "additionalProperties": false
+        },
+        "tenure": {
+          "type": "object",
+          "properties": {
+            "tierRounds": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "minItems": 3
+            },
+            "stepPermille": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "staffedPermille": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "tierRounds",
+            "stepPermille",
+            "staffedPermille"
+          ],
+          "additionalProperties": false
+        },
+        "portal": {
+          "type": "object",
+          "properties": {
+            "receptionCapPerOccupant": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "employeeCapTax": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "b1LeaseCapTax": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "receptionCapPerOccupant",
+            "employeeCapTax",
+            "b1LeaseCapTax"
+          ],
+          "additionalProperties": false
+        },
+        "retrigger": {
+          "type": "object",
+          "properties": {
+            "depthMax": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "depthMax"
+          ],
+          "additionalProperties": false
+        },
+        "upkeep": {
+          "type": "object",
+          "properties": {
+            "goodwillPerUnpaidBudget": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "goodwillPerUnpaidBudget"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "schemaVersion",
+        "time",
+        "goodwill",
+        "morale",
+        "anomaly",
+        "share",
+        "floors",
+        "tenure",
+        "portal",
+        "retrigger",
+        "upkeep"
+      ],
+      "additionalProperties": false
+    },
+    "Economy": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "startingBudget": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "income": {
+          "type": "object",
+          "properties": {
+            "constant": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "perTwoRounds": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "table": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "minItems": 16
+            }
+          },
+          "required": [
+            "constant",
+            "perTwoRounds",
+            "table"
+          ],
+          "additionalProperties": false
+        },
+        "winBonus": {
+          "type": "object",
+          "properties": {
+            "fight": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "audit": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "boss": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "fight",
+            "audit",
+            "boss"
+          ],
+          "additionalProperties": false
+        },
+        "employeeCost": {
+          "type": "object",
+          "patternProperties": {
+            "^(1|2|3|extraplanar)$": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "severance": {
+          "type": "object",
+          "patternProperties": {
+            "^(1|2|3|extraplanar)$": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "roomCostByTiles": {
+          "type": "object",
+          "patternProperties": {
+            "^[0-9]+$": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "furnitureCost": {
+          "type": "object",
+          "properties": {
+            "common": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "uncommon": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "common",
+            "uncommon"
+          ],
+          "additionalProperties": false
+        },
+        "rerollCost": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "renovationFee": {
+          "type": "string",
+          "enum": [
+            "currentRoundIncome"
+          ]
+        },
+        "furnitureSellRefund": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "startingRoster": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+          },
+          "minItems": 0
+        },
+        "startingRosterFloor": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        }
+      },
+      "required": [
+        "id",
+        "startingBudget",
+        "income",
+        "winBonus",
+        "employeeCost",
+        "severance",
+        "roomCostByTiles",
+        "furnitureCost",
+        "rerollCost",
+        "renovationFee",
+        "furnitureSellRefund",
+        "startingRoster",
+        "startingRosterFloor"
+      ],
+      "additionalProperties": false
+    },
+    "Shop": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "cardsPerTab": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rerollCost": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "recruiterNode": {
+          "type": "object",
+          "properties": {
+            "cardsPerTab": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "firstRerollFree": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "cardsPerTab",
+            "firstRerollFree"
+          ],
+          "additionalProperties": false
+        },
+        "otherworld": {
+          "type": "object",
+          "properties": {
+            "cards": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "rerollCost": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "requiresPortal": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "cards",
+            "rerollCost",
+            "requiresPortal"
+          ],
+          "additionalProperties": false
+        },
+        "tiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "rounds": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "minItems": 2
+              },
+              "staff": {
+                "type": "object",
+                "patternProperties": {
+                  "^[123]$": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "additionalProperties": false
+              },
+              "roomTiles": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "minItems": 1
+              },
+              "furnitureRarity": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "common",
+                    "uncommon"
+                  ]
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "rounds",
+              "staff",
+              "roomTiles",
+              "furnitureRarity"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "roomsOnlyForOwnedFloors": {
+          "type": "boolean"
+        },
+        "leases": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "id",
+        "cardsPerTab",
+        "rerollCost",
+        "recruiterNode",
+        "otherworld",
+        "tiers",
+        "roomsOnlyForOwnedFloors",
+        "leases"
+      ],
+      "additionalProperties": false
+    },
+    "Mode": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "map": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+            }
+          ]
+        },
+        "interludes": {
+          "type": "boolean"
+        },
+        "rivalSource": {
+          "type": "object",
+          "properties": {
+            "scripted": {
+              "type": "boolean"
+            },
+            "templates": {
+              "type": "boolean"
+            },
+            "ghosts": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "scripted",
+            "templates",
+            "ghosts"
+          ],
+          "additionalProperties": false
+        },
+        "rivalGimmicks": {
+          "type": "boolean"
+        },
+        "gimmicksFromRound": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 0
+            }
+          ]
+        },
+        "portalUnlock": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "condition": {
+                  "type": "string",
+                  "enum": [
+                    "bossDefeated"
+                  ]
+                },
+                "act": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "condition",
+                "act"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "condition": {
+                  "type": "string",
+                  "enum": [
+                    "round"
+                  ]
+                },
+                "round": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "condition",
+                "round"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "winBonus": {
+          "type": "object",
+          "properties": {
+            "fight": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "audit": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "boss": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "fight",
+            "audit",
+            "boss"
+          ],
+          "additionalProperties": false
+        },
+        "strikes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rounds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "metaUnlocks": {
+          "type": "boolean"
+        },
+        "rating": {
+          "type": "boolean"
+        },
+        "snapshotCapture": {
+          "type": "boolean"
+        },
+        "drawIsLossWithoutStrike": {
+          "type": "boolean"
+        },
+        "firstRunTutorial": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "map",
+        "interludes",
+        "rivalSource",
+        "rivalGimmicks",
+        "gimmicksFromRound",
+        "portalUnlock",
+        "winBonus",
+        "strikes",
+        "rounds",
+        "metaUnlocks",
+        "rating",
+        "snapshotCapture",
+        "drawIsLossWithoutStrike",
+        "firstRunTutorial"
+      ],
+      "additionalProperties": false
+    },
+    "CampaignMap": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "nodeKinds": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "fight": {
+                "type": "boolean"
+              },
+              "icon": {
+                "$ref": "#/$defs/ManifestId"
+              },
+              "rivalRoundOffset": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "alwaysGimmick": {
+                "type": "boolean"
+              },
+              "choices": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "fight",
+              "icon"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "acts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "act": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "name": {
+                "type": "string"
+              },
+              "columns": {
+                "type": "string",
+                "pattern": "^[FX]*B$"
+              },
+              "rounds": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "minItems": 2
+              },
+              "boss": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+              },
+              "scriptedFightsFirstRun": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+                },
+                "minItems": 0
+              },
+              "consultantAlwaysOffers": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+              }
+            },
+            "required": [
+              "act",
+              "name",
+              "columns",
+              "rounds",
+              "boss"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "layout": {
+          "type": "object",
+          "properties": {
+            "rowsPerColumn": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "minItems": 2
+            },
+            "bossRows": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "auditsPerAct": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "minItems": 2
+            },
+            "auditNeverInFirstColumn": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "rowsPerColumn",
+            "bossRows",
+            "auditsPerAct",
+            "auditNeverInFirstColumn"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "nodeKinds",
+        "acts",
+        "layout"
+      ],
+      "additionalProperties": false
+    },
+    "Tutorial": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "hints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "round": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "round",
+              "text"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "id",
+        "hints"
+      ],
+      "additionalProperties": false
+    },
+    "ShopListEntry": {
+      "type": "object",
+      "properties": {
+        "defId": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "weight": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "minRound": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "defId",
+        "weight",
+        "minRound"
+      ],
+      "additionalProperties": false
+    },
+    "Template": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "archetype": {
+          "type": "string",
+          "enum": [
+            "generalist",
+            "turtle",
+            "burst",
+            "economy",
+            "burnout",
+            "management"
+          ]
+        },
+        "namePool": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "budgetPermille": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rooms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ShopListEntry"
+          },
+          "minItems": 1
+        },
+        "staff": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ShopListEntry"
+          },
+          "minItems": 1
+        },
+        "gimmickPool": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+          },
+          "minItems": 0
+        },
+        "layout": {
+          "type": "object",
+          "properties": {
+            "floorPreference": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+              },
+              "minItems": 1
+            },
+            "fillOrder": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Dept"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "floorPreference",
+            "fillOrder"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "archetype",
+        "namePool",
+        "budgetPermille",
+        "rooms",
+        "staff",
+        "gimmickPool",
+        "layout"
+      ],
+      "additionalProperties": false
+    },
+    "LeaseSchedule": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "byRound": {
+          "type": "object",
+          "patternProperties": {
+            "^[0-9]+$": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+              },
+              "minItems": 0
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "byRound"
+      ],
+      "additionalProperties": false
+    },
+    "SnapshotRoom": {
+      "type": "object",
+      "properties": {
+        "roomId": {
+          "type": "string"
+        },
+        "defId": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "rect": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 4
+        },
+        "tenureRounds": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "roomId",
+        "defId",
+        "rect",
+        "tenureRounds"
+      ],
+      "additionalProperties": false
+    },
+    "SnapshotOccupant": {
+      "type": "object",
+      "properties": {
+        "tile": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 2
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "employee",
+            "furniture"
+          ]
+        },
+        "defId": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "instanceId": {
+          "type": "string"
+        },
+        "attachments": {
+          "type": "array",
+          "maxItems": 0
+        }
+      },
+      "required": [
+        "tile",
+        "kind",
+        "defId",
+        "instanceId",
+        "attachments"
+      ],
+      "additionalProperties": false
+    },
+    "SnapshotFloor": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": -1,
+          "maximum": 3
+        },
+        "grid": {
+          "$ref": "#/$defs/Footprint"
+        },
+        "rooms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SnapshotRoom"
+          },
+          "minItems": 0
+        },
+        "occupants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SnapshotOccupant"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "index",
+        "grid",
+        "rooms",
+        "occupants"
+      ],
+      "additionalProperties": false
+    },
+    "TowerSnapshot": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "contentVersion": {
+          "type": "string"
+        },
+        "round": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        },
+        "floors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SnapshotFloor"
+          },
+          "minItems": 1
+        },
+        "globals": {
+          "type": "object",
+          "properties": {
+            "modifiers": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+              },
+              "minItems": 0
+            },
+            "riders": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "instanceId": {
+                    "type": "string"
+                  },
+                  "riderId": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+                  }
+                },
+                "required": [
+                  "instanceId",
+                  "riderId"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 0
+            },
+            "leasedB1": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "modifiers",
+            "riders",
+            "leasedB1"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "contentVersion",
+        "round",
+        "floors",
+        "globals"
+      ],
+      "additionalProperties": false
+    },
+    "ScriptedRival": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "scripted"
+          ]
+        },
+        "archetype": {
+          "type": "string",
+          "enum": [
+            "generalist",
+            "turtle",
+            "burst",
+            "economy",
+            "burnout",
+            "management"
+          ]
+        },
+        "round": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        },
+        "gimmick": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+            }
+          ]
+        },
+        "exemptFromBudget": {
+          "type": "boolean"
+        },
+        "note": {
+          "type": "string"
+        },
+        "snapshot": {
+          "$ref": "#/$defs/TowerSnapshot"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "archetype",
+        "round",
+        "gimmick",
+        "exemptFromBudget",
+        "note",
+        "snapshot"
+      ],
+      "additionalProperties": false
+    },
+    "FloorFile": {
+      "type": "object",
+      "properties": {
+        "floors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Floor"
+          },
+          "minItems": 5
+        }
+      },
+      "required": [
+        "floors"
+      ],
+      "additionalProperties": false
+    },
+    "StatusFile": {
+      "type": "object",
+      "properties": {
+        "statuses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Status"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "statuses"
+      ],
+      "additionalProperties": false
+    },
+    "EmployeeFile": {
+      "type": "object",
+      "properties": {
+        "employees": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Employee"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "employees"
+      ],
+      "additionalProperties": false
+    },
+    "RoomFile": {
+      "type": "object",
+      "properties": {
+        "rooms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Room"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "rooms"
+      ],
+      "additionalProperties": false
+    },
+    "FurnitureFile": {
+      "type": "object",
+      "properties": {
+        "furniture": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Furniture"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "furniture"
+      ],
+      "additionalProperties": false
+    },
+    "RecipeFile": {
+      "type": "object",
+      "properties": {
+        "recipes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Recipe"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "recipes"
+      ],
+      "additionalProperties": false
+    },
+    "RiderFile": {
+      "type": "object",
+      "properties": {
+        "riders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Rider"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "riders"
+      ],
+      "additionalProperties": false
+    },
+    "ModifierFile": {
+      "type": "object",
+      "properties": {
+        "modifiers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Modifier"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "modifiers"
+      ],
+      "additionalProperties": false
+    },
+    "ModeFile": {
+      "type": "object",
+      "properties": {
+        "modes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Mode"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "modes"
+      ],
+      "additionalProperties": false
+    },
+    "TemplateFile": {
+      "type": "object",
+      "properties": {
+        "leaseSchedule": {
+          "$ref": "#/$defs/LeaseSchedule"
+        },
+        "templates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Template"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "leaseSchedule",
+        "templates"
+      ],
+      "additionalProperties": false
+    },
+    "Index": {
+      "type": "object",
+      "properties": {
+        "contentVersion": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "string"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "def": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "def"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "contentVersion",
+        "schema",
+        "files"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

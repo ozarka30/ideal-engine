@@ -1,0 +1,61 @@
+{
+  "statuses": [
+    {
+      "id": "status.burnout",
+      "name": "Burnout",
+      "maxStacks": 5,
+      "durationTicks": null,
+      "expires": false,
+      "cooldownRatePermillePerStack": 0,
+      "pushPenaltyPermillePerStack": 50,
+      "moralePerStackPerEvent": 8,
+      "onExpire": [],
+      "tone": "anomalous",
+      "text": "Stacking. Each second the firm takes Morale per stack; the employee's output falls 5% per stack. Never expires in a fight."
+    },
+    {
+      "id": "status.overtime",
+      "name": "Overtime",
+      "maxStacks": 2,
+      "durationTicks": 60,
+      "expires": true,
+      "cooldownRatePermillePerStack": 500,
+      "pushPenaltyPermillePerStack": 0,
+      "moralePerStackPerEvent": 0,
+      "onExpire": [
+        {
+          "status": "status.burnout",
+          "stacks": 1
+        }
+      ],
+      "tone": "operations",
+      "text": "Haste. +50% cooldown speed per stack for 3s. When a stack expires the employee gains 1 Burnout."
+    },
+    {
+      "id": "status.bureaucracy",
+      "name": "Bureaucracy",
+      "maxStacks": 3,
+      "durationTicks": 100,
+      "expires": true,
+      "cooldownRatePermillePerStack": -200,
+      "pushPenaltyPermillePerStack": 0,
+      "moralePerStackPerEvent": 0,
+      "onExpire": [],
+      "tone": "interface",
+      "text": "Slow. -20% cooldown speed per stack; each stack lasts 5s independently."
+    },
+    {
+      "id": "status.frozen",
+      "name": "Frozen",
+      "maxStacks": 1,
+      "durationTicks": null,
+      "expires": true,
+      "cooldownRatePermillePerStack": -1000,
+      "pushPenaltyPermillePerStack": 0,
+      "moralePerStackPerEvent": 0,
+      "onExpire": [],
+      "tone": "interface",
+      "text": "Cooldown does not advance. Duration set by the applying ability; re-application extends."
+    }
+  ]
+}

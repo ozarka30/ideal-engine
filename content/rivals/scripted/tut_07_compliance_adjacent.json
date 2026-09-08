@@ -1,0 +1,157 @@
+{
+  "id": "rival.tut_07_compliance_adjacent",
+  "name": "Harada Legal (Regional Office)",
+  "kind": "scripted",
+  "archetype": "turtle",
+  "round": 7,
+  "gimmick": null,
+  "exemptFromBudget": false,
+  "note": "Fight 7. The first Counsel the player meets. Goodwill that will not break in Month 1.",
+  "snapshot": {
+    "schemaVersion": 1,
+    "contentVersion": "0.1.0",
+    "round": 7,
+    "floors": [
+      {
+        "index": 0,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "g_reception",
+            "defId": "room.reception",
+            "rect": [
+              1,
+              0,
+              2,
+              2
+            ],
+            "tenureRounds": 0
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.paralegal",
+            "instanceId": "e_001",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.paralegal",
+            "instanceId": "e_002",
+            "attachments": []
+          }
+        ]
+      },
+      {
+        "index": 1,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "f1_legal",
+            "defId": "room.legal_dept",
+            "rect": [
+              1,
+              0,
+              2,
+              2
+            ],
+            "tenureRounds": 3
+          },
+          {
+            "roomId": "f1_break",
+            "defId": "room.break_room",
+            "rect": [
+              4,
+              0,
+              1,
+              2
+            ],
+            "tenureRounds": 1
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.counsel",
+            "instanceId": "e_003",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.paralegal",
+            "instanceId": "e_004",
+            "attachments": []
+          },
+          {
+            "tile": [
+              1,
+              1
+            ],
+            "kind": "furniture",
+            "defId": "furn.filing_cabinet",
+            "instanceId": "f_005",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.paralegal",
+            "instanceId": "e_006",
+            "attachments": []
+          },
+          {
+            "tile": [
+              4,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.recruiter",
+            "instanceId": "e_007",
+            "attachments": []
+          },
+          {
+            "tile": [
+              3,
+              2
+            ],
+            "kind": "employee",
+            "defId": "emp.sales_rep",
+            "instanceId": "e_008",
+            "attachments": []
+          }
+        ]
+      }
+    ],
+    "globals": {
+      "modifiers": [],
+      "riders": [],
+      "leasedB1": false
+    }
+  }
+}

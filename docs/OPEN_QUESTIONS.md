@@ -1121,6 +1121,9 @@ a greybox and eventually art. That is a significant share of the art worklist an
 should be weighted accordingly when ranking it.
 
 **Status:** NEEDS SIGN-OFF — count is a scope decision with a large content bill.
+Phase 3 proceeded on the recommendation: `content/recipes.json` holds forty (21
+promotions, 12 renovations, 7 rituals). Cutting is a deletion; the number is not
+load-bearing anywhere else.
 
 ---
 

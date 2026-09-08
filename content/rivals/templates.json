@@ -1,0 +1,562 @@
+{
+  "leaseSchedule": {
+    "id": "rival.lease_schedule",
+    "byRound": {
+      "1": [],
+      "4": [
+        "floor.f2"
+      ],
+      "8": [
+        "floor.f2",
+        "floor.f3"
+      ],
+      "11": [
+        "floor.f2",
+        "floor.f3",
+        "floor.b1"
+      ]
+    }
+  },
+  "templates": [
+    {
+      "id": "rival.t_generalist",
+      "archetype": "generalist",
+      "namePool": [
+        "Kobayashi Holdings",
+        "Sato & Sons",
+        "Nakamura Trading",
+        "Fujiwara Logistics"
+      ],
+      "budgetPermille": 950,
+      "rooms": [
+        {
+          "defId": "room.open_plan",
+          "weight": 3,
+          "minRound": 2
+        },
+        {
+          "defId": "room.sales_floor",
+          "weight": 2,
+          "minRound": 3
+        },
+        {
+          "defId": "room.legal_dept",
+          "weight": 1,
+          "minRound": 5
+        },
+        {
+          "defId": "room.break_room",
+          "weight": 1,
+          "minRound": 4
+        }
+      ],
+      "staff": [
+        {
+          "defId": "emp.junior_dev",
+          "weight": 4,
+          "minRound": 1
+        },
+        {
+          "defId": "emp.sales_rep",
+          "weight": 3,
+          "minRound": 1
+        },
+        {
+          "defId": "emp.paralegal",
+          "weight": 2,
+          "minRound": 1
+        },
+        {
+          "defId": "emp.qa_tester",
+          "weight": 2,
+          "minRound": 1
+        },
+        {
+          "defId": "emp.senior_dev",
+          "weight": 3,
+          "minRound": 4
+        },
+        {
+          "defId": "emp.counsel",
+          "weight": 1,
+          "minRound": 6
+        },
+        {
+          "defId": "emp.team_lead",
+          "weight": 2,
+          "minRound": 3
+        },
+        {
+          "defId": "emp.account_manager",
+          "weight": 2,
+          "minRound": 5
+        },
+        {
+          "defId": "emp.architect",
+          "weight": 1,
+          "minRound": 9
+        }
+      ],
+      "gimmickPool": [
+        "mod.g_zaibatsu",
+        "mod.g_skeleton_crew"
+      ],
+      "layout": {
+        "floorPreference": [
+          "floor.f1",
+          "floor.f2",
+          "floor.g"
+        ],
+        "fillOrder": [
+          "engineering",
+          "sales",
+          "legal",
+          "management"
+        ]
+      }
+    },
+    {
+      "id": "rival.t_turtle",
+      "archetype": "turtle",
+      "namePool": [
+        "Compliance Partners",
+        "Harada Legal",
+        "Mizuno Assurance",
+        "Ishikawa & Ishikawa"
+      ],
+      "budgetPermille": 950,
+      "rooms": [
+        {
+          "defId": "room.legal_dept",
+          "weight": 4,
+          "minRound": 2
+        },
+        {
+          "defId": "room.executive_lounge",
+          "weight": 2,
+          "minRound": 7
+        },
+        {
+          "defId": "room.kitchenette",
+          "weight": 1,
+          "minRound": 3
+        },
+        {
+          "defId": "room.security_desk",
+          "weight": 1,
+          "minRound": 4
+        }
+      ],
+      "staff": [
+        {
+          "defId": "emp.paralegal",
+          "weight": 5,
+          "minRound": 1
+        },
+        {
+          "defId": "emp.recruiter",
+          "weight": 3,
+          "minRound": 1
+        },
+        {
+          "defId": "emp.compliance_officer",
+          "weight": 2,
+          "minRound": 2
+        },
+        {
+          "defId": "emp.counsel",
+          "weight": 3,
+          "minRound": 4
+        },
+        {
+          "defId": "emp.patent_attorney",
+          "weight": 1,
+          "minRound": 5
+        },
+        {
+          "defId": "emp.hr_manager",
+          "weight": 2,
+          "minRound": 5
+        },
+        {
+          "defId": "emp.general_counsel",
+          "weight": 1,
+          "minRound": 9
+        },
+        {
+          "defId": "emp.head_of_people",
+          "weight": 1,
+          "minRound": 10
+        }
+      ],
+      "gimmickPool": [
+        "mod.g_deep_pockets",
+        "mod.g_regulatory_capture"
+      ],
+      "layout": {
+        "floorPreference": [
+          "floor.f1",
+          "floor.g",
+          "floor.f2"
+        ],
+        "fillOrder": [
+          "legal",
+          "hr",
+          "sales"
+        ]
+      }
+    },
+    {
+      "id": "rival.t_burst",
+      "archetype": "burst",
+      "namePool": [
+        "Tanaka Systems",
+        "Ono Engineering",
+        "Kurokawa Labs",
+        "Yamashita Digital"
+      ],
+      "budgetPermille": 950,
+      "rooms": [
+        {
+          "defId": "room.server_room",
+          "weight": 4,
+          "minRound": 2
+        },
+        {
+          "defId": "room.open_plan",
+          "weight": 2,
+          "minRound": 2
+        },
+        {
+          "defId": "room.meeting_room",
+          "weight": 1,
+          "minRound": 5
+        },
+        {
+          "defId": "room.corner_office",
+          "weight": 1,
+          "minRound": 8
+        }
+      ],
+      "staff": [
+        {
+          "defId": "emp.junior_dev",
+          "weight": 4,
+          "minRound": 1
+        },
+        {
+          "defId": "emp.intern",
+          "weight": 2,
+          "minRound": 1
+        },
+        {
+          "defId": "emp.senior_dev",
+          "weight": 4,
+          "minRound": 4
+        },
+        {
+          "defId": "emp.devops",
+          "weight": 2,
+          "minRound": 5
+        },
+        {
+          "defId": "emp.team_lead",
+          "weight": 3,
+          "minRound": 2
+        },
+        {
+          "defId": "emp.architect",
+          "weight": 3,
+          "minRound": 9
+        },
+        {
+          "defId": "emp.director",
+          "weight": 1,
+          "minRound": 11
+        },
+        {
+          "defId": "emp.cto",
+          "weight": 1,
+          "minRound": 12
+        }
+      ],
+      "gimmickPool": [
+        "mod.g_skeleton_crew",
+        "mod.g_night_shift"
+      ],
+      "layout": {
+        "floorPreference": [
+          "floor.f1",
+          "floor.f2",
+          "floor.f3"
+        ],
+        "fillOrder": [
+          "engineering",
+          "management"
+        ]
+      }
+    },
+    {
+      "id": "rival.t_economy",
+      "archetype": "economy",
+      "namePool": [
+        "Suzuki Sales Co.",
+        "Matsumoto Direct",
+        "Ando Telemarketing",
+        "Hayashi Retail"
+      ],
+      "budgetPermille": 1050,
+      "rooms": [
+        {
+          "defId": "room.sales_floor",
+          "weight": 4,
+          "minRound": 2
+        },
+        {
+          "defId": "room.mail_room",
+          "weight": 1,
+          "minRound": 2
+        },
+        {
+          "defId": "room.open_plan",
+          "weight": 1,
+          "minRound": 5
+        },
+        {
+          "defId": "room.boardroom",
+          "weight": 1,
+          "minRound": 9
+        }
+      ],
+      "staff": [
+        {
+          "defId": "emp.sales_rep",
+          "weight": 5,
+          "minRound": 1
+        },
+        {
+          "defId": "emp.telemarketer",
+          "weight": 3,
+          "minRound": 1
+        },
+        {
+          "defId": "emp.account_manager",
+          "weight": 4,
+          "minRound": 4
+        },
+        {
+          "defId": "emp.headhunter",
+          "weight": 1,
+          "minRound": 6
+        },
+        {
+          "defId": "emp.key_account_manager",
+          "weight": 1,
+          "minRound": 9
+        },
+        {
+          "defId": "emp.sales_director",
+          "weight": 2,
+          "minRound": 10
+        },
+        {
+          "defId": "emp.middle_manager",
+          "weight": 1,
+          "minRound": 7
+        }
+      ],
+      "gimmickPool": [
+        "mod.g_zaibatsu",
+        "mod.g_deep_pockets"
+      ],
+      "layout": {
+        "floorPreference": [
+          "floor.f1",
+          "floor.f2",
+          "floor.g"
+        ],
+        "fillOrder": [
+          "sales",
+          "management",
+          "engineering"
+        ]
+      }
+    },
+    {
+      "id": "rival.t_burnout",
+      "archetype": "burnout",
+      "namePool": [
+        "Watanabe Consulting",
+        "Kimura Advisory",
+        "Nishimura Group",
+        "The Yoshida Practice"
+      ],
+      "budgetPermille": 950,
+      "rooms": [
+        {
+          "defId": "room.meeting_room",
+          "weight": 3,
+          "minRound": 2
+        },
+        {
+          "defId": "room.training_room",
+          "weight": 2,
+          "minRound": 4
+        },
+        {
+          "defId": "room.break_room",
+          "weight": 2,
+          "minRound": 3
+        },
+        {
+          "defId": "room.kitchenette",
+          "weight": 1,
+          "minRound": 5
+        }
+      ],
+      "staff": [
+        {
+          "defId": "emp.project_manager",
+          "weight": 3,
+          "minRound": 1
+        },
+        {
+          "defId": "emp.sales_rep",
+          "weight": 2,
+          "minRound": 1
+        },
+        {
+          "defId": "emp.headhunter",
+          "weight": 4,
+          "minRound": 4
+        },
+        {
+          "defId": "emp.consultant",
+          "weight": 4,
+          "minRound": 5
+        },
+        {
+          "defId": "emp.hr_manager",
+          "weight": 2,
+          "minRound": 5
+        },
+        {
+          "defId": "emp.office_manager",
+          "weight": 2,
+          "minRound": 2
+        },
+        {
+          "defId": "emp.trainer",
+          "weight": 1,
+          "minRound": 7
+        },
+        {
+          "defId": "emp.head_of_people",
+          "weight": 1,
+          "minRound": 10
+        }
+      ],
+      "gimmickPool": [
+        "mod.g_franchise",
+        "mod.g_night_shift"
+      ],
+      "layout": {
+        "floorPreference": [
+          "floor.f1",
+          "floor.f2",
+          "floor.g"
+        ],
+        "fillOrder": [
+          "management",
+          "sales",
+          "hr"
+        ]
+      }
+    },
+    {
+      "id": "rival.t_management",
+      "archetype": "management",
+      "namePool": [
+        "Ito Corporation",
+        "Shimizu Enterprises",
+        "Goto Industrial",
+        "Maeda Holdings"
+      ],
+      "budgetPermille": 950,
+      "rooms": [
+        {
+          "defId": "room.meeting_room",
+          "weight": 3,
+          "minRound": 2
+        },
+        {
+          "defId": "room.boardroom",
+          "weight": 3,
+          "minRound": 7
+        },
+        {
+          "defId": "room.open_plan",
+          "weight": 2,
+          "minRound": 2
+        },
+        {
+          "defId": "room.server_room",
+          "weight": 1,
+          "minRound": 4
+        }
+      ],
+      "staff": [
+        {
+          "defId": "emp.team_lead",
+          "weight": 5,
+          "minRound": 1
+        },
+        {
+          "defId": "emp.junior_dev",
+          "weight": 3,
+          "minRound": 1
+        },
+        {
+          "defId": "emp.middle_manager",
+          "weight": 3,
+          "minRound": 4
+        },
+        {
+          "defId": "emp.senior_dev",
+          "weight": 3,
+          "minRound": 4
+        },
+        {
+          "defId": "emp.director",
+          "weight": 2,
+          "minRound": 9
+        },
+        {
+          "defId": "emp.vp_operations",
+          "weight": 1,
+          "minRound": 11
+        },
+        {
+          "defId": "emp.architect",
+          "weight": 1,
+          "minRound": 10
+        }
+      ],
+      "gimmickPool": [
+        "mod.g_old_money",
+        "mod.g_conglomerate"
+      ],
+      "layout": {
+        "floorPreference": [
+          "floor.f1",
+          "floor.f3",
+          "floor.f2"
+        ],
+        "fillOrder": [
+          "management",
+          "engineering"
+        ]
+      }
+    }
+  ]
+}

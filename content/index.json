@@ -1,0 +1,102 @@
+{
+  "contentVersion": "0.1.0",
+  "schema": "schema/content.schema.json",
+  "files": [
+    {
+      "path": "rules.json",
+      "def": "RuleSet"
+    },
+    {
+      "path": "economy.json",
+      "def": "Economy"
+    },
+    {
+      "path": "floors.json",
+      "def": "FloorFile"
+    },
+    {
+      "path": "statuses.json",
+      "def": "StatusFile"
+    },
+    {
+      "path": "employees.json",
+      "def": "EmployeeFile"
+    },
+    {
+      "path": "rooms.json",
+      "def": "RoomFile"
+    },
+    {
+      "path": "furniture.json",
+      "def": "FurnitureFile"
+    },
+    {
+      "path": "recipes.json",
+      "def": "RecipeFile"
+    },
+    {
+      "path": "riders.json",
+      "def": "RiderFile"
+    },
+    {
+      "path": "modifiers.json",
+      "def": "ModifierFile"
+    },
+    {
+      "path": "shop.json",
+      "def": "Shop"
+    },
+    {
+      "path": "modes.json",
+      "def": "ModeFile"
+    },
+    {
+      "path": "map.json",
+      "def": "CampaignMap"
+    },
+    {
+      "path": "tutorial.json",
+      "def": "Tutorial"
+    },
+    {
+      "path": "rivals/templates.json",
+      "def": "TemplateFile"
+    },
+    {
+      "path": "rivals/scripted/tut_01_two_desk_startup.json",
+      "def": "ScriptedRival"
+    },
+    {
+      "path": "rivals/scripted/tut_02_copy_shop.json",
+      "def": "ScriptedRival"
+    },
+    {
+      "path": "rivals/scripted/tut_03_cram_school.json",
+      "def": "ScriptedRival"
+    },
+    {
+      "path": "rivals/scripted/tut_04_print_works.json",
+      "def": "ScriptedRival"
+    },
+    {
+      "path": "rivals/scripted/tut_05_bento_chain.json",
+      "def": "ScriptedRival"
+    },
+    {
+      "path": "rivals/scripted/boss_regional_rival.json",
+      "def": "ScriptedRival"
+    },
+    {
+      "path": "rivals/scripted/tut_07_compliance_adjacent.json",
+      "def": "ScriptedRival"
+    },
+    {
+      "path": "rivals/scripted/boss_compliance_office.json",
+      "def": "ScriptedRival"
+    },
+    {
+      "path": "rivals/scripted/boss_parent_company.json",
+      "def": "ScriptedRival"
+    }
+  ]
+}

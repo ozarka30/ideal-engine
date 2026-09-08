@@ -1,0 +1,37 @@
+{
+  "id": "tutorial.first_run",
+  "hints": [
+    {
+      "round": 1,
+      "text": "Drag your two developers onto 1F and press READY. Watch the ledger under your Goodwill."
+    },
+    {
+      "round": 2,
+      "text": "The shop restocks each round. Press R to reroll it for ¥1."
+    },
+    {
+      "round": 3,
+      "text": "Rooms are auras. Put an employee inside one and watch the badge appear."
+    },
+    {
+      "round": 4,
+      "text": "Furniture affects its neighbours. Two juniors beside a whiteboard is a promotion."
+    },
+    {
+      "round": 5,
+      "text": "Laying someone off costs severance. Flexibility is real. It is never free."
+    },
+    {
+      "round": 6,
+      "text": "The Regional Rival is a competent copy of you. Read the ledger afterwards."
+    },
+    {
+      "round": 7,
+      "text": "That was a lawyer. Legal makes Goodwill hard to break. There is a way around a balance sheet."
+    },
+    {
+      "round": 8,
+      "text": "The B1 button is lit. The Agency does not haunt you. It invoices you."
+    }
+  ]
+}

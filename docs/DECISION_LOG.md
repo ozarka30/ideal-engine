@@ -65,8 +65,12 @@ history of a reversal is the most useful thing in a document like this.
 | [D-34](#d-34) | Equipment is cut for good; furniture stays in v1 on trial with a named test | Human | Q-LYR-1, Q-LYR-3 |
 | [D-35](#d-35) | Goodwill is shown as a per-side bar with its number; the frame erodes with the cap | Human | Phase 2 |
 | [D-36](#d-36) | Campaign player rules equal ranked; the difference is scripted and semi-scripted rivals with gimmicks | Human | Phase 2 |
+| [D-37](#d-37) | Content is a closed effect vocabulary; adding a word is a code change, adding an entity is not | Craft | Phase 3 |
+| [D-38](#d-38) | One JSON file per content type, one JSON Schema, an index with the content version | Craft | Phase 3 |
+| [D-39](#d-39) | Semi-scripted rivals are expanded from templates by a deterministic, specified algorithm | Craft | Phase 3 |
+| [D-40](#d-40) | The loader validates schema, references, snapshot structure and constructibility in CI | Craft | Phase 3 |
 
-Twenty-nine craft decisions and seven human calls taken. Eight items remain open in
+Thirty-three craft decisions and seven human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -749,3 +753,83 @@ builds against something visible. A build that works in campaign works in ranked
 construction.
 
 Authority: Human · Phase 2, `GAME_DESIGN.md` §3, §15.5, §16
+
+---
+
+## D-37
+
+**Every passive, ability, trigger and gimmick in the game is a list of effects from
+one closed vocabulary — eight triggers, twelve actions, twenty stats, fifteen flags,
+two overrides, the selector and scope lists — enforced as JSON Schema enums. Adding a
+word is a schema change, a sim change and a fixture; adding an entity is a JSON edit.**
+
+*Why:* Content that can extend its own vocabulary cannot be audited, and the
+determinism contract depends on the sim's behaviour being enumerable from one
+document; a closed algebra is the only shape under which "no content in code" and
+"two implementations agree" are both true.
+
+*Consequence:* Some future card idea will not be expressible, on purpose. The stat and
+flag semantics table (`SIMULATION_SPEC.md` §6.4) and the schema enums must stay in
+one-to-one correspondence, and CI checks that they do.
+
+Authority: Craft · Phase 3, `CONTENT_SCHEMA.md` §3, §14
+
+---
+
+## D-38
+
+**One file per content type under `content/`, each an object holding one array; one
+JSON Schema (draft 2020-12) with a `$def` per file type; an `index.json` naming every
+file, its `$def`, and the content version. Semantic versioning: numbers are a patch,
+new entities a minor, removals and schema changes a major with a snapshot migration.**
+
+*Why:* Per-type files are what a coding agent and a human both read and diff most
+easily at this catalogue's size, and one schema file with `additionalProperties:
+false` everywhere is what turns "the vocabulary is closed" from a policy into a build
+failure.
+
+*Consequence:* Tower snapshots carry `contentVersion` and the sim refuses a mismatch,
+so every content patch that changes a number silently invalidates nothing and every
+one that removes an entity is forced to write a migration.
+
+Authority: Craft · Phase 3, `CONTENT_SCHEMA.md` §1
+
+---
+
+## D-39
+
+**Ordinary campaign rivals are expanded from archetype templates — a weighted shopping
+list, a layout preference and a gimmick pool — by a nine-step algorithm that is
+deterministic from `(templateId, round, seed)` and ends with the same validation a
+stored snapshot gets.**
+
+*Why:* Sixteen rounds times several rivals each is too many towers to hand-author and
+keep balanced, and a deterministic expander means the rival pool, the balance fixtures
+and the ranked cold-start seed are the same artefact (D-36).
+
+*Consequence:* The expander is build-side code with a specification in a content
+document, which is unusual and deliberate — its outputs are content. Bosses and the
+six first-run fights stay hand-authored because each exists to teach one thing.
+
+Authority: Craft · Phase 3, `CONTENT_SCHEMA.md` §11.2
+
+---
+
+## D-40
+
+**The content loader asserts, in CI and on every development start-up: schema
+validity with no unknown keys; every reference resolves; one ability per employee;
+every non-shop employee is a recipe result; room costs match the tile table; the map's
+fight counts match its round spans; every scripted snapshot passes structural
+validation; every non-exempt snapshot is constructible on its round's income.**
+
+*Why:* Asset correctness is a CI check in this project, and content correctness must
+be the same kind of thing — a rule the build enforces, not a review step someone
+remembers. The Phase 3 checks already caught a fight-count error in the Phase 2
+campaign map that a read-through had missed.
+
+*Consequence:* Authoring a rival that cannot be afforded is a build failure unless it
+is flagged as a boss, which is also what keeps the ranked ghost pool honest later
+(D-20).
+
+Authority: Craft · Phase 3, `CONTENT_SCHEMA.md` §12

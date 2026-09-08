@@ -1,0 +1,87 @@
+{
+  "id": "map.campaign",
+  "nodeKinds": {
+    "takeover": {
+      "fight": true,
+      "icon": "ui.map.node.takeover"
+    },
+    "audit": {
+      "fight": true,
+      "icon": "ui.map.node.audit",
+      "rivalRoundOffset": 2,
+      "alwaysGimmick": true
+    },
+    "recruiter": {
+      "fight": false,
+      "icon": "ui.map.node.recruiter"
+    },
+    "board": {
+      "fight": false,
+      "icon": "ui.map.node.board",
+      "choices": 3
+    },
+    "consultant": {
+      "fight": false,
+      "icon": "ui.map.node.consultant"
+    },
+    "boss": {
+      "fight": true,
+      "icon": "ui.map.node.boss"
+    }
+  },
+  "acts": [
+    {
+      "act": 1,
+      "name": "The Regional Rival",
+      "columns": "FFXFFXFB",
+      "rounds": [
+        1,
+        6
+      ],
+      "boss": "rival.boss_regional_rival",
+      "scriptedFightsFirstRun": [
+        "rival.tut_01_two_desk_startup",
+        "rival.tut_02_copy_shop",
+        "rival.tut_03_cram_school",
+        "rival.tut_04_print_works",
+        "rival.tut_05_bento_chain"
+      ]
+    },
+    {
+      "act": 2,
+      "name": "The Compliance Office",
+      "columns": "FFXFFXFB",
+      "rounds": [
+        7,
+        12
+      ],
+      "boss": "rival.boss_compliance_office",
+      "scriptedFightsFirstRun": [
+        "rival.tut_07_compliance_adjacent"
+      ],
+      "consultantAlwaysOffers": "recipe.headhunter"
+    },
+    {
+      "act": 3,
+      "name": "The Parent Company",
+      "columns": "FXFXFB",
+      "rounds": [
+        13,
+        16
+      ],
+      "boss": "rival.boss_parent_company"
+    }
+  ],
+  "layout": {
+    "rowsPerColumn": [
+      2,
+      3
+    ],
+    "bossRows": 1,
+    "auditsPerAct": [
+      1,
+      2
+    ],
+    "auditNeverInFirstColumn": true
+  }
+}

@@ -385,6 +385,58 @@ Effects on the caster's own units (Standup, Wellness Program, Reorg, Deploy) use
 | `same_floor` | Units on the caster's floor, `unitIndex` order |
 | `self` | The caster |
 
+### 6.4 Stat and flag semantics
+
+Content (`CONTENT_SCHEMA.md` §3) expresses every passive as a `stat` or a `flag` from a
+closed list. This table is the sim's side of that contract: one row per word, what it
+does, and where in this document it is applied. A word not in this table is not a word.
+
+**Stats** — `amount` adds, `permille` multiplies; applied at setup (§5.4–§5.5) unless
+noted. Room-granted `permille` stats gain `TENURE_STEP_PERMILLE × tier`.
+
+| `stat` | Meaning | Applied |
+| --- | --- | --- |
+| `push` | Multiplier on the subject's Push value | §9.2 step 3 (`roomAura`) |
+| `anomaly` | Multiplier on the subject's Anomaly value | §9.2 step 3 |
+| `restore` | Multiplier on the subject's Restore value | §9.2 step 3 |
+| `flatPush` | Added to the subject's Push before multipliers | §9.2 step 2 (`flatBonus`) |
+| `cooldown` | Multiplier on the subject's `cdTotal` | §5.4 `cdMultPermille` |
+| `goodwillCap` | Added to the firm's cap, once per subject unit | §5.5 |
+| `goodwillCapMult` | Multiplier on the firm's cap after all additions | §5.5, final step |
+| `regenPerEvent` | Added to the firm's regen, once per subject unit | §5.5 |
+| `passiveMult` | Multiplier on the subject's own `goodwillCap` and `regenPerEvent` contributions | §5.5 |
+| `statusStacksBonus` | Added to `stacks` whenever the subject applies the named `status` | §12.3 |
+| `burnoutMaxOverride` | Sets the subject's `burnoutMax`; lowest override wins | §5.4 |
+| `burnoutMaxDelta` | Added to the subject's `burnoutMax` after overrides, floor 0 | §5.4 |
+| `anomalySelfCost` | Added (negative) to the subject's Anomaly self-cost permille, floor 0 | §9.3 |
+| `retriggerBonus` | Multiplier applied to resolutions the subject retriggers | §9.2 step 6 |
+| `floorOutput` | Multiplier on `floorMult` for the named `floor`, or every floor for `*` | §5.4 |
+| `income`, `upkeep`, `rerollCost`, `severance`, `severanceMult` | Build-phase economy. The sim ignores them | — |
+
+**Flags** — booleans on the subject; a flag set by any source is set.
+
+| `flag` | Meaning | Applied |
+| --- | --- | --- |
+| `untargetable` | Excluded from enemy unit selectors, including `all` | §6.2 |
+| `bureaucracyImmune`, `frozenImmune` | The status does nothing; entry tagged `immune` | §12.3 |
+| `burnoutImmune` | `burnoutMax = 0` | §5.4 |
+| `overtimePermanent` | Counts as 2 Overtime stacks always; never expires, never applies Burnout | §8.1, §12.3–§12.4 |
+| `cannotBeRetriggered` | Retrigger whiffs with tag `retrigger_refused` | §13 |
+| `wholeFloorAdjacency` | The subject's `adjacent` own-targets are every unit on its floor | §5.3 |
+| `capProtected` | The subject's `goodwillCap` contribution is a floor under Morale erosion | §10.2 |
+| `regenNeverSuppressed` | The firm's regen ignores `lastSuppressTick` | §11.1 |
+| `receptionDisabled` | Reception occupants grant no cap | §5.5 |
+| `everyFloorMostPopulated` | Against this firm, `most_populated_floor` returns every occupied floor in 0..3 | §6.1 |
+| `floorSelectorMirror` | The firm's own `highest_occupied_floor` selections also resolve `lowest_occupied_floor`; targets are the union | §6.1 |
+| `cannotBeLaidOff`, `landingOnly`, `restructuringCharge` | Build-phase only. The sim ignores them | — |
+
+**Overrides** — `floorSelector` replaces the subject's floor selector with `to`
+(§6.1, Monitoring Station); `tenureTier` sets every room of the subject firm to tier
+`to` at setup (Old Money).
+
+The `then` field on a `retrigger` effect applies its status to each target immediately
+after that target's resolution — fire-then-burn, per unit (§13).
+
 ---
 
 ## 7. The tick loop

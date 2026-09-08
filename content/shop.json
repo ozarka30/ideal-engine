@@ -1,0 +1,80 @@
+{
+  "id": "shop.default",
+  "cardsPerTab": 4,
+  "rerollCost": 1,
+  "recruiterNode": {
+    "cardsPerTab": 6,
+    "firstRerollFree": true
+  },
+  "otherworld": {
+    "cards": 2,
+    "rerollCost": 1,
+    "requiresPortal": true
+  },
+  "tiers": [
+    {
+      "rounds": [
+        1,
+        3
+      ],
+      "staff": {
+        "1": 4,
+        "2": 0,
+        "3": 0
+      },
+      "roomTiles": [
+        2,
+        4
+      ],
+      "furnitureRarity": [
+        "common"
+      ]
+    },
+    {
+      "rounds": [
+        4,
+        8
+      ],
+      "staff": {
+        "1": 2,
+        "2": 2,
+        "3": 0
+      },
+      "roomTiles": [
+        2,
+        4,
+        6
+      ],
+      "furnitureRarity": [
+        "common",
+        "uncommon"
+      ]
+    },
+    {
+      "rounds": [
+        9,
+        16
+      ],
+      "staff": {
+        "1": 1,
+        "2": 2,
+        "3": 1
+      },
+      "roomTiles": [
+        2,
+        4,
+        6
+      ],
+      "furnitureRarity": [
+        "common",
+        "uncommon"
+      ]
+    }
+  ],
+  "roomsOnlyForOwnedFloors": true,
+  "leases": [
+    "floor.f2",
+    "floor.f3",
+    "floor.b1"
+  ]
+}

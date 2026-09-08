@@ -1,0 +1,198 @@
+{
+  "riders": [
+    {
+      "id": "rider.tenured",
+      "name": "Tenured",
+      "text": "Cannot be laid off.",
+      "effects": [
+        {
+          "on": "economy",
+          "do": "flag",
+          "flag": "cannotBeLaidOff",
+          "subject": {
+            "scope": "self"
+          }
+        }
+      ]
+    },
+    {
+      "id": "rider.union_dispute",
+      "name": "Union Dispute",
+      "text": "Every reroll costs ¥1 more while employed.",
+      "effects": [
+        {
+          "on": "economy",
+          "do": "stat",
+          "stat": "rerollCost",
+          "subject": {
+            "scope": "firm"
+          },
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "rider.bad_influence",
+      "name": "Bad Influence",
+      "text": "At Quarter Open, adjacent employees gain 1 Burnout.",
+      "effects": [
+        {
+          "on": "banner",
+          "do": "status",
+          "status": "status.burnout",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "adjacent"
+          },
+          "month": 0
+        }
+      ]
+    },
+    {
+      "id": "rider.executive_aversion",
+      "name": "Executive Aversion",
+      "text": "3F output ×0.8 while employed.",
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "floorOutput",
+          "subject": {
+            "scope": "firm"
+          },
+          "permille": 800,
+          "floor": "floor.f3"
+        }
+      ]
+    },
+    {
+      "id": "rider.poor_reception",
+      "name": "Poor Reception",
+      "text": "Reception grants no Goodwill while employed.",
+      "effects": [
+        {
+          "on": "static",
+          "do": "flag",
+          "flag": "receptionDisabled",
+          "subject": {
+            "scope": "firm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "rider.overhead",
+      "name": "Overhead",
+      "text": "Upkeep +¥1 per round.",
+      "effects": [
+        {
+          "on": "economy",
+          "do": "stat",
+          "stat": "upkeep",
+          "subject": {
+            "scope": "firm"
+          },
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "rider.hungry",
+      "name": "Hungry",
+      "text": "On hire, consumes one adjacent piece of furniture.",
+      "effects": [
+        {
+          "on": "onHire",
+          "do": "consumeAdjacentFurniture",
+          "subject": {
+            "scope": "self"
+          },
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "rider.contractual_obligation",
+      "name": "Contractual Obligation",
+      "text": "At the Bell, the firm takes 200 Morale.",
+      "effects": [
+        {
+          "on": "banner",
+          "do": "morale",
+          "month": 3,
+          "value": 200,
+          "target": {
+            "side": "own",
+            "scope": "firm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "rider.night_terrors",
+      "name": "Night Terrors",
+      "text": "At Crunch, adjacent employees gain 1 Burnout.",
+      "effects": [
+        {
+          "on": "banner",
+          "do": "status",
+          "status": "status.burnout",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "adjacent"
+          },
+          "month": 2
+        }
+      ]
+    },
+    {
+      "id": "rider.cold_spot",
+      "name": "Cold Spot",
+      "text": "Adjacent employees are 10% slower.",
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "cooldown",
+          "subject": {
+            "scope": "adjacent"
+          },
+          "permille": 1100
+        }
+      ]
+    },
+    {
+      "id": "rider.unpaid_invoices",
+      "name": "Unpaid Invoices",
+      "text": "Severance for all staff +¥1 while employed.",
+      "effects": [
+        {
+          "on": "economy",
+          "do": "stat",
+          "stat": "severance",
+          "subject": {
+            "scope": "firm"
+          },
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "rider.landing_only",
+      "name": "Lift Attendant",
+      "text": "Must be placed on the landing column.",
+      "effects": [
+        {
+          "on": "economy",
+          "do": "flag",
+          "flag": "landingOnly",
+          "subject": {
+            "scope": "self"
+          }
+        }
+      ]
+    }
+  ]
+}

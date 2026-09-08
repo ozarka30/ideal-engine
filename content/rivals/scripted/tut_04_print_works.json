@@ -1,0 +1,116 @@
+{
+  "id": "rival.tut_04_print_works",
+  "name": "Print Works",
+  "kind": "scripted",
+  "archetype": "generalist",
+  "round": 4,
+  "gimmick": null,
+  "exemptFromBudget": false,
+  "note": "Fight 4. A Senior Dev next to a Whiteboard: the rival has done the recipe the player is about to discover.",
+  "snapshot": {
+    "schemaVersion": 1,
+    "contentVersion": "0.1.0",
+    "round": 4,
+    "floors": [
+      {
+        "index": 0,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "g_reception",
+            "defId": "room.reception",
+            "rect": [
+              1,
+              0,
+              2,
+              2
+            ],
+            "tenureRounds": 0
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.paralegal",
+            "instanceId": "e_001",
+            "attachments": []
+          }
+        ]
+      },
+      {
+        "index": 1,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "f1_open",
+            "defId": "room.open_plan",
+            "rect": [
+              1,
+              0,
+              2,
+              3
+            ],
+            "tenureRounds": 2
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.junior_dev",
+            "instanceId": "e_002",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.senior_dev",
+            "instanceId": "e_003",
+            "attachments": []
+          },
+          {
+            "tile": [
+              1,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.junior_dev",
+            "instanceId": "e_004",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              1
+            ],
+            "kind": "furniture",
+            "defId": "furn.whiteboard",
+            "instanceId": "f_005",
+            "attachments": []
+          }
+        ]
+      }
+    ],
+    "globals": {
+      "modifiers": [],
+      "riders": [],
+      "leasedB1": false
+    }
+  }
+}

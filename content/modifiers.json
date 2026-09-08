@@ -1,0 +1,405 @@
+{
+  "modifiers": [
+    {
+      "id": "mod.overtime_culture",
+      "name": "Overtime Culture",
+      "text": "Every employee starts each fight with 1 Burnout and 1 Overtime.",
+      "rivalOnly": false,
+      "boardMeeting": {
+        "cost": "1 Burnout on everyone at Quarter Open",
+        "benefit": "1 Overtime on everyone at Quarter Open"
+      },
+      "effects": [
+        {
+          "on": "banner",
+          "do": "status",
+          "status": "status.burnout",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "all"
+          },
+          "month": 0
+        },
+        {
+          "on": "banner",
+          "do": "status",
+          "status": "status.overtime",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "all"
+          },
+          "month": 0
+        }
+      ]
+    },
+    {
+      "id": "mod.lean",
+      "name": "Lean",
+      "text": "Goodwill cap −200; income +¥2 per round.",
+      "rivalOnly": false,
+      "boardMeeting": {
+        "cost": "−200 Goodwill cap",
+        "benefit": "+¥2 income per round"
+      },
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "firm"
+          },
+          "amount": -200
+        },
+        {
+          "on": "economy",
+          "do": "stat",
+          "stat": "income",
+          "subject": {
+            "scope": "firm"
+          },
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "id": "mod.family_firm",
+      "name": "Family Firm",
+      "text": "Severance doubled; all rooms gain +1 Tenure round now.",
+      "rivalOnly": false,
+      "boardMeeting": {
+        "cost": "Severance ×2",
+        "benefit": "+1 Tenure round to every room"
+      },
+      "effects": [
+        {
+          "on": "economy",
+          "do": "stat",
+          "stat": "severanceMult",
+          "subject": {
+            "scope": "firm"
+          },
+          "permille": 2000
+        },
+        {
+          "on": "onAccept",
+          "do": "roomTenure",
+          "rounds": 1,
+          "subject": {
+            "scope": "allRooms"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod.compliance_review",
+      "name": "Compliance Review",
+      "text": "Reroll costs ¥2; Bureaucracy you apply gains a stack.",
+      "rivalOnly": false,
+      "boardMeeting": {
+        "cost": "Reroll ¥2",
+        "benefit": "+1 stack on every Bureaucracy you apply"
+      },
+      "effects": [
+        {
+          "on": "economy",
+          "do": "stat",
+          "stat": "rerollCost",
+          "subject": {
+            "scope": "firm"
+          },
+          "amount": 1
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "statusStacksBonus",
+          "subject": {
+            "scope": "all"
+          },
+          "amount": 1,
+          "status": "status.bureaucracy"
+        }
+      ]
+    },
+    {
+      "id": "mod.restructuring",
+      "name": "Restructuring",
+      "text": "One use: the next demolition waives its fee and carries the room's Tenure to its replacement.",
+      "rivalOnly": false,
+      "boardMeeting": {
+        "cost": "The node",
+        "benefit": "One fee-free, Tenure-preserving demolition"
+      },
+      "effects": [
+        {
+          "on": "economy",
+          "do": "flag",
+          "flag": "restructuringCharge",
+          "subject": {
+            "scope": "firm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod.open_door",
+      "name": "Open Door Policy",
+      "text": "Regen +40 per event; Goodwill cap −100.",
+      "rivalOnly": false,
+      "boardMeeting": {
+        "cost": "−100 Goodwill cap",
+        "benefit": "+40 regen per event"
+      },
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "regenPerEvent",
+          "subject": {
+            "scope": "firm"
+          },
+          "amount": 40
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "firm"
+          },
+          "amount": -100
+        }
+      ]
+    },
+    {
+      "id": "mod.hostile_environment",
+      "name": "Hostile Environment",
+      "text": "All output ×1.1; nobody can burn past 3 stacks — because they leave.",
+      "rivalOnly": false,
+      "boardMeeting": {
+        "cost": "Burnout capped at 3 — HR cleanses have less to do",
+        "benefit": "All output ×1.1"
+      },
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "push",
+          "subject": {
+            "scope": "all"
+          },
+          "permille": 1100
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "burnoutMaxOverride",
+          "subject": {
+            "scope": "all"
+          },
+          "amount": 3
+        }
+      ]
+    },
+    {
+      "id": "mod.golden_handcuffs",
+      "name": "Golden Handcuffs",
+      "text": "Severance is free; income −¥1 per round.",
+      "rivalOnly": false,
+      "boardMeeting": {
+        "cost": "−¥1 income per round",
+        "benefit": "Free severance"
+      },
+      "effects": [
+        {
+          "on": "economy",
+          "do": "stat",
+          "stat": "severanceMult",
+          "subject": {
+            "scope": "firm"
+          },
+          "permille": 0
+        },
+        {
+          "on": "economy",
+          "do": "stat",
+          "stat": "income",
+          "subject": {
+            "scope": "firm"
+          },
+          "amount": -1
+        }
+      ]
+    },
+    {
+      "id": "mod.g_deep_pockets",
+      "name": "Deep Pockets",
+      "text": "Goodwill cap ×1.5.",
+      "rivalOnly": true,
+      "teaches": "Push alone is slow; bring Burnout.",
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCapMult",
+          "subject": {
+            "scope": "firm"
+          },
+          "permille": 1500
+        }
+      ]
+    },
+    {
+      "id": "mod.g_franchise",
+      "name": "Franchise",
+      "text": "Every floor counts as the most populated.",
+      "rivalOnly": true,
+      "teaches": "Floor-selected statuses land everywhere.",
+      "effects": [
+        {
+          "on": "static",
+          "do": "flag",
+          "flag": "everyFloorMostPopulated",
+          "subject": {
+            "scope": "firm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod.g_old_money",
+      "name": "Old Money",
+      "text": "All rooms at Tier III.",
+      "rivalOnly": true,
+      "teaches": "What Tenure looks like fully grown.",
+      "effects": [
+        {
+          "on": "static",
+          "do": "override",
+          "override": "tenureTier",
+          "to": 3,
+          "subject": {
+            "scope": "allRooms"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod.g_night_shift",
+      "name": "Night Shift",
+      "text": "All staff hold permanent Overtime; no Burnout on expiry.",
+      "rivalOnly": true,
+      "teaches": "Haste without the cost, and how to slow it.",
+      "effects": [
+        {
+          "on": "static",
+          "do": "flag",
+          "flag": "overtimePermanent",
+          "subject": {
+            "scope": "all"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod.g_regulatory_capture",
+      "name": "Regulatory Capture",
+      "text": "Regen is never suppressed.",
+      "rivalOnly": true,
+      "teaches": "The Act 2 boss's signature. Unwinnable without Morale or Anomaly.",
+      "effects": [
+        {
+          "on": "static",
+          "do": "flag",
+          "flag": "regenNeverSuppressed",
+          "subject": {
+            "scope": "firm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod.g_conglomerate",
+      "name": "Conglomerate",
+      "text": "Every status is floor-selected; highest_occupied_floor also hits lowest_occupied_floor.",
+      "rivalOnly": true,
+      "teaches": "The Act 3 boss's signature. Concentration is punished twice.",
+      "effects": [
+        {
+          "on": "static",
+          "do": "flag",
+          "flag": "floorSelectorMirror",
+          "subject": {
+            "scope": "firm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod.g_mirror",
+      "name": "Mirror",
+      "text": "No gimmick. The tower is a competent copy of your own archetype at this round.",
+      "rivalOnly": true,
+      "teaches": "The Act 1 boss's signature is having none. The ledger is the lesson.",
+      "effects": []
+    },
+    {
+      "id": "mod.g_skeleton_crew",
+      "name": "Skeleton Crew",
+      "text": "Half the staff; each does double the work.",
+      "rivalOnly": true,
+      "teaches": "Fewer, larger hits — overflow timing.",
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "push",
+          "subject": {
+            "scope": "all"
+          },
+          "permille": 2000
+        }
+      ]
+    },
+    {
+      "id": "mod.g_zaibatsu",
+      "name": "Zaibatsu",
+      "text": "Every floor's output ×1.15.",
+      "rivalOnly": true,
+      "teaches": "A flat power lead; win on structure, not stats.",
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "floorOutput",
+          "subject": {
+            "scope": "firm"
+          },
+          "permille": 1150,
+          "floor": "*"
+        }
+      ]
+    },
+    {
+      "id": "mod.g_ghost_floor",
+      "name": "Ghost Floor",
+      "text": "B1 is leased at no Goodwill cost.",
+      "rivalOnly": true,
+      "teaches": "A portal build with the tax waived.",
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "firm"
+          },
+          "amount": 150
+        }
+      ]
+    }
+  ]
+}

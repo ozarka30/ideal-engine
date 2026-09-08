@@ -310,8 +310,10 @@ Multipliers are written as percentages here and as permille in the sim: a room g
 
 ### 7.2 Catalogue — Phase 2 set
 
-Enough rooms for a real run. Phase 3 extends the catalogue; it does not replace this
-set.
+Enough rooms for a real run. The authoritative catalogue is `content/rooms.json`
+(sixteen rooms as of Phase 3, described in `CONTENT_SCHEMA.md`); this table is the
+Phase 2 subset that the design was written against, kept here so the reasoning reads
+in one place.
 
 | Room | Size | Floors | Cost | Aura on occupants | Tier III clause |
 | --- | --- | --- | --- | --- | --- |
@@ -322,7 +324,7 @@ set.
 | **Sales Floor** | 2×2 | 1F, 2F | `¥9` | Sales push × 1.20. Sales income passive +1 each | Sales occupants' abilities also apply 1 Bureaucracy |
 | **Break Room** | 1×2 | G, 1F, 2F, 3F | `¥5` | Non-HR occupants: push × 0.50, immune to Burnout. HR occupants: restore × 1.50 | Occupants cleanse 1 Burnout from every adjacent employee every 10s |
 | **Security Desk** | 1×2 | G only, not landing | `¥5` | Occupants cannot be selected by enemy employee selectors | Occupants also cannot receive Bureaucracy |
-| **Boardroom** | 2×2 | 3F only | `¥9` | All push × 1.20. Management retriggers reach the whole floor, not only adjacent tiles | Retriggers also refresh the target's Overtime |
+| **Boardroom** | 2×2 | 3F only | `¥9` | All push × 1.20. Management retriggers reach the whole floor, not only adjacent tiles | Every Management fire is also a Standup: 1 Overtime to adjacent |
 | **Corner Office** | 1×2 | 3F only | `¥5` | Single occupant only: push × 1.60, Goodwill cap −100 | Cap penalty removed |
 | **Summoning Circle** | 2×2 | B1 only | `¥9` | Extraplanar occupants: Anomaly self-cost halved. Required by all Ritual recipes | Occupants' Anomaly also applies 1 Burnout to its target |
 
@@ -403,7 +405,9 @@ passive. Nothing is hidden on the card.
 
 ### 9.2 Roster — Phase 2 set
 
-Cooldowns in seconds; the sim uses ticks (× 20). `Value` is the base before any
+The authoritative roster is `content/employees.json` (forty as of Phase 3). This is
+the Phase 2 subset the design was written against. Cooldowns in seconds; the sim uses
+ticks (× 20). `Value` is the base before any
 multiplier. Targeting is written `floor / employee`; see `SIMULATION_SPEC.md` §6 for
 the selector vocabulary.
 
@@ -638,7 +642,7 @@ what turns guessing into deduction.
 
 ### 13.3 Phase 2 recipes
 
-Enough to prove the system. Phase 3 fills the catalogue.
+Enough to prove the system. The full forty are in `content/recipes.json`.
 
 | Inputs | Context | Result | Notes |
 | --- | --- | --- | --- |
@@ -748,13 +752,14 @@ one node per column from the ones their current node connects to.
 
 | Act | Columns | Fights | Interludes | Rounds |
 | --- | --- | --- | --- | --- |
-| **1** | `F F X F X F B` | 5 + boss | 2 | 1–6 |
-| **2** | `F F X F X F X B` | 5 + boss | 3 | 7–12 |
+| **1** | `F F X F F X F B` | 5 + boss | 2 | 1–6 |
+| **2** | `F F X F F X F B` | 5 + boss | 2 | 7–12 |
 | **3** | `F X F X F B` | 3 + boss | 2 | 13–16 |
 
 `F` columns hold Hostile Takeover nodes, one of which per column may be an **Audit**
-instead. `X` columns hold interludes only. `B` is the boss. Sixteen fights, seven
-interludes, every run.
+instead. `X` columns hold interludes only. `B` is the boss. Sixteen fights, six
+interludes, every run. The column strings are the content (`content/map.json`), and
+the loader asserts that each act's `F` and `B` count equals its round span.
 
 | Node | What happens |
 | --- | --- |

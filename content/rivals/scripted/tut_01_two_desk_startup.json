@@ -1,0 +1,73 @@
+{
+  "id": "rival.tut_01_two_desk_startup",
+  "name": "Two-Desk Startup",
+  "kind": "scripted",
+  "archetype": "generalist",
+  "round": 1,
+  "gimmick": null,
+  "exemptFromBudget": false,
+  "note": "Fight 1. Two Junior Devs in the corridor. Exists so the ledger's first entries are readable.",
+  "snapshot": {
+    "schemaVersion": 1,
+    "contentVersion": "0.1.0",
+    "round": 1,
+    "floors": [
+      {
+        "index": 0,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "g_reception",
+            "defId": "room.reception",
+            "rect": [
+              1,
+              0,
+              2,
+              2
+            ],
+            "tenureRounds": 0
+          }
+        ],
+        "occupants": []
+      },
+      {
+        "index": 1,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [],
+        "occupants": [
+          {
+            "tile": [
+              1,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.junior_dev",
+            "instanceId": "e_001",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.junior_dev",
+            "instanceId": "e_002",
+            "attachments": []
+          }
+        ]
+      }
+    ],
+    "globals": {
+      "modifiers": [],
+      "riders": [],
+      "leasedB1": false
+    }
+  }
+}

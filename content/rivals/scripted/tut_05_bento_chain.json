@@ -1,0 +1,147 @@
+{
+  "id": "rival.tut_05_bento_chain",
+  "name": "Bento Chain",
+  "kind": "scripted",
+  "archetype": "economy",
+  "round": 5,
+  "gimmick": null,
+  "exemptFromBudget": false,
+  "note": "Fight 5. An economy build. Chip damage and regen; the player learns severance this round.",
+  "snapshot": {
+    "schemaVersion": 1,
+    "contentVersion": "0.1.0",
+    "round": 5,
+    "floors": [
+      {
+        "index": 0,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "g_reception",
+            "defId": "room.reception",
+            "rect": [
+              1,
+              0,
+              2,
+              2
+            ],
+            "tenureRounds": 0
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.sales_rep",
+            "instanceId": "e_001",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.telemarketer",
+            "instanceId": "e_002",
+            "attachments": []
+          }
+        ]
+      },
+      {
+        "index": 1,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "f1_sales",
+            "defId": "room.sales_floor",
+            "rect": [
+              0,
+              0,
+              2,
+              2
+            ],
+            "tenureRounds": 2
+          },
+          {
+            "roomId": "f1_break",
+            "defId": "room.break_room",
+            "rect": [
+              3,
+              1,
+              1,
+              2
+            ],
+            "tenureRounds": 1
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              0,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.sales_rep",
+            "instanceId": "e_003",
+            "attachments": []
+          },
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.sales_rep",
+            "instanceId": "e_004",
+            "attachments": []
+          },
+          {
+            "tile": [
+              0,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.sales_rep",
+            "instanceId": "e_005",
+            "attachments": []
+          },
+          {
+            "tile": [
+              1,
+              1
+            ],
+            "kind": "furniture",
+            "defId": "furn.desk_phone",
+            "instanceId": "f_006",
+            "attachments": []
+          },
+          {
+            "tile": [
+              3,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.recruiter",
+            "instanceId": "e_007",
+            "attachments": []
+          }
+        ]
+      }
+    ],
+    "globals": {
+      "modifiers": [],
+      "riders": [],
+      "leasedB1": false
+    }
+  }
+}

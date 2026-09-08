@@ -1,0 +1,824 @@
+{
+  "rooms": [
+    {
+      "id": "room.reception",
+      "name": "Reception",
+      "kind": "reception",
+      "footprint": {
+        "w": 2,
+        "h": 2
+      },
+      "floors": [
+        "floor.g"
+      ],
+      "landingLegal": true,
+      "cost": 0,
+      "fixed": true,
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "occupants"
+          },
+          "amount": 100
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "push",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 800
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "regenPerEvent",
+          "subject": {
+            "scope": "occupants"
+          },
+          "amount": 30,
+          "fromTier": 3
+        }
+      ],
+      "tile": "room.reception.tile",
+      "flavor": "Where reputation lives. Every person at the desk is +100 Goodwill."
+    },
+    {
+      "id": "room.open_plan",
+      "name": "Open Plan Office",
+      "kind": "general",
+      "footprint": {
+        "w": 2,
+        "h": 3
+      },
+      "floors": [
+        "floor.f1",
+        "floor.f2"
+      ],
+      "landingLegal": true,
+      "cost": 13,
+      "fixed": false,
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "push",
+          "subject": {
+            "scope": "occupants",
+            "dept": [
+              "engineering"
+            ]
+          },
+          "permille": 1200
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "cooldown",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 900,
+          "fromTier": 3
+        }
+      ],
+      "tile": "room.open_plan.tile",
+      "flavor": "Engineering ×1.2. At Tier III everyone in it works faster, because the walls came down."
+    },
+    {
+      "id": "room.server_room",
+      "name": "Server Room",
+      "kind": "general",
+      "footprint": {
+        "w": 2,
+        "h": 2
+      },
+      "floors": [
+        "floor.f1",
+        "floor.f2"
+      ],
+      "landingLegal": true,
+      "cost": 9,
+      "fixed": false,
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "push",
+          "subject": {
+            "scope": "occupants",
+            "dept": [
+              "engineering"
+            ]
+          },
+          "permille": 1350
+        },
+        {
+          "on": "banner",
+          "do": "status",
+          "status": "status.burnout",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "occupants"
+          },
+          "month": 1,
+          "untilTier": 3
+        },
+        {
+          "on": "banner",
+          "do": "status",
+          "status": "status.burnout",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "occupants"
+          },
+          "month": 2,
+          "untilTier": 3
+        }
+      ],
+      "tile": "room.server_room.tile",
+      "flavor": "Engineering ×1.35. It is hot in there; occupants burn at each month until the room is Institutional."
+    },
+    {
+      "id": "room.legal_dept",
+      "name": "Legal Department",
+      "kind": "general",
+      "footprint": {
+        "w": 2,
+        "h": 2
+      },
+      "floors": [
+        "floor.f1",
+        "floor.f2",
+        "floor.f3"
+      ],
+      "landingLegal": true,
+      "cost": 9,
+      "fixed": false,
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "passiveMult",
+          "subject": {
+            "scope": "occupants",
+            "dept": [
+              "legal"
+            ]
+          },
+          "permille": 1500
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "statusStacksBonus",
+          "subject": {
+            "scope": "occupants",
+            "dept": [
+              "legal"
+            ]
+          },
+          "amount": 1,
+          "status": "status.bureaucracy"
+        },
+        {
+          "on": "static",
+          "do": "flag",
+          "flag": "capProtected",
+          "subject": {
+            "scope": "occupants"
+          },
+          "fromTier": 3
+        }
+      ],
+      "tile": "room.legal_dept.tile",
+      "flavor": "Legal passives ×1.5 and every Bureaucracy they apply gains a stack. Tier III: their Goodwill cannot be eroded."
+    },
+    {
+      "id": "room.sales_floor",
+      "name": "Sales Floor",
+      "kind": "general",
+      "footprint": {
+        "w": 2,
+        "h": 2
+      },
+      "floors": [
+        "floor.f1",
+        "floor.f2"
+      ],
+      "landingLegal": true,
+      "cost": 9,
+      "fixed": false,
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "push",
+          "subject": {
+            "scope": "occupants",
+            "dept": [
+              "sales"
+            ]
+          },
+          "permille": 1200
+        },
+        {
+          "on": "economy",
+          "do": "stat",
+          "stat": "income",
+          "subject": {
+            "scope": "occupants",
+            "dept": [
+              "sales"
+            ]
+          },
+          "amount": 1
+        },
+        {
+          "on": "afterFire",
+          "do": "status",
+          "status": "status.bureaucracy",
+          "stacks": 1,
+          "target": {
+            "side": "enemy",
+            "floor": "most_populated_floor",
+            "unit": "lowest_cooldown_remaining"
+          },
+          "everyN": 1,
+          "subject": {
+            "scope": "occupants",
+            "dept": [
+              "sales"
+            ]
+          },
+          "fromTier": 3
+        }
+      ],
+      "tile": "room.sales_floor.tile",
+      "flavor": "Sales ×1.2 and +¥1 each. Tier III: their calls also slow someone down."
+    },
+    {
+      "id": "room.break_room",
+      "name": "Break Room",
+      "kind": "general",
+      "footprint": {
+        "w": 1,
+        "h": 2
+      },
+      "floors": [
+        "floor.g",
+        "floor.f1",
+        "floor.f2",
+        "floor.f3"
+      ],
+      "landingLegal": true,
+      "cost": 5,
+      "fixed": false,
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "push",
+          "subject": {
+            "scope": "occupants",
+            "notDept": [
+              "hr"
+            ]
+          },
+          "permille": 500
+        },
+        {
+          "on": "static",
+          "do": "flag",
+          "flag": "burnoutImmune",
+          "subject": {
+            "scope": "occupants",
+            "notDept": [
+              "hr"
+            ]
+          }
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "restore",
+          "subject": {
+            "scope": "occupants",
+            "dept": [
+              "hr"
+            ]
+          },
+          "permille": 1500
+        },
+        {
+          "on": "periodic",
+          "do": "cleanse",
+          "status": "status.burnout",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "adjacent"
+          },
+          "every": 200,
+          "subject": {
+            "scope": "occupants"
+          },
+          "fromTier": 3
+        }
+      ],
+      "tile": "room.break_room.tile",
+      "flavor": "Non-HR occupants do half the work and cannot burn out. HR restores half again as much."
+    },
+    {
+      "id": "room.security_desk",
+      "name": "Security Desk",
+      "kind": "security",
+      "footprint": {
+        "w": 1,
+        "h": 2
+      },
+      "floors": [
+        "floor.g"
+      ],
+      "landingLegal": false,
+      "cost": 5,
+      "fixed": false,
+      "effects": [
+        {
+          "on": "static",
+          "do": "flag",
+          "flag": "untargetable",
+          "subject": {
+            "scope": "occupants"
+          }
+        },
+        {
+          "on": "static",
+          "do": "flag",
+          "flag": "bureaucracyImmune",
+          "subject": {
+            "scope": "occupants"
+          },
+          "fromTier": 3
+        }
+      ],
+      "tile": "room.security_desk.tile",
+      "flavor": "Occupants cannot be selected by the rival's abilities."
+    },
+    {
+      "id": "room.boardroom",
+      "name": "Boardroom",
+      "kind": "executive",
+      "footprint": {
+        "w": 2,
+        "h": 2
+      },
+      "floors": [
+        "floor.f3"
+      ],
+      "landingLegal": true,
+      "cost": 9,
+      "fixed": false,
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "push",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 1200
+        },
+        {
+          "on": "static",
+          "do": "flag",
+          "flag": "wholeFloorAdjacency",
+          "subject": {
+            "scope": "occupants",
+            "dept": [
+              "management"
+            ]
+          }
+        },
+        {
+          "on": "afterFire",
+          "do": "status",
+          "status": "status.overtime",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "adjacent"
+          },
+          "everyN": 1,
+          "subject": {
+            "scope": "occupants",
+            "dept": [
+              "management"
+            ]
+          },
+          "fromTier": 3
+        }
+      ],
+      "tile": "room.boardroom.tile",
+      "flavor": "Everyone ×1.2. Management retriggers reach the whole floor. Tier III: every retrigger is also a Standup."
+    },
+    {
+      "id": "room.corner_office",
+      "name": "Corner Office",
+      "kind": "executive",
+      "footprint": {
+        "w": 1,
+        "h": 2
+      },
+      "floors": [
+        "floor.f3"
+      ],
+      "landingLegal": true,
+      "cost": 5,
+      "fixed": false,
+      "maxOccupants": 1,
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "push",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 1600
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "occupants"
+          },
+          "amount": -100,
+          "untilTier": 3
+        }
+      ],
+      "tile": "room.corner_office.tile",
+      "flavor": "One person, ×1.6, and −100 Goodwill for the ego until Tier III."
+    },
+    {
+      "id": "room.summoning_circle",
+      "name": "Summoning Circle",
+      "kind": "extraplanar",
+      "footprint": {
+        "w": 2,
+        "h": 2
+      },
+      "floors": [
+        "floor.b1"
+      ],
+      "landingLegal": true,
+      "cost": 9,
+      "fixed": false,
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "anomalySelfCost",
+          "subject": {
+            "scope": "occupants",
+            "dept": [
+              "extraplanar"
+            ]
+          },
+          "permille": -125
+        },
+        {
+          "on": "afterFire",
+          "do": "status",
+          "status": "status.burnout",
+          "stacks": 1,
+          "target": {
+            "side": "enemy",
+            "floor": "highest_occupied_floor",
+            "unit": "highest_base_value"
+          },
+          "everyN": 1,
+          "subject": {
+            "scope": "occupants",
+            "dept": [
+              "extraplanar"
+            ]
+          },
+          "fromTier": 3
+        }
+      ],
+      "tile": "room.summoning_circle.tile",
+      "flavor": "Halves the Anomaly self-cost. Required by every Ritual."
+    },
+    {
+      "id": "room.meeting_room",
+      "name": "Meeting Room",
+      "kind": "general",
+      "footprint": {
+        "w": 2,
+        "h": 2
+      },
+      "floors": [
+        "floor.f1",
+        "floor.f2"
+      ],
+      "landingLegal": true,
+      "cost": 9,
+      "fixed": false,
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "push",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 1100
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "cooldown",
+          "subject": {
+            "scope": "occupants",
+            "dept": [
+              "management"
+            ]
+          },
+          "permille": 850
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "cooldown",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 900,
+          "fromTier": 3
+        }
+      ],
+      "tile": "room.meeting_room.tile",
+      "flavor": "Everyone ×1.1 and Management 15% faster. Where Team Leads become Middle Managers."
+    },
+    {
+      "id": "room.mail_room",
+      "name": "Mail Room",
+      "kind": "general",
+      "footprint": {
+        "w": 1,
+        "h": 2
+      },
+      "floors": [
+        "floor.g",
+        "floor.f1"
+      ],
+      "landingLegal": true,
+      "cost": 5,
+      "fixed": false,
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "cooldown",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 900
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "push",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 900
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "cooldown",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 900,
+          "fromTier": 3
+        }
+      ],
+      "tile": "room.mail_room.tile",
+      "flavor": "Things move quickly and hit lightly."
+    },
+    {
+      "id": "room.kitchenette",
+      "name": "Kitchenette",
+      "kind": "general",
+      "footprint": {
+        "w": 1,
+        "h": 2
+      },
+      "floors": [
+        "floor.g",
+        "floor.f1",
+        "floor.f2",
+        "floor.f3"
+      ],
+      "landingLegal": true,
+      "cost": 5,
+      "fixed": false,
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "regenPerEvent",
+          "subject": {
+            "scope": "occupants",
+            "dept": [
+              "hr"
+            ]
+          },
+          "amount": 25
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "burnoutMaxOverride",
+          "subject": {
+            "scope": "occupants"
+          },
+          "amount": 3
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "regenPerEvent",
+          "subject": {
+            "scope": "occupants"
+          },
+          "amount": 15,
+          "fromTier": 3
+        }
+      ],
+      "tile": "room.kitchenette.tile",
+      "flavor": "HR regenerates; nobody in it can burn past three stacks."
+    },
+    {
+      "id": "room.training_room",
+      "name": "Training Room",
+      "kind": "general",
+      "footprint": {
+        "w": 2,
+        "h": 2
+      },
+      "floors": [
+        "floor.f1",
+        "floor.f2"
+      ],
+      "landingLegal": true,
+      "cost": 9,
+      "fixed": false,
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "push",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 900
+        },
+        {
+          "on": "periodic",
+          "do": "status",
+          "status": "status.overtime",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "occupants"
+          },
+          "every": 100,
+          "subject": {
+            "scope": "occupants"
+          }
+        },
+        {
+          "on": "periodic",
+          "do": "cleanse",
+          "status": "status.burnout",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "occupants"
+          },
+          "every": 200,
+          "subject": {
+            "scope": "occupants"
+          },
+          "fromTier": 3
+        }
+      ],
+      "tile": "room.training_room.tile",
+      "flavor": "Overtime for everyone every five seconds. A Burnout engine unless HR is nearby."
+    },
+    {
+      "id": "room.executive_lounge",
+      "name": "Executive Lounge",
+      "kind": "executive",
+      "footprint": {
+        "w": 2,
+        "h": 2
+      },
+      "floors": [
+        "floor.f3"
+      ],
+      "landingLegal": true,
+      "cost": 9,
+      "fixed": false,
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "occupants"
+          },
+          "amount": 150
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "push",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 800
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "regenPerEvent",
+          "subject": {
+            "scope": "occupants"
+          },
+          "amount": 20,
+          "fromTier": 3
+        }
+      ],
+      "tile": "room.executive_lounge.tile",
+      "flavor": "The turtle's executive floor. +150 Goodwill per occupant, ×0.8 output."
+    },
+    {
+      "id": "room.archive",
+      "name": "Archive",
+      "kind": "extraplanar",
+      "footprint": {
+        "w": 1,
+        "h": 2
+      },
+      "floors": [
+        "floor.b1"
+      ],
+      "landingLegal": true,
+      "cost": 5,
+      "fixed": false,
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "occupants"
+          },
+          "amount": 150
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "anomaly",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 800
+        },
+        {
+          "on": "static",
+          "do": "flag",
+          "flag": "untargetable",
+          "subject": {
+            "scope": "occupants"
+          },
+          "fromTier": 3
+        }
+      ],
+      "tile": "room.archive.tile",
+      "flavor": "Offsets the portal tax. Nothing in the archive works very hard."
+    }
+  ]
+}

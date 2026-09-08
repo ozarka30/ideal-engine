@@ -1,0 +1,62 @@
+{
+  "modes": [
+    {
+      "id": "mode.campaign",
+      "name": "Campaign",
+      "map": "map.campaign",
+      "interludes": true,
+      "rivalSource": {
+        "scripted": true,
+        "templates": true,
+        "ghosts": false
+      },
+      "rivalGimmicks": true,
+      "gimmicksFromRound": 8,
+      "portalUnlock": {
+        "condition": "bossDefeated",
+        "act": 1
+      },
+      "winBonus": {
+        "fight": 3,
+        "audit": 5,
+        "boss": 5
+      },
+      "strikes": 3,
+      "rounds": 16,
+      "metaUnlocks": true,
+      "rating": false,
+      "snapshotCapture": false,
+      "drawIsLossWithoutStrike": true,
+      "firstRunTutorial": true
+    },
+    {
+      "id": "mode.ranked",
+      "name": "Ranked",
+      "map": null,
+      "interludes": false,
+      "rivalSource": {
+        "scripted": false,
+        "templates": true,
+        "ghosts": true
+      },
+      "rivalGimmicks": false,
+      "gimmicksFromRound": null,
+      "portalUnlock": {
+        "condition": "round",
+        "round": 5
+      },
+      "winBonus": {
+        "fight": 3,
+        "audit": 3,
+        "boss": 3
+      },
+      "strikes": 3,
+      "rounds": 16,
+      "metaUnlocks": false,
+      "rating": true,
+      "snapshotCapture": true,
+      "drawIsLossWithoutStrike": false,
+      "firstRunTutorial": false
+    }
+  ]
+}

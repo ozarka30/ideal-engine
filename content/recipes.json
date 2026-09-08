@@ -1,0 +1,1128 @@
+{
+  "recipes": [
+    {
+      "id": "recipe.junior_dev",
+      "name": "Graduate Scheme",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.intern"
+          },
+          "count": 2,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "furn.pc_90s"
+          },
+          "count": 1,
+          "consumed": false,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": null,
+      "result": {
+        "kind": "employee",
+        "defId": "emp.junior_dev"
+      },
+      "codexHint": "Two interns and something to type on."
+    },
+    {
+      "id": "recipe.senior_dev",
+      "name": "Promotion Cycle",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.junior_dev"
+          },
+          "count": 2,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "furn.whiteboard"
+          },
+          "count": 1,
+          "consumed": false,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": null,
+      "result": {
+        "kind": "employee",
+        "defId": "emp.senior_dev"
+      },
+      "codexHint": "Two juniors and a whiteboard."
+    },
+    {
+      "id": "recipe.sysadmin",
+      "name": "Nobody Else Would",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.junior_dev"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "emp.qa_tester"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": null,
+      "result": {
+        "kind": "employee",
+        "defId": "emp.sysadmin"
+      },
+      "codexHint": "A developer and a tester, left alone together."
+    },
+    {
+      "id": "recipe.architect",
+      "name": "Ivory Tower",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.senior_dev"
+          },
+          "count": 2,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.server_room"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.architect"
+      },
+      "codexHint": "Two seniors, somewhere hot."
+    },
+    {
+      "id": "recipe.cto",
+      "name": "Technical Leadership",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.senior_dev"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "emp.devops"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.open_plan"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.cto"
+      },
+      "codexHint": "A senior and a deployer, in the open."
+    },
+    {
+      "id": "recipe.devops",
+      "name": "Ops Now Too",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.junior_dev"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "emp.team_lead"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": null,
+      "result": {
+        "kind": "employee",
+        "defId": "emp.devops"
+      },
+      "codexHint": "A junior who was delegated to once too often."
+    },
+    {
+      "id": "recipe.counsel",
+      "name": "Called to the Bar",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.paralegal"
+          },
+          "count": 2,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "furn.filing_cabinet"
+          },
+          "count": 1,
+          "consumed": false,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": null,
+      "result": {
+        "kind": "employee",
+        "defId": "emp.counsel"
+      },
+      "codexHint": "Two paralegals and a cabinet."
+    },
+    {
+      "id": "recipe.general_counsel",
+      "name": "Partner Track",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.counsel"
+          },
+          "count": 2,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.legal_dept"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.general_counsel"
+      },
+      "codexHint": "Two Counsel, in their department."
+    },
+    {
+      "id": "recipe.patent_attorney",
+      "name": "Prior Art",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.paralegal"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "emp.qa_tester"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": null,
+      "result": {
+        "kind": "employee",
+        "defId": "emp.patent_attorney"
+      },
+      "codexHint": "Someone who reads contracts and someone who reads code."
+    },
+    {
+      "id": "recipe.compliance_officer",
+      "name": "Box-Ticking",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.paralegal"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "emp.office_manager"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": null,
+      "result": {
+        "kind": "employee",
+        "defId": "emp.compliance_officer"
+      },
+      "codexHint": "Legal and the person with the keys."
+    },
+    {
+      "id": "recipe.account_manager",
+      "name": "Quota",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.sales_rep"
+          },
+          "count": 2,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.sales_floor"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.account_manager"
+      },
+      "codexHint": "Two reps on the floor."
+    },
+    {
+      "id": "recipe.headhunter",
+      "name": "Poaching Licence",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.sales_rep"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "emp.paralegal"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": null,
+      "result": {
+        "kind": "employee",
+        "defId": "emp.headhunter"
+      },
+      "codexHint": "Sales with legal cover."
+    },
+    {
+      "id": "recipe.sales_director",
+      "name": "Pipeline",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.account_manager"
+          },
+          "count": 2,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.sales_floor"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.sales_director"
+      },
+      "codexHint": "Two closers on the floor."
+    },
+    {
+      "id": "recipe.key_account_manager",
+      "name": "Enterprise",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.account_manager"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "emp.counsel"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": null,
+      "result": {
+        "kind": "employee",
+        "defId": "emp.key_account_manager"
+      },
+      "codexHint": "A closer and a lawyer."
+    },
+    {
+      "id": "recipe.hr_manager",
+      "name": "Wellness Initiative",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.recruiter"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "furn.water_cooler"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.break_room"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.hr_manager"
+      },
+      "codexHint": "A recruiter, a cooler, a break room. The cooler does not survive."
+    },
+    {
+      "id": "recipe.trainer",
+      "name": "Onboarding",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.recruiter"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "emp.project_manager"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": null,
+      "result": {
+        "kind": "employee",
+        "defId": "emp.trainer"
+      },
+      "codexHint": "HR and a planner."
+    },
+    {
+      "id": "recipe.head_of_people",
+      "name": "People Function",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.hr_manager"
+          },
+          "count": 2,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.kitchenette"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.head_of_people"
+      },
+      "codexHint": "Two HR managers, near the kettle."
+    },
+    {
+      "id": "recipe.director",
+      "name": "Succession",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.team_lead"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "kind": "employee",
+            "tier": 2
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.boardroom"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.director"
+      },
+      "codexHint": "A Team Lead and any Tier 2, in the boardroom. The Tier 2 does not survive."
+    },
+    {
+      "id": "recipe.middle_manager",
+      "name": "Alignment",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.team_lead"
+          },
+          "count": 2,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.meeting_room"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.middle_manager"
+      },
+      "codexHint": "Two leads, one meeting."
+    },
+    {
+      "id": "recipe.consultant",
+      "name": "External Perspective",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.project_manager"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "emp.paralegal"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": null,
+      "result": {
+        "kind": "employee",
+        "defId": "emp.consultant"
+      },
+      "codexHint": "A planner and a lawyer become something worse."
+    },
+    {
+      "id": "recipe.vp_operations",
+      "name": "Reorganisation",
+      "class": "promotion",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.middle_manager"
+          },
+          "count": 2,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.boardroom"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.vp_operations"
+      },
+      "codexHint": "Two middle managers, upstairs."
+    },
+    {
+      "id": "recipe.monitoring_station",
+      "name": "Situational Awareness",
+      "class": "renovation",
+      "inputs": [
+        {
+          "match": {
+            "defId": "furn.whiteboard"
+          },
+          "count": 2,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": null,
+      "result": {
+        "kind": "furniture",
+        "defId": "furn.monitoring_station"
+      },
+      "codexHint": "Two whiteboards."
+    },
+    {
+      "id": "recipe.break_room_iii",
+      "name": "Culture",
+      "class": "renovation",
+      "inputs": [
+        {
+          "match": {
+            "defId": "furn.water_cooler"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "furn.yakult_cart"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.break_room"
+      },
+      "result": {
+        "kind": "roomTier",
+        "tier": 3
+      },
+      "codexHint": "Drinks in the break room."
+    },
+    {
+      "id": "recipe.shredder",
+      "name": "Document Retention",
+      "class": "renovation",
+      "inputs": [
+        {
+          "match": {
+            "defId": "furn.filing_cabinet"
+          },
+          "count": 2,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": null,
+      "result": {
+        "kind": "furniture",
+        "defId": "furn.shredder"
+      },
+      "codexHint": "Two cabinets."
+    },
+    {
+      "id": "recipe.copier",
+      "name": "Multifunction",
+      "class": "renovation",
+      "inputs": [
+        {
+          "match": {
+            "defId": "furn.pc_90s"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "furn.fax_machine"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": null,
+      "result": {
+        "kind": "furniture",
+        "defId": "furn.copier"
+      },
+      "codexHint": "A computer and a fax."
+    },
+    {
+      "id": "recipe.fax_machine",
+      "name": "Switchboard",
+      "class": "renovation",
+      "inputs": [
+        {
+          "match": {
+            "defId": "furn.desk_phone"
+          },
+          "count": 2,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": null,
+      "result": {
+        "kind": "furniture",
+        "defId": "furn.fax_machine"
+      },
+      "codexHint": "Two phones."
+    },
+    {
+      "id": "recipe.reception_tenure",
+      "name": "Front of House",
+      "class": "renovation",
+      "inputs": [
+        {
+          "match": {
+            "defId": "furn.potted_plant"
+          },
+          "count": 2,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.reception"
+      },
+      "result": {
+        "kind": "roomTenure",
+        "rounds": 3
+      },
+      "codexHint": "Greenery at the desk."
+    },
+    {
+      "id": "recipe.legal_dept_iii",
+      "name": "Precedent",
+      "class": "renovation",
+      "inputs": [
+        {
+          "match": {
+            "defId": "furn.filing_cabinet"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "furn.pc_90s"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.legal_dept"
+      },
+      "result": {
+        "kind": "roomTier",
+        "tier": 3
+      },
+      "codexHint": "Paper and a database, in Legal."
+    },
+    {
+      "id": "recipe.open_plan_tenure",
+      "name": "Standing Desks",
+      "class": "renovation",
+      "inputs": [
+        {
+          "match": {
+            "defId": "furn.whiteboard"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "furn.pc_90s"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.open_plan"
+      },
+      "result": {
+        "kind": "roomTenure",
+        "rounds": 3
+      },
+      "codexHint": "Board and machine, in the open."
+    },
+    {
+      "id": "recipe.corner_office_iii",
+      "name": "Made It",
+      "class": "renovation",
+      "inputs": [
+        {
+          "match": {
+            "defId": "furn.executive_desk"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "furn.potted_plant"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.corner_office"
+      },
+      "result": {
+        "kind": "roomTier",
+        "tier": 3
+      },
+      "codexHint": "A desk and a plant, in the corner."
+    },
+    {
+      "id": "recipe.kitchenette_iii",
+      "name": "Free Snacks",
+      "class": "renovation",
+      "inputs": [
+        {
+          "match": {
+            "defId": "furn.vending_machine"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "furn.water_cooler"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.kitchenette"
+      },
+      "result": {
+        "kind": "roomTier",
+        "tier": 3
+      },
+      "codexHint": "Snacks and water, in the kitchen."
+    },
+    {
+      "id": "recipe.sales_floor_tenure",
+      "name": "Boiler Room",
+      "class": "renovation",
+      "inputs": [
+        {
+          "match": {
+            "defId": "furn.yakult_cart"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "furn.desk_phone"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.sales_floor"
+      },
+      "result": {
+        "kind": "roomTenure",
+        "rounds": 3
+      },
+      "codexHint": "A drink and a phone, on the floor."
+    },
+    {
+      "id": "recipe.summoning_circle_iii",
+      "name": "Consecration",
+      "class": "renovation",
+      "inputs": [
+        {
+          "match": {
+            "defId": "furn.ofuda"
+          },
+          "count": 2,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.summoning_circle"
+      },
+      "result": {
+        "kind": "roomTier",
+        "tier": 3
+      },
+      "codexHint": "Two charms, in the circle."
+    },
+    {
+      "id": "recipe.x_never_left",
+      "name": "Retention",
+      "class": "ritual",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.junior_dev"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "emp.x_salaryman_ghost"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.summoning_circle"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.x_salaryman_who_never_left"
+      },
+      "codexHint": "A junior and a ghost."
+    },
+    {
+      "id": "recipe.x_chairman",
+      "name": "Quorum",
+      "class": "ritual",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.x_salaryman_ghost"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "emp.x_office_lady"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "emp.x_auditor"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.summoning_circle"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.x_the_chairman"
+      },
+      "codexHint": "Three of the Agency's finest."
+    },
+    {
+      "id": "recipe.x_fax_spirit",
+      "name": "Dead Line",
+      "class": "ritual",
+      "inputs": [
+        {
+          "match": {
+            "defId": "furn.fax_machine"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "furn.ofuda"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.summoning_circle"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.x_fax_spirit"
+      },
+      "codexHint": "A fax and a charm. The fax was already haunted."
+    },
+    {
+      "id": "recipe.x_kappa_intern",
+      "name": "Work Experience",
+      "class": "ritual",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.intern"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "furn.ofuda"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.summoning_circle"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.x_kappa_intern"
+      },
+      "codexHint": "An intern and a charm."
+    },
+    {
+      "id": "recipe.x_partner",
+      "name": "Equity Event",
+      "class": "ritual",
+      "inputs": [
+        {
+          "match": {
+            "kind": "employee",
+            "tier": 3
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "emp.x_office_lady"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.summoning_circle"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.x_the_partner"
+      },
+      "codexHint": "Any Tier 3 and the Office Lady. The Tier 3 does not survive."
+    },
+    {
+      "id": "recipe.x_efficiency_wraith",
+      "name": "Post-Engagement",
+      "class": "ritual",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.consultant"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "emp.x_salaryman_ghost"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.summoning_circle"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.x_efficiency_wraith"
+      },
+      "codexHint": "A consultant and a ghost."
+    },
+    {
+      "id": "recipe.x_recruiting_oni",
+      "name": "Aggressive Hiring",
+      "class": "ritual",
+      "inputs": [
+        {
+          "match": {
+            "defId": "emp.headhunter"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        },
+        {
+          "match": {
+            "defId": "emp.x_kappa_intern"
+          },
+          "count": 1,
+          "consumed": true,
+          "adjacency": "adjacent"
+        }
+      ],
+      "context": {
+        "room": "room.summoning_circle"
+      },
+      "result": {
+        "kind": "employee",
+        "defId": "emp.x_recruiting_oni"
+      },
+      "codexHint": "A headhunter and the kappa."
+    }
+  ]
+}

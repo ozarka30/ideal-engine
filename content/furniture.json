@@ -1,0 +1,377 @@
+{
+  "furniture": [
+    {
+      "id": "furn.whiteboard",
+      "name": "Whiteboard",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "wallMounted": true,
+      "cost": 2,
+      "rarity": "common",
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "flatPush",
+          "subject": {
+            "scope": "adjacent",
+            "dept": [
+              "engineering"
+            ]
+          },
+          "amount": 15
+        }
+      ],
+      "sprite": "furn.whiteboard",
+      "flavor": "+15 Push to adjacent Engineering. Recipe input."
+    },
+    {
+      "id": "furn.pc_90s",
+      "name": "90s PC",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "wallMounted": false,
+      "cost": 2,
+      "rarity": "common",
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "cooldown",
+          "subject": {
+            "scope": "adjacent",
+            "dept": [
+              "engineering"
+            ]
+          },
+          "permille": 900
+        }
+      ],
+      "sprite": "furn.pc_90s",
+      "flavor": "Adjacent Engineering 10% faster. Beige."
+    },
+    {
+      "id": "furn.filing_cabinet",
+      "name": "Filing Cabinet",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "wallMounted": false,
+      "cost": 2,
+      "rarity": "common",
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "adjacent",
+            "dept": [
+              "legal"
+            ]
+          },
+          "amount": 60
+        }
+      ],
+      "sprite": "furn.filing_cabinet",
+      "flavor": "+60 Goodwill per adjacent Legal. Recipe input."
+    },
+    {
+      "id": "furn.fax_machine",
+      "name": "Fax Machine",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "wallMounted": false,
+      "cost": 4,
+      "rarity": "uncommon",
+      "effects": [
+        {
+          "on": "periodic",
+          "do": "retrigger",
+          "target": {
+            "side": "own",
+            "scope": "adjacent",
+            "dept": [
+              "legal"
+            ],
+            "pick": "highest_base_value"
+          },
+          "every": 120
+        }
+      ],
+      "sprite": "furn.fax_machine",
+      "flavor": "Every 6s the adjacent Legal with the highest value fires again."
+    },
+    {
+      "id": "furn.water_cooler",
+      "name": "Water Cooler",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "wallMounted": false,
+      "cost": 2,
+      "rarity": "common",
+      "effects": [
+        {
+          "on": "periodic",
+          "do": "cleanse",
+          "status": "status.burnout",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "adjacent"
+          },
+          "every": 200
+        }
+      ],
+      "sprite": "furn.water_cooler",
+      "flavor": "Every 10s, −1 Burnout to each neighbour. Recipe input."
+    },
+    {
+      "id": "furn.yakult_cart",
+      "name": "Yakult Cart",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "wallMounted": false,
+      "cost": 4,
+      "rarity": "uncommon",
+      "effects": [
+        {
+          "on": "banner",
+          "do": "status",
+          "status": "status.overtime",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "adjacent"
+          },
+          "month": 0
+        }
+      ],
+      "sprite": "furn.yakult_cart",
+      "flavor": "At Quarter Open, everyone adjacent gets Overtime. The hangover is scheduled."
+    },
+    {
+      "id": "furn.monitoring_station",
+      "name": "Monitoring Station",
+      "footprint": {
+        "w": 1,
+        "h": 2
+      },
+      "wallMounted": false,
+      "cost": 4,
+      "rarity": "uncommon",
+      "effects": [
+        {
+          "on": "static",
+          "do": "override",
+          "override": "floorSelector",
+          "to": "most_populated_floor",
+          "subject": {
+            "scope": "adjacent"
+          }
+        }
+      ],
+      "sprite": "furn.monitoring_station",
+      "flavor": "Adjacent employees aim their statuses at the most populated floor."
+    },
+    {
+      "id": "furn.executive_desk",
+      "name": "Executive Desk",
+      "footprint": {
+        "w": 1,
+        "h": 2
+      },
+      "wallMounted": false,
+      "cost": 4,
+      "rarity": "uncommon",
+      "floors": [
+        "floor.f3"
+      ],
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "retriggerBonus",
+          "subject": {
+            "scope": "adjacent",
+            "dept": [
+              "management"
+            ]
+          },
+          "permille": 1250
+        }
+      ],
+      "sprite": "furn.executive_desk",
+      "flavor": "Adjacent Management retriggers ×1.25."
+    },
+    {
+      "id": "furn.ofuda",
+      "name": "Ofuda",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "wallMounted": true,
+      "cost": 2,
+      "rarity": "common",
+      "floors": [
+        "floor.b1"
+      ],
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "anomalySelfCost",
+          "subject": {
+            "scope": "adjacent",
+            "dept": [
+              "extraplanar"
+            ]
+          },
+          "permille": -125
+        }
+      ],
+      "sprite": "furn.ofuda",
+      "flavor": "Halves the Anomaly self-cost of adjacent extraplanar staff. Stacks with the Circle to zero."
+    },
+    {
+      "id": "furn.desk_phone",
+      "name": "Desk Phone",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "wallMounted": false,
+      "cost": 2,
+      "rarity": "common",
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "flatPush",
+          "subject": {
+            "scope": "adjacent",
+            "dept": [
+              "sales"
+            ]
+          },
+          "amount": 10
+        }
+      ],
+      "sprite": "furn.desk_phone",
+      "flavor": "+10 Push to adjacent Sales."
+    },
+    {
+      "id": "furn.shredder",
+      "name": "Shredder",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "wallMounted": false,
+      "cost": 4,
+      "rarity": "uncommon",
+      "effects": [
+        {
+          "on": "periodic",
+          "do": "cleanse",
+          "status": "status.bureaucracy",
+          "stacks": 1,
+          "target": {
+            "side": "own",
+            "scope": "adjacent"
+          },
+          "every": 160
+        }
+      ],
+      "sprite": "furn.shredder",
+      "flavor": "Every 8s, −1 Bureaucracy to each neighbour."
+    },
+    {
+      "id": "furn.potted_plant",
+      "name": "Potted Plant",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "wallMounted": false,
+      "cost": 2,
+      "rarity": "common",
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "adjacent"
+          },
+          "amount": 30
+        }
+      ],
+      "sprite": "furn.potted_plant",
+      "flavor": "+30 Goodwill per neighbour. Dies mysteriously in round 3 of the first run."
+    },
+    {
+      "id": "furn.copier",
+      "name": "Copier",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "wallMounted": false,
+      "cost": 4,
+      "rarity": "uncommon",
+      "effects": [
+        {
+          "on": "afterFire",
+          "do": "retrigger",
+          "target": {
+            "side": "own",
+            "scope": "self"
+          },
+          "everyN": 4,
+          "subject": {
+            "scope": "adjacent"
+          }
+        }
+      ],
+      "sprite": "furn.copier",
+      "flavor": "Every fourth time a neighbour fires, it fires again."
+    },
+    {
+      "id": "furn.vending_machine",
+      "name": "Vending Machine",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "wallMounted": false,
+      "cost": 2,
+      "rarity": "common",
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "burnoutMaxDelta",
+          "subject": {
+            "scope": "adjacent"
+          },
+          "amount": -1
+        }
+      ],
+      "sprite": "furn.vending_machine",
+      "flavor": "Neighbours burn out one stack less. Snacks."
+    }
+  ]
+}
