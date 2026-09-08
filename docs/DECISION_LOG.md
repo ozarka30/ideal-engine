@@ -54,9 +54,17 @@ history of a reversal is the most useful thing in a document like this.
 | [D-23](#d-23) | Comebacks exist — the bar travels freely back through the centre | Human | Q-GW-6 |
 | [D-24](#d-24) | Reconstruction is painful; rewards for good commitment scale to match | Human | Q-RISK-2 |
 | [D-25](#d-25) | Tenure — rooms compound while they stay put and stay staffed | Craft | Q-ECO-1 |
+| [D-26](#d-26) | 640 × 360 logical canvas at integer scale | Craft | Phase 2 |
+| [D-27](#d-27) | Fixed-point permille arithmetic; ordered multiplier chain, floor after each step | Craft | Phase 2 |
+| [D-28](#d-28) | mulberry32, seeded once, consumed only by the two random selectors | Craft | Phase 2 |
+| [D-29](#d-29) | Simultaneous resolutions alternate side priority by tick parity | Craft | Phase 2 |
+| [D-30](#d-30) | Market Share is 10,000 points with a per-firm remainder carry | Craft | Phase 2 |
+| [D-31](#d-31) | Interludes do not advance the round; unpaid upkeep is paid in Goodwill cap | Craft | Phase 2 |
+| [D-32](#d-32) | Push has no target; floor selectors apply only to employee-affecting effects | Craft | Phase 2 |
+| [D-33](#d-33) | One entry per event, tagged source and target; the replay is the result | Craft | Phase 2 |
 
-Twenty-one craft decisions and four human calls taken. Six questions remain open in
-[`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); none of them blocks Phase 2.
+Twenty-nine craft decisions and four human calls taken. Seven questions remain open in
+[`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one of them blocks a Phase 4 greybox.
 
 ---
 
@@ -534,3 +542,145 @@ guard, and it makes "meaningfully staffed" a definition that must be pinned down
 precisely rather than left to judgement.
 
 Authority: Craft · Question: [Q-ECO-1](OPEN_QUESTIONS.md#q-eco-1--how-is-the-reward-for-a-correct-commitment-made-impactful)
+
+---
+
+## D-26
+
+**All screens are laid out on a 640 × 360 logical canvas and rendered at an integer
+scale: 2× at 720p, 3× at 1080p, 6× at 4K, letterboxed otherwise.**
+
+*Why:* It is the only common logical size that lands on an integer at both 1080p and
+the Steam Deck's 1280 × 800, and 32-pixel tiles at 3× are large enough that a 5 × 3
+floor reads from across a room.
+
+*Consequence:* The build view cannot show five stacked floors at once (480 px), so it
+shows the selected floor with its neighbours above and below and scrolls by whole
+floors — which is also what makes landing-column adjacency visible. 1440p renders at
+2× with a border; that is accepted rather than fractional scaling.
+
+Authority: Craft · Phase 2, `GAME_DESIGN.md` §19
+
+---
+
+## D-27
+
+**Every sim quantity is an integer. Multipliers are permille and are applied one at a
+time in a fixed order, flooring after each step. No intermediate may exceed 2^53.**
+
+*Why:* Two implementations agree on integer arithmetic and disagree on floating point,
+and multiplying permille factors together before dividing overflows exact-integer
+range in JavaScript by the fifth factor.
+
+*Consequence:* The multiplier order in `SIMULATION_SPEC.md` §9.2 is normative, and
+changing it is a rule change that bumps the schema version.
+
+Authority: Craft · Phase 2, `SIMULATION_SPEC.md` §2, §9.2
+
+---
+
+## D-28
+
+**The match RNG is mulberry32, seeded once from the 32-bit match seed, and consumed
+only by the `random_floor` and `random` selectors, in resolution order. Ranged draws
+use `floor(u32 × n / 2^32)` with no rejection sampling.**
+
+*Why:* mulberry32 is a dozen lines of 32-bit integer operations that port identically
+to any language, and restricting its consumers to two named selectors means the
+determinism contract can be audited by reading one section.
+
+*Consequence:* Content cannot introduce randomness except through those selectors.
+The draw is very slightly biased; every implementation is biased identically, which is
+the property that matters.
+
+Authority: Craft · Phase 2, `SIMULATION_SPEC.md` §17
+
+---
+
+## D-29
+
+**When several units are ready on the same tick, they resolve in ascending cooldown
+order, then by side priority that alternates with tick parity, then by index within
+side.**
+
+*Why:* Any fixed side order gives one player a standing edge in every simultaneous
+exchange, and a game whose fights are mirror-symmetric by design should not have a
+first-mover advantage baked into the rules.
+
+*Consequence:* Mirror matches with cooldowns that are not multiples of two ticks
+alternate who lands first; the `tie_parity` fixture exists to lock this.
+
+Authority: Craft · Phase 2, `SIMULATION_SPEC.md` §8.2
+
+---
+
+## D-30
+
+**Market Share is 10,000 Share Points, displayed as a percentage to one decimal. Push
+converts to Share Points through a per-round permille table with a per-firm remainder
+carry, so no chip damage is ever rounded away.**
+
+*Why:* Late-round Push values are an order of magnitude larger than early ones, and
+the bar must read the same in round 1 and round 16 — so the conversion, not the bar,
+scales with the round; the carry makes the conversion exact rather than lossy.
+
+*Consequence:* The conversion table is a `BALANCE_PLAN` knob with a direct effect on
+fight length. A 100-point bar was rejected because one Junior Developer hit would move
+it by a whole percent at round 1.
+
+Authority: Craft · Phase 2, `SIMULATION_SPEC.md` §3.2, §10.3
+
+---
+
+## D-31
+
+**Campaign interludes (Recruiter, Board Meeting, Consultant) are map nodes that do not
+advance the round counter, grant no income, and do not tick Tenure. Upkeep that cannot
+be paid in Budget is paid in Goodwill cap at 100 per `¥1`, for that round only.**
+
+*Why:* Sixteen fights per run (D-21) and three-to-ten-round Tenure thresholds (D-25)
+both need a round to mean a fight, so detours cannot count; and a firm that cannot pay
+rent losing reputation rather than staff is both the honest consequence and the joke.
+
+*Consequence:* A player can never be in debt and can never lose a floor to arrears;
+they can only enter a fight with a smaller buffer. The upkeep-to-Goodwill rate is a
+`BALANCE_PLAN` knob.
+
+Authority: Craft · Phase 2, `GAME_DESIGN.md` §3, §15
+
+---
+
+## D-32
+
+**Push, Morale, Anomaly and Restore target a firm and carry no selector. Floor and
+employee selectors exist only on effects that act on employees — statuses and
+retriggers.**
+
+*Why:* Floors have no hit points; Goodwill belongs to the firm. "Target the highest
+floor" can only ever mean "act on the employees there", so giving Push a floor target
+would have been a field that did nothing.
+
+*Consequence:* This narrows D-10 without contradicting it. The Parent Company's
+"floor-targeting on every ability" means every status it applies is floor-selected,
+and a concentrated tower feels that in Bureaucracy and Burnout, not in raw damage.
+
+Authority: Craft · Phase 2, `SIMULATION_SPEC.md` §6
+
+---
+
+## D-33
+
+**Each event emits exactly one ledger entry carrying `sourceSide`, `targetSide` and
+signed deltas. Which firm's ledger it appears on, and with what sign, is a view
+decision. The replay file is the `MatchResult` itself; there is no separate format.**
+
+*Why:* A Push by A on B is one event that debits B's Goodwill and credits A's Share,
+and recording it once with both sides named is the only representation from which
+both ledgers, the autopsy and the replay can be derived without disagreement.
+
+*Consequence:* The live ledger's "+840 Ship Feature" on A's panel and "−840 Ship
+Feature [RIVAL]" on B's are the same entry rendered twice, which is what the brief's
+example already showed. Supersedes the `side` field sketched in Q-GW-7's entry
+example; the field list in `SIMULATION_SPEC.md` §16.1 is now normative.
+
+Authority: Craft · Phase 2, `SIMULATION_SPEC.md` §16

@@ -65,6 +65,7 @@ decisions.
 | [Q-GBX-2](#q-gbx-2--what-is-the-draw-order-rule-for-overhanging-sprites) | Draw order | y-sort plus explicit `sortBias`; five-key total order | DECIDED · [D-15](DECISION_LOG.md#d-15) |
 | [Q-GBX-3](#q-gbx-3--what-is-the-greybox-palette) | Greybox palette | Six pack-sampled hues, desaturated, category-coded, one source file | NEEDS SIGN-OFF |
 | [Q-GBX-4](#q-gbx-4--what-defines-art-complete) | Art complete | Every entry reachable in a normal run has passing art. No tier exemptions | DECIDED · [D-16](DECISION_LOG.md#d-16) |
+| [Q-GBX-5](#q-gbx-5--can-the-packs-produce-the-decided-battle-and-portrait-dimensions) | Pack-fit of decided dimensions | Verify 96 × 32 floor segments and 64 × 64 portraits against the packs before any greybox | OPEN — Phase 4 action |
 | [Q-RCP-1](#q-rcp-1--how-many-recipes-at-launch-and-how-are-they-discovered) | Recipe count and discovery | ~40 in three classes; codex from run 1 with near-miss feedback | NEEDS SIGN-OFF |
 | [Q-RCP-2](#q-rcp-2--do-recipes-consume-inputs-and-can-they-be-undone) | Consumption and undo | Consume; reversible only inside the same build round | DECIDED · [D-17](DECISION_LOG.md#d-17) |
 | [Q-PTL-1](#q-ptl-1--what-makes-an-extraplanar-hire-a-real-gamble) | Portal risk | Visible per-hire rider plus a Goodwill tax; Anomaly meter as a second layer | NEEDS SIGN-OFF |
@@ -1019,6 +1020,31 @@ ahead of the curve of measured completeness.
 
 ---
 
+### Q-GBX-5 · Can the packs produce the decided battle and portrait dimensions?
+
+**Blocks:** the first greybox of `fx.tower.floor_segment`, `fx.tower.roof`,
+`fx.tower.basement` and `ui.portrait` in Phase 4. Nothing in Phase 2 or 3.
+
+Raised by `GAME_DESIGN.md` §19. The brief forbids approximate greyboxes, so Phase 2
+*decided* the dimensions the isometric battle view and the inspector portrait use
+rather than leaving them open: floor segments are 96 × 32, the roof 96 × 16, the
+basement 96 × 24, the portrait 64 × 64. Those numbers were chosen to fit the 640 × 360
+canvas; they were not derived from the packs.
+
+**What has to happen.** Before any of those four entries is greyboxed, open the
+Japanese City / Osaka / Dotonbori packs and the Portraits pack and confirm a slice at
+each declared size reads correctly. If one cannot, change the manifest entry — and
+the screen layout that depends on it — *then* greybox. The rule is that a greybox is
+never built against a dimension that is known to be wrong.
+
+**Recommendation.** Do this as the first task of Phase 4, before the manifest schema
+is finalised, so that any change is a spec edit rather than a re-layout. It is an
+afternoon with the packs open, not a design question.
+
+**Status:** OPEN — a verification, not a decision. Needs the packs.
+
+---
+
 ## Recipes
 
 ### Q-RCP-1 · How many recipes at launch, and how are they discovered?
@@ -1389,9 +1415,9 @@ be painful, with the rewards for good decisions scaled up to compensate.
 closed. `GAME_DESIGN.md` and `SIMULATION_SPEC.md` can be written without a marked
 assumption anywhere in them.
 
-Six questions remain open. None blocks Phase 2; each is listed here against the phase
-where it first bites, so it can be answered when it is actually needed rather than in
-a batch.
+Seven items remain open. None blocked Phase 2, which is now drafted; each is listed
+here against the phase where it first bites, so it can be answered when it is actually
+needed rather than in a batch.
 
 | Open question | First blocks | Cost of proceeding on the recommendation |
 | --- | --- | --- |
@@ -1401,3 +1427,4 @@ a batch.
 | [Q-RCP-1](#q-rcp-1--how-many-recipes-at-launch-and-how-are-they-discovered) recipe count | Phase 3 — catalogue volume | Medium. ~40 result entities is a large share of the art worklist |
 | [Q-GBX-3](#q-gbx-3--what-is-the-greybox-palette) greybox palette | Phase 4 — `ART_PIPELINE` | Low to change on paper, high to change once screens exist |
 | [Q-RISK-1](#q-risk-1--is-the-guttykreum-licence-cleared-for-commercial-release) asset licence | Release, and any art spend | Not a design decision. It needs an owner and a date, and it is cheapest to answer now |
+| [Q-GBX-5](#q-gbx-5--can-the-packs-produce-the-decided-battle-and-portrait-dimensions) pack-fit | Phase 4 — first greybox of the battle view | Not a decision. An afternoon with the packs open |
