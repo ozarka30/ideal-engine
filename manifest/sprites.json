@@ -1,0 +1,5519 @@
+{
+  "manifestVersion": 1,
+  "contentVersion": "0.1.0",
+  "tileSize": 32,
+  "canvas": {
+    "w": 640,
+    "h": 360
+  },
+  "scales": [
+    2,
+    3,
+    4,
+    6
+  ],
+  "assetRoot": "assets/",
+  "palette": "manifest/greybox_palette.json",
+  "visibilityTiers": {
+    "1": "on the build screen every round",
+    "2": "on the battle or autopsy screen every fight",
+    "3": "seen most runs: map, codex, rarer content",
+    "4": "seen rarely: B1, rituals, bosses, debug"
+  },
+  "entries": [
+    {
+      "id": "emp.intern",
+      "kind": "employee",
+      "category": "people",
+      "label": "Intern",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/intern.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 1,
+      "reads": "A engineering at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.junior_dev",
+      "kind": "employee",
+      "category": "people",
+      "label": "Junior Developer",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/junior_dev.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 1,
+      "reads": "A engineering at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.qa_tester",
+      "kind": "employee",
+      "category": "people",
+      "label": "QA Tester",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/qa_tester.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 1,
+      "reads": "A engineering at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.senior_dev",
+      "kind": "employee",
+      "category": "people",
+      "label": "Senior Developer",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/senior_dev.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A engineering at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.devops",
+      "kind": "employee",
+      "category": "people",
+      "label": "DevOps",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/devops.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A engineering at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.sysadmin",
+      "kind": "employee",
+      "category": "people",
+      "label": "Sysadmin",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/sysadmin.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A engineering at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.architect",
+      "kind": "employee",
+      "category": "people",
+      "label": "Architect",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/architect.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A engineering at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.cto",
+      "kind": "employee",
+      "category": "people",
+      "label": "CTO",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/cto.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A engineering at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.paralegal",
+      "kind": "employee",
+      "category": "people",
+      "label": "Paralegal",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/paralegal.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 1,
+      "reads": "A legal at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.compliance_officer",
+      "kind": "employee",
+      "category": "people",
+      "label": "Compliance Officer",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/compliance_officer.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 1,
+      "reads": "A legal at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.counsel",
+      "kind": "employee",
+      "category": "people",
+      "label": "Counsel",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/counsel.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A legal at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.patent_attorney",
+      "kind": "employee",
+      "category": "people",
+      "label": "Patent Attorney",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/patent_attorney.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A legal at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.general_counsel",
+      "kind": "employee",
+      "category": "people",
+      "label": "General Counsel",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/general_counsel.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A legal at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.recruiter",
+      "kind": "employee",
+      "category": "people",
+      "label": "Recruiter",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/recruiter.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 1,
+      "reads": "A hr at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.office_manager",
+      "kind": "employee",
+      "category": "people",
+      "label": "Office Manager",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/office_manager.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 1,
+      "reads": "A hr at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.hr_manager",
+      "kind": "employee",
+      "category": "people",
+      "label": "HR Manager",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/hr_manager.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A hr at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.trainer",
+      "kind": "employee",
+      "category": "people",
+      "label": "Trainer",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/trainer.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A hr at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.head_of_people",
+      "kind": "employee",
+      "category": "people",
+      "label": "Head of People",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/head_of_people.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A hr at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.telemarketer",
+      "kind": "employee",
+      "category": "people",
+      "label": "Telemarketer",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/telemarketer.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 1,
+      "reads": "A sales at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.sales_rep",
+      "kind": "employee",
+      "category": "people",
+      "label": "Sales Rep",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/sales_rep.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 1,
+      "reads": "A sales at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.account_manager",
+      "kind": "employee",
+      "category": "people",
+      "label": "Account Manager",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/account_manager.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A sales at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.headhunter",
+      "kind": "employee",
+      "category": "people",
+      "label": "Headhunter",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/headhunter.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A sales at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.sales_director",
+      "kind": "employee",
+      "category": "people",
+      "label": "Sales Director",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/sales_director.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A sales at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.key_account_manager",
+      "kind": "employee",
+      "category": "people",
+      "label": "Key Account Manager",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/key_account_manager.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A sales at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.team_lead",
+      "kind": "employee",
+      "category": "people",
+      "label": "Team Lead",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/team_lead.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 1,
+      "reads": "A management at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.project_manager",
+      "kind": "employee",
+      "category": "people",
+      "label": "Project Manager",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/project_manager.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 1,
+      "reads": "A management at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.middle_manager",
+      "kind": "employee",
+      "category": "people",
+      "label": "Middle Manager",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/middle_manager.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A management at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.consultant",
+      "kind": "employee",
+      "category": "people",
+      "label": "Consultant",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/consultant.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A management at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.director",
+      "kind": "employee",
+      "category": "people",
+      "label": "Director",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/director.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A management at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.vp_operations",
+      "kind": "employee",
+      "category": "people",
+      "label": "VP Operations",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/vp_operations.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "A management at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.x_salaryman_ghost",
+      "kind": "employee",
+      "category": "anomalous",
+      "label": "Salaryman Ghost",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/x_salaryman_ghost.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 3,
+      "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.x_office_lady",
+      "kind": "employee",
+      "category": "anomalous",
+      "label": "Office Lady of the Third Floor",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/x_office_lady.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 3,
+      "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.x_auditor",
+      "kind": "employee",
+      "category": "anomalous",
+      "label": "The Auditor",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/x_auditor.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 3,
+      "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.x_fax_spirit",
+      "kind": "employee",
+      "category": "anomalous",
+      "label": "Fax Spirit",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/x_fax_spirit.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 3,
+      "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.x_kappa_intern",
+      "kind": "employee",
+      "category": "anomalous",
+      "label": "Kappa Intern",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/x_kappa_intern.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 1,
+      "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.x_salaryman_who_never_left",
+      "kind": "employee",
+      "category": "anomalous",
+      "label": "Salaryman Who Never Left",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/x_salaryman_who_never_left.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 4,
+      "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.x_the_chairman",
+      "kind": "employee",
+      "category": "anomalous",
+      "label": "The Chairman",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/x_the_chairman.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 4,
+      "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.x_the_partner",
+      "kind": "employee",
+      "category": "anomalous",
+      "label": "The Partner",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/x_the_partner.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 4,
+      "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.x_efficiency_wraith",
+      "kind": "employee",
+      "category": "anomalous",
+      "label": "Efficiency Wraith",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/x_efficiency_wraith.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 4,
+      "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "emp.x_recruiting_oni",
+      "kind": "employee",
+      "category": "anomalous",
+      "label": "Recruiting Oni",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/emp/x_recruiting_oni.png",
+        "sourceRect": null,
+        "frames": {
+          "idleDown": [
+            0,
+            0
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset",
+        "autopsy"
+      ],
+      "visibility": 4,
+      "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
+      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "room.reception.tile",
+      "kind": "tile",
+      "category": "structure",
+      "label": "Reception floor tile",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/topdown/room/reception/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": -10,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "battle.inset",
+        "shop"
+      ],
+      "visibility": 1,
+      "reads": "A tileable floor surface that says 'Reception' without a label; top edge carries a 1px wall",
+      "candidateSource": "Office Interior floor tiles",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "room.open_plan.tile",
+      "kind": "tile",
+      "category": "operations",
+      "label": "Open Plan Office floor tile",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/topdown/room/open_plan/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": -10,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "battle.inset",
+        "shop"
+      ],
+      "visibility": 1,
+      "reads": "A tileable floor surface that says 'Open Plan Office' without a label; top edge carries a 1px wall",
+      "candidateSource": "Office Interior floor tiles",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "room.server_room.tile",
+      "kind": "tile",
+      "category": "operations",
+      "label": "Server Room floor tile",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/topdown/room/server_room/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": -10,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "battle.inset",
+        "shop"
+      ],
+      "visibility": 1,
+      "reads": "A tileable floor surface that says 'Server Room' without a label; top edge carries a 1px wall",
+      "candidateSource": "Office Interior floor tiles",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "room.legal_dept.tile",
+      "kind": "tile",
+      "category": "operations",
+      "label": "Legal Department floor tile",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/topdown/room/legal_dept/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": -10,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "battle.inset",
+        "shop"
+      ],
+      "visibility": 1,
+      "reads": "A tileable floor surface that says 'Legal Department' without a label; top edge carries a 1px wall",
+      "candidateSource": "Office Interior floor tiles",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "room.sales_floor.tile",
+      "kind": "tile",
+      "category": "operations",
+      "label": "Sales Floor floor tile",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/topdown/room/sales_floor/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": -10,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "battle.inset",
+        "shop"
+      ],
+      "visibility": 1,
+      "reads": "A tileable floor surface that says 'Sales Floor' without a label; top edge carries a 1px wall",
+      "candidateSource": "Office Interior floor tiles",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "room.break_room.tile",
+      "kind": "tile",
+      "category": "operations",
+      "label": "Break Room floor tile",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/topdown/room/break_room/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": -10,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "battle.inset",
+        "shop"
+      ],
+      "visibility": 1,
+      "reads": "A tileable floor surface that says 'Break Room' without a label; top edge carries a 1px wall",
+      "candidateSource": "Office Interior floor tiles",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "room.security_desk.tile",
+      "kind": "tile",
+      "category": "operations",
+      "label": "Security Desk floor tile",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/topdown/room/security_desk/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": -10,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "battle.inset",
+        "shop"
+      ],
+      "visibility": 2,
+      "reads": "A tileable floor surface that says 'Security Desk' without a label; top edge carries a 1px wall",
+      "candidateSource": "Office Interior floor tiles",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "room.boardroom.tile",
+      "kind": "tile",
+      "category": "operations",
+      "label": "Boardroom floor tile",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/topdown/room/boardroom/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": -10,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "battle.inset",
+        "shop"
+      ],
+      "visibility": 2,
+      "reads": "A tileable floor surface that says 'Boardroom' without a label; top edge carries a 1px wall",
+      "candidateSource": "Office Interior floor tiles",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "room.corner_office.tile",
+      "kind": "tile",
+      "category": "operations",
+      "label": "Corner Office floor tile",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/topdown/room/corner_office/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": -10,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "battle.inset",
+        "shop"
+      ],
+      "visibility": 2,
+      "reads": "A tileable floor surface that says 'Corner Office' without a label; top edge carries a 1px wall",
+      "candidateSource": "Office Interior floor tiles",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "room.summoning_circle.tile",
+      "kind": "tile",
+      "category": "anomalous",
+      "label": "Summoning Circle floor tile",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/topdown/room/summoning_circle/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": -10,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "battle.inset",
+        "shop"
+      ],
+      "visibility": 4,
+      "reads": "A tileable floor surface that says 'Summoning Circle' without a label; top edge carries a 1px wall",
+      "candidateSource": "Horror Interiors floor tiles",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "room.meeting_room.tile",
+      "kind": "tile",
+      "category": "operations",
+      "label": "Meeting Room floor tile",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/topdown/room/meeting_room/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": -10,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "battle.inset",
+        "shop"
+      ],
+      "visibility": 2,
+      "reads": "A tileable floor surface that says 'Meeting Room' without a label; top edge carries a 1px wall",
+      "candidateSource": "Office Interior floor tiles",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "room.mail_room.tile",
+      "kind": "tile",
+      "category": "operations",
+      "label": "Mail Room floor tile",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/topdown/room/mail_room/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": -10,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "battle.inset",
+        "shop"
+      ],
+      "visibility": 2,
+      "reads": "A tileable floor surface that says 'Mail Room' without a label; top edge carries a 1px wall",
+      "candidateSource": "Office Interior floor tiles",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "room.kitchenette.tile",
+      "kind": "tile",
+      "category": "operations",
+      "label": "Kitchenette floor tile",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/topdown/room/kitchenette/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": -10,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "battle.inset",
+        "shop"
+      ],
+      "visibility": 2,
+      "reads": "A tileable floor surface that says 'Kitchenette' without a label; top edge carries a 1px wall",
+      "candidateSource": "Office Interior floor tiles",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "room.training_room.tile",
+      "kind": "tile",
+      "category": "operations",
+      "label": "Training Room floor tile",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/topdown/room/training_room/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": -10,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "battle.inset",
+        "shop"
+      ],
+      "visibility": 2,
+      "reads": "A tileable floor surface that says 'Training Room' without a label; top edge carries a 1px wall",
+      "candidateSource": "Office Interior floor tiles",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "room.executive_lounge.tile",
+      "kind": "tile",
+      "category": "operations",
+      "label": "Executive Lounge floor tile",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/topdown/room/executive_lounge/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": -10,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "battle.inset",
+        "shop"
+      ],
+      "visibility": 2,
+      "reads": "A tileable floor surface that says 'Executive Lounge' without a label; top edge carries a 1px wall",
+      "candidateSource": "Office Interior floor tiles",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "room.archive.tile",
+      "kind": "tile",
+      "category": "anomalous",
+      "label": "Archive floor tile",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/topdown/room/archive/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": -10,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "battle.inset",
+        "shop"
+      ],
+      "visibility": 4,
+      "reads": "A tileable floor surface that says 'Archive' without a label; top edge carries a 1px wall",
+      "candidateSource": "Horror Interiors floor tiles",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "ui.room_sign",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Room sign strip",
+      "footprint": null,
+      "sprite": {
+        "w": 32,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/room_sign.png",
+        "sourceRect": null
+      },
+      "sortBias": -9,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "A label strip: room name in font.ui.8 with up to three Tenure pips at the right",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "furn.whiteboard",
+      "kind": "furniture",
+      "category": "support",
+      "label": "Whiteboard",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 40,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/furn/whiteboard.png",
+        "sourceRect": null
+      },
+      "sortBias": -5,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 1,
+      "reads": "The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile",
+      "candidateSource": "Office Interior",
+      "verify": false,
+      "releaseGate": true,
+      "note": "wall-mounted: 32x40 sprite over a 1x1 footprint; the top 8px is overhang",
+      "overhang": {
+        "left": 0,
+        "top": 8,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "furn.pc_90s",
+      "kind": "furniture",
+      "category": "support",
+      "label": "90s PC",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/furn/pc_90s.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 1,
+      "reads": "The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile",
+      "candidateSource": "Office Interior",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "furn.filing_cabinet",
+      "kind": "furniture",
+      "category": "support",
+      "label": "Filing Cabinet",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/furn/filing_cabinet.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 1,
+      "reads": "The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile",
+      "candidateSource": "Office Interior",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "furn.fax_machine",
+      "kind": "furniture",
+      "category": "support",
+      "label": "Fax Machine",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/furn/fax_machine.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 2,
+      "reads": "The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile",
+      "candidateSource": "Office Interior",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "furn.water_cooler",
+      "kind": "furniture",
+      "category": "support",
+      "label": "Water Cooler",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/furn/water_cooler.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 1,
+      "reads": "The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile",
+      "candidateSource": "Office Interior",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "furn.yakult_cart",
+      "kind": "furniture",
+      "category": "support",
+      "label": "Yakult Cart",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/furn/yakult_cart.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 2,
+      "reads": "The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile",
+      "candidateSource": "Office Interior",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "furn.monitoring_station",
+      "kind": "furniture",
+      "category": "support",
+      "label": "Monitoring Station",
+      "footprint": {
+        "w": 1,
+        "h": 2
+      },
+      "sprite": {
+        "w": 32,
+        "h": 64,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/furn/monitoring_station.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 2,
+      "reads": "The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile",
+      "candidateSource": "Office Interior",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "furn.executive_desk",
+      "kind": "furniture",
+      "category": "support",
+      "label": "Executive Desk",
+      "footprint": {
+        "w": 1,
+        "h": 2
+      },
+      "sprite": {
+        "w": 32,
+        "h": 64,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/furn/executive_desk.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 2,
+      "reads": "The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile",
+      "candidateSource": "Office Interior",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "furn.ofuda",
+      "kind": "furniture",
+      "category": "anomalous",
+      "label": "Ofuda",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 40,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/furn/ofuda.png",
+        "sourceRect": null
+      },
+      "sortBias": -5,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 4,
+      "reads": "The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile",
+      "candidateSource": "Horror Interiors",
+      "verify": false,
+      "releaseGate": true,
+      "note": "wall-mounted: 32x40 sprite over a 1x1 footprint; the top 8px is overhang",
+      "overhang": {
+        "left": 0,
+        "top": 8,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "furn.desk_phone",
+      "kind": "furniture",
+      "category": "support",
+      "label": "Desk Phone",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/furn/desk_phone.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 1,
+      "reads": "The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile",
+      "candidateSource": "Office Interior",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "furn.shredder",
+      "kind": "furniture",
+      "category": "support",
+      "label": "Shredder",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/furn/shredder.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 2,
+      "reads": "The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile",
+      "candidateSource": "Office Interior",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "furn.potted_plant",
+      "kind": "furniture",
+      "category": "support",
+      "label": "Potted Plant",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/furn/potted_plant.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 1,
+      "reads": "The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile",
+      "candidateSource": "Office Interior",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "furn.copier",
+      "kind": "furniture",
+      "category": "support",
+      "label": "Copier",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/furn/copier.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 2,
+      "reads": "The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile",
+      "candidateSource": "Office Interior",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "furn.vending_machine",
+      "kind": "furniture",
+      "category": "support",
+      "label": "Vending Machine",
+      "footprint": {
+        "w": 1,
+        "h": 1
+      },
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/topdown/furn/vending_machine.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "topdown",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 1,
+      "reads": "The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile",
+      "candidateSource": "Office Interior",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "id": "ui.build.topbar",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Build top bar",
+      "footprint": null,
+      "sprite": {
+        "w": 640,
+        "h": 24,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/build/topbar.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "Round, budget, upkeep, strikes, READY",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 0,
+        "y": 0
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.build.tower",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Tower viewport frame",
+      "footprint": null,
+      "sprite": {
+        "w": 176,
+        "h": 304,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/build/tower.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "Frame around the three-floor viewport",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 8,
+        "y": 32
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.build.shaft",
+      "kind": "ui",
+      "category": "structure",
+      "label": "Elevator shaft",
+      "footprint": null,
+      "sprite": {
+        "w": 16,
+        "h": 304,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/build/shaft.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "A vertical shaft with floor labels; the landing column sits to its right",
+      "candidateSource": "Office Interior (elevator doors)",
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 8,
+        "y": 32
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.build.floor_frame",
+      "kind": "ui",
+      "category": "structure",
+      "label": "Floor viewport frame",
+      "footprint": null,
+      "sprite": {
+        "w": 160,
+        "h": 96,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/build/floor_frame.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "Frame for one 5x3 floor; dimmed at 50% when not selected",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.build.floor_void",
+      "kind": "ui",
+      "category": "structure",
+      "label": "Hatched void for undersized floors",
+      "footprint": null,
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/build/floor_void.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 2,
+      "reads": "Hatched tile filling the unused part of a 4x2 or 3x3 floor's 160x96 slot",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.build.landing_highlight",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Landing column highlight",
+      "footprint": null,
+      "sprite": {
+        "w": 1,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/build/landing_highlight.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "A 1px vertical highlight on the left edge of landing tiles",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.build.shop",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Shop panel",
+      "footprint": null,
+      "sprite": {
+        "w": 232,
+        "h": 304,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/build/shop.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "Panel with tab bar, card rows, Otherworld row, Lease section",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 192,
+        "y": 32
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.build.tab",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Shop tab",
+      "footprint": null,
+      "sprite": {
+        "w": 76,
+        "h": 16,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/build/tab.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "STAFF / ROOMS / FURNITURE tab, selected state distinct",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.build.lease_button",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Lease button",
+      "footprint": null,
+      "sprite": {
+        "w": 72,
+        "h": 24,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/build/lease_button.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "Floor name, price, projected upkeep",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.build.inspector",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Inspector panel",
+      "footprint": null,
+      "sprite": {
+        "w": 200,
+        "h": 304,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/build/inspector.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "Portrait, name, department, detail rows, action button",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 432,
+        "y": 32
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.build.action_button",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Inspector action button",
+      "footprint": null,
+      "sprite": {
+        "w": 184,
+        "h": 20,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/build/action_button.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "LAY OFF · ¥1 or DEMOLISH · ¥13",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.build.ready",
+      "kind": "ui",
+      "category": "interface",
+      "label": "READY button",
+      "footprint": null,
+      "sprite": {
+        "w": 80,
+        "h": 16,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/build/ready.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "The commit. No confirmation",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 552,
+        "y": 4
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.build.hint",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Hint line",
+      "footprint": null,
+      "sprite": {
+        "w": 640,
+        "h": 16,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/build/hint.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "One line of font.ui.8",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 0,
+        "y": 344
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.build.promote_glyph",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Promote glyph",
+      "footprint": null,
+      "sprite": {
+        "w": 16,
+        "h": 16,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "asset": "assets/ui/ui/build/promote_glyph.png",
+        "sourceRect": null
+      },
+      "sortBias": 9,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "An unmistakable 'combine available' mark, pulsing",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.build.nearmiss_glyph",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Near-miss glyph",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "asset": "assets/ui/ui/build/nearmiss_glyph.png",
+        "sourceRect": null
+      },
+      "sortBias": 9,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "A small '?' that flickers once",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.card.applicant",
+      "kind": "ui",
+      "category": "people",
+      "label": "Applicant card",
+      "footprint": null,
+      "sprite": {
+        "w": 52,
+        "h": 80,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/card/applicant.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "shop",
+        "reward"
+      ],
+      "visibility": 1,
+      "reads": "Portrait slot (10,4,32,32); name (2,40,48,8); dept icon 8x8 at (2,50) + tier pips; ability two lines (2,60,48,16); cost tag (2,72,20,8); rider strip replaces ability line 2 for extraplanar",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.card.room",
+      "kind": "ui",
+      "category": "operations",
+      "label": "Room card",
+      "footprint": null,
+      "sprite": {
+        "w": 52,
+        "h": 80,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/card/room.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "shop"
+      ],
+      "visibility": 1,
+      "reads": "Footprint diagram 32x32 at (10,4) at 8px per cell; name; aura line; legal-floor glyphs 6x6 at (2,60); cost tag",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.card.furniture",
+      "kind": "ui",
+      "category": "support",
+      "label": "Furniture card",
+      "footprint": null,
+      "sprite": {
+        "w": 52,
+        "h": 80,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/card/furniture.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "shop"
+      ],
+      "visibility": 1,
+      "reads": "Sprite at (10,4); name; effect line; cost",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.card.otherworld",
+      "kind": "ui",
+      "category": "anomalous",
+      "label": "Otherworld Temp Agency card",
+      "footprint": null,
+      "sprite": {
+        "w": 52,
+        "h": 80,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/card/otherworld.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "shop"
+      ],
+      "visibility": 3,
+      "reads": "As applicant card in the anomalous tone with a rider strip",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.aura_badge",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Aura badge",
+      "footprint": null,
+      "sprite": {
+        "w": 12,
+        "h": 8,
+        "anchor": {
+          "x": 1.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/aura_badge.png",
+        "sourceRect": null
+      },
+      "sortBias": 8,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "'x1.2' in font.ui.8 on a tag, top-right of the tile",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.link_line",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Furniture link line",
+      "footprint": null,
+      "sprite": {
+        "w": 1,
+        "h": 1,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/link_line.png",
+        "sourceRect": null
+      },
+      "sortBias": 7,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "1px line from furniture to each triggered employee; tiles the length",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.tenure_pip",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Tenure pip",
+      "footprint": null,
+      "sprite": {
+        "w": 4,
+        "h": 4,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/tenure_pip.png",
+        "sourceRect": null
+      },
+      "sortBias": -9,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "A filled 4x4 pip; up to three in the sign",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.portrait",
+      "kind": "ui",
+      "category": "people",
+      "label": "Inspector portrait",
+      "footprint": null,
+      "sprite": {
+        "w": 64,
+        "h": 64,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/portrait.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "A face. Larger than the sprite, same character",
+      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
+      "verify": true,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.dept.engineering",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Department icon: engineering",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/dept/engineering.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 1,
+      "reads": "Department at 8px: a glyph, not a letter",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.dept.legal",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Department icon: legal",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/dept/legal.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 1,
+      "reads": "Department at 8px: a glyph, not a letter",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.dept.hr",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Department icon: hr",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/dept/hr.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 1,
+      "reads": "Department at 8px: a glyph, not a letter",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.dept.sales",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Department icon: sales",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/dept/sales.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 1,
+      "reads": "Department at 8px: a glyph, not a letter",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.dept.management",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Department icon: management",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/dept/management.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 1,
+      "reads": "Department at 8px: a glyph, not a letter",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.dept.extraplanar",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Department icon: extraplanar",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/dept/extraplanar.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "shop",
+        "battle.inset"
+      ],
+      "visibility": 1,
+      "reads": "Department at 8px: a glyph, not a letter",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.tier_pip",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Tier pip",
+      "footprint": null,
+      "sprite": {
+        "w": 4,
+        "h": 4,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/tier_pip.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "shop"
+      ],
+      "visibility": 1,
+      "reads": "Filled pip; one to three",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.status.burnout",
+      "kind": "icon",
+      "category": "anomalous",
+      "label": "Status icon: Burnout",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/status/burnout.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle.inset",
+        "autopsy",
+        "build"
+      ],
+      "visibility": 2,
+      "reads": "The status at 8px, with a stack count beside it",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.status.overtime",
+      "kind": "icon",
+      "category": "operations",
+      "label": "Status icon: Overtime",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/status/overtime.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle.inset",
+        "autopsy",
+        "build"
+      ],
+      "visibility": 2,
+      "reads": "The status at 8px, with a stack count beside it",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.status.bureaucracy",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Status icon: Bureaucracy",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/status/bureaucracy.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle.inset",
+        "autopsy",
+        "build"
+      ],
+      "visibility": 2,
+      "reads": "The status at 8px, with a stack count beside it",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.status.frozen",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Status icon: Frozen",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/status/frozen.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle.inset",
+        "autopsy",
+        "build"
+      ],
+      "visibility": 2,
+      "reads": "The status at 8px, with a stack count beside it",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "bg.battle.street",
+      "kind": "background",
+      "category": "structure",
+      "label": "Battle street backdrop",
+      "footprint": null,
+      "sprite": {
+        "w": 640,
+        "h": 360,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/iso/bg/battle/street.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "iso",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "A Japanese city street at dusk, isometric, two lots facing each other",
+      "candidateSource": "Japanese City / Osaka / Dotonbori (isometric)",
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 0,
+        "y": 0
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.battle.bar",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Market Share bar",
+      "footprint": null,
+      "sprite": {
+        "w": 320,
+        "h": 12,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/battle/bar.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "Two-colour fill from 50/50, 10% ticks, percent labels at both ends",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 160,
+        "y": 8
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.battle.goodwill_bar",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Goodwill bar",
+      "footprint": null,
+      "sprite": {
+        "w": 200,
+        "h": 16,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/battle/goodwill_bar.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "A frame whose right (or left, mirrored) end marks the live cap; fill inside it; number in font.ui.16 overlaid; dims when suppressed; flashes on break",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.battle.banner",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Month banner",
+      "footprint": null,
+      "sprite": {
+        "w": 160,
+        "h": 12,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/battle/banner.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "'— CRUNCH —' centred; slides in dimmed one second early",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 240,
+        "y": 48
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.battle.ledger",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Ledger panel",
+      "footprint": null,
+      "sprite": {
+        "w": 308,
+        "h": 56,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/battle/ledger.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "Header + six lines of font.ui.8; amount, name, source, xN badge; tone by kind",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.battle.ledger_rollup",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Ledger roll-up line",
+      "footprint": null,
+      "sprite": {
+        "w": 308,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/battle/ledger_rollup.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "'+3 more · Fl.2' dimmed",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.battle.floor_inset",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Floor inset",
+      "footprint": null,
+      "sprite": {
+        "w": 168,
+        "h": 104,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/battle/floor_inset.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "A 4px frame around a 160x96 top-down floor; most recent firer highlighted",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.battle.controls",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Playback controls",
+      "footprint": null,
+      "sprite": {
+        "w": 72,
+        "h": 12,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/battle/controls.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "1x 2x 4x and skip",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 560,
+        "y": 48
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.battle.result",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Result banner",
+      "footprint": null,
+      "sprite": {
+        "w": 640,
+        "h": 24,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/battle/result.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "'Q7 · WON · 71.2% MARKET SHARE'",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 0,
+        "y": 0
+      },
+      "overhang": null
+    },
+    {
+      "id": "fx.tower.floor_segment",
+      "kind": "fx",
+      "category": "structure",
+      "label": "Tower floor segment",
+      "footprint": null,
+      "sprite": {
+        "w": 96,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/iso/fx/tower/floor_segment.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "iso",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "One storey of an isometric office block with windows that can light; tiles vertically",
+      "candidateSource": "Japanese City (isometric building tiles) — VERIFY a 96x32 slice reads (Q-GBX-5)",
+      "verify": true,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "fx.tower.floor_segment_empty",
+      "kind": "fx",
+      "category": "structure",
+      "label": "Unleased floor segment",
+      "footprint": null,
+      "sprite": {
+        "w": 96,
+        "h": 32,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/iso/fx/tower/floor_segment_empty.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "iso",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "The same storey with no windows, in the structure tone",
+      "candidateSource": null,
+      "verify": true,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "fx.tower.roof",
+      "kind": "fx",
+      "category": "structure",
+      "label": "Tower roof",
+      "footprint": null,
+      "sprite": {
+        "w": 96,
+        "h": 16,
+        "anchor": {
+          "x": 0.5,
+          "y": 1.0
+        },
+        "asset": "assets/iso/fx/tower/roof.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "iso",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "Roof cap with a water tank or signage",
+      "candidateSource": "Japanese City — VERIFY (Q-GBX-5)",
+      "verify": true,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "fx.tower.basement",
+      "kind": "fx",
+      "category": "anomalous",
+      "label": "B1 basement segment",
+      "footprint": null,
+      "sprite": {
+        "w": 96,
+        "h": 24,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.0
+        },
+        "asset": "assets/iso/fx/tower/basement.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "iso",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 4,
+      "reads": "A below-street storey, darker, one lit window",
+      "candidateSource": "Japanese City + Horror Interiors tint — VERIFY (Q-GBX-5)",
+      "verify": true,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "fx.window_burst",
+      "kind": "fx",
+      "category": "interface",
+      "label": "Window burst",
+      "footprint": null,
+      "sprite": {
+        "w": 16,
+        "h": 16,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "asset": "assets/iso/fx/window_burst.png",
+        "sourceRect": null,
+        "frames": {
+          "burst": [
+            0,
+            0,
+            4
+          ]
+        }
+      },
+      "sortBias": 0,
+      "perspective": "iso",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "A 4-frame burst; tone by damage kind",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "fx.floating_number",
+      "kind": "fx",
+      "category": "interface",
+      "label": "Floating number",
+      "footprint": null,
+      "sprite": {
+        "w": 40,
+        "h": 8,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "asset": "assets/ui/fx/floating_number.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "font.ui.8 digits rising 16px over 20 ticks",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.autopsy.banner",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Autopsy banner",
+      "footprint": null,
+      "sprite": {
+        "w": 640,
+        "h": 24,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/autopsy/banner.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "Result line",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 0,
+        "y": 0
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.autopsy.timeline",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Share timeline",
+      "footprint": null,
+      "sprite": {
+        "w": 624,
+        "h": 48,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/autopsy/timeline.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "60 columns of 10px, month lines, draggable playhead",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 8,
+        "y": 32
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.autopsy.floors",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Per-floor contribution",
+      "footprint": null,
+      "sprite": {
+        "w": 200,
+        "h": 120,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/autopsy/floors.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "Five rows, two bars each, labelled",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 8,
+        "y": 88
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.autopsy.findings",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Findings panel",
+      "footprint": null,
+      "sprite": {
+        "w": 200,
+        "h": 120,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/autopsy/findings.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "Three findings in font.ui.8",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 8,
+        "y": 216
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.autopsy.filters",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Filter chips",
+      "footprint": null,
+      "sprite": {
+        "w": 416,
+        "h": 16,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/autopsy/filters.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "Kind, side and floor chips; selected state distinct",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 216,
+        "y": 88
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.autopsy.ledger",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Full ledger",
+      "footprint": null,
+      "sprite": {
+        "w": 416,
+        "h": 228,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/autopsy/ledger.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "8px rows, scroll, playhead-selected row highlighted",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 216,
+        "y": 108
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.autopsy.continue",
+      "kind": "ui",
+      "category": "interface",
+      "label": "CONTINUE button",
+      "footprint": null,
+      "sprite": {
+        "w": 80,
+        "h": 16,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/autopsy/continue.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "autopsy"
+      ],
+      "visibility": 2,
+      "reads": "CONTINUE",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 552,
+        "y": 340
+      },
+      "overhang": null
+    },
+    {
+      "id": "bg.map",
+      "kind": "background",
+      "category": "structure",
+      "label": "Campaign map backdrop",
+      "footprint": null,
+      "sprite": {
+        "w": 640,
+        "h": 360,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/iso/bg/map.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "iso",
+      "screens": [
+        "map"
+      ],
+      "visibility": 3,
+      "reads": "A city district seen from above, muted, paths readable over it",
+      "candidateSource": "Japanese City / Osaka (isometric)",
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 0,
+        "y": 0
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.map.header",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Map header",
+      "footprint": null,
+      "sprite": {
+        "w": 640,
+        "h": 24,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/map/header.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "map"
+      ],
+      "visibility": 3,
+      "reads": "Act name and strikes",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 0,
+        "y": 0
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.map.node.takeover",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Map node: takeover",
+      "footprint": null,
+      "sprite": {
+        "w": 24,
+        "h": 24,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "asset": "assets/ui/ui/map/node/takeover.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "map"
+      ],
+      "visibility": 3,
+      "reads": "The node kind at 24px, distinct from the other five at a glance",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.map.node.audit",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Map node: audit",
+      "footprint": null,
+      "sprite": {
+        "w": 24,
+        "h": 24,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "asset": "assets/ui/ui/map/node/audit.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "map"
+      ],
+      "visibility": 3,
+      "reads": "The node kind at 24px, distinct from the other five at a glance",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.map.node.recruiter",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Map node: recruiter",
+      "footprint": null,
+      "sprite": {
+        "w": 24,
+        "h": 24,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "asset": "assets/ui/ui/map/node/recruiter.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "map"
+      ],
+      "visibility": 3,
+      "reads": "The node kind at 24px, distinct from the other five at a glance",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.map.node.board",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Map node: board",
+      "footprint": null,
+      "sprite": {
+        "w": 24,
+        "h": 24,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "asset": "assets/ui/ui/map/node/board.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "map"
+      ],
+      "visibility": 3,
+      "reads": "The node kind at 24px, distinct from the other five at a glance",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.map.node.consultant",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Map node: consultant",
+      "footprint": null,
+      "sprite": {
+        "w": 24,
+        "h": 24,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "asset": "assets/ui/ui/map/node/consultant.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "map"
+      ],
+      "visibility": 3,
+      "reads": "The node kind at 24px, distinct from the other five at a glance",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.map.node.boss",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Map node: boss",
+      "footprint": null,
+      "sprite": {
+        "w": 24,
+        "h": 24,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "asset": "assets/ui/ui/map/node/boss.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "map"
+      ],
+      "visibility": 3,
+      "reads": "The node kind at 24px, distinct from the other five at a glance",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.map.path",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Map path segment",
+      "footprint": null,
+      "sprite": {
+        "w": 1,
+        "h": 1,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/map/path.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "map"
+      ],
+      "visibility": 3,
+      "reads": "1px path; tiles the length",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.map.marker",
+      "kind": "ui",
+      "category": "people",
+      "label": "Firm marker",
+      "footprint": null,
+      "sprite": {
+        "w": 16,
+        "h": 16,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "asset": "assets/ui/ui/map/marker.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "map"
+      ],
+      "visibility": 3,
+      "reads": "The player's position: a small building or crest",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.map.dossier",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Rival dossier",
+      "footprint": null,
+      "sprite": {
+        "w": 200,
+        "h": 88,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/map/dossier.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "map"
+      ],
+      "visibility": 3,
+      "reads": "Name, archetype, floors, gimmick, a 5-cell floor strip at (4,64) of 16x8 cells",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.map.legend",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Map legend",
+      "footprint": null,
+      "sprite": {
+        "w": 640,
+        "h": 24,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/map/legend.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "map"
+      ],
+      "visibility": 3,
+      "reads": "Six node kinds with names",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 0,
+        "y": 336
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.map.floor_cell",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Dossier floor cell",
+      "footprint": null,
+      "sprite": {
+        "w": 16,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/map/floor_cell.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "map"
+      ],
+      "visibility": 3,
+      "reads": "Occupied / empty cell",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.codex.header",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Codex header",
+      "footprint": null,
+      "sprite": {
+        "w": 640,
+        "h": 24,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/codex/header.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "codex"
+      ],
+      "visibility": 3,
+      "reads": "'CODEX · 14 / 40', class chips, page arrows",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 0,
+        "y": 0
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.codex.recipe",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Recipe card",
+      "footprint": null,
+      "sprite": {
+        "w": 176,
+        "h": 40,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/codex/recipe.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "codex"
+      ],
+      "visibility": 3,
+      "reads": "Three input slots 32x32 at x=4,40,76; arrow 16x8 at (112,12); result slot at (132,4); class glyph 8x8 at (168,4)",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.codex.slot_outline",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Undiscovered slot",
+      "footprint": null,
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/codex/slot_outline.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "codex"
+      ],
+      "visibility": 3,
+      "reads": "A dashed outline",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.codex.arrow",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Recipe arrow",
+      "footprint": null,
+      "sprite": {
+        "w": 16,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/codex/arrow.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "codex"
+      ],
+      "visibility": 3,
+      "reads": "An arrow",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.codex.class.promotion",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Recipe class glyph: promotion",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/codex/class/promotion.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "codex"
+      ],
+      "visibility": 3,
+      "reads": "The class at 8px",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.codex.class.renovation",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Recipe class glyph: renovation",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/codex/class/renovation.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "codex"
+      ],
+      "visibility": 3,
+      "reads": "The class at 8px",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.codex.class.ritual",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Recipe class glyph: ritual",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/codex/class/ritual.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "codex"
+      ],
+      "visibility": 3,
+      "reads": "The class at 8px",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "font.ui.8",
+      "kind": "font",
+      "category": "interface",
+      "label": "UI pixel font, 8px line",
+      "footprint": null,
+      "sprite": {
+        "w": 0,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/font/ui/8.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "battle",
+        "autopsy",
+        "map",
+        "codex",
+        "menu"
+      ],
+      "visibility": 1,
+      "reads": "Variable-width pixel font, ~5px average glyph, tabular digits; 8px line height at 1x",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "note": "Width 0: a font entry declares line height only; glyph metrics live in the font file",
+      "overhang": null
+    },
+    {
+      "id": "font.ui.16",
+      "kind": "font",
+      "category": "interface",
+      "label": "UI pixel font at 2x",
+      "footprint": null,
+      "sprite": {
+        "w": 0,
+        "h": 16,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/font/ui/16.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "font.ui.8 at exactly 2x, integer-scaled",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "bg.menu",
+      "kind": "background",
+      "category": "structure",
+      "label": "Main menu backdrop",
+      "footprint": null,
+      "sprite": {
+        "w": 640,
+        "h": 360,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/iso/bg/menu.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "iso",
+      "screens": [
+        "menu"
+      ],
+      "visibility": 3,
+      "reads": "The tower at night from the street",
+      "candidateSource": "Backgrounds pack",
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 0,
+        "y": 0
+      },
+      "overhang": null
+    },
+    {
+      "id": "ui.menu.button",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Menu button",
+      "footprint": null,
+      "sprite": {
+        "w": 160,
+        "h": 16,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/menu/button.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "menu"
+      ],
+      "visibility": 3,
+      "reads": "A labelled button with hover state",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.strike",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Strike icon",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/strike.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "map"
+      ],
+      "visibility": 1,
+      "reads": "A strike: filled when spent",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.budget_glyph",
+      "kind": "icon",
+      "category": "interface",
+      "label": "Budget glyph",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/budget_glyph.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "shop"
+      ],
+      "visibility": 1,
+      "reads": "A yen mark at 8px",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.invalid_tile",
+      "kind": "ui",
+      "category": "invalid",
+      "label": "Invalid placement flash",
+      "footprint": null,
+      "sprite": {
+        "w": 32,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/invalid_tile.png",
+        "sourceRect": null
+      },
+      "sortBias": 9,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "Unmissable red over a tile for one flash",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": false,
+      "note": "Never has art. Exempt from the release gate by design: the invalid tone is the art",
+      "overhang": null
+    },
+    {
+      "id": "ui.debug.sortkey",
+      "kind": "ui",
+      "category": "invalid",
+      "label": "Greybox debug sort-key label",
+      "footprint": null,
+      "sprite": {
+        "w": 32,
+        "h": 8,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/debug/sortkey.png",
+        "sourceRect": null
+      },
+      "sortBias": 10,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 4,
+      "reads": "Debug overlay only",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": false,
+      "note": "Debug; exempt",
+      "overhang": null
+    },
+    {
+      "id": "ui.debug.coverage",
+      "kind": "ui",
+      "category": "invalid",
+      "label": "Asset coverage overlay",
+      "footprint": null,
+      "sprite": {
+        "w": 200,
+        "h": 64,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/debug/coverage.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "battle",
+        "autopsy",
+        "map",
+        "codex",
+        "menu"
+      ],
+      "visibility": 4,
+      "reads": "Debug overlay; exempt",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": false,
+      "overhang": null
+    }
+  ]
+}

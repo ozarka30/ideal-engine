@@ -74,6 +74,7 @@ decisions.
 | [Q-PVP-1](#q-pvp-1--what-is-stored-in-a-tower-snapshot) | Snapshot contents | Layout, definitions, run modifiers. No budget, no RNG, no cosmetics | DECIDED · [D-18](DECISION_LOG.md#d-18) |
 | [Q-PVP-2](#q-pvp-2--how-are-players-matched-once-ranked-exists) | Matchmaking | Bucketed by round and rating; ghost chosen from the match seed | DECIDED · [D-19](DECISION_LOG.md#d-19) |
 | [Q-PVP-3](#q-pvp-3--what-is-the-anti-cheat-posture-given-the-client-owns-the-sim) | Anti-cheat | Server re-simulation of submitted snapshots; client result advisory | DECIDED · [D-20](DECISION_LOG.md#d-20) |
+| [Q-ARCH-1](#q-arch-1--when-does-controller-navigation-arrive) | Controller navigation | Post-v1; mouse and keyboard ship first; Steam Deck verification waits on it | OPEN — scope |
 | [Q-RISK-1](#q-risk-1--is-the-guttykreum-licence-cleared-for-commercial-release) | Asset licence | Verify before any spend; treat as a release blocker with an owner and a date | NEEDS SIGN-OFF |
 | [Q-RISK-2](#q-risk-2--is-the-room-commitment-tension-actually-load-bearing) | Room commitment | Demolition is genuinely painful; rewards for good commitment scale to compensate | DECIDED · [D-24](DECISION_LOG.md#d-24) |
 
@@ -1008,7 +1009,11 @@ placeholder. The coverage overlay and the worklist exist to answer "what is stil
 greybox" — the eye should not have to.
 
 **Status:** NEEDS SIGN-OFF — this is art direction, and it is the view the developer
-will look at every day for months.
+will look at every day for months. Phase 4 proceeded on the recommendation:
+`manifest/greybox_palette.json` holds the seven tones with placeholder hex values at
+the stated saturation and value targets; the pack-fit pass
+([Q-GBX-5](#q-gbx-5--can-the-packs-produce-the-decided-battle-and-portrait-dimensions))
+replaces them with sampled ones.
 
 ---
 
@@ -1073,7 +1078,11 @@ never built against a dimension that is known to be wrong.
 is finalised, so that any change is a spec edit rather than a re-layout. It is an
 afternoon with the packs open, not a design question.
 
-**Status:** OPEN — a verification, not a decision. Needs the packs.
+**Status:** OPEN — a verification, not a decision. Needs the packs. Phase 4 flagged the
+five affected manifest entries with `verify: true` (`fx.tower.floor_segment`,
+`fx.tower.floor_segment_empty`, `fx.tower.roof`, `fx.tower.basement`, `ui.portrait`);
+the release gate refuses to close while any is set. Procedure in `ART_PIPELINE.md`
+§15.
 
 ---
 
@@ -1374,6 +1383,35 @@ whole of that obligation.
 
 ---
 
+## Architecture
+
+### Q-ARCH-1 · When does controller navigation arrive?
+
+**Blocks:** Steam Deck verification, and therefore the Steam Deck compatibility badge.
+Nothing in the campaign's playability on desktop.
+
+Raised by `ARCHITECTURE.md` §7–§8. The build phase is drag-and-drop over a tile grid;
+that maps to a cursor-on-grid controller scheme cleanly enough, but it is real UI work
+with its own screenshot fixtures, and it is not on the path to the game being fun.
+
+**Options**
+
+- **A — v1.** Ship with controller navigation. Delays the vertical slice by the size
+  of the work; nothing else changes.
+- **B — Post-v1, designed for.** Ship mouse-and-keyboard; keep every screen's
+  interactive elements in a navigable list from the start so that adding a cursor
+  scheme is a new input adapter, not a re-layout.
+- **C — Never.** Desktop only. Cheapest, and it forgoes the Deck, where a 45-minute
+  auto-battler is at home.
+
+**Recommendation: B.** The `Platform` split and the action-based input model already
+make it an adapter. The one thing v1 must do is keep focusable elements enumerable
+per screen, which costs nothing now and everything later.
+
+**Status:** OPEN — a scope call for the roadmap.
+
+---
+
 ## Risks that are also decisions
 
 ### Q-RISK-1 · Is the GuttyKreum licence cleared for commercial release?
@@ -1450,7 +1488,7 @@ be painful, with the rewards for good decisions scaled up to compensate.
 closed. `GAME_DESIGN.md` and `SIMULATION_SPEC.md` can be written without a marked
 assumption anywhere in them.
 
-Eight items remain open. None blocked Phase 2, which is now drafted; each is listed
+Nine items remain open. None blocked Phases 2–4, which are drafted; each is listed
 here against the phase where it first bites, so it can be answered when it is actually
 needed rather than in a batch.
 
@@ -1464,3 +1502,4 @@ needed rather than in a batch.
 | [Q-RISK-1](#q-risk-1--is-the-guttykreum-licence-cleared-for-commercial-release) asset licence | Release, and any art spend | Not a design decision. It needs an owner and a date, and it is cheapest to answer now |
 | [Q-GBX-5](#q-gbx-5--can-the-packs-produce-the-decided-battle-and-portrait-dimensions) pack-fit | Phase 4 — first greybox of the battle view | Not a decision. An afternoon with the packs open |
 | [Q-LYR-3](#q-lyr-3--does-furniture-earn-its-tile) furniture trial | Vertical slice | A playtest gate with a fold-in plan already written |
+| [Q-ARCH-1](#q-arch-1--when-does-controller-navigation-arrive) controller navigation | Phase 5 — roadmap scope | Post-v1 on the recommendation; keep focusables enumerable |

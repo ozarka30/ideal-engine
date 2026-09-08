@@ -1,0 +1,421 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://companywars.invalid/schema/manifest.schema.json",
+  "title": "Company Wars sprite manifest",
+  "description": "Single source of truth for every visual slot. No layout code may hardcode a pixel size; everything reads this file. Absent asset files are valid. The validator fails only on a dimension mismatch when a file is present.",
+  "type": "object",
+  "properties": {
+    "manifestVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "contentVersion": {
+      "type": "string"
+    },
+    "tileSize": {
+      "const": 32
+    },
+    "canvas": {
+      "type": "object",
+      "properties": {
+        "w": {
+          "const": 640
+        },
+        "h": {
+          "const": 360
+        }
+      },
+      "required": [
+        "w",
+        "h"
+      ],
+      "additionalProperties": false
+    },
+    "scales": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "assetRoot": {
+      "type": "string"
+    },
+    "palette": {
+      "type": "string"
+    },
+    "visibilityTiers": {
+      "type": "object"
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/Entry"
+      }
+    }
+  },
+  "required": [
+    "manifestVersion",
+    "contentVersion",
+    "tileSize",
+    "canvas",
+    "scales",
+    "assetRoot",
+    "palette",
+    "visibilityTiers",
+    "entries"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "Entry": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(\\.[a-z0-9_]+)+$"
+        },
+        "kind": {
+          "enum": [
+            "employee",
+            "furniture",
+            "tile",
+            "ui",
+            "icon",
+            "fx",
+            "background",
+            "font"
+          ]
+        },
+        "category": {
+          "enum": [
+            "structure",
+            "operations",
+            "people",
+            "support",
+            "interface",
+            "anomalous",
+            "invalid"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "footprint": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "w": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "h": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "w",
+                "h"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "sprite": {
+          "type": "object",
+          "properties": {
+            "w": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "h": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "anchor": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "y": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                }
+              },
+              "required": [
+                "x",
+                "y"
+              ],
+              "additionalProperties": false
+            },
+            "asset": {
+              "type": "string",
+              "pattern": "^assets/(topdown|iso|ui)/.+\\.png$"
+            },
+            "sourceRect": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "minItems": 4,
+                  "maxItems": 4
+                }
+              ]
+            },
+            "frames": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "minItems": 2,
+                "maxItems": 3
+              }
+            }
+          },
+          "required": [
+            "w",
+            "h",
+            "anchor",
+            "asset",
+            "sourceRect"
+          ],
+          "additionalProperties": false
+        },
+        "sortBias": {
+          "type": "integer",
+          "minimum": -10,
+          "maximum": 10
+        },
+        "perspective": {
+          "enum": [
+            "topdown",
+            "iso",
+            "ui"
+          ]
+        },
+        "screens": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "build",
+              "shop",
+              "battle",
+              "battle.inset",
+              "autopsy",
+              "map",
+              "codex",
+              "menu",
+              "reward"
+            ]
+          },
+          "minItems": 1
+        },
+        "visibility": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "reads": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidateSource": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "verify": {
+          "type": "boolean"
+        },
+        "releaseGate": {
+          "type": "boolean"
+        },
+        "layout": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "integer"
+            },
+            "y": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ],
+          "additionalProperties": false
+        },
+        "note": {
+          "type": "string"
+        },
+        "overhang": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "left": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "top": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "right": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "bottom": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "left",
+                "top",
+                "right",
+                "bottom"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "category",
+        "label",
+        "footprint",
+        "sprite",
+        "sortBias",
+        "perspective",
+        "screens",
+        "visibility",
+        "reads",
+        "candidateSource",
+        "verify",
+        "releaseGate",
+        "overhang"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "employee",
+                  "furniture",
+                  "tile"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "footprint": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "employee",
+                  "furniture",
+                  "tile"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "perspective": {
+                "const": "topdown"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "perspective": {
+                "const": "iso"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "screens": {
+                "items": {
+                  "enum": [
+                    "battle",
+                    "map",
+                    "menu"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "perspective": {
+                "const": "topdown"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "screens": {
+                "items": {
+                  "enum": [
+                    "build",
+                    "shop",
+                    "battle.inset",
+                    "autopsy",
+                    "reward",
+                    "codex"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

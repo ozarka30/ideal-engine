@@ -69,8 +69,13 @@ history of a reversal is the most useful thing in a document like this.
 | [D-38](#d-38) | One JSON file per content type, one JSON Schema, an index with the content version | Craft | Phase 3 |
 | [D-39](#d-39) | Semi-scripted rivals are expanded from templates by a deterministic, specified algorithm | Craft | Phase 3 |
 | [D-40](#d-40) | The loader validates schema, references, snapshot structure and constructibility in CI | Craft | Phase 3 |
+| [D-41](#d-41) | The manifest is generated from content and screen specs; overhang derived; five entries flagged for pack-fit | Craft | Phase 4 |
+| [D-42](#d-42) | One-direction package graph with the sim at the root, enforced by lint | Craft | Phase 4 |
+| [D-43](#d-43) | The build phase is a pure reducer; undo is action-log replay; the committed tower is the snapshot type itself | Craft | Phase 4 |
+| [D-44](#d-44) | Art and licence gates live only in the release workflow | Craft | Phase 4 |
+| [D-45](#d-45) | Steam sits behind a Platform interface; the Rust side owns Steamworks; the webview never links it | Craft | Phase 4 |
 
-Thirty-three craft decisions and seven human calls taken. Eight items remain open in
+Thirty-eight craft decisions and seven human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -833,3 +838,97 @@ is flagged as a boss, which is also what keeps the ranked ghost pool honest late
 (D-20).
 
 Authority: Craft · Phase 3, `CONTENT_SCHEMA.md` §12
+
+---
+
+## D-41
+
+**`manifest/sprites.json` is generated from the content catalogue and the screen
+specifications, not hand-authored: every content `sprite`, `tile` and `icon` reference
+becomes an entry, every screen region in `GAME_DESIGN.md` §19 becomes an entry.
+Overhang is derived and asserted. Five entries whose dimensions were decided to fit the
+canvas carry `verify: true`; three debug entries carry `releaseGate: false`.**
+
+*Why:* A manifest that content references must contain every id content references,
+and generating it from content is the only way that stays true without a reviewer
+remembering to check; deriving overhang is the only way the manifest cannot contradict
+itself.
+
+*Consequence:* 156 entries exist before any code does, each a complete greybox spec.
+The `verify` flag is what keeps Q-GBX-5 honest: the release gate refuses to close while
+any is set, and clearing one is a commit that either confirms or changes the number.
+
+Authority: Craft · Phase 4, `ART_PIPELINE.md` §1, §15
+
+---
+
+## D-42
+
+**A pnpm workspace with a one-direction dependency graph — `sim` at the root importing
+nothing, then `content` and `manifest`, then `build`, then `game`, then the Tauri
+shell — enforced by an import lint that fails CI on a reversed edge.**
+
+*Why:* Every guarantee the design rests on (determinism, headless balancing, server
+re-simulation) is a statement about what the sim does not depend on, and a lint is the
+only form of that statement that survives a year of agent-driven commits.
+
+*Consequence:* The harness and the future ranked server consume `packages/sim`
+unchanged. The renderer can never reach into the sim except through `simulate()`.
+
+Authority: Craft · Phase 4, `ARCHITECTURE.md` §1–§2
+
+---
+
+## D-43
+
+**The build phase is a pure reducer over a closed action set. The undo stack is the
+action log, and undo is replay-all-but-the-last from the round's start state. The
+committed tower is a `TowerSnapshot` — the same type the sim reads — not a client
+model converted into one.**
+
+*Why:* D-17 promised that a build round is a function from a start state and an
+action list to an end state; making the reducer literally that is what makes undo
+trivially correct, the build phase testable by fixture, and a saved run replayable.
+One tower representation removes an entire class of "the thing I built is not the
+thing that fought" bugs.
+
+*Consequence:* Every build-phase feature is an action with a fixture. The save file's
+tower is the snapshot, so save migration and ghost-pool migration are the same code.
+
+Authority: Craft · Phase 4, `ARCHITECTURE.md` §4–§5
+
+---
+
+## D-44
+
+**The art-complete gate and the pack-licence gate run only in the tag-triggered
+release workflow. The commit workflow never checks for the presence of an asset file
+or a licence record.**
+
+*Why:* "No phase or milestone may be gated on art existing" and "art completeness is a
+release gate" are both locked, and the only way both hold in CI is for the two gates to
+live in a workflow that ordinary commits never trigger.
+
+*Consequence:* A commit with zero art is green. A release with one missing asset is
+red. The badge in the README shows the distance between them.
+
+Authority: Craft · Phase 4, `ARCHITECTURE.md` §9.3
+
+---
+
+## D-45
+
+**Steam integration sits behind a `Platform` interface with a `NullPlatform` for
+development and the harness. The `SteamPlatform` lives in the Tauri Rust process over
+the `steamworks` crate and is reached through a handful of Tauri commands. The
+TypeScript build never links Steamworks and is identical with or without it.**
+
+*Why:* Development, CI and the balance harness must run without Steam present, and
+keeping the Steam API lifecycle in one Rust crate is what keeps every other package
+free of it.
+
+*Consequence:* Steam Cloud syncs the profile and current run only; replays stay local.
+Achievements become a content file in Phase 5. Controller navigation for Steam Deck is
+deferred and recorded as Q-ARCH-1.
+
+Authority: Craft · Phase 4, `ARCHITECTURE.md` §8

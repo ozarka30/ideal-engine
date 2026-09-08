@@ -19,6 +19,11 @@ Pre-production. No code yet — design first.
 | [`docs/CONTENT_SCHEMA.md`](docs/CONTENT_SCHEMA.md) | The data model — the closed effect vocabulary, every content type with verbatim examples, validation rules, how to add content without code |
 | [`content/`](content/) | The content database: forty employees, sixteen rooms, fourteen furniture, forty recipes, riders, modifiers, floors, economy, shop, modes, map, six rival templates, nine scripted rival towers |
 | [`schema/content.schema.json`](schema/content.schema.json) | JSON Schema every content file validates against |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Package graph, sim/render split, state stores, save format and migrations, Steam, CI and release, the deferred ranked backend |
+| [`docs/ART_PIPELINE.md`](docs/ART_PIPELINE.md) | The manifest, footprint vs bounds, draw order, the greybox renderer, validation, tooling, the art-complete gate, pixel discipline, perspective rule |
+| [`manifest/sprites.json`](manifest/sprites.json) | The sprite manifest: 156 visual slots, every one a greybox spec with exact dimensions, anchor, footprint and target path |
+| [`manifest/greybox_palette.json`](manifest/greybox_palette.json) | The seven greybox tones |
+| [`schema/manifest.schema.json`](schema/manifest.schema.json) | JSON Schema the manifest validates against |
 
 ## At a glance
 
@@ -36,10 +41,10 @@ Pre-production. No code yet — design first.
 | 1 — Open questions | `OPEN_QUESTIONS.md`, `DECISION_LOG.md` | Complete |
 | 2 — Loop and sim | `GAME_DESIGN.md`, `SIMULATION_SPEC.md` | Drafted, awaiting sign-off |
 | 3 — Content and data | `CONTENT_SCHEMA.md`, `content/`, `schema/` | Drafted, awaiting sign-off |
-| 4 — Technical | `ARCHITECTURE.md`, `ART_PIPELINE.md` | Not started |
+| 4 — Technical | `ARCHITECTURE.md`, `ART_PIPELINE.md`, `manifest/` | Drafted, awaiting sign-off |
 | 5 — Balance and plan | `BALANCE_PLAN.md`, `ROADMAP.md` | Not started |
 
-Forty decisions are logged — thirty-three craft calls and seven human ones. Eight
-items remain open; none blocked Phase 2, and each is listed against the phase where it
-first bites. See the summary table in
+Forty-five decisions are logged — thirty-eight craft calls and seven human ones. Nine
+items are open, none blocking; each is listed against the phase where it first bites.
+See the summary table in
 [`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md).
