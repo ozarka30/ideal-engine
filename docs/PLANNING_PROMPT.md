@@ -78,6 +78,12 @@ not quietly design around it.
 11. **Art:** GuttyKreum "The Japan Collection", 32x32. Interiors and characters are
     top-down and own the build view; the isometric city packs own the exterior and
     battle view. Never mix perspectives inside one view.
+12. **Greybox-first workflow.** Every visual element is built as a labelled
+    placeholder at the exact dimensions, anchor and grid footprint the real asset
+    will use, declared in a shared sprite manifest. Greybox and final art are the
+    same manifest entry, never two code paths. Dropping real art in must be a file
+    copy, not a layout pass. A greybox is never approximate — one whose dimensions
+    are unknown is a blocker, not a placeholder.
 
 `docs/DESIGN_BRIEF.md` carries the full detail, including the asset pack
 inventory, the battle presentation direction, and the systems sketch. Read it
@@ -99,6 +105,13 @@ for layout work and design problems agents find hard. Design accordingly:
 - **Prefer designs an agent can test.** A mechanic whose correctness can only be
   judged by feel is expensive here. Where you specify something feel-dependent,
   say so and name what a human needs to check.
+- **Specify visuals as greybox specs, not descriptions.** Every screen, panel and
+  entity you design must state its pixel dimensions, anchor, and grid footprint —
+  enough that an agent can build the placeholder and a human can read the
+  screenshot as a spec. "A card showing the applicant" is not a specification.
+- **Asset correctness is a CI check, not a review step.** Design so that a script
+  can walk the sprite manifest and assert every present asset file matches its
+  declared dimensions.
 - **Write for a reader with no memory of this conversation.** Every document must
   stand alone.
 
@@ -128,10 +141,31 @@ at once — follow the phase order in the next section.
    v1 ships campaign-only, but the tower snapshot format and the sim's entry
    points must be designed now so that adding ranked later is additive rather than
    a rewrite.
-5. **`ART_PIPELINE.md`** — how pack tiles become in-game content. Atlas
-   generation, the naming convention, the perspective rule and how it is enforced,
-   the UI style guide, and the documented process for absorbing a future
-   third-party pack through the portal fiction.
+5. **`ART_PIPELINE.md`** — how pack tiles become in-game content, and how the
+   greybox-first workflow is enforced. Must cover:
+   - **The sprite manifest schema.** Every visual slot's id, kind, grid footprint,
+     pixel dimensions, anchor, atlas source rect and asset path. This is the single
+     source of truth; no layout code may hardcode a pixel size.
+   - **Footprint versus visual bounds.** These differ constantly in top-down 32x32
+     art — a 2x2 room whose sprite is 64x88 because it overhangs the tile behind
+     it. Specify how both are declared, how the greybox draws both (solid
+     footprint, hatched overhang), and the draw-order rule for overhanging sprites
+     (y-sort plus an explicit tie-break bias). Settle this in greybox or art will
+     layer wrongly the moment it lands.
+   - **The greybox renderer.** Labelled placeholders showing id, footprint and
+     dimensions on screen, tone-coded by category, so a greybox screenshot reads as
+     a design document.
+   - **The validation check.** A CI script asserting that every manifest entry with
+     a present asset file matches its declared dimensions, failing the build on
+     mismatch.
+   - **Tooling.** A slicer that reads a GuttyKreum sheet and emits manifest stubs,
+     and an in-game overlay reporting asset coverage — what is still greybox, what
+     is stand-in, what is final.
+   - **Pixel discipline.** 32x32 base, nearest-neighbour, integer scale factors
+     only, integer-snapped positions, fixed globally.
+   - Atlas generation, the naming convention, the perspective rule and how it is
+     enforced, the UI style guide, and the documented process for absorbing a
+     future third-party pack through the portal fiction.
 6. **`BALANCE_PLAN.md`** — the methodology, not the numbers. Target win-rate
    bands, what the automated matchup harness measures, how a broken build is
    detected, the archetypes that should exist and roughly how they should beat
@@ -148,7 +182,7 @@ at once — follow the phase order in the next section.
 7. **`ROADMAP.md`** — a phased build order from a playable vertical slice to a
    Steam release. Each phase states what becomes playable and what question that
    phase answers. Identify the earliest point at which the game is fun, and get
-   there first. Campaign-first is deliberate: it removes the PvP backend from the
+   there first — in greybox, before any art pass. Campaign-first is deliberate: it removes the PvP backend from the
    critical path and makes scripted rival towers double as balance-test fixtures.
    Say explicitly which work in each phase is throwaway and which carries forward
    into ranked.
@@ -206,6 +240,14 @@ Work in this order and get sign-off between phases. Do not run ahead.
   named risk — argue the call.
 - What exactly can an employee carry, and does equipment exist separately?
 
+**Greybox and assets**
+- What is the full sprite manifest schema, and what is the minimum an entry needs
+  before a greybox can be built against it?
+- What is the draw-order rule for overhanging sprites, and does it need an explicit
+  per-entry bias or does y-sorting suffice?
+- Should the campaign ship playable in greybox before art is applied? Doing so
+  proves the workflow and gets the fun question answered earliest.
+
 **Recipes**
 - How many recipes at launch, and how does a player discover them? Design the
   codex alongside the system, not after it.
@@ -232,6 +274,9 @@ Work in this order and get sign-off between phases. Do not run ahead.
   more game. Interactions between fewer, sharper pieces is.
 - **Every mechanic must be legible on the screen it happens on.** If a synergy
   cannot be seen firing, it will not be believed.
+- **The game must be playable and judgeable in greybox.** If it is not fun as grey
+  rectangles, art will not rescue it — and if art is required to understand a
+  screen, that screen's layout is under-specified.
 - **The satire should be in the mechanics, not just the flavour text.** Severance
   fees, burnout, Goodwill as a defensive stat, middle managers who only retrigger
   other people's work, a combat log that is literally an accounting ledger — the
@@ -244,6 +289,9 @@ Work in this order and get sign-off between phases. Do not run ahead.
 - No mode-specific rules forks. One sim, one content database.
 - No mixing art perspectives inside a single view.
 - No content authored in code.
+- No hardcoded pixel dimensions anywhere outside the sprite manifest.
+- No approximate greyboxes. Unknown dimensions are a decision to make, not a
+  detail to defer.
 - No monetisation design in this pass. Premium Steam release is the assumption.
 - No engine or stack relitigation unless a hard blocker is found, in which case
   state the blocker plainly.

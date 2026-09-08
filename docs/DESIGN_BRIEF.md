@@ -44,6 +44,7 @@ player's building for market share.
 | Platform | **Steam** |
 | Tech | TypeScript + PixiJS + Vite; packaged for Steam via Tauri. Sim is a pure headless TS module |
 | Development style | Primarily agentic coding, with human intervention for layout and hard design problems |
+| Art workflow | **Greybox-first.** Every visual element is built as a labelled placeholder at the exact dimensions and anchor the real asset will use, declared in a shared sprite manifest. Dropping real art in is a file copy, not a layout pass |
 
 ## 4. Art direction and the perspective split
 
@@ -136,7 +137,83 @@ Three rules to settle in design (see `PLANNING_PROMPT.md` Phase 1):
   prevents dead air in the opening seconds and supplies a counter-archetype:
   Legal turtles beat burst, burst beats economy, Burnout pierces turtles.
 
-## 7. Systems sketch (starting point, not settled)
+## 7. Greybox-first art workflow
+
+Development proceeds in greybox: every visual element is a labelled placeholder
+rectangle drawn at **exactly** the dimensions, anchor and grid footprint the real
+asset will occupy. Real art is then dropped in without a layout pass.
+
+This only works under one rule: **a greybox is never approximate.** The common
+failure mode is placeholders that are roughly right, which means real art still
+needs repositioning — precisely the work this is meant to eliminate. A greybox
+whose dimensions are unknown is a blocker, not a placeholder. If the size of the
+real thing has not been decided, decide it before building the greybox.
+
+### One manifest, two render modes
+
+Greybox and final art are the **same manifest entry**, never two code paths. A
+shared sprite manifest declares each slot; the renderer draws a labelled
+rectangle when no file exists at the declared path, and the texture when one does.
+"Dropping assets over them" is then literally true — copy a PNG to the path and it
+appears.
+
+```jsonc
+{
+  "id": "room.server_room",
+  "kind": "room",
+  "footprint": { "w": 2, "h": 2 },          // grid cells occupied
+  "sprite": {
+    "w": 64, "h": 88,                       // pixels at 1x
+    "anchor": { "x": 0.5, "y": 1.0 },       // bottom-centre
+    "asset": "packs/guttykreum/office_interior/server_room.png",
+    "sourceRect": null                      // or [x, y, w, h] into an atlas
+  },
+  "sortBias": 0
+}
+```
+
+No layout code may hardcode a pixel size. Everything reads the manifest.
+
+### Footprint is not visual bounds
+
+The detail that actually breaks asset drop-in is not size, it is the difference
+between the **grid cells an object occupies** and the **pixel rectangle it draws
+into**. A server room occupies 2x2 cells but its sprite is 64x88, because the rack
+rises above the tile it stands on. Top-down 32x32 art overhangs constantly.
+
+So the manifest carries both, and the greybox draws both: a solid fill over the
+footprint, and a hatched outline over the overhang. Anchor and pivot are declared
+explicitly rather than assumed. Draw order for overhanging sprites (y-sorting plus
+`sortBias` for ties) must be settled in greybox, or art will layer wrongly the
+moment it arrives.
+
+### Greyboxes are readable specs
+
+A placeholder shows its id, its footprint, and its pixel dimensions on screen. A
+greybox screenshot is then a design document — anyone can read what the real asset
+must be. Use desaturated tones coded by category (rooms, employees, furniture, UI)
+so screens stay legible without ever being mistaken for art direction.
+
+### Validation is automated, not eyeballed
+
+A CI check walks the manifest and, for every entry whose asset file is present,
+asserts the image's real dimensions match the declared `sprite.w` and `sprite.h`
+(or its `sourceRect`). A mismatch fails the build. This turns "it should just show
+up as we intend" from a hope into an assertion, and lets an agent verify an art
+drop without looking at it.
+
+Related tooling to plan: a slicer that reads a GuttyKreum sheet and emits manifest
+stubs, so real assets flow into the manifest rather than being hand-wired; and an
+in-game overlay reporting asset coverage — how much of the build is still greybox,
+what is temporary stand-in art, and what is final.
+
+### Pixel discipline
+
+32x32 base, nearest-neighbour filtering, integer scale factors only, positions
+snapped to integers. Fixed once, globally. Greyboxes authored at a fractional
+scale will not match the art that replaces them.
+
+## 8. Systems sketch (starting point, not settled)
 
 Mappings from the Backpack Battles depth model:
 
@@ -155,7 +232,7 @@ high-multiplier, B4 is the portal and is cursed. Rival abilities that target "th
 highest floor" or "the lowest floor" make floor assignment a genuine decision even
 though nothing moves in combat.
 
-## 8. Known risks
+## 9. Known risks
 
 1. **Layer bloat.** Rooms + furniture + employees + equipment may be one layer too
    many. Plan for MVP to fold equipment into furniture and keep the expansion room.
@@ -175,7 +252,7 @@ though nothing moves in combat.
    entirely; scripted campaign rival towers are intended to seed the ghost pool
    when ranked mode is built.
 
-## 9. Still open
+## 10. Still open
 
 Carried into `PLANNING_PROMPT.md` as work to be done:
 
@@ -186,3 +263,4 @@ Carried into `PLANNING_PROMPT.md` as work to be done:
 - Round count, fight duration, and lives per run.
 - Whether furniture is a distinct layer in v1.
 - Economy numbers of every kind.
+- The full sprite manifest schema, and the draw-order rule for overhanging sprites.
