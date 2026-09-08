@@ -1079,9 +1079,12 @@ never built against a dimension that is known to be wrong.
 is finalised, so that any change is a spec edit rather than a re-layout. It is an
 afternoon with the packs open, not a design question.
 
-**Status:** OPEN — a verification, not a decision. Needs the packs. Phase 4 flagged the
-five affected manifest entries with `verify: true` (`fx.tower.floor_segment`,
-`fx.tower.floor_segment_empty`, `fx.tower.roof`, `fx.tower.basement`, `ui.portrait`);
+**Status:** OPEN — a verification, not a decision. Needs the packs, which are not yet
+owned: the plan is to buy the Japan Collection complete edition, so every pack in the
+brief's inventory will be available and the manifest's candidate-source lines stand.
+The check waits on the purchase and nothing in Phase 5 waits on the check. Phase 4
+flagged thirteen manifest entries with `verify: true` (the four tower pieces, the
+inspector portrait, the eight founder portraits — the nine portraits are one check);
 the release gate refuses to close while any is set. Procedure in `ART_PIPELINE.md`
 §15.
 
@@ -1445,8 +1448,8 @@ a week. Then treat the vertical slice as the UX milestone it already is: `ROADMA
 should name it that way, and the §21 human checks are its checklist. The distinction
 that matters is that A can fix a rect and B can fix a design.
 
-**Status:** OPEN — a process call for the roadmap. The paper pass can be produced from
-the manifest at any time.
+**Status:** OPEN — a process call for the roadmap. The human passed on the paper
+wireframes for now; the vertical slice is the UX milestone and `ROADMAP.md` names it.
 
 ---
 
@@ -1471,6 +1474,9 @@ the Otherworld Temp Agency fiction means a replacement pack in a different style
 be absorbed rather than hidden.
 
 **Status:** NEEDS SIGN-OFF — needs a named owner and a date, which is the human's.
+The packs are to be bought as the complete edition, which makes this one licence
+record to read rather than eleven: read it at purchase, before the first slice, and
+put the verdict in `packs/guttykreum/LICENSE.md` so the release gate can find it.
 
 ---
 
