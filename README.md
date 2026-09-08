@@ -23,7 +23,7 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 | [`schema/content.schema.json`](schema/content.schema.json) | JSON Schema every content file validates against |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Package graph, sim/render split, state stores, save format and migrations, Steam, CI and release, the deferred ranked backend |
 | [`docs/ART_PIPELINE.md`](docs/ART_PIPELINE.md) | The manifest, footprint vs bounds, draw order, the greybox renderer, validation, tooling, the art-complete gate, pixel discipline, perspective rule |
-| [`manifest/sprites.json`](manifest/sprites.json) | The sprite manifest: 181 visual slots, every one a greybox spec with exact dimensions, anchor, footprint and target path |
+| [`manifest/sprites.json`](manifest/sprites.json) | The sprite manifest: 182 visual slots, every one a greybox spec with exact dimensions, anchor, footprint and target path |
 | [`manifest/greybox_palette.json`](manifest/greybox_palette.json) | The seven greybox tones |
 | [`schema/manifest.schema.json`](schema/manifest.schema.json) | JSON Schema the manifest validates against |
 | [`docs/BALANCE_PLAN.md`](docs/BALANCE_PLAN.md) | The harness, the populations, the bands, the six-archetype counter web, seventeen CI invariants, the tuning loop, what is not a knob |
@@ -49,7 +49,7 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 | 4 — Technical | `ARCHITECTURE.md`, `ART_PIPELINE.md`, `manifest/` | Drafted, awaiting sign-off |
 | 5 — Balance and plan | `BALANCE_PLAN.md`, `ROADMAP.md`, `content/balance.json` | Drafted, awaiting sign-off |
 
-Fifty decisions are logged — forty craft calls and ten human ones. All five phases
+Fifty-one decisions are logged — forty craft calls and eleven human ones. All five phases
 are drafted. Eight items are open, none blocking; each is listed against the phase where it first bites.
 See the summary table in
 [`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md).

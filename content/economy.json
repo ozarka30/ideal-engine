@@ -51,6 +51,8 @@
   },
   "rerollCost": 1,
   "renovationFee": "currentRoundIncome",
+  "relocationFee": "currentRoundIncome",
+  "relocationTenurePenaltyRounds": 3,
   "furnitureSellRefund": 0,
   "startingRoster": [
     "emp.junior_dev",

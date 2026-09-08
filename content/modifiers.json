@@ -127,11 +127,11 @@
     {
       "id": "mod.restructuring",
       "name": "Restructuring",
-      "text": "One use: the next demolition waives its fee and carries the room's Tenure to its replacement.",
+      "text": "One use: the next relocation is free and carries the room's full Tenure.",
       "rivalOnly": false,
       "boardMeeting": {
         "cost": "The node",
-        "benefit": "One fee-free, Tenure-preserving demolition"
+        "benefit": "One free relocation with full Tenure carried"
       },
       "effects": [
         {

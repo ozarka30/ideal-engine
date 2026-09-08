@@ -160,7 +160,7 @@ There is exactly one representation of a tower, and it is the one the sim reads.
 
 The build phase is a **pure reducer**: `applyAction(state, action) → state`, over a
 closed action set (`hire`, `place`, `move`, `layOff`, `sell`, `buyRoom`, `demolish`,
-`lease`, `reroll`, `acceptCraft`, `declineCraft`, `ready`). The undo stack is the
+`relocate`, `lease`, `reroll`, `acceptCraft`, `declineCraft`, `ready`). The undo stack is the
 **action log**: undo is "replay all but the last action from the round's start
 state". This is D-17 made literal — a build round is a function from (start state,
 action list) to (end state), and that is what makes it testable and what makes undo

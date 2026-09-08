@@ -4054,7 +4054,7 @@
       "label": "Inspector action button",
       "footprint": null,
       "sprite": {
-        "w": 184,
+        "w": 90,
         "h": 20,
         "anchor": {
           "x": 0.0,
@@ -4069,7 +4069,35 @@
         "build"
       ],
       "visibility": 1,
-      "reads": "LAY OFF · ¥1 or DEMOLISH · ¥13",
+      "reads": "LAY OFF · ¥1; for rooms, RELOCATE · ¥13 and DEMOLISH · ¥13 side by side at x=440 and x=534",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.build.room_compare",
+      "kind": "ui",
+      "category": "interface",
+      "label": "Room relocation comparison",
+      "footprint": null,
+      "sprite": {
+        "w": 184,
+        "h": 24,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/build/room_compare.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "Three lines of font.ui.8 for a selected room: 'here x1.40 · Tier II'; 'on 2F x1.38 now, x1.61 by round 14'; 'relocate: -3 Tenure rounds, ¥13'",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,

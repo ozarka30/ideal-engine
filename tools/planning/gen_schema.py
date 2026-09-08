@@ -178,9 +178,10 @@ defs["Economy"] = obj(OD([
     ("employeeCost", TIERMAP), ("severance", TIERMAP),
     ("roomCostByTiles", {"type": "object", "patternProperties": {"^[0-9]+$": NONNEG}, "additionalProperties": False}),
     ("furnitureCost", obj(OD([("common", NONNEG), ("uncommon", NONNEG)]), ["common", "uncommon"])),
-    ("rerollCost", NONNEG), ("renovationFee", enum("currentRoundIncome")), ("furnitureSellRefund", NONNEG),
+    ("rerollCost", NONNEG), ("renovationFee", enum("currentRoundIncome")), ("relocationFee", enum("currentRoundIncome")),
+    ("relocationTenurePenaltyRounds", NONNEG), ("furnitureSellRefund", NONNEG),
     ("startingRoster", arr(ID)), ("startingRosterFloor", ID),
-]), ["id", "startingBudget", "income", "winBonus", "employeeCost", "severance", "roomCostByTiles", "furnitureCost", "rerollCost", "renovationFee", "furnitureSellRefund", "startingRoster", "startingRosterFloor"])
+]), ["id", "startingBudget", "income", "winBonus", "employeeCost", "severance", "roomCostByTiles", "furnitureCost", "rerollCost", "renovationFee", "relocationFee", "relocationTenurePenaltyRounds", "furnitureSellRefund", "startingRoster", "startingRosterFloor"])
 
 defs["Shop"] = obj(OD([
     ("id", ID), ("cardsPerTab", NONNEG), ("rerollCost", NONNEG),

@@ -70,6 +70,7 @@
     "liveLedgerLinesPerSecondP95": 4,
     "liveLedgerLinesPerSecondFail": 6,
     "demolitionsPerRunMedianMax": 1000,
+    "relocationsPerRunMedianMax": 2000,
     "selectorDensityFromRound": 8,
     "selectorDensityMin": 500,
     "abilityShareOfWinnerPushP50Max": 500,
@@ -270,6 +271,18 @@
       "cadence": "nightly",
       "severity": "fail",
       "source": "D-24; Q-RISK-2"
+    },
+    {
+      "id": "inv.relocation_rare",
+      "name": "Relocation is a valve, not a habit",
+      "statement": "A greedy agent playing full runs relocates rooms rarely; if it relocates freely, the fee or the Tenure penalty is too soft.",
+      "population": "agent_run",
+      "measure": "median rooms relocated per run, permille",
+      "comparator": "<=",
+      "threshold": 2000,
+      "cadence": "nightly",
+      "severity": "warn",
+      "source": "D-51"
     },
     {
       "id": "inv.selector_density",

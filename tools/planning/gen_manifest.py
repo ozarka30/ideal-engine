@@ -107,7 +107,9 @@ entry("ui.build.shop", "ui", "interface", "Shop panel", 232, 304, TL, screens=B,
 entry("ui.build.tab", "ui", "interface", "Shop tab", 76, 16, TL, screens=B, visibility=1, reads="STAFF / ROOMS / FURNITURE tab, selected state distinct")
 entry("ui.build.lease_button", "ui", "interface", "Lease button", 72, 24, TL, screens=B, visibility=1, reads="Floor name, price, projected upkeep")
 entry("ui.build.inspector", "ui", "interface", "Inspector panel", 200, 304, TL, screens=B, visibility=1, rect=(432, 32), reads="Portrait, name, department, detail rows, action button")
-entry("ui.build.action_button", "ui", "interface", "Inspector action button", 184, 20, TL, screens=B, visibility=1, reads="LAY OFF · ¥1 or DEMOLISH · ¥13")
+entry("ui.build.action_button", "ui", "interface", "Inspector action button", 90, 20, TL, screens=B, visibility=1, reads="LAY OFF · ¥1; for rooms, RELOCATE · ¥13 and DEMOLISH · ¥13 side by side at x=440 and x=534")
+entry("ui.build.room_compare", "ui", "interface", "Room relocation comparison", 184, 24, TL, screens=B, visibility=1,
+      reads="Three lines of font.ui.8 for a selected room: 'here x1.40 · Tier II'; 'on 2F x1.38 now, x1.61 by round 14'; 'relocate: -3 Tenure rounds, ¥13'")
 entry("ui.build.ready", "ui", "interface", "READY button", 80, 16, TL, screens=B, visibility=1, rect=(552, 4), reads="The commit. No confirmation")
 entry("ui.build.hint", "ui", "interface", "Hint line", 640, 16, TL, screens=B, visibility=1, rect=(0, 344), reads="One line of font.ui.8")
 entry("ui.build.promote_glyph", "ui", "interface", "Promote glyph", 16, 16, CC, sortBias=9, screens=B, visibility=1, reads="An unmistakable 'combine available' mark, pulsing")

@@ -364,8 +364,8 @@ tile size; `outputPermille` is the floor multiplier; `roomKinds` is legality;
 selector exclusion; `fixedRooms` places Reception.
 
 **`economy.json`** — the income table (asserted equal to `constant + ceil(round / 2)`),
-prices by tier and tile count, severance, reroll, the renovation fee rule, and the
-starting roster and budget.
+prices by tier and tile count, severance, reroll, the renovation and relocation fee
+rules with the relocation Tenure penalty, and the starting roster and budget.
 
 **`shop.json`** — cards per tab, reroll cost, the Recruiter node's upgrade, the
 Otherworld row, and the tier table: for each round range, how many staff of each tier

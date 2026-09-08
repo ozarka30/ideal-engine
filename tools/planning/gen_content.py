@@ -135,6 +135,8 @@ economy = OD([
     ("furnitureCost", OD([("common", 2), ("uncommon", 4)])),
     ("rerollCost", 1),
     ("renovationFee", "currentRoundIncome"),
+    ("relocationFee", "currentRoundIncome"),
+    ("relocationTenurePenaltyRounds", 3),
     ("furnitureSellRefund", 0),
     ("startingRoster", ["emp.junior_dev", "emp.junior_dev"]),
     ("startingRosterFloor", "floor.f1"),
@@ -543,9 +545,9 @@ mod("mod.family_firm", "Family Firm", "Severance doubled; all rooms gain +1 Tenu
 mod("mod.compliance_review", "Compliance Review", "Reroll costs ¥2; Bureaucracy you apply gains a stack.",
     [eff("economy", "stat", stat="rerollCost", subject=subj("firm"), amount=1), stat("statusStacksBonus", ALL, amount=1, status=BUR)],
     board=OD([("cost", "Reroll ¥2"), ("benefit", "+1 stack on every Bureaucracy you apply")]))
-mod("mod.restructuring", "Restructuring", "One use: the next demolition waives its fee and carries the room's Tenure to its replacement.",
+mod("mod.restructuring", "Restructuring", "One use: the next relocation is free and carries the room's full Tenure.",
     [eff("economy", "flag", flag="restructuringCharge", subject=subj("firm"))],
-    board=OD([("cost", "The node"), ("benefit", "One fee-free, Tenure-preserving demolition")]))
+    board=OD([("cost", "The node"), ("benefit", "One free relocation with full Tenure carried")]))
 mod("mod.open_door", "Open Door Policy", "Regen +40 per event; Goodwill cap −100.",
     [stat("regenPerEvent", subj("firm"), amount=40), stat("goodwillCap", subj("firm"), amount=-100)],
     board=OD([("cost", "−100 Goodwill cap"), ("benefit", "+40 regen per event")]))
@@ -701,6 +703,7 @@ balance = OD([
         ("singleHitShareMax", 1500),
         ("liveLedgerLinesPerSecondP95", 4), ("liveLedgerLinesPerSecondFail", 6),
         ("demolitionsPerRunMedianMax", 1000),
+        ("relocationsPerRunMedianMax", 2000),
         ("selectorDensityFromRound", 8), ("selectorDensityMin", 500),
         ("abilityShareOfWinnerPushP50Max", 500),
         ("deadContentPickRate", 20),
@@ -740,6 +743,8 @@ balance = OD([
             "field with substitution vs field", "win rate permille of the substituted tower", "<=", 550, "nightly", "fail", "GAME_DESIGN §14.3"),
         inv("inv.demolition_rare", "Rooms are commitments", "A greedy agent playing full runs rarely demolishes.",
             "agent_run", "median rooms demolished per run, permille", "<=", 1000, "nightly", "fail", "D-24; Q-RISK-2"),
+        inv("inv.relocation_rare", "Relocation is a valve, not a habit", "A greedy agent playing full runs relocates rooms rarely; if it relocates freely, the fee or the Tenure penalty is too soft.",
+            "agent_run", "median rooms relocated per run, permille", "<=", 2000, "nightly", "warn", "D-51"),
         inv("inv.selector_density", "Floors stay a decision", "From round 8, at least half of field towers carry a floor-selected status ability.",
             "field per round >= 8", "fraction permille of towers with >=1 enemy-targeted status effect", ">=", 500, "nightly", "fail", "D-10"),
         inv("inv.ledger_rate", "The live ledger stays readable", "After coalescing, the live ledger's line rate stays under budget.",

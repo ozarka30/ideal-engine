@@ -79,8 +79,9 @@ history of a reversal is the most useful thing in a document like this.
 | [D-48](#d-48) | Paper wireframes deferred; the greybox vertical slice is the UX milestone | Human | Q-UX-1 |
 | [D-49](#d-49) | The vertical slice is the ranked-shaped sixteen-round loop; the campaign map comes after it | Craft | Phase 5 |
 | [D-50](#d-50) | Balance invariants are content the harness reads; one knob per commit; the pressure curve is not a knob | Craft | Phase 5 |
+| [D-51](#d-51) | Relocate: move a room for the fee and three Tenure rounds; Restructuring becomes one free relocation | Human | Q-ECO-2 |
 
-Forty craft decisions and ten human calls taken. Eight items remain open in
+Forty craft decisions and eleven human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -1038,3 +1039,27 @@ Automated tuning is explicitly out of scope for v1 — the harness finds, a huma
 decides — because numbers an optimizer chose are numbers nobody can explain.
 
 Authority: Craft · Phase 5, `BALANCE_PLAN.md` §6, §8, §9
+
+---
+
+## D-51
+
+**A room may be relocated — moved with its occupants and furniture to a legal
+rectangle on any owned floor — for a Relocation fee equal to the current round's
+income and a loss of three Tenure rounds (one tier's worth, floored at zero).
+Demolition stays total. The Restructuring modifier becomes one free relocation per
+run with full Tenure carried.**
+
+*Why:* The human raised the case the demolition rule was never designed for: a room
+built in round 2 on 1F, and a better floor leased in round 7 that did not exist when
+the room was placed. Punishing a choice the player never had reads as unfair even when
+the arithmetic is kind — and it is kind: a Tier II room on 1F already equals a fresh
+one on 2F. Relocation gives "the building grew" a price rather than a trap, while
+demolition keeps "I changed my mind" as expensive as D-24 requires.
+
+*Consequence:* A new build action with a fixture; a comparison block in the inspector
+so the choice is visible arithmetic; `inv.relocation_rare` in the harness as a warning
+that the valve is not being used as a habit; and a sharper Q-ECO-2, which now asks
+only whether the one free relocation exists.
+
+Authority: Human · Question: [Q-ECO-2](OPEN_QUESTIONS.md#q-eco-2--does-a-run-need-a-mid-run-recovery-valve)

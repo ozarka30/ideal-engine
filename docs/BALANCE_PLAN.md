@@ -120,6 +120,7 @@ Permille throughout, matching the sim. From `content/balance.json`:
 | `singleHitShareMax` | 1500 | No single resolution moves the bar more than 15% |
 | `liveLedgerLinesPerSecondP95` / `Fail` | 4 / 6 | The D-08 budget; warn above four, fail above six |
 | `demolitionsPerRunMedianMax` | 1000 | One demolition per run, median — rooms are commitments |
+| `relocationsPerRunMedianMax` | 2000 | Two relocations per run, median — the valve is not a habit (warn) |
 | `selectorDensityMin` from round 8 | 500 | Half of late rivals carry a floor-selected status |
 | `abilityShareOfWinnerPushP50Max` | 500 | No one card is most of a win |
 | `deadContentPickRate` | 20 | Below 2% pick rate is a review flag |
@@ -184,7 +185,7 @@ burst because a concentrated tower is what its gimmick exists to hurt.
 
 ## 6. The invariants
 
-Seventeen, each an entry in `content/balance.json` with a population, a measure, a
+Eighteen, each an entry in `content/balance.json` with a population, a measure, a
 comparator, a threshold, a cadence and a severity. The harness reads the file; a new
 invariant is a content edit plus a measure implementation, never a spec change.
 
@@ -200,6 +201,7 @@ invariant is a content edit plus a measure implementation, never a spec change.
 | `single_hit_cap` | No one hit claims the bar | field vs field | smoke+nightly | fail |
 | `rider_net_negative` | The portal is a gamble, not an upgrade | field with substitution vs field | nightly | fail |
 | `demolition_rare` | Rooms are commitments | agent_run | nightly | fail |
+| `relocation_rare` | Relocation is a valve, not a habit | agent_run | nightly | warn |
 | `selector_density` | Floors stay a decision | field per round >= 8 | nightly | fail |
 | `ledger_rate` | The live ledger stays readable | field vs field | nightly | warn+fail |
 | `ability_diversity` | Wins are not one card | field vs field, winners | nightly | fail |

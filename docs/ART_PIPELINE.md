@@ -11,7 +11,7 @@ manifest. The greybox renderer reads the manifest. The validator reads the manif
 The worklist is generated from the manifest. Real art is a file that appears at the
 path the manifest already declared.
 
-The manifest exists: `manifest/sprites.json`, 181 entries as of this document, every
+The manifest exists: `manifest/sprites.json`, 182 entries as of this document, every
 one a greybox from day one. Excerpts below are from that file.
 
 ---
@@ -321,13 +321,13 @@ The validator writes:
 {
   "contentVersion": "0.1.0",
   "manifestVersion": 1,
-  "total": 181,
-  "gated": 178,
+  "total": 182,
+  "gated": 179,
   "withArt": 0,
   "invalid": 0,
-  "byTier": { "1": { "gated": 66, "withArt": 0 }, "2": { "gated": 69, "withArt": 0 },
+  "byTier": { "1": { "gated": 67, "withArt": 0 }, "2": { "gated": 69, "withArt": 0 },
               "3": { "gated": 34, "withArt": 0 }, "4": { "gated": 9, "withArt": 0 } },
-  "byScreen": { "build": { "gated": 117, "withArt": 0 }, "battle": { "gated": 26, "withArt": 0 } },
+  "byScreen": { "build": { "gated": 118, "withArt": 0 }, "battle": { "gated": 26, "withArt": 0 } },
   "byKind": { "employee": { "gated": 40, "withArt": 0 } },
   "verifyPending": 13
 }
@@ -581,16 +581,16 @@ placeholder hex values in `manifest/greybox_palette.json` (Q-GBX-3).
 
 | | Entries |
 | --- | --- |
-| Total | 181 |
-| Release-gated | 178 |
+| Total | 182 |
+| Release-gated | 179 |
 | With art | 0 |
-| Tier 1 — build screen every round | 67 |
+| Tier 1 — build screen every round | 68 |
 | Tier 2 — battle and autopsy every fight | 69 |
 | Tier 3 — map, codex, rarer content | 34 |
 | Tier 4 — B1, rituals, bosses, debug | 11 |
 | Awaiting pack-fit verification | 13 |
 | Exempt from the gate | 3 |
 
-Every one of the 178 is a labelled placeholder at exact dimensions from the first
+Every one of the 179 is a labelled placeholder at exact dimensions from the first
 commit. The campaign ships when the number in the third row equals the number in the
 second, and not before, and nothing else waits for it.

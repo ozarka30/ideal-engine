@@ -208,8 +208,8 @@ read a tooltip to know whether a synergy is live.
 
 ### 5.3 Moving and removing
 
-Moving an employee or furniture is free and unlimited. Moving a **room** is
-demolition followed by purchase; there is no move.
+Moving an employee or furniture is free and unlimited. Moving a **room** is a
+distinct, costly action — **Relocate** — separate from demolishing it.
 
 - **Lay off** an employee: drag it out of the tower. Refunds nothing; costs a
   **severance fee** — `¥1` for T1, `¥2` for T2, `¥3` for T3, `¥4` for extraplanar.
@@ -218,6 +218,12 @@ demolition followed by purchase; there is no move.
 - **Demolish** a room: refunds nothing; costs a **Renovation fee** equal to the
   current round's income; the room's Tenure is forfeited; its occupants become
   corridor occupants.
+- **Relocate** a room: moves it, with its occupants and furniture, to a legal
+  rectangle on any owned floor. Costs a **Relocation fee** equal to the current
+  round's income. The room keeps its Tenure less three rounds — one tier's worth,
+  floored at zero (D-51). The firm moved offices; most of what it knew came with it.
+  This exists for the case the player could not have planned for: a room built in
+  round 2, and a floor leased in round 7 that did not exist when the room was placed.
 
 ### 5.4 Leasing
 
@@ -269,6 +275,7 @@ is not a strategy, commitment is.
 | Reroll (any tab) | `¥1` |
 | Lease 2F / 3F / B1 | `¥28` / `¥36` / `¥20` |
 | Renovation fee (demolish a room) | current round's income |
+| Relocation fee (move a room to another floor) | current round's income, and −3 Tenure rounds |
 | Severance T1 / T2 / T3 / extraplanar | `¥1` / `¥2` / `¥3` / `¥4` |
 
 ### 6.3 What the numbers are for
@@ -310,8 +317,13 @@ furniture inside a room gain its aura; the room's Tenure raises that aura over t
 
 A round counts as held if the room existed at the previous commit and at least half its
 tiles hold employees at this commit. Rounds are counted, not elapsed: a room bought in
-round 9 can still reach Tier I. Tenure is forfeited on demolition and is part of the
-tower snapshot.
+round 9 can still reach Tier I. Tenure is forfeited on demolition, reduced by three
+rounds on relocation, and is part of the tower snapshot.
+
+The arithmetic is deliberately kind to staying put. An Open Plan Office at Tier II on
+1F grants ×1.40; a new one on 2F grants ×1.20 × 1.15 = ×1.38, after a `¥28` lease and
+`¥2` a round. Relocating is for when the building grew around a room, not a routine
+upgrade — the inspector shows both numbers so the player can see which it is.
 
 Multipliers are written as percentages here and as permille in the sim: a room granting
 × 1.20 grants 1,200; Tier I makes it 1,300.
@@ -814,7 +826,7 @@ is a win; its score is strikes remaining and total Market Share claimed.
 | *Lean* | Goodwill cap −200 | Income +`¥2` per round |
 | *Family Firm* | Severance doubled | All rooms gain +1 Tenure round now |
 | *Compliance Review* | Reroll costs `¥2` | Bureaucracy applied by own staff +1 stack |
-| *Restructuring* | — | One-use: the next demolition waives its fee and carries the room's Tenure to the replacement. (Q-ECO-2, awaiting sign-off) |
+| *Restructuring* | — | One-use: the next relocation is free and carries the room's full Tenure. (Q-ECO-2, awaiting sign-off) |
 
 Modifiers are snapshot globals. They ride into the fight in `globals.modifiers`.
 
@@ -948,7 +960,7 @@ Fonts: `font.ui.8` is an 8-pixel-line pixel font with variable-width glyphs aver
 | `ui.build.topbar` | (0, 0, 640, 24) | Round `Q3 · FIGHT 7/16` at (8, 8); Budget `¥ 24` at (200, 8); upkeep `−¥4/qtr` at (280, 8); three strike icons 8×8 from (400, 8); **READY** button (552, 4, 80, 16) |
 | `ui.build.tower` | (8, 32, 176, 304) | Elevator shaft (8, 32, 16, 304) with floor labels drawn inside it; three floor viewports stacked: above at y=32, **selected** at y=136, below at y=240, each 160 × 96 at x=24. Unselected floors dimmed 50%, still interactive. Scrolls by whole floors |
 | `ui.build.shop` | (192, 32, 232, 304) | Tab bar (192, 32, 232, 16); four cards 52 × 80 at x = 192, 248, 304, 360, y = 56; Otherworld row label (192, 140, 232, 8) and two cards at x = 192, 248, y = 152; Lease section (192, 240, 232, 64) with three buttons 72 × 24 at x = 192, 272, 352, y = 260 |
-| `ui.build.inspector` | (432, 32, 200, 304) | Portrait slot 64 × 64 at (440, 40); name `font.ui.8` at (512, 40); dept and tier at (512, 50); detail rows every 10 px from y = 112; action button (440, 308, 184, 20) reading **LAY OFF · ¥1** or **DEMOLISH · ¥13** |
+| `ui.build.inspector` | (432, 32, 200, 304) | Portrait slot 64 × 64 at (440, 40); name `font.ui.8` at (512, 40); dept and tier at (512, 50); detail rows every 10 px from y = 112; for a room, the comparison block (440, 276, 184, 24) — *here ×1.40 · Tier II* / *on 2F ×1.38 now, ×1.61 by round 14* / *relocate: −3 Tenure rounds, ¥13*; action buttons at y = 308: **LAY OFF · ¥1** (440, 308, 184, 20) for staff, or **RELOCATE · ¥13** (440, 308, 90, 20) and **DEMOLISH · ¥13** (534, 308, 90, 20) for rooms |
 | `ui.build.firm_panel` | (432, 32, 200, 304) | The inspector's default state when nothing is selected: founder portrait 64 × 64 at (440, 40); firm name at (512, 40); founder name and title at (512, 50) and (512, 60); run stats from y = 112 — round, strikes, fights won, Goodwill cap, floors leased, staff count |
 | `ui.build.hint` | (0, 344, 640, 16) | One line of hint text, first run only; otherwise the hovered element's one-line summary |
 
@@ -1081,6 +1093,7 @@ obligations that fall out of this design:
 | Room aura | Build screen | Badge on every employee inside, showing the multiplier |
 | Furniture trigger | Build screen | 1 px link line to each affected employee |
 | Tenure | Build screen | Pips on the room sign; tier name on hover |
+| Relocation trade-off | Build screen | The inspector's comparison block: this floor now, the other floor now and later, the Tenure cost |
 | Landing adjacency | Build screen | Highlight on the landing column; link lines cross floors |
 | Illegal placement | Build screen | The tile flashes `invalid` tone; the reason is the hint line |
 | Near-miss | Build screen | Inputs flicker once, `?` glyph |

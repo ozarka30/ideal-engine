@@ -860,9 +860,10 @@ concede at round 8" is the specific failure that ends runs early and sessions wi
 - **A — Nothing.** The commitment is total. Cleanest expression of the design, harshest
   new-player experience, and it makes a mid-run misstep functionally a lost run.
 - **B — One Restructuring per run.** A single use, acquired from a **Board Meeting**
-  node, that waives one Renovation fee and preserves that room's Tenure through a move.
-  Scarce enough to be a real decision about *when* to spend it; present enough that a
-  single early mistake is recoverable.
+  node: one free relocation with the room's full Tenure carried (relocation itself
+  exists and costs a fee plus three Tenure rounds — D-51). Scarce enough to be a real
+  decision about *when* to spend it; present enough that a single early mistake is
+  recoverable.
 - **C — Tenure decays rather than resets.** Demolition drops the room one tier instead
   of clearing it. Softer, and it blunts the whole mechanism — the pain of demolition is
   precisely that it is total.
@@ -871,9 +872,11 @@ concede at round 8" is the specific failure that ends runs early and sessions wi
   reoptimisation is the interesting decision.
 
 **Recommendation: B.** One Restructuring, gated behind a map node so acquiring it is
-itself a routing decision. It preserves the stance completely — commitment is still
-painful, Tenure is still total on an ordinary demolition — while giving a run exactly
-one escape hatch, which is enough to keep a misstep from being a concession.
+itself a routing decision. It preserves the stance completely — demolition is still
+total, ordinary relocation still costs a fee and a tier — while giving a run exactly
+one free move, which is enough to keep a misstep from being a concession. With
+Relocate in the game (D-51), the question has narrowed to whether that single free
+move should exist at all.
 
 **Trade-off:** It is one more run-scoped resource for a new player to understand, and
 holding it too long is its own trap. Both are acceptable; a player who wasted their

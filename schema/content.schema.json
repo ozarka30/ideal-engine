@@ -1829,6 +1829,16 @@
             "currentRoundIncome"
           ]
         },
+        "relocationFee": {
+          "type": "string",
+          "enum": [
+            "currentRoundIncome"
+          ]
+        },
+        "relocationTenurePenaltyRounds": {
+          "type": "integer",
+          "minimum": 0
+        },
         "furnitureSellRefund": {
           "type": "integer",
           "minimum": 0
@@ -1857,6 +1867,8 @@
         "furnitureCost",
         "rerollCost",
         "renovationFee",
+        "relocationFee",
+        "relocationTenurePenaltyRounds",
         "furnitureSellRefund",
         "startingRoster",
         "startingRosterFloor"
