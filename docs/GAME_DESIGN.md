@@ -224,6 +224,7 @@ distinct, costly action — **Relocate** — separate from demolishing it.
   floored at zero (D-51). The firm moved offices; most of what it knew came with it.
   This exists for the case the player could not have planned for: a room built in
   round 2, and a floor leased in round 7 that did not exist when the room was placed.
+  There is no free version of it (D-52): the fee and the Tenure loss are the point.
 
 ### 5.4 Leasing
 
@@ -826,7 +827,6 @@ is a win; its score is strikes remaining and total Market Share claimed.
 | *Lean* | Goodwill cap −200 | Income +`¥2` per round |
 | *Family Firm* | Severance doubled | All rooms gain +1 Tenure round now |
 | *Compliance Review* | Reroll costs `¥2` | Bureaucracy applied by own staff +1 stack |
-| *Restructuring* | — | One-use: the next relocation is free and carries the room's full Tenure. (Q-ECO-2, awaiting sign-off) |
 
 Modifiers are snapshot globals. They ride into the fight in `globals.modifiers`.
 

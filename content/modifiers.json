@@ -125,26 +125,6 @@
       ]
     },
     {
-      "id": "mod.restructuring",
-      "name": "Restructuring",
-      "text": "One use: the next relocation is free and carries the room's full Tenure.",
-      "rivalOnly": false,
-      "boardMeeting": {
-        "cost": "The node",
-        "benefit": "One free relocation with full Tenure carried"
-      },
-      "effects": [
-        {
-          "on": "economy",
-          "do": "flag",
-          "flag": "restructuringCharge",
-          "subject": {
-            "scope": "firm"
-          }
-        }
-      ]
-    },
-    {
       "id": "mod.open_door",
       "name": "Open Door Policy",
       "text": "Regen +40 per event; Goodwill cap −100.",

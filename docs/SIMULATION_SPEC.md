@@ -436,7 +436,7 @@ noted. Room-granted `permille` stats gain `TENURE_STEP_PERMILLE × tier`.
 | `receptionDisabled` | Reception occupants grant no cap | §5.5 |
 | `everyFloorMostPopulated` | Against this firm, `most_populated_floor` returns every occupied floor in 0..3 | §6.1 |
 | `floorSelectorMirror` | The firm's own `highest_occupied_floor` selections also resolve `lowest_occupied_floor`; targets are the union | §6.1 |
-| `cannotBeLaidOff`, `landingOnly`, `restructuringCharge` | Build-phase only. The sim ignores them | — |
+| `cannotBeLaidOff`, `landingOnly` | Build-phase only. The sim ignores them | — |
 
 **Overrides** — `floorSelector` replaces the subject's floor selector with `to`
 (§6.1, Monitoring Station); `tenureTier` sets every room of the subject firm to tier

@@ -353,8 +353,7 @@
             "everyFloorMostPopulated",
             "floorSelectorMirror",
             "cannotBeLaidOff",
-            "landingOnly",
-            "restructuringCharge"
+            "landingOnly"
           ]
         },
         "override": {

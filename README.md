@@ -43,13 +43,13 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 
 | Phase | Deliverables | Status |
 | --- | --- | --- |
-| 1 — Open questions | `OPEN_QUESTIONS.md`, `DECISION_LOG.md` | Complete |
-| 2 — Loop and sim | `GAME_DESIGN.md`, `SIMULATION_SPEC.md` | Drafted, awaiting sign-off |
-| 3 — Content and data | `CONTENT_SCHEMA.md`, `content/`, `schema/` | Drafted, awaiting sign-off |
-| 4 — Technical | `ARCHITECTURE.md`, `ART_PIPELINE.md`, `manifest/` | Drafted, awaiting sign-off |
-| 5 — Balance and plan | `BALANCE_PLAN.md`, `ROADMAP.md`, `content/balance.json` | Drafted, awaiting sign-off |
+| 1 — Open questions | `OPEN_QUESTIONS.md`, `DECISION_LOG.md` | Signed off (D-53) |
+| 2 — Loop and sim | `GAME_DESIGN.md`, `SIMULATION_SPEC.md` | Signed off (D-53) |
+| 3 — Content and data | `CONTENT_SCHEMA.md`, `content/`, `schema/` | Signed off (D-53) |
+| 4 — Technical | `ARCHITECTURE.md`, `ART_PIPELINE.md`, `manifest/` | Signed off (D-53) |
+| 5 — Balance and plan | `BALANCE_PLAN.md`, `ROADMAP.md`, `content/balance.json` | Signed off (D-53) |
 
-Fifty-one decisions are logged — forty craft calls and eleven human ones. All five phases
-are drafted. Eight items are open, none blocking; each is listed against the phase where it first bites.
+Fifty-three decisions are logged — forty craft calls and thirteen human ones. The
+design phase is signed off (D-53); a research verification pass follows. Seven items are open, none blocking; each is listed against the phase where it first bites.
 See the summary table in
 [`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md).

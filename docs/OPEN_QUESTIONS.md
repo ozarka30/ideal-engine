@@ -61,7 +61,7 @@ decisions.
 | [Q-LYR-2](#q-lyr-2--what-can-an-employee-carry) | Employee carry | Nothing in v1; schema keeps an empty `attachments[]` | DECIDED · [D-13](DECISION_LOG.md#d-13) |
 | [Q-LYR-3](#q-lyr-3--does-furniture-earn-its-tile) | Furniture on trial | Keep it through the vertical slice; fold into rooms if the named test fails | OPEN — playtest gate |
 | [Q-ECO-1](#q-eco-1--how-is-the-reward-for-a-correct-commitment-made-impactful) | Reward shape | Tenure — rooms compound while they stay put and stay staffed | DECIDED · [D-25](DECISION_LOG.md#d-25) |
-| [Q-ECO-2](#q-eco-2--does-a-run-need-a-mid-run-recovery-valve) | Recovery valve | One Restructuring per run, from a Board Meeting node | NEEDS SIGN-OFF |
+| [Q-ECO-2](#q-eco-2--does-a-run-need-a-mid-run-recovery-valve) | Recovery valve | Paid relocation is the valve; no free Restructuring | DECIDED · [D-52](DECISION_LOG.md#d-52) |
 | [Q-GBX-1](#q-gbx-1--what-is-the-minimum-a-manifest-entry-needs-before-a-greybox-can-be-built) | Manifest minimum | Nine required fields; overhang is derived, never authored | DECIDED · [D-14](DECISION_LOG.md#d-14) |
 | [Q-GBX-2](#q-gbx-2--what-is-the-draw-order-rule-for-overhanging-sprites) | Draw order | y-sort plus explicit `sortBias`; five-key total order | DECIDED · [D-15](DECISION_LOG.md#d-15) |
 | [Q-GBX-3](#q-gbx-3--what-is-the-greybox-palette) | Greybox palette | Six pack-sampled hues, desaturated, category-coded, one source file | NEEDS SIGN-OFF |
@@ -882,8 +882,10 @@ move should exist at all.
 holding it too long is its own trap. Both are acceptable; a player who wasted their
 Restructuring made a decision, which is the point.
 
-**Status:** NEEDS SIGN-OFF — how punishing a run should be allowed to get is a feel
-call, and it is yours.
+**Status:** DECIDED · [D-52](DECISION_LOG.md#d-52) — human call: no free Restructuring.
+Paid relocation (D-51) is the recovery valve; it costs a round's income and a tier of
+Tenure every time, and that is the intended shape. The Board Meeting pool is seven
+modifiers.
 
 ---
 
@@ -1528,7 +1530,7 @@ be painful, with the rewards for good decisions scaled up to compensate.
 
 ## What remains open, and when it bites
 
-Eight items remain open. None blocked any phase; all five are drafted. Each is
+Seven items remain open. None blocked any phase; all five are drafted. Each is
 listed here against the moment it first bites, so it can be answered when it is
 actually needed rather than in a batch.
 
@@ -1536,7 +1538,6 @@ actually needed rather than in a batch.
 | --- | --- | --- |
 | [Q-PTL-1](#q-ptl-1--what-makes-an-extraplanar-hire-a-real-gamble) portal risk | Phase 2 — `GAME_DESIGN` portal section | Low. The rider pool is content; changing its shape does not move the sim |
 | [Q-PTL-2](#q-ptl-2--what-unlocks-the-portal-and-how-does-the-reveal-land) portal unlock | Phase 2 — `GAME_DESIGN` campaign structure | Low. One configured condition, two values |
-| [Q-ECO-2](#q-eco-2--does-a-run-need-a-mid-run-recovery-valve) recovery valve | Phase 2 — `GAME_DESIGN` campaign nodes | Low mechanically, high in feel. One node reward, easy to add or remove |
 | [Q-RCP-1](#q-rcp-1--how-many-recipes-at-launch-and-how-are-they-discovered) recipe count | Phase 3 — catalogue volume | Medium. ~40 result entities is a large share of the art worklist |
 | [Q-GBX-3](#q-gbx-3--what-is-the-greybox-palette) greybox palette | Phase 4 — `ART_PIPELINE` | Low to change on paper, high to change once screens exist |
 | [Q-RISK-1](#q-risk-1--is-the-guttykreum-licence-cleared-for-commercial-release) asset licence | Release, and any art spend | Not a design decision. It needs an owner and a date, and it is cheapest to answer now |

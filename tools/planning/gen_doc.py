@@ -217,7 +217,7 @@ Their sim semantics are in `SIMULATION_SPEC.md` §6.4. `amount` is an integer ad
 `flag` names one of: {", ".join("`%s`" % f for f in FLAGS)}.
 
 Semantics in `SIMULATION_SPEC.md` §6.4. Flags on the build-phase side
-(`cannotBeLaidOff`, `landingOnly`, `restructuringCharge`) are read by the shop and
+(`cannotBeLaidOff`, `landingOnly`) are read by the shop and
 placement rules, never by the sim.
 
 ### 3.7 Tier gating

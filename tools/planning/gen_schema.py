@@ -37,7 +37,7 @@ STATS = ["push", "anomaly", "restore", "flatPush", "cooldown", "goodwillCap", "g
 FLAGS = ["untargetable", "bureaucracyImmune", "frozenImmune", "burnoutImmune", "overtimePermanent",
          "cannotBeRetriggered", "wholeFloorAdjacency", "capProtected", "regenNeverSuppressed",
          "receptionDisabled", "everyFloorMostPopulated", "floorSelectorMirror",
-         "cannotBeLaidOff", "landingOnly", "restructuringCharge"]
+         "cannotBeLaidOff", "landingOnly"]
 OVERRIDES = ["floorSelector", "tenureTier"]
 ROOM_KINDS = ["general", "reception", "security", "executive", "extraplanar"]
 FLOOR_KINDS = ["portal", "reception", "operations", "executive"]

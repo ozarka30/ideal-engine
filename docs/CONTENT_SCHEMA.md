@@ -191,10 +191,10 @@ Their sim semantics are in `SIMULATION_SPEC.md` §6.4. `amount` is an integer ad
 
 ### 3.6 Flags
 
-`flag` names one of: `untargetable`, `bureaucracyImmune`, `frozenImmune`, `burnoutImmune`, `overtimePermanent`, `cannotBeRetriggered`, `wholeFloorAdjacency`, `capProtected`, `regenNeverSuppressed`, `receptionDisabled`, `everyFloorMostPopulated`, `floorSelectorMirror`, `cannotBeLaidOff`, `landingOnly`, `restructuringCharge`.
+`flag` names one of: `untargetable`, `bureaucracyImmune`, `frozenImmune`, `burnoutImmune`, `overtimePermanent`, `cannotBeRetriggered`, `wholeFloorAdjacency`, `capProtected`, `regenNeverSuppressed`, `receptionDisabled`, `everyFloorMostPopulated`, `floorSelectorMirror`, `cannotBeLaidOff`, `landingOnly`.
 
 Semantics in `SIMULATION_SPEC.md` §6.4. Flags on the build-phase side
-(`cannotBeLaidOff`, `landingOnly`, `restructuringCharge`) are read by the shop and
+(`cannotBeLaidOff`, `landingOnly`) are read by the shop and
 placement rules, never by the sim.
 
 ### 3.7 Tier gating
@@ -1092,7 +1092,7 @@ the word to the schema and the spec first, with a fixture, and then the content.
 | Furniture | 14 | On trial (Q-LYR-3) |
 | Recipes | 40 | 21 promotions, 12 renovations, 7 rituals |
 | Riders | 12 | Capped at 12 by design |
-| Modifiers | 18 | 8 Board Meeting, 10 rival-only gimmicks |
+| Modifiers | 17 | 8 Board Meeting, 10 rival-only gimmicks |
 | Rival templates | 6 | One per archetype |
 | Scripted rivals | 9 | 3 bosses, 6 first-run fights |
 | Founders | 8 | Cosmetic in v1; effects reserved |

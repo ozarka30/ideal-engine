@@ -545,9 +545,6 @@ mod("mod.family_firm", "Family Firm", "Severance doubled; all rooms gain +1 Tenu
 mod("mod.compliance_review", "Compliance Review", "Reroll costs ¥2; Bureaucracy you apply gains a stack.",
     [eff("economy", "stat", stat="rerollCost", subject=subj("firm"), amount=1), stat("statusStacksBonus", ALL, amount=1, status=BUR)],
     board=OD([("cost", "Reroll ¥2"), ("benefit", "+1 stack on every Bureaucracy you apply")]))
-mod("mod.restructuring", "Restructuring", "One use: the next relocation is free and carries the room's full Tenure.",
-    [eff("economy", "flag", flag="restructuringCharge", subject=subj("firm"))],
-    board=OD([("cost", "The node"), ("benefit", "One free relocation with full Tenure carried")]))
 mod("mod.open_door", "Open Door Policy", "Regen +40 per event; Goodwill cap −100.",
     [stat("regenPerEvent", subj("firm"), amount=40), stat("goodwillCap", subj("firm"), amount=-100)],
     board=OD([("cost", "−100 Goodwill cap"), ("benefit", "+40 regen per event")]))
