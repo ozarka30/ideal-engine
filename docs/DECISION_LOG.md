@@ -75,8 +75,12 @@ history of a reversal is the most useful thing in a document like this.
 | [D-44](#d-44) | Art and licence gates live only in the release workflow | Craft | Phase 4 |
 | [D-45](#d-45) | Steam sits behind a Platform interface; the Rust side owns Steamworks; the webview never links it | Craft | Phase 4 |
 | [D-46](#d-46) | A chosen founder avatar, cosmetic in v1, carried in the snapshot with an empty effects list | Human | Phase 4 |
+| [D-47](#d-47) | Controller navigation is post-v1; focusable elements stay enumerable from the first screen | Human | Q-ARCH-1 |
+| [D-48](#d-48) | Paper wireframes deferred; the greybox vertical slice is the UX milestone | Human | Q-UX-1 |
+| [D-49](#d-49) | The vertical slice is the ranked-shaped sixteen-round loop; the campaign map comes after it | Craft | Phase 5 |
+| [D-50](#d-50) | Balance invariants are content the harness reads; one knob per commit; the pressure curve is not a knob | Craft | Phase 5 |
 
-Thirty-eight craft decisions and eight human calls taken. Eight items remain open in
+Forty craft decisions and ten human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -956,3 +960,81 @@ founder is a modifier. Rival templates draw a founder from an archetype pool so 
 dossier always has a face.
 
 Authority: Human · Phase 4, `GAME_DESIGN.md` §3, §19.7; `CONTENT_SCHEMA.md` §9
+
+---
+
+## D-47
+
+**Controller navigation ships after v1. Mouse and keyboard are the v1 input model.
+Every screen keeps its interactive elements enumerable from the first commit so that a
+cursor scheme is an input adapter later, not a re-layout. Steam Deck verification is
+therefore a post-v1 goal, not a release gate.**
+
+*Why:* The human's call — it is real UI work with its own fixtures and it is not on the
+path to the game being fun, which is what the vertical slice exists to find out.
+
+*Consequence:* The build runs on a Deck at 2× with mouse and keyboard but is not
+verified for it. `ROADMAP.md` §8 says so on its own line.
+
+Authority: Human · Question: [Q-ARCH-1](OPEN_QUESTIONS.md#q-arch-1--when-does-controller-navigation-arrive)
+
+---
+
+## D-48
+
+**No paper wireframe pass for now. The greybox vertical slice (M2) is the UX
+milestone: twenty developer runs, the answerable human-check questions from
+`GAME_DESIGN.md` §21, and layout notes turned into changes or register entries before
+M3 begins.**
+
+*Why:* The human passed on the wireframes; the brief's own position is that the game
+must be judgeable in greybox, and UX is judged by using a screen, which the slice is
+the first moment anyone can do.
+
+*Consequence:* M2 cannot be exited by an agent. If the slice is not fun, the roadmap is
+rewritten from M2 down rather than continued.
+
+Authority: Human · Question: [Q-UX-1](OPEN_QUESTIONS.md#q-ux-1--when-does-the-ux-review-happen)
+
+---
+
+## D-49
+
+**The vertical slice is the sixteen-round linear loop — found a firm, build, Ready,
+fight, autopsy, next round, three strikes — against templated rivals, with no map, no
+interludes, no portal and no recipes. It is the earliest point at which the game is
+fun, and it is exactly ranked's loop with templates in place of ghosts.**
+
+*Why:* Fun lives in the build round and the fight it causes; the map, the portal and
+the recipes deepen a loop that must already work, and testing them first would hide a
+loop that does not. Choosing the ranked shape for the slice means the slice is never
+thrown away — the campaign wraps it, and ranked substitutes into it.
+
+*Consequence:* The only throwaway work in the whole plan is three debug pages and one
+label (`ROADMAP.md` §10). M2's exit is a human judgement, and a negative one sends the
+plan back to `GAME_DESIGN.md`, which is the correct place for it to go.
+
+Authority: Craft · Phase 5, `ROADMAP.md` §4
+
+---
+
+## D-50
+
+**The balance invariants are content — `content/balance.json`, seventeen entries with
+population, measure, comparator, threshold, cadence and severity — read by the
+harness, validated by the schema, and reported on every push and every night. Tuning
+follows one loop with one number per commit, in the order cost, cooldown, value, new
+content, rule. The Quarter Close curve, the bar's scale, the tick rate, the grids, the
+Tenure tiers and the retrigger depth are not knobs.**
+
+*Why:* An invariant that lives in a document is a hope; one that lives in a file the
+build reads is an assertion, and this project's stance is that correctness of every
+kind is a CI check. One knob per commit is what keeps the balance history bisectable
+and teachable. The not-a-knob list exists because those numbers are load-bearing for
+something other than balance, and the tuning loop must not be allowed to reach them.
+
+*Consequence:* Adding an invariant is a content edit plus a measure implementation.
+Automated tuning is explicitly out of scope for v1 — the harness finds, a human
+decides — because numbers an optimizer chose are numbers nobody can explain.
+
+Authority: Craft · Phase 5, `BALANCE_PLAN.md` §6, §8, §9

@@ -4,7 +4,9 @@ An auto-battler where you build a haunted Japanese office tower floor by floor,
 hire the staff to fill it, and send it into quarterly combat against another
 player's building for market share.
 
-Pre-production. No code yet — design first.
+Pre-production. No code yet — design first. The design phase is complete in draft:
+eight documents, a content database, a sprite manifest, and the schemas they validate
+against. The first implementation milestone is `ROADMAP.md` M0.
 
 ## Documents
 
@@ -24,6 +26,9 @@ Pre-production. No code yet — design first.
 | [`manifest/sprites.json`](manifest/sprites.json) | The sprite manifest: 181 visual slots, every one a greybox spec with exact dimensions, anchor, footprint and target path |
 | [`manifest/greybox_palette.json`](manifest/greybox_palette.json) | The seven greybox tones |
 | [`schema/manifest.schema.json`](schema/manifest.schema.json) | JSON Schema the manifest validates against |
+| [`docs/BALANCE_PLAN.md`](docs/BALANCE_PLAN.md) | The harness, the populations, the bands, the six-archetype counter web, seventeen CI invariants, the tuning loop, what is not a knob |
+| [`content/balance.json`](content/balance.json) | The invariants as data the harness reads |
+| [`docs/ROADMAP.md`](docs/ROADMAP.md) | Six milestones from foundations to ship-ready, each with what becomes playable and the question it answers; release gates on their own lines; post-v1; what the human does |
 
 ## At a glance
 
@@ -42,9 +47,9 @@ Pre-production. No code yet — design first.
 | 2 — Loop and sim | `GAME_DESIGN.md`, `SIMULATION_SPEC.md` | Drafted, awaiting sign-off |
 | 3 — Content and data | `CONTENT_SCHEMA.md`, `content/`, `schema/` | Drafted, awaiting sign-off |
 | 4 — Technical | `ARCHITECTURE.md`, `ART_PIPELINE.md`, `manifest/` | Drafted, awaiting sign-off |
-| 5 — Balance and plan | `BALANCE_PLAN.md`, `ROADMAP.md` | Not started |
+| 5 — Balance and plan | `BALANCE_PLAN.md`, `ROADMAP.md`, `content/balance.json` | Drafted, awaiting sign-off |
 
-Forty-six decisions are logged — thirty-eight craft calls and eight human ones. Ten
-items are open, none blocking; each is listed against the phase where it first bites.
+Fifty decisions are logged — forty craft calls and ten human ones. All five phases
+are drafted. Eight items are open, none blocking; each is listed against the phase where it first bites.
 See the summary table in
 [`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md).

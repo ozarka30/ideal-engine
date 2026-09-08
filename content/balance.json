@@ -1,0 +1,362 @@
+{
+  "id": "balance.default",
+  "seeds": {
+    "smoke": 20,
+    "nightly": 200,
+    "search": 200
+  },
+  "smokeRounds": [
+    1,
+    6,
+    12,
+    16
+  ],
+  "populations": {
+    "field": {
+      "description": "Every archetype template expanded at the round, seeds x 6 archetypes, budget 1000 permille",
+      "templates": "all",
+      "budgetPermille": 1000
+    },
+    "median_attacker": {
+      "description": "The generalist template at median budget; results averaged over seeds",
+      "templates": [
+        "rival.t_generalist"
+      ],
+      "budgetPermille": 1000
+    },
+    "strongest_defence": {
+      "description": "A hill-climb over legal, constructible, gimmick-free builds at the round, maximising the tick at which Goodwill first reaches 0 against median_attacker; 200 iterations from the turtle template at 1200 permille",
+      "search": "maximize_break_tick",
+      "start": "rival.t_turtle",
+      "budgetPermille": 1200,
+      "iterations": 200
+    },
+    "mirror": {
+      "description": "A template against itself, different seeds",
+      "templates": "all"
+    },
+    "agent_run": {
+      "description": "A greedy builder plays 16 rounds against field rivals, buying the highest harness-scored option each round; 100 runs",
+      "runs": 100
+    },
+    "optimizer": {
+      "description": "A hill-climb over constructible builds maximising win rate against field at the round; 200 iterations; used for outlier detection and pick rates",
+      "search": "maximize_win_rate",
+      "iterations": 200
+    }
+  },
+  "bands": {
+    "archetypeVsField": [
+      420,
+      580
+    ],
+    "counterPair": [
+      580,
+      750
+    ],
+    "mirror": [
+      470,
+      530
+    ],
+    "fightMedianEndTick": [
+      700,
+      1000
+    ],
+    "bellRateMax": 250,
+    "drawRateMax": 20,
+    "firstShareMoveMedianTick": 200,
+    "firstShareMoveP90Tick": 400,
+    "singleHitShareMax": 1500,
+    "liveLedgerLinesPerSecondP95": 4,
+    "liveLedgerLinesPerSecondFail": 6,
+    "demolitionsPerRunMedianMax": 1000,
+    "selectorDensityFromRound": 8,
+    "selectorDensityMin": 500,
+    "abilityShareOfWinnerPushP50Max": 500,
+    "deadContentPickRate": 20,
+    "simulateMedianMs": 5
+  },
+  "counters": [
+    {
+      "winner": "turtle",
+      "loser": "burst",
+      "why": "Legal cap and regen outlast a build whose damage arrives in bursts"
+    },
+    {
+      "winner": "burst",
+      "loser": "economy",
+      "why": "Economy scales into rounds it does not survive"
+    },
+    {
+      "winner": "burnout",
+      "loser": "turtle",
+      "why": "Morale ignores Goodwill and erodes the cap the turtle paid for"
+    },
+    {
+      "winner": "management",
+      "loser": "burnout",
+      "why": "Retriggers with HR cleanse out-tempo a slow Burnout stack"
+    },
+    {
+      "winner": "economy",
+      "loser": "management",
+      "why": "Chip that never stops suppressing regen, plus income that outgrows a retrigger core"
+    },
+    {
+      "winner": "generalist",
+      "loser": "none",
+      "why": "The generalist is the median, not a counter; it sits inside the band against everyone"
+    }
+  ],
+  "bossCounters": [
+    {
+      "boss": "rival.boss_regional_rival",
+      "favoured": "generalist",
+      "favouredMin": 500,
+      "punished": null,
+      "punishedMax": null
+    },
+    {
+      "boss": "rival.boss_compliance_office",
+      "favoured": "burnout",
+      "favouredMin": 600,
+      "punished": "burst",
+      "punishedMax": 300
+    },
+    {
+      "boss": "rival.boss_parent_company",
+      "favoured": "burnout",
+      "favouredMin": 450,
+      "punished": "burst",
+      "punishedMax": 300
+    }
+  ],
+  "invariants": [
+    {
+      "id": "inv.break_guaranteed",
+      "name": "No defence survives to the Bell",
+      "statement": "Against median_attacker, the strongest_defence build's Goodwill reaches 0 before the Bell in every seed.",
+      "population": "strongest_defence vs median_attacker",
+      "measure": "max over seeds of first tick at which defender goodwill == 0",
+      "comparator": "<",
+      "threshold": 1160,
+      "cadence": "smoke+nightly",
+      "severity": "fail",
+      "source": "DESIGN_BRIEF risk 3; D-05"
+    },
+    {
+      "id": "inv.bar_moves_early",
+      "name": "Fights do not open flat",
+      "statement": "In field matches the Market Share bar first moves early.",
+      "population": "field vs field",
+      "measure": "median and P90 over matches of the first tick with shareDelta != 0",
+      "comparator": "median<=200,p90<=400",
+      "threshold": [
+        200,
+        400
+      ],
+      "cadence": "smoke+nightly",
+      "severity": "fail",
+      "source": "DESIGN_BRIEF risk 4; PLANNING_PROMPT"
+    },
+    {
+      "id": "inv.archetype_band",
+      "name": "No archetype dominates the field",
+      "statement": "Each archetype's win rate against the field, mirror excluded, lies inside the band.",
+      "population": "each archetype vs field",
+      "measure": "win rate permille",
+      "comparator": "in",
+      "threshold": [
+        420,
+        580
+      ],
+      "cadence": "smoke+nightly",
+      "severity": "fail",
+      "source": "PLANNING_PROMPT invariant 3"
+    },
+    {
+      "id": "inv.counter_pairs",
+      "name": "Counters exist and are not walls",
+      "statement": "Each listed counter pair's win rate lies inside the counter band.",
+      "population": "counters",
+      "measure": "win rate permille of winner vs loser",
+      "comparator": "in",
+      "threshold": [
+        580,
+        750
+      ],
+      "cadence": "nightly",
+      "severity": "fail",
+      "source": "DESIGN_BRIEF §6 triangle; this plan"
+    },
+    {
+      "id": "inv.mirror_parity",
+      "name": "Mirrors are fair",
+      "statement": "A template against itself with different seeds is close to even.",
+      "population": "mirror",
+      "measure": "win rate permille of side A",
+      "comparator": "in",
+      "threshold": [
+        470,
+        530
+      ],
+      "cadence": "nightly",
+      "severity": "fail",
+      "source": "D-29"
+    },
+    {
+      "id": "inv.fight_length",
+      "name": "Fights end in the window",
+      "statement": "Median fight length is 35–50 s, the Bell resolves few fights, draws are rare.",
+      "population": "field vs field",
+      "measure": "median endTick; bell-resolution rate; draw rate",
+      "comparator": "median in [700,1000]; bell<=250; draw<=20",
+      "threshold": [
+        [
+          700,
+          1000
+        ],
+        250,
+        20
+      ],
+      "cadence": "smoke+nightly",
+      "severity": "fail",
+      "source": "D-21; GAME_DESIGN §11"
+    },
+    {
+      "id": "inv.chip_cannot_suppress",
+      "name": "Chip cannot hold regen down alone",
+      "statement": "No shop-available employee whose base value reaches the round's suppression threshold has a cooldown under 60 ticks.",
+      "population": "static: employees x rounds offered",
+      "measure": "for each (employee, round): baseValue >= suppressThreshold(round) implies cooldownTicks >= 60",
+      "comparator": "all",
+      "threshold": true,
+      "cadence": "commit",
+      "severity": "fail",
+      "source": "D-04 trade-off"
+    },
+    {
+      "id": "inv.single_hit_cap",
+      "name": "No one hit claims the bar",
+      "statement": "No single resolution in a field match moves Market Share by more than the cap.",
+      "population": "field vs field",
+      "measure": "max over entries of |shareDelta|",
+      "comparator": "<=",
+      "threshold": 1500,
+      "cadence": "smoke+nightly",
+      "severity": "fail",
+      "source": "D-06 trade-off"
+    },
+    {
+      "id": "inv.rider_net_negative",
+      "name": "The portal is a gamble, not an upgrade",
+      "statement": "Each shop extraplanar employee with each rider, substituted into field towers for its cost-matched tier equivalent, does not raise win rate above the cap.",
+      "population": "field with substitution vs field",
+      "measure": "win rate permille of the substituted tower",
+      "comparator": "<=",
+      "threshold": 550,
+      "cadence": "nightly",
+      "severity": "fail",
+      "source": "GAME_DESIGN §14.3"
+    },
+    {
+      "id": "inv.demolition_rare",
+      "name": "Rooms are commitments",
+      "statement": "A greedy agent playing full runs rarely demolishes.",
+      "population": "agent_run",
+      "measure": "median rooms demolished per run, permille",
+      "comparator": "<=",
+      "threshold": 1000,
+      "cadence": "nightly",
+      "severity": "fail",
+      "source": "D-24; Q-RISK-2"
+    },
+    {
+      "id": "inv.selector_density",
+      "name": "Floors stay a decision",
+      "statement": "From round 8, at least half of field towers carry a floor-selected status ability.",
+      "population": "field per round >= 8",
+      "measure": "fraction permille of towers with >=1 enemy-targeted status effect",
+      "comparator": ">=",
+      "threshold": 500,
+      "cadence": "nightly",
+      "severity": "fail",
+      "source": "D-10"
+    },
+    {
+      "id": "inv.ledger_rate",
+      "name": "The live ledger stays readable",
+      "statement": "After coalescing, the live ledger's line rate stays under budget.",
+      "population": "field vs field",
+      "measure": "P95 over 1-second windows of coalesced lines per firm",
+      "comparator": "warn>4, fail>6",
+      "threshold": [
+        4,
+        6
+      ],
+      "cadence": "nightly",
+      "severity": "warn+fail",
+      "source": "D-08"
+    },
+    {
+      "id": "inv.ability_diversity",
+      "name": "Wins are not one card",
+      "statement": "In field wins, no single ability supplies most of the winner's Push.",
+      "population": "field vs field, winners",
+      "measure": "P50 over matches of max share permille of totalPush from one abilityId",
+      "comparator": "<=",
+      "threshold": 500,
+      "cadence": "nightly",
+      "severity": "fail",
+      "source": "PLANNING_PROMPT quality bar: combination over quantity"
+    },
+    {
+      "id": "inv.boss_counters",
+      "name": "Bosses teach what they are meant to",
+      "statement": "Each boss loses to its favoured archetype at least as often as listed and beats its punished archetype at least as often as listed.",
+      "population": "bossCounters",
+      "measure": "win rate permille of the archetype vs the boss",
+      "comparator": "favoured>=min; punished<=max",
+      "threshold": null,
+      "cadence": "nightly",
+      "severity": "fail",
+      "source": "GAME_DESIGN §15.2"
+    },
+    {
+      "id": "inv.template_constructible",
+      "name": "Rivals are affordable",
+      "statement": "Every template at every round expands to a constructible snapshot for every seed.",
+      "population": "templates x rounds x seeds",
+      "measure": "count of expansions failing constructibility",
+      "comparator": "==",
+      "threshold": 0,
+      "cadence": "commit",
+      "severity": "fail",
+      "source": "D-39; D-40"
+    },
+    {
+      "id": "inv.dead_content",
+      "name": "Nothing is never picked",
+      "statement": "Content the optimizer picks less than the floor rate is flagged for review.",
+      "population": "optimizer",
+      "measure": "pick rate permille per entity",
+      "comparator": ">=",
+      "threshold": 20,
+      "cadence": "nightly",
+      "severity": "warn",
+      "source": "this plan"
+    },
+    {
+      "id": "inv.sim_budget",
+      "name": "The sim stays fast",
+      "statement": "A single simulate() call stays under budget at round 16.",
+      "population": "field at round 16",
+      "measure": "median wall-clock ms in Node",
+      "comparator": "<=",
+      "threshold": 5,
+      "cadence": "commit",
+      "severity": "fail",
+      "source": "ARCHITECTURE §11"
+    }
+  ]
+}

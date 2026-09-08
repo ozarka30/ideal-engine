@@ -2771,6 +2771,259 @@
       ],
       "additionalProperties": false
     },
+    "Invariant": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "statement": {
+          "type": "string"
+        },
+        "population": {
+          "type": "string"
+        },
+        "measure": {
+          "type": "string"
+        },
+        "comparator": {
+          "type": "string"
+        },
+        "threshold": {},
+        "cadence": {
+          "type": "string",
+          "enum": [
+            "commit",
+            "smoke+nightly",
+            "nightly"
+          ]
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "fail",
+            "warn",
+            "warn+fail"
+          ]
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "statement",
+        "population",
+        "measure",
+        "comparator",
+        "threshold",
+        "cadence",
+        "severity",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "Balance": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+        },
+        "seeds": {
+          "type": "object",
+          "properties": {
+            "smoke": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "nightly": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "search": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "smoke",
+            "nightly",
+            "search"
+          ],
+          "additionalProperties": false
+        },
+        "smokeRounds": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 16
+          },
+          "minItems": 1
+        },
+        "populations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "description"
+            ]
+          }
+        },
+        "bands": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 2
+              }
+            ]
+          }
+        },
+        "counters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "winner": {
+                "type": "string",
+                "enum": [
+                  "generalist",
+                  "turtle",
+                  "burst",
+                  "economy",
+                  "burnout",
+                  "management"
+                ]
+              },
+              "loser": {
+                "type": "string",
+                "enum": [
+                  "generalist",
+                  "turtle",
+                  "burst",
+                  "economy",
+                  "burnout",
+                  "management",
+                  "none"
+                ]
+              },
+              "why": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "winner",
+              "loser",
+              "why"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "bossCounters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "boss": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+\\.[a-z0-9_]+$"
+              },
+              "favoured": {
+                "type": "string",
+                "enum": [
+                  "generalist",
+                  "turtle",
+                  "burst",
+                  "economy",
+                  "burnout",
+                  "management"
+                ]
+              },
+              "favouredMin": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "punished": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "generalist",
+                      "turtle",
+                      "burst",
+                      "economy",
+                      "burnout",
+                      "management"
+                    ]
+                  }
+                ]
+              },
+              "punishedMax": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                ]
+              }
+            },
+            "required": [
+              "boss",
+              "favoured",
+              "favouredMin",
+              "punished",
+              "punishedMax"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "invariants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Invariant"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "id",
+        "seeds",
+        "smokeRounds",
+        "populations",
+        "bands",
+        "counters",
+        "bossCounters",
+        "invariants"
+      ],
+      "additionalProperties": false
+    },
     "FloorFile": {
       "type": "object",
       "properties": {

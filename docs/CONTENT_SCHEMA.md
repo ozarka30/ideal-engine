@@ -54,6 +54,7 @@ content/
   map.json                the campaign's acts, columns and node kinds
   tutorial.json           first-run hint lines
   founders.json           the eight founders a player may choose; cosmetic in v1
+  balance.json            the harness's populations, bands, counter web and seventeen invariants
   rivals/
     templates.json        semi-scripted rival archetypes and the lease schedule
     scripted/*.json       hand-authored rival towers: bosses and tutorial rivals
@@ -860,6 +861,12 @@ fights the first run substitutes; layout rules for the map screen. The loader as
 each act's `F` + `B` count equals its round span.
 
 **`tutorial.json`** — one hint line per round for the first run.
+
+**`balance.json`** — the balance harness's configuration: seed counts, the smoke
+rounds, the populations it builds, the target bands, the archetype counter web, the
+boss counters, and seventeen invariants each with a population, a measure, a
+comparator, a threshold, a cadence and a severity. `BALANCE_PLAN.md` explains them.
+An invariant is content; the harness implements its `measure` and reads the rest.
 
 ---
 
