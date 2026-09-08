@@ -55,15 +55,23 @@ not quietly design around it.
    strategic identity.
 5. **Combat:** Cooldown duel. Nothing moves. Employees fire on their own
    cooldowns. Layout is a pure build-time puzzle.
-6. **Win condition:** Market share tug-of-war. One shared bar, starts 50/50, both
-   sides push, resolves on full claim or the quarterly bell.
+6. **Win condition:** Market share tug-of-war fronted by **Goodwill**. Each firm
+   holds a Goodwill buffer with a visible number and a running **ledger** of named
+   entries beneath it. Incoming push depletes Goodwill first; only once Goodwill
+   breaks does further push move the shared Market Share bar. The bar starts
+   50/50 and resolves on full claim or at the quarterly bell. The ledger is
+   simultaneously the live defensive readout and the post-battle autopsy — design
+   it as one component, not two.
 7. **Crafting:** Full hidden-recipe combining, using employees, equipment and room
    context.
 8. **Hiring:** Shop with paid rerolls. The portal unlocks mid-run and adds a
    second, riskier stock alongside the normal one.
-9. **Two modes:** a ranked ladder for competitive players, and a Slay-the-Spire-
-   style campaign. **One sim, one content database.** Modes are a configuration
-   layer, never a rules fork.
+9. **Two modes, campaign first.** The Slay-the-Spire-style campaign ships first
+   and carries the tutorial; the ranked ladder follows. **One sim, one content
+   database.** Modes are a configuration layer, never a rules fork. Campaign-first
+   defers the entire async PvP backend out of v1 — plan for it, but do not build
+   it early, and treat scripted campaign rival towers as the eventual seed ghost
+   pool.
 10. **Platform and tech:** Steam. TypeScript + PixiJS + Vite, packaged via Tauri.
     The simulation is a pure headless TypeScript module with no rendering
     dependency.
@@ -106,16 +114,20 @@ at once — follow the phase order in the next section.
    and the new-player experience.
 2. **`SIMULATION_SPEC.md`** — the combat sim as an implementable specification.
    Tick rate, cooldown and initiative rules, exact tie-break ordering, how each
-   floor's output aggregates into the market share bar, how defensive effects
-   resist push, status effect stacking and expiry, the determinism contract, and
-   the replay format. This document must be precise enough that two independent
-   implementations would agree on every match outcome.
+   floor's output aggregates into Goodwill damage and then into the bar, Goodwill
+   regeneration and overflow, which effects pierce Goodwill, the Quarter Close
+   pressure curve, status effect stacking and expiry, the determinism contract,
+   and the replay and ledger-entry formats. This document must be precise enough
+   that two independent implementations would agree on every match outcome.
 3. **`CONTENT_SCHEMA.md`** — the data model. Schemas for every content type, with
    worked examples, plus the rules for adding new content without touching code.
 4. **`ARCHITECTURE.md`** — module boundaries, the sim/render split, state
-   management, save format and its migration strategy, the async PvP backend
-   (ghost snapshot storage, matchmaking, the cold-start bot pool), Steam
-   integration, and the build and packaging pipeline.
+   management, save format and its migration strategy, Steam integration, and the
+   build and packaging pipeline. Also specify the async PvP backend — ghost
+   snapshot storage, matchmaking, anti-cheat posture — as a *deferred* component:
+   v1 ships campaign-only, but the tower snapshot format and the sim's entry
+   points must be designed now so that adding ranked later is additive rather than
+   a rewrite.
 5. **`ART_PIPELINE.md`** — how pack tiles become in-game content. Atlas
    generation, the naming convention, the perspective rule and how it is enforced,
    the UI style guide, and the documented process for absorbing a future
@@ -123,11 +135,23 @@ at once — follow the phase order in the next section.
 6. **`BALANCE_PLAN.md`** — the methodology, not the numbers. Target win-rate
    bands, what the automated matchup harness measures, how a broken build is
    detected, the archetypes that should exist and roughly how they should beat
-   each other, and the process for tuning from telemetry.
+   each other, and the process for tuning from telemetry. State the balance
+   invariants as machine-checkable assertions the headless sim runs in CI. At
+   minimum:
+   - No defensive build may hold Goodwill unbroken to the bell against a median
+     attacker of the same round.
+   - The Market Share bar must begin moving within a stated number of seconds in
+     the median matchup, or fights open flat.
+   - No single archetype may exceed its win-rate band against the field.
+   The intended counter-triangle is a starting point, not a conclusion: Legal
+   turtles beat burst, burst beats economy scaling, Burnout pierces turtles.
 7. **`ROADMAP.md`** — a phased build order from a playable vertical slice to a
    Steam release. Each phase states what becomes playable and what question that
    phase answers. Identify the earliest point at which the game is fun, and get
-   there first.
+   there first. Campaign-first is deliberate: it removes the PvP backend from the
+   critical path and makes scripted rival towers double as balance-test fixtures.
+   Say explicitly which work in each phase is throwaway and which carries forward
+   into ranked.
 8. **`OPEN_QUESTIONS.md`** — a living register of every unresolved decision, each
    with options, a recommendation, and what it blocks.
 
@@ -151,15 +175,26 @@ Work in this order and get sign-off between phases. Do not run ahead.
 **Structure and pacing**
 - How many floors, what grid size per floor, and what is the expansion curve?
 - How many rounds per run, how long is a fight, how many lives?
-- Does the campaign or the ranked ladder ship first? Which one carries the
-  tutorial?
+- What is the campaign map's shape, and what are its boss encounters?
 
-**The tug-of-war**
-- Exactly how does each floor's output aggregate into the single bar?
-- What stops a runaway lead from ending fights in ten seconds, and what stops
-  every fight from timing out at the bell?
-- How do defensive builds read as *doing something* on a bar that only moves one
-  way at a time? This is the sharpest risk in the whole design.
+**Goodwill and the tug-of-war**
+- Exactly how does each floor's output aggregate into Goodwill damage, and then
+  into the bar?
+- **Does Goodwill regenerate?** If it does not, defence is only a delay and turtle
+  builds have no identity. If it does, and the attack curve stays flat, a
+  defensive build becomes unbreakable. The intended answer is regeneration plus an
+  escalating Quarter Close pressure curve — work out the actual shape.
+- **Does overflow carry?** A hit larger than remaining Goodwill should push its
+  excess into the bar, rewarding burst and alpha-strike timing. Confirm or argue
+  against.
+- **What pierces Goodwill?** Burnout is the natural candidate — morale damage does
+  not appear on a balance sheet. Piercing effects prevent dead air in the opening
+  seconds and give turtles a counter. Decide the full set.
+- When the bar has been pushed to one side and the trailing player breaks through,
+  does the bar travel back through the centre, or does the leader keep their
+  ground? This determines whether comebacks exist.
+- What does the ledger show, at what granularity, and how does it stay readable at
+  combat speed while remaining precise enough to scrub afterwards?
 
 **Floors**
 - What makes each floor mechanically distinct beyond "more space"?
@@ -181,22 +216,25 @@ Work in this order and get sign-off between phases. Do not run ahead.
   straight upgrade?
 - What unlocks it in each mode, and how does the occult reveal land narratively?
 
-**Async PvP**
-- What exactly is stored in a ghost snapshot, and how are players matched?
-- How is the bot pool seeded so that day-one players fight something credible?
+**Async PvP — deferred to post-v1, but design the seams now**
+- What exactly is stored in a tower snapshot? This format must be settled early,
+  because campaign rival towers use it too and will become the seed ghost pool.
+- How are players matched once ranked exists?
 - What is the anti-cheat posture, given the client owns the sim?
 
 ## Quality bar
 
-- **A player who loses must be able to find out why.** Post-battle diagnosis —
-  timeline, per-floor contribution, what fired and when — is a first-class
-  feature, not polish. Design it in Phase 2, not later.
+- **A player who loses must be able to find out why.** The ledger is the answer,
+  and it is a first-class feature, not polish — it doubles as the live defensive
+  readout, so it must be designed in Phase 2 alongside the sim, not bolted on
+  afterwards. Per-floor contribution and a scrubbable timeline build on top of it.
 - **Depth must come from combination, not from quantity.** More employees is not
   more game. Interactions between fewer, sharper pieces is.
 - **Every mechanic must be legible on the screen it happens on.** If a synergy
   cannot be seen firing, it will not be believed.
 - **The satire should be in the mechanics, not just the flavour text.** Severance
-  fees, burnout, middle managers who only retrigger other people's work — the
+  fees, burnout, Goodwill as a defensive stat, middle managers who only retrigger
+  other people's work, a combat log that is literally an accounting ledger — the
   joke lands hardest when it is also the strategy.
 
 ## Anti-goals

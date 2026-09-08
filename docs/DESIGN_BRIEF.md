@@ -37,10 +37,10 @@ player's building for market share.
 | Setting & tone | Retro Japanese corporate occult — 90s salaryman satire that quietly turns supernatural |
 | Build space | **Multi-floor building.** Several small grids stacked vertically, connected by an elevator. Floors have distinct mechanical identity. Portal is literally a basement floor |
 | Combat model | **Cooldown duel.** Nothing moves during combat. Employees fire abilities on their own cooldowns. Layout is a pure build-time puzzle |
-| Win condition | **Market share tug-of-war.** One shared bar between the two firms, starts 50/50. Both sides push. Fight ends on full claim or on the quarterly bell |
+| Win condition | **Market share tug-of-war fronted by Goodwill.** Each firm holds a Goodwill buffer; push depletes Goodwill first and only moves the shared bar once it breaks. Bar starts 50/50, resolves on full claim or the quarterly bell |
 | Crafting | **Full hidden-recipe crafting.** Employees + equipment + room context combine into upgraded staff. Discovery is a primary retention driver |
 | Hiring | **Shop with paid rerolls.** The portal unlocks mid-run and adds a second, riskier stock of extraplanar hires alongside the normal one |
-| Modes | **Two.** A ranked/competitive ladder mode for the endgame audience, and a Slay-the-Spire-style campaign mode. Both share one sim and one content database |
+| Modes | **Two, campaign first.** A Slay-the-Spire-style campaign ships first and carries the tutorial; a ranked ladder follows. Both share one sim and one content database |
 | Platform | **Steam** |
 | Tech | TypeScript + PixiJS + Vite; packaged for Steam via Tauri. Sim is a pure headless TS module |
 | Development style | Primarily agentic coding, with human intervention for layout and hard design problems |
@@ -95,7 +95,48 @@ Direction to develop:
   a per-floor contribution breakdown. In a build-craft game, a player who cannot
   work out *why* they lost will quit. This is a first-class feature, not polish.
 
-## 6. Systems sketch (starting point, not settled)
+## 6. Goodwill and the ledger
+
+The tug-of-war's central weakness is that a bar which only moves one way at a time
+makes defensive play read as *nothing happening*. The fix is a buffer layer with
+its own visible number, and a running ledger beneath it.
+
+**Goodwill** is each firm's defensive buffer — named for the real balance-sheet
+line item, which makes it both accurate accounting and a pun. Incoming push
+depletes the target's Goodwill; only once Goodwill breaks does further push move
+the shared Market Share bar. "Break their Goodwill, then take their Market Share."
+
+Beneath each firm's Goodwill number sits a **ledger** — a scrolling feed of named
+entries that resolve into that number:
+
+```
+Q3 LEDGER · GOODWILL 4,200
+  +840   Ship Feature      Senior Dev · Fl.3
+ -1200   Cease & Desist    [RIVAL] Legal
+  +300   Overtime          Junior Dev · Fl.2
+```
+
+This does two jobs at once. Live, it gives defensive builds something visibly
+happening and turns the fight into readable drama. Scrubbed afterwards, it *is*
+the post-battle autopsy — the diagnosis feature and the defence readout are the
+same component. It also makes the satire mechanical rather than decorative:
+corporate warfare rendered as bookkeeping.
+
+Three rules to settle in design (see `PLANNING_PROMPT.md` Phase 1):
+
+- **Regeneration.** Goodwill should regenerate, or defence is only a delay and
+  turtle builds have no identity. But regeneration plus a flat attack curve means
+  an unbreakable build, so the Quarter Close pressure curve must escalate attack
+  values until any defence eventually yields.
+- **Overflow.** A hit larger than remaining Goodwill should carry its excess
+  straight into the bar. This rewards burst and alpha-strike timing; discarding
+  the excess would quietly buff chip damage instead.
+- **Piercing.** Some effects should bypass Goodwill entirely — Burnout is the
+  natural candidate, since morale damage does not appear on a balance sheet. This
+  prevents dead air in the opening seconds and supplies a counter-archetype:
+  Legal turtles beat burst, burst beats economy, Burnout pierces turtles.
+
+## 7. Systems sketch (starting point, not settled)
 
 Mappings from the Backpack Battles depth model:
 
@@ -114,26 +155,34 @@ high-multiplier, B4 is the portal and is cursed. Rival abilities that target "th
 highest floor" or "the lowest floor" make floor assignment a genuine decision even
 though nothing moves in combat.
 
-## 7. Known risks
+## 8. Known risks
 
 1. **Layer bloat.** Rooms + furniture + employees + equipment may be one layer too
    many. Plan for MVP to fold equipment into furniture and keep the expansion room.
 2. **Two modes is two balance problems.** Mitigated by forcing one sim and one
    content database, with modes as a configuration layer only.
-3. **Tug-of-war doubles balance difficulty** versus a plain HP bar, because both
-   offence and defence push the same axis.
-4. **Cold-start PvP.** Async ghosts need a seeded bot pool or the first players
-   fight nothing.
+3. **Goodwill adds a layer to balance.** The Quarter Close pressure curve must
+   now guarantee break-through against the *strongest* possible defensive build at
+   each round, not merely an average one. This is an automated-testing obligation,
+   and belongs in `BALANCE_PLAN.md` as an explicit invariant.
+4. **Dead air at the start of a fight.** If Goodwill absorbs everything for the
+   opening seconds, the bar sits still and fights open flat. Mitigated by piercing
+   effects and by tuning starting Goodwill low relative to round-appropriate
+   output.
 5. **Recipe discovery needs an in-game codex** or it reads as opaque rather than
    deep.
+6. **Cold-start PvP** — deferred, not solved. Campaign-first removes it from v1
+   entirely; scripted campaign rival towers are intended to seed the ghost pool
+   when ranked mode is built.
 
-## 8. Still open
+## 9. Still open
 
 Carried into `PLANNING_PROMPT.md` as work to be done:
 
-- How exactly floor output aggregates into the single market share bar.
+- How exactly floor output aggregates into Goodwill damage and then into the bar.
+- Goodwill regeneration rate, overflow handling, and which effects pierce it.
+- The shape of the Quarter Close pressure curve.
 - Number of floors, grid dimensions per floor, and the expansion curve.
-- Whether the campaign or the ranked ladder ships first.
 - Round count, fight duration, and lives per run.
 - Whether furniture is a distinct layer in v1.
 - Economy numbers of every kind.
