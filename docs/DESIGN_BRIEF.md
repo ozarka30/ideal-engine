@@ -44,7 +44,8 @@ player's building for market share.
 | Platform | **Steam** |
 | Tech | TypeScript + PixiJS + Vite; packaged for Steam via Tauri. Sim is a pure headless TS module |
 | Development style | Primarily agentic coding, with human intervention for layout and hard design problems |
-| Art workflow | **Greybox-first.** Every visual element is built as a labelled placeholder at the exact dimensions and anchor the real asset will use, declared in a shared sprite manifest. Dropping real art in is a file copy, not a layout pass |
+| Art workflow | **Greybox-first, incremental replacement.** Every visual element is built as a labelled placeholder at the exact dimensions and anchor the real asset will use, declared in a shared sprite manifest. Dropping real art in is a file copy, not a layout pass |
+| Art scheduling | **The campaign ships fully playable in greybox.** Art is replaced incrementally and out of order thereafter, as the developer gets to it. There is no art pass milestone and no phase may be gated on art existing |
 
 ## 4. Art direction and the perspective split
 
@@ -207,6 +208,46 @@ stubs, so real assets flow into the manifest rather than being hand-wired; and a
 in-game overlay reporting asset coverage — how much of the build is still greybox,
 what is temporary stand-in art, and what is final.
 
+### Incremental replacement is the normal state
+
+The campaign is built playable in greybox, and art replaces placeholders
+incrementally and out of order over the following months. A screen that is part
+real pixel art and part placeholder is therefore the *ordinary* condition, not a
+brief transitional one. Three things follow.
+
+**Greybox tones are drawn from the pack's own palette, desaturated** — not
+arbitrary greys. A partially-arted screen has to look deliberate rather than
+broken, because that is the view during most of development.
+
+**No art pass milestone exists.** Roadmap phases are defined by systems only.
+Nothing may be gated on art existing, or the art backlog becomes the critical
+path. Art completeness is a *release* gate, tracked separately from development
+progress.
+
+**Manifest entries declare their asset path before the file exists.** Adding art
+never edits the manifest — the path was already there. The validation check must
+therefore treat an absent file as valid (that entry is simply still greybox) and
+fail only on a dimension mismatch when a file *is* present.
+
+### The art worklist
+
+Because replacement is developer-driven and unordered, coverage reporting is not
+enough on its own; there needs to be a ranked worklist. Plan a command that emits,
+for every manifest entry still lacking art, a spec sheet containing:
+
+- id, exact pixel dimensions, anchor, and grid footprint
+- which screens it appears on, and how often it is on screen
+- what it needs to read as at a glance
+- the exact target file path to drop the finished asset at
+- where known, a candidate source tile from the GuttyKreum packs — much of this
+  work is selection and slicing rather than drawing
+- optionally, a template PNG generated at the correct dimensions with the
+  footprint and anchor marked
+
+Rank the list by visibility: a shop card seen every round outranks a basement room
+seen twice a run. The top fraction of that list carries most of the perceived
+polish, which matters when art is fitted around other work.
+
 ### Pixel discipline
 
 32x32 base, nearest-neighbour filtering, integer scale factors only, positions
@@ -251,6 +292,15 @@ though nothing moves in combat.
 6. **Cold-start PvP** — deferred, not solved. Campaign-first removes it from v1
    entirely; scripted campaign rival towers are intended to seed the ghost pool
    when ranked mode is built.
+7. **The art backlog may never close.** Incremental, developer-paced replacement
+   means the game can sit half-arted indefinitely, which blocks a Steam release
+   even though it never blocks development. Mitigated by ranking the worklist so
+   the highest-visibility assets land first, and by defining "art complete" as an
+   explicit release gate tracked from day one rather than discovered at the end.
+8. **Mixed-state visual coherence.** Greybox and finished art share every screen
+   for months. If placeholders are not palette-matched and tone-coded, the game
+   reads as broken to the person looking at it every day, which is corrosive to
+   judgement about whether it is fun.
 
 ## 10. Still open
 
@@ -264,3 +314,4 @@ Carried into `PLANNING_PROMPT.md` as work to be done:
 - Whether furniture is a distinct layer in v1.
 - Economy numbers of every kind.
 - The full sprite manifest schema, and the draw-order rule for overhanging sprites.
+- The definition of "art complete" that serves as the release gate.

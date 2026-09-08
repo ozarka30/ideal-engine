@@ -84,6 +84,12 @@ not quietly design around it.
     same manifest entry, never two code paths. Dropping real art in must be a file
     copy, not a layout pass. A greybox is never approximate — one whose dimensions
     are unknown is a blocker, not a placeholder.
+13. **The campaign ships fully playable in greybox.** Art is replaced
+    incrementally and out of order afterwards, at the developer's pace. A screen
+    that is part real art and part placeholder is the ordinary state for months,
+    not a transient one. There is no art pass milestone, no roadmap phase may be
+    gated on art existing, and art completeness is a *release* gate tracked
+    separately from development progress.
 
 `docs/DESIGN_BRIEF.md` carries the full detail, including the asset pack
 inventory, the battle presentation direction, and the systems sketch. Read it
@@ -158,9 +164,24 @@ at once — follow the phase order in the next section.
    - **The validation check.** A CI script asserting that every manifest entry with
      a present asset file matches its declared dimensions, failing the build on
      mismatch.
-   - **Tooling.** A slicer that reads a GuttyKreum sheet and emits manifest stubs,
-     and an in-game overlay reporting asset coverage — what is still greybox, what
-     is stand-in, what is final.
+   - **Mixed-state coherence.** Greybox and finished art share every screen for
+     months, so placeholder tones are drawn from the pack's own palette,
+     desaturated and category-coded — never arbitrary grey. A part-arted screen
+     must read as deliberate, not broken.
+   - **Absent files are valid.** Manifest entries declare their asset path before
+     the file exists; adding art never edits the manifest. The validation check
+     fails only on a dimension mismatch when a file is present, never on absence.
+   - **Tooling.** A slicer that reads a GuttyKreum sheet and emits manifest stubs;
+     an in-game overlay reporting asset coverage; and — most important for this
+     workflow — a **ranked art worklist** command. For every entry still lacking
+     art it emits a spec sheet: id, exact dimensions, anchor, footprint, which
+     screens it appears on and how often, what it must read as, the exact target
+     file path, and where known a candidate source tile from the packs, since much
+     of this work is selection and slicing rather than drawing. Optionally a
+     template PNG at correct dimensions with footprint and anchor marked. Rank by
+     visibility — a shop card seen every round outranks a basement room seen twice
+     a run.
+   - **The definition of "art complete"** that serves as the release gate.
    - **Pixel discipline.** 32x32 base, nearest-neighbour, integer scale factors
      only, integer-snapped positions, fixed globally.
    - Atlas generation, the naming convention, the perspective rule and how it is
@@ -182,7 +203,9 @@ at once — follow the phase order in the next section.
 7. **`ROADMAP.md`** — a phased build order from a playable vertical slice to a
    Steam release. Each phase states what becomes playable and what question that
    phase answers. Identify the earliest point at which the game is fun, and get
-   there first — in greybox, before any art pass. Campaign-first is deliberate: it removes the PvP backend from the
+   there first — in greybox. Phases are defined by systems only; none may be
+   gated on art existing, since art arrives incrementally and developer-paced
+   throughout. Track art completeness as a separate release gate on its own line. Campaign-first is deliberate: it removes the PvP backend from the
    critical path and makes scripted rival towers double as balance-test fixtures.
    Say explicitly which work in each phase is throwaway and which carries forward
    into ranked.
@@ -245,8 +268,10 @@ Work in this order and get sign-off between phases. Do not run ahead.
   before a greybox can be built against it?
 - What is the draw-order rule for overhanging sprites, and does it need an explicit
   per-entry bias or does y-sorting suffice?
-- Should the campaign ship playable in greybox before art is applied? Doing so
-  proves the workflow and gets the fun question answered earliest.
+- What is the greybox palette, given it must sit next to real pack art without
+  looking broken?
+- What defines "art complete" for release, and how is progress against it tracked
+  from the first commit?
 
 **Recipes**
 - How many recipes at launch, and how does a player discover them? Design the
@@ -274,9 +299,12 @@ Work in this order and get sign-off between phases. Do not run ahead.
   more game. Interactions between fewer, sharper pieces is.
 - **Every mechanic must be legible on the screen it happens on.** If a synergy
   cannot be seen firing, it will not be believed.
-- **The game must be playable and judgeable in greybox.** If it is not fun as grey
-  rectangles, art will not rescue it — and if art is required to understand a
-  screen, that screen's layout is under-specified.
+- **The game must be playable and judgeable in greybox.** The campaign ships that
+  way. If it is not fun as placeholder rectangles, art will not rescue it — and if
+  art is required to understand a screen, that screen's layout is under-specified.
+- **Every mixed state must look deliberate.** Part-art, part-greybox is the normal
+  view for months, and a build that reads as broken corrodes the developer's own
+  judgement about whether the game is working.
 - **The satire should be in the mechanics, not just the flavour text.** Severance
   fees, burnout, Goodwill as a defensive stat, middle managers who only retrigger
   other people's work, a combat log that is literally an accounting ledger — the
@@ -292,6 +320,7 @@ Work in this order and get sign-off between phases. Do not run ahead.
 - No hardcoded pixel dimensions anywhere outside the sprite manifest.
 - No approximate greyboxes. Unknown dimensions are a decision to make, not a
   detail to defer.
+- No feature, phase or milestone gated on art existing.
 - No monetisation design in this pass. Premium Steam release is the assumption.
 - No engine or stack relitigation unless a hard blocker is found, in which case
   state the blocker plainly.
