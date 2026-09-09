@@ -39,7 +39,7 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 - **Divergence** — two asset classes. Rooms are static commitments; employees are flexible and reoptimised every round
 - **Combat** — cooldown duel, nothing moves, market share tug-of-war
 - **Setting** — retro Japanese corporate occult
-- **Platform** — Steam. The stack is being re-selected (Q-TECH-1); Tauri was dropped after the research pass found the Steam overlay cannot hook its webviews
+- **Platform** — Steam. Stack under sign-off (Q-TECH-1): the research recommends Godot 4 with C# and the sim as a plain .NET library; Tauri was dropped after the Steam overlay was found unable to hook its webviews
 
 ## Design phase progress
 

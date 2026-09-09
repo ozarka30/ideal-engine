@@ -211,3 +211,127 @@ In addition to the list in `ROADMAP.md` §11:
    and 41 before the store page exists (Q-RISK-3).
 5. **Decide on Next Fest February 2027** as a target, which fixes a demo by 25 January
    2027 and a release after 1 March 2027 — or let it go and take a later edition.
+
+---
+
+## 9. Stack selection (after D-59)
+
+Tauri was dropped (D-59). Three further research passes evaluated the field against the
+six constraints the design already fixes — pixel discipline; a headless deterministic
+sim that runs in the game, in CI at ten thousand matches a minute, and later on a
+server; JSON content and manifest with a greybox renderer and screenshot tests; Steam
+on three platforms and the Deck with overlay, Cloud and auth tickets; agent-driven
+development; JSON saves. The three passes were briefed separately (engine fit, Steam
+integration per binding, agent-friendliness) and reached the same first choice
+independently.
+
+### 9.1 The field, scored
+
+Scores 1–5 from the engine pass, adjusted where the other two passes disagreed.
+
+| Constraint | Godot 4 + C# | Godot 4 + GDScript | MonoGame / FNA + C# | Unity + C# | Bevy (Rust) | Electron + PixiJS | LÖVE (Lua) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Pixel art | 5 | 5 | 4 | 4 | 4 | 4 | 4 |
+| Headless sim in CI and on a server | 5 | 2 | 5 | 4 | 5 | 4 | 3 |
+| JSON, greybox, screenshots | 4 | 4 | 4 | 3 | 4 | 5 | 3 |
+| Steam and Deck | 4 | 4 | 4 | 5 | 3 | 2 | 4 |
+| Agent-friendly | 4 | 3 | 5 | 2 | 2 | 4 | 3 |
+| JSON saves and migrations | 5 | 4 | 5 | 5 | 5 | 5 | 3 |
+| **Total** | **27** | 22 | **27** | 23 | 23 | 24 | 20 |
+
+The decisive column is the second. The sim must be a plain library that runs without
+the engine — that is what makes the balance harness and the later server possible —
+and only a language with a first-class standalone runtime satisfies it. C# and Rust
+do; TypeScript does with integer discipline; GDScript can only run inside a headless
+Godot binary; LuaJIT's doubles need guarding on every multiply.
+
+### 9.2 Why each of the others loses
+
+| Candidate | Trust | Why not |
+| --- | --- | --- |
+| **Electron + PixiJS** | [S] | The same failure that removed Tauri, slower: `steamworks.js` has open "no overlay" issues on all three platforms and its Linux one is unresolved; an Electron 35 regression kills the overlay on SteamOS until reboot; Vampire Survivors left Electron for Unity to get Deck Verified. Nobody has shown the overlay in Deck gaming mode from Electron. It keeps our TypeScript, and that is not enough |
+| **Unity** | [S/s] | Best Steam story of all, worst agent story: scenes and prefabs are YAML that practitioners tell agents never to touch, and the official MCP needs a live editor. Licensing is repaired but the trust cost is real. A shipped agent-built Unity game was not found |
+| **Bevy** | [S] | The best sim language and the worst API churn — a breaking release every three to six months, an open Bevy issue proposing versioned agent instructions because "the machine is always working with outdated knowledge", and an open bug where the screen only repaints a few times a second under the Deck's gaming-mode compositor |
+| **Godot + GDScript** | [S/s] | The most shipped agent-built evidence of any engine, and the wrong language for constraint two: the sim would live inside a 90 MB engine binary on CI and the server, with no engine-free test runner. Godot-3-versus-4 API confusion is the top reported agent error class and fails silently at runtime |
+| **LÖVE** | [S] | LuaJIT numbers are doubles with 32-bit bit-ops; workable for permille math but every multiply needs a guard; the server would need the same LuaJIT; LÖVE 12 is two years late |
+| **raylib** | [s] | Strictly dominated by MonoGame for C# |
+
+### 9.3 The recommendation
+
+**Godot 4 (4.6 or 4.7) with C#, the simulation as a plain .NET class library that
+references no Godot assembly, the Compatibility (OpenGL) renderer, the X11 display
+driver on Linux, GodotSteam for Steamworks.** Trust: [S] on every load-bearing claim
+except the overlay-on-SteamOS state, which is [s] from an open issue.
+
+What each part buys:
+
+- **C#** is on par with Java and ahead of TypeScript and Rust in real-repository
+  agent benchmarks, and it turns the Godot-3-versus-4 hallucination class into a
+  compile error rather than a silent no-op. Integer arithmetic is fully specified.
+- **The sim as a class library** with no `Godot.NET.Sdk` reference means `dotnet test`
+  and the ten-thousand-match harness run in CI with no engine, and the same DLL is
+  referenced by the Godot client now and an ASP.NET server later. A working open-source
+  project (Klotho) demonstrates exactly that topology: engine-agnostic C# core, Godot
+  adapter, dedicated server as a plain console app, hash checksums, no floats.
+- **Godot** gives the human an editor for layout and feel, text scene files agents can
+  read and diff, a headless CLI, two test frameworks that run in GitHub Actions, three
+  active MCP servers, and the best Deck track record of any engine a solo developer
+  reaches for: Brotato, Dome Keeper, Halls of Torment, Buckshot Roulette.
+- **GodotSteam** covers the full SDK 1.65 including `getAuthTicketForWebApi` for the
+  future server, releases monthly (it moved from GitHub to Codeberg on 4 September
+  2026), and ships headless-exportable builds for all three platforms.
+
+The trade-offs accepted:
+
+- **The overlay path must be pinned.** Godot's Vulkan renderer does not get the
+  overlay when launched outside Steam (closed as not planned), and two 2026 issues
+  report it missing on SteamOS with the Forward+ renderer and under Wayland. A 2D
+  pixel game loses nothing on the Compatibility renderer, and X11 is the known-good
+  driver. This is the one live risk and it is a settings choice, verified by the
+  spike below, not an architectural one.
+- **Screenshot tests need a virtual display.** `godot --headless` renders nothing;
+  the off-screen proposal is still open. Tests run under xvfb with Mesa's software
+  rasteriser, which the gdUnit4 action already does.
+- **Export size is roughly 100 MB** with the .NET runtime embedded. Acceptable.
+- **Godot's C# has no web export.** Irrelevant for Steam.
+
+**The close second is MonoGame 3.8.5 with C#**, taking the same sim library verbatim.
+It has the smallest surface for an agent to hallucinate against — pure code, an API
+stable since 2010, no editor state — and FNA titles like Celeste are Deck Verified on
+native Linux. It loses the editor, which is where the human does layout and feel, and
+every screen becomes hand-built code; with a manifest driving every pixel that is
+smaller than it sounds. It is the fallback if the Godot overlay spike fails.
+
+### 9.4 What stays and what changes
+
+Nothing in the sim spec, the content schema, the manifest, the greybox workflow or
+the balance plan named a language; all of it stands. `SIMULATION_SPEC.md` §2 and
+§17 are written in language-neutral integer terms and port to C# `long` and
+`Math.imul`-free 32-bit code directly; the mulberry32 listing becomes `uint`
+arithmetic. `ARCHITECTURE.md` §2, §7, §8 and §9 are rewritten once the choice is
+signed off: the package graph becomes .NET projects (`CompanyWars.Sim`,
+`CompanyWars.Content`, `CompanyWars.Manifest`, `CompanyWars.Build`, the Godot
+project, `CompanyWars.Harness`), the import-direction lint becomes project-reference
+rules, TypeBox and Playwright become `System.Text.Json` with schema validation and
+xvfb screenshot capture, and the `Platform` interface stays as designed with a
+GodotSteam implementation behind it.
+
+### 9.5 The spike that confirms it
+
+One day, before any package depends on the engine:
+
+1. Export a Godot 4 C# hello-world with the Compatibility renderer and
+   `display/display_server/driver.linuxbsd = x11` as a real app-ID build; launch it
+   from the Steam client on Windows, macOS and a Deck in **gaming mode**; confirm the
+   overlay, an achievement toast and Cloud sync. Repeat with Forward+ and with Wayland
+   to document which combinations break.
+2. Run the same Linux build inside the steamrt4 container and confirm GodotSteam's
+   shared library loads.
+3. Reference the sim class library from both a `dotnet test` project and the Godot
+   project; run the mirror fixture in both and assert identical hashes; time ten
+   thousand matches standalone.
+4. Capture a greybox screenshot under `xvfb-run` on an Ubuntu runner twice and on
+   two runner images; assert byte identity.
+5. Sign and notarise the macOS export from a Linux runner with `rcodesign`; confirm
+   Gatekeeper launch and the overlay under Metal.
+6. Confirm the .NET version Godot pins matches the intended server runtime.

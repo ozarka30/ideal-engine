@@ -76,7 +76,7 @@ decisions.
 | [Q-PVP-2](#q-pvp-2--how-are-players-matched-once-ranked-exists) | Matchmaking | Bucketed by round and rating; ghost chosen from the match seed | DECIDED · [D-19](DECISION_LOG.md#d-19) |
 | [Q-PVP-3](#q-pvp-3--what-is-the-anti-cheat-posture-given-the-client-owns-the-sim) | Anti-cheat | Server re-simulation of submitted snapshots; client result advisory | DECIDED · [D-20](DECISION_LOG.md#d-20) |
 | [Q-ARCH-1](#q-arch-1--when-does-controller-navigation-arrive) | Controller navigation | Post-v1; mouse and keyboard ship first; Steam Deck verification waits on it | DECIDED · [D-47](DECISION_LOG.md#d-47) |
-| [Q-TECH-1](#q-tech-1--tauri-or-electron-given-the-steam-overlay-and-the-deck) | Which stack | Tauri is dropped (D-59); the stack is chosen from the research in `RESEARCH_NOTES.md` §9 | NEEDS SIGN-OFF |
+| [Q-TECH-1](#q-tech-1--tauri-or-electron-given-the-steam-overlay-and-the-deck) | Which stack | Godot 4 + C#, sim as a plain .NET library, Compatibility renderer, GodotSteam; MonoGame as fallback | NEEDS SIGN-OFF |
 | [Q-UX-1](#q-ux-1--when-does-the-ux-review-happen) | UX review timing | Wireframes deferred; the greybox vertical slice is the UX milestone | DECIDED · [D-48](DECISION_LOG.md#d-48) |
 | [Q-RISK-1](#q-risk-1--is-the-guttykreum-licence-cleared-for-commercial-release) | Asset licence | Verify before any spend; treat as a release blocker with an owner and a date | NEEDS SIGN-OFF |
 | [Q-RISK-2](#q-risk-2--is-the-room-commitment-tension-actually-load-bearing) | Room commitment | Demolition is genuinely painful; rewards for good commitment scale to compensate | DECIDED · [D-24](DECISION_LOG.md#d-24) |
@@ -1500,9 +1500,16 @@ headless deterministic sim that must also run in CI and on a server, JSON conten
 manifest, Steam with overlay and Deck, agent-driven development, JSON saves. Their
 findings and a ranked recommendation are in `RESEARCH_NOTES.md` §9.
 
-**Status:** NEEDS SIGN-OFF — the stack is the human's; the recommendation will be in
-the research notes. Locked decision 10 is superseded on packaging by D-59 and may be
-superseded on the engine by the answer.
+**Recommendation (from `RESEARCH_NOTES.md` §9): Godot 4 with C#, the simulation as
+a plain .NET class library that references no engine assembly, the Compatibility
+renderer and X11 driver, GodotSteam.** Three passes reached it independently. The one
+live risk — the overlay under Vulkan and Wayland — is a settings choice confirmed by a
+one-day spike. **MonoGame with the same sim library** is the fallback if the spike
+fails. Electron is excluded for the reason Tauri was; Unity for agent-hostility; Bevy
+for churn; GDScript for trapping the sim inside the engine.
+
+**Status:** NEEDS SIGN-OFF — the stack is the human's. Locked decision 10 is
+superseded on packaging by D-59 and, if this is accepted, on engine and language too.
 
 ---
 
