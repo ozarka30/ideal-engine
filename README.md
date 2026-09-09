@@ -56,12 +56,21 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 | 4 — Technical | `ARCHITECTURE.md`, `ART_PIPELINE.md`, `manifest/` | Signed off (D-53) |
 | 5 — Balance and plan | `BALANCE_PLAN.md`, `ROADMAP.md`, `content/balance.json` | Signed off (D-53) |
 
-Sixty-two decisions are logged — forty-five craft calls and seventeen human ones.
+Sixty-three decisions are logged — forty-six craft calls and seventeen human ones.
 The design phase is signed off (D-53) and a research verification pass has been run;
 its findings are in `docs/RESEARCH_NOTES.md`, and the stack is Godot 4 with C# (D-60) after Tauri was dropped (D-59); five strikes
 are adopted (D-58); the title still needs a registry search. Eight items are open, none blocking M0; each is listed against the phase where it first bites.
 See the summary table in
 [`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md).
+
+## Try it
+
+There is no browser build: Godot 4 cannot export a C# project to the web (D-63). Every push to
+`main` produces desktop builds instead — download the zip for your platform from the
+[nightly pre-release](../../releases/tag/nightly) (or from the `builds` workflow's artifacts),
+unzip, and run `CompanyWars.exe` / `CompanyWars.x86_64` / the `.app`. Everything is greybox: each
+sprite is a placeholder at its final size and tone. To run from source instead, open `game/` in
+Godot 4.7.2 (.NET) and press Play.
 
 ## Implementation progress
 

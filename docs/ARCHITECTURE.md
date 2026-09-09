@@ -399,6 +399,11 @@ build account. The release workflow alone runs the **art gates** (`ART_PIPELINE.
 §8, D-56) and the **licence gate** (Q-RISK-1), which is how "no phase is gated on art"
 and "the release is" are both true (D-44).
 
+**Test builds before release.** `.github/workflows/builds.yml` exports Windows, Linux and macOS
+on every push to `main` with the official templates, packs `content/`, `schema/` and
+`manifest/` beside the executable (inside the bundle on macOS), and refreshes a rolling
+`nightly` pre-release. There is no web build: Godot 4 cannot export C# to the web (D-63).
+
 ### 9.4 The M0 stack spike
 
 Before any screen exists, one day, on the developer's own Deck:

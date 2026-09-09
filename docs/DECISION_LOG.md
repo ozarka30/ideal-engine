@@ -91,8 +91,9 @@ history of a reversal is the most useful thing in a document like this.
 | [D-60](#d-60) | Godot 4 with C#; the sim as a plain .NET library; Compatibility renderer; X11; GodotSteam | Human | Q-TECH-1 |
 | [D-61](#d-61) | The mulberry32 listing corrected to the canonical algorithm; the C# listing is normative | Craft | — |
 | [D-62](#d-62) | Within a tick, readiness is judged before cooldowns advance: phases run A, B, D, C, E, F | Human | — |
+| [D-63](#d-63) | No browser build: Godot 4 cannot export C# to the web; desktop nightly builds are the playtest channel | Craft | Q-TECH-1 |
 
-Forty-five craft decisions and seventeen human calls taken. Eight items remain open in
+Forty-six craft decisions and seventeen human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -1302,3 +1303,26 @@ through Overtime and cooldown multipliers, and the `tie_parity` fixture records 
 the rule does with equal 60-tick cooldowns.
 
 Authority: Human · `SIMULATION_SPEC.md` §7, §8, §20
+
+---
+
+## D-63
+
+**There is no browser build. Godot 4 cannot export a C# project to the web (the 4.7.2
+editor refuses with "Exporting to Web is currently not supported in Godot 4 when using
+C#/.NET"), so playtest builds are desktop exports: every push to `main` produces Windows,
+Linux and macOS zips as workflow artifacts and refreshes a rolling `nightly` pre-release.**
+
+*Why:* A GitHub Pages build was asked for as the easiest way to test. It would need either
+a GDScript client, which D-60 and the working rules exclude, or a second client in another
+stack, which is the one thing the sim/render split was built to avoid. The stack's cost
+here is real and is recorded rather than worked around.
+
+*Consequence:* Testing needs a download, not a link. The export presets live in
+`game/export_presets.cfg`; content, schema and manifest ride beside the executable (inside
+the bundle on macOS) until the resource-pack loader lands with the release pipeline
+(ARCHITECTURE.md §9.3). If Godot gains .NET web export in a later 4.x, this decision is
+reversed by a new entry, not by editing this one.
+
+Authority: Craft · `ARCHITECTURE.md` §9.3
+

@@ -44,7 +44,7 @@ public partial class ScreenRouter : Node
     public override void _Ready()
     {
         Instance = this;
-        RepoRoot = Path.GetFullPath(Path.Combine(ProjectSettings.GlobalizePath("res://"), ".."));
+        RepoRoot = FindDataRoot();
         PixelDiscipline.Assert();
         Content = ContentLoader.Load(RepoRoot);
         Manifest = ManifestValidator.Validate(RepoRoot, Content);
@@ -140,6 +140,29 @@ public partial class ScreenRouter : Node
         CurrentFight = null;
         if (Run.Over) Go("res://scenes/Summary.tscn");
         else OpenRound();
+    }
+
+    /// <summary>
+    /// Where content/, schema/ and manifest/ live: the repository in development (the project is at repo/game),
+    /// or beside the executable in an export, or inside the macOS bundle's Resources (ARCHITECTURE.md §2).
+    /// </summary>
+    private static string FindDataRoot()
+    {
+        var candidates = new List<string>();
+        string res = ProjectSettings.GlobalizePath("res://");
+        if (!string.IsNullOrEmpty(res)) candidates.Add(Path.GetFullPath(Path.Combine(res, "..")));
+        string exeDir = Path.GetDirectoryName(OS.GetExecutablePath()) ?? string.Empty;
+        if (exeDir.Length > 0)
+        {
+            candidates.Add(exeDir);
+            candidates.Add(Path.GetFullPath(Path.Combine(exeDir, "..")));
+            candidates.Add(Path.GetFullPath(Path.Combine(exeDir, "..", "Resources")));
+        }
+        foreach (string c in candidates)
+        {
+            if (File.Exists(Path.Combine(c, "content", "index.json")) && File.Exists(Path.Combine(c, "manifest", "sprites.json"))) return c;
+        }
+        throw new InvalidOperationException("content/ and manifest/ not found beside the project or the executable; looked in: " + string.Join(", ", candidates));
     }
 
     // ---------------------------------------------------------------- screenshot fixtures
