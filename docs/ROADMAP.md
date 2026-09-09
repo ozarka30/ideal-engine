@@ -105,9 +105,8 @@ with the ten §19 fixtures recorded in `fixtures/sim/` and the §20 trace assert
 independently of them; `CompanyWars.Content` with the §12 checks and twenty-six rejection
 fixtures; `CompanyWars.Manifest` with the §5 check and `art_coverage.json`; the Godot
 project with the pixel-discipline settings and the greybox screen; CI stages 1–5 and the
-fixture guard. `src/CompanyWars.Sim/README.md` lists the readings the spec left open, the
-first of which (phase order, §7 versus §20) needs a human ruling. Not yet: the screenshot
-fixture in CI, the Deck spike.
+fixture guard. `src/CompanyWars.Sim/README.md` lists the readings the spec left open; the
+phase order is ruled (D-62). Not yet: the Deck spike.
 
 **Human:** the Deck half of the spike — launching the build on the device in gaming
 mode and reporting what the overlay does. Everything else in the spike is agent work. A good moment to buy the packs and

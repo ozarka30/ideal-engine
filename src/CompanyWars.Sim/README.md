@@ -29,13 +29,10 @@ no clock, no `System.Random`, no I/O, no floating-point type anywhere in the ass
 These are decisions the text does not settle. Each is deterministic and pinned by a fixture;
 changing one is a rule change (§18.8) and regenerates the fixtures under the fixture guard.
 
-1. **Phase order within a tick is A, B, D, C, E, F.** Readiness is judged on the progress
-   accumulated through the previous tick, then cooldowns advance. §7 lists C before D, which
-   would put the first fire of an 80-tick cooldown on tick 79 and give the mirror fixture
-   `totalPush` 1077; §20 and the roadmap's M0 exit criterion pin tick 80 and 1131. The
-   implementation follows §20. §20's remark that 60, 120, 180 "alternate parity" is wrong
-   under either reading (they are all even); parity alternates only when a cooldown's tick
-   count is odd, which happens through Overtime and cooldown multipliers.
+1. **Phase order within a tick is A, B, D, C, E, F** (D-62): readiness is judged on the
+   progress accumulated through the previous tick, then cooldowns advance, so a fresh
+   80-tick cooldown fires on tick 80. §7 once listed the advance first; the human ruled
+   for §20's reading and §7 now says so.
 2. **Status entries carry the status id in `tags`** (`status.burnout`, `status.overtime`, …)
    because §16.1 has no status field and two applications to one unit at one tick would
    otherwise be indistinguishable.

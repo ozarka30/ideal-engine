@@ -90,8 +90,9 @@ history of a reversal is the most useful thing in a document like this.
 | [D-59](#d-59) | Tauri is dropped; the stack is re-selected from research | Human | Q-TECH-1 |
 | [D-60](#d-60) | Godot 4 with C#; the sim as a plain .NET library; Compatibility renderer; X11; GodotSteam | Human | Q-TECH-1 |
 | [D-61](#d-61) | The mulberry32 listing corrected to the canonical algorithm; the C# listing is normative | Craft | — |
+| [D-62](#d-62) | Within a tick, readiness is judged before cooldowns advance: phases run A, B, D, C, E, F | Human | — |
 
-Forty-five craft decisions and sixteen human calls taken. Eight items remain open in
+Forty-five craft decisions and seventeen human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -1275,3 +1276,29 @@ against the canonical generator. `Draw(n)` is specified as
 language.
 
 Authority: Craft · `SIMULATION_SPEC.md` §17
+
+---
+
+## D-62
+
+**Within a tick the phases run A (banners), B (expiry), D (ready and resolve), C
+(cooldown advance), E (periodic), F (end check): a unit's readiness is judged on the
+progress accumulated through the previous tick, and only then do cooldowns advance.
+`SIMULATION_SPEC.md` §7 is corrected to list the phases in that order.**
+
+*Why:* M0's implementation exposed that §7 and §20 disagreed. §7 listed the advance
+before the ready check, which puts the first fire of an 80-tick cooldown on tick 79
+and gives the mirror fixture `totalPush` 1077; §20's worked trace and the M0 exit
+criterion pin tick 80 and 1131. The human chose the §20 reading: a 4.0 s cooldown
+fires on the tick its eightieth tick of progress completes, so the trace's tick
+numbers, its month boundaries and the signed-off aggregates all hold. The ten
+conformance fixtures were recorded under this reading, so this is a correction of the
+text, not a rule change; `schemaVersion` stays at 1.
+
+*Consequence:* The tick loop in `Match.Run.cs` is the normative order. §20's remark
+that 60-tick cooldowns "alternate parity" is also wrong (60, 120, 180 are all even) and
+is corrected: parity alternates only when a cooldown's tick count is odd, which happens
+through Overtime and cooldown multipliers, and the `tie_parity` fixture records what
+the rule does with equal 60-tick cooldowns.
+
+Authority: Human · `SIMULATION_SPEC.md` §7, §8, §20

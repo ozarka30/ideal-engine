@@ -456,13 +456,15 @@ after that target's resolution — fire-then-burn, per unit (§13).
 for tick in 0 .. QUARTER_TICKS - 1:
   A. Banners            (§14)   — if tick ∈ MONTH_START
   B. Expiry             (§12.4)
+  D. Ready & resolve    (§8.2, §9)   — judged on progress accumulated through the previous tick
   C. Cooldown advance   (§8.1)
-  D. Ready & resolve    (§8.2, §9)
   E. Periodic events    (§11)
   F. End check          (§15)   — if ended, stop
 Bell resolution         (§15)
 ```
 
+The letters name the phases; the listing is the order they run in (D-62): readiness is
+judged before the tick's advance, so a fresh 80-tick cooldown fires on tick 80, not 79.
 Every phase runs to completion before the next begins. Phase D computes its ready list
 once, at its start; units that become ready during phase D (there are none, since
 progress only advances in C — but retriggers do not reset progress) are not added.
@@ -489,7 +491,8 @@ unit.cdProgress += rate
 
 `overtimeStacks` is `len(unit.overtime)`, or 2 if `overtimePermanent`.
 `bureaucracyStacks` is `len(unit.bureaucracy)`. `cdProgress` is in permille-ticks: a
-unit with `cdTotal = 80000` (4.0 s) at rate 1000 is ready after 80 ticks.
+unit with `cdTotal = 80000` (4.0 s) at rate 1000 has accumulated 80000 after the advance
+of tick 79 and is ready in phase D of tick 80 (D-62).
 
 ### 8.2 Ready list and initiative
 
@@ -1076,10 +1079,10 @@ every later fire overflows in full, and the symmetric pushes cancel. Nothing fir
 the Bell window (1120 is the last multiple of 80 below 1160). Bell resolution: share
 5000, Goodwill 0 = 0, `totalPush` equal → **draw**, `endTick = 1199`.
 
-Ticks 80, 160, 240 … are all even, so A always resolves first in this trace; the
-parity rule only matters when the cooldowns are not multiples of 40 ticks. The
-`tie_parity` fixture exercises it with 3.0 s cooldowns (60 ticks), where 60, 120, 180
-alternate parity.
+Ticks 80, 160, 240 … are all even, so A always resolves first in this trace. Parity
+alternates only when a cooldown's tick count is odd: equal 60-tick cooldowns fire on 60,
+120, 180 — all even — and still give A the edge. The `tie_parity` fixture records that;
+Overtime and cooldown multipliers are what produce odd tick counts in play (D-62).
 
 **Entry count** for this fixture: 4 banner entries (ticks 0, 400, 800, 1160); 29 regen
 events (ticks 40 … 1160) × 2 firms = 58 regen entries; 14 fires (ticks 80 … 1120) × 2
