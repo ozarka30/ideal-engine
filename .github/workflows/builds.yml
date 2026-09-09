@@ -49,8 +49,10 @@ jobs:
         run: |
           set -e
           mkdir -p "$HOME/.local/share/godot/keystores"
-          keytool -genkeypair -v -keystore "$HOME/.local/share/godot/keystores/debug.keystore" -alias androiddebugkey \
-            -storepass android -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          # Godot's import step may already have generated a debug keystore here; keep it if so.
+          [ -f "$HOME/.local/share/godot/keystores/debug.keystore" ] || \
+            keytool -genkeypair -v -keystore "$HOME/.local/share/godot/keystores/debug.keystore" -alias androiddebugkey \
+              -storepass android -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
           mkdir -p "$HOME/.config/godot"
           {
             echo '[gd_resource type="EditorSettings" format=3]'
