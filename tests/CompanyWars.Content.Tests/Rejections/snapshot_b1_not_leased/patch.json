@@ -1,0 +1,28 @@
+{
+  "file": "rivals/scripted/tut_01_two_desk_startup.json",
+  "ops": [
+    {
+      "path": "/snapshot/floors/-",
+      "append": {
+        "index": -1,
+        "grid": {
+          "w": 3,
+          "h": 3
+        },
+        "rooms": [],
+        "occupants": [
+          {
+            "tile": [
+              0,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.x_salaryman_who_never_left",
+            "instanceId": "e_g",
+            "attachments": []
+          }
+        ]
+      }
+    }
+  ]
+}

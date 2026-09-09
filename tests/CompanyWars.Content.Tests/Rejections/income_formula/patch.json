@@ -1,0 +1,9 @@
+{
+  "file": "economy.json",
+  "ops": [
+    {
+      "path": "/income/table/0",
+      "set": 99
+    }
+  ]
+}

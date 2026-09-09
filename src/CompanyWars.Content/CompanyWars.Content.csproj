@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Loads and validates content/ against schema/content.schema.json; resolves ids; hands the sim
+       resolved definitions (ARCHITECTURE.md §6). -->
+  <PropertyGroup>
+    <RootNamespace>CompanyWars.Content</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../CompanyWars.Sim/CompanyWars.Sim.csproj" />
+    <PackageReference Include="JsonSchema.Net" Version="9.4.0" />
+  </ItemGroup>
+</Project>

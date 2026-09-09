@@ -1,0 +1,9 @@
+{
+  "file": "rivals/scripted/tut_01_two_desk_startup.json",
+  "ops": [
+    {
+      "path": "/gimmick",
+      "set": "mod.g_zaibatsu"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "file": "employees.json",
+  "ops": [
+    {
+      "path": "/employees/9/effects/0/status",
+      "set": "status.nope"
+    }
+  ]
+}

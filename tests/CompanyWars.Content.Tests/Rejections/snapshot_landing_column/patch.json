@@ -1,0 +1,19 @@
+{
+  "file": "rivals/scripted/tut_01_two_desk_startup.json",
+  "ops": [
+    {
+      "path": "/snapshot/floors/0/rooms/-",
+      "append": {
+        "roomId": "x_sec",
+        "defId": "room.security_desk",
+        "rect": [
+          0,
+          0,
+          1,
+          2
+        ],
+        "tenureRounds": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "file": "rivals/scripted/tut_01_two_desk_startup.json",
+  "ops": [
+    {
+      "path": "/snapshot/globals/leasedB1",
+      "set": true
+    },
+    {
+      "path": "/snapshot/floors/-",
+      "append": {
+        "index": -1,
+        "grid": {
+          "w": 3,
+          "h": 3
+        },
+        "rooms": [],
+        "occupants": [
+          {
+            "tile": [
+              0,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.junior_dev",
+            "instanceId": "e_g",
+            "attachments": []
+          }
+        ]
+      }
+    }
+  ]
+}

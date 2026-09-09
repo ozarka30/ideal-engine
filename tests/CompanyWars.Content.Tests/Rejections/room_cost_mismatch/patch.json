@@ -1,0 +1,9 @@
+{
+  "file": "rooms.json",
+  "ops": [
+    {
+      "path": "/rooms/@room.server_room/cost",
+      "set": 8
+    }
+  ]
+}

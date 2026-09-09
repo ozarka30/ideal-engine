@@ -1,0 +1,9 @@
+{
+  "file": "rivals/templates.json",
+  "ops": [
+    {
+      "path": "/templates/0/gimmickPool/-",
+      "append": "mod.lean"
+    }
+  ]
+}

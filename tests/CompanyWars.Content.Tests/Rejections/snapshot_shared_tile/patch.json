@@ -1,0 +1,12 @@
+{
+  "file": "rivals/scripted/tut_01_two_desk_startup.json",
+  "ops": [
+    {
+      "path": "/snapshot/floors/1/occupants/1/tile",
+      "set": [
+        1,
+        1
+      ]
+    }
+  ]
+}

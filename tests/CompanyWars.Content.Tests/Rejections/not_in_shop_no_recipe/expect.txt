@@ -1,0 +1,1 @@
+inShop is false but no recipe results in it

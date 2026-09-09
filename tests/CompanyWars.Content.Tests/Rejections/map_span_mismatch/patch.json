@@ -1,0 +1,9 @@
+{
+  "file": "map.json",
+  "ops": [
+    {
+      "path": "/acts/2/columns",
+      "set": "FXFB"
+    }
+  ]
+}

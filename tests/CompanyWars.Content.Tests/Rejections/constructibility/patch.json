@@ -1,0 +1,31 @@
+{
+  "file": "rivals/scripted/tut_01_two_desk_startup.json",
+  "ops": [
+    {
+      "path": "/snapshot/floors/1/occupants/-",
+      "append": {
+        "tile": [
+          3,
+          1
+        ],
+        "kind": "employee",
+        "defId": "emp.architect",
+        "instanceId": "e_x1",
+        "attachments": []
+      }
+    },
+    {
+      "path": "/snapshot/floors/1/occupants/-",
+      "append": {
+        "tile": [
+          4,
+          1
+        ],
+        "kind": "employee",
+        "defId": "emp.architect",
+        "instanceId": "e_x2",
+        "attachments": []
+      }
+    }
+  ]
+}

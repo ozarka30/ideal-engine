@@ -1,0 +1,15 @@
+T:System.Random; the sim has one seeded generator (SIMULATION_SPEC §17)
+T:System.DateTime; no clock in the sim (SIMULATION_SPEC §18)
+T:System.DateTimeOffset; no clock in the sim
+T:System.TimeZoneInfo; no clock in the sim
+T:System.Diagnostics.Stopwatch; no clock in the sim
+T:System.Environment; no ambient input
+N:System.IO; the sim never reads files
+N:System.Threading; the sim is synchronous
+M:System.Math.Pow(System.Double,System.Double); integers and permille only (D-27)
+M:System.Math.Sqrt(System.Double); integers and permille only (D-27)
+T:System.Single; no floating point in the sim (D-27)
+T:System.Double; no floating point in the sim (D-27)
+T:System.Decimal; no floating point in the sim (D-27)
+T:System.Half; no floating point in the sim (D-27)
+T:System.Globalization.CultureInfo; no locale-dependent operations

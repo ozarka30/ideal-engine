@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The simulation. References nothing but the .NET base library (ARCHITECTURE.md §1).
+       The banned-API analyzer below and the reflection test in CompanyWars.Sim.Tests
+       enforce the determinism contract (SIMULATION_SPEC.md §18). -->
+  <PropertyGroup>
+    <RootNamespace>CompanyWars.Sim</RootNamespace>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.4" PrivateAssets="all" />
+    <AdditionalFiles Include="BannedSymbols.txt" />
+  </ItemGroup>
+</Project>

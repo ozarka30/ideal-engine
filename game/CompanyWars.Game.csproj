@@ -1,0 +1,15 @@
+<Project Sdk="Godot.NET.Sdk/4.7.2">
+  <!-- The client (ARCHITECTURE.md §2, §7). References the libraries; nothing references this project. -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>CompanyWars.Game</RootNamespace>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../src/CompanyWars.Sim/CompanyWars.Sim.csproj" />
+    <ProjectReference Include="../src/CompanyWars.Content/CompanyWars.Content.csproj" />
+    <ProjectReference Include="../src/CompanyWars.Manifest/CompanyWars.Manifest.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,17 @@
+{
+  "file": "rivals/scripted/tut_01_two_desk_startup.json",
+  "ops": [
+    {
+      "path": "/snapshot/floors/-",
+      "append": {
+        "index": 1,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [],
+        "occupants": []
+      }
+    }
+  ]
+}

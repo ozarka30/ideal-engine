@@ -99,6 +99,16 @@ Wayland do; the Linux build inside the steamrt4 container; the sim's mirror fixt
 hash-matching from both `dotnet test` and inside Godot; a screenshot under a virtual
 display byte-identical across two runs; the macOS export notarised from Linux.
 
+**Status (M0 in progress).** Landed: the solution and the dependency rule (project references,
+`BannedSymbols.txt`, the reflection and source-scan tests); `CompanyWars.Sim` end to end
+with the ten §19 fixtures recorded in `fixtures/sim/` and the §20 trace asserted
+independently of them; `CompanyWars.Content` with the §12 checks and twenty-six rejection
+fixtures; `CompanyWars.Manifest` with the §5 check and `art_coverage.json`; the Godot
+project with the pixel-discipline settings and the greybox screen; CI stages 1–5 and the
+fixture guard. `src/CompanyWars.Sim/README.md` lists the readings the spec left open, the
+first of which (phase order, §7 versus §20) needs a human ruling. Not yet: the screenshot
+fixture in CI, the Deck spike.
+
 **Human:** the Deck half of the spike — launching the build on the device in gaming
 mode and reporting what the overlay does. Everything else in the spike is agent work. A good moment to buy the packs and
 do the pack-fit pass (`ART_PIPELINE.md` §15), which is independent of all of this.

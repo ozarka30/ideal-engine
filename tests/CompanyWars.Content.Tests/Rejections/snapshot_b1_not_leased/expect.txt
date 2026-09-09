@@ -1,0 +1,1 @@
+B1 has occupants but leasedB1 is false

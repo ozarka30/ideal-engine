@@ -1,0 +1,9 @@
+{
+  "file": "rivals/scripted/tut_01_two_desk_startup.json",
+  "ops": [
+    {
+      "path": "/snapshot/floors/1/grid/w",
+      "set": 4
+    }
+  ]
+}

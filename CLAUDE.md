@@ -10,7 +10,7 @@ find the document that governs whatever you are about to change.
 - `manifest/` — the sprite manifest. Every visual slot with exact dimensions. Validates against `schema/manifest.schema.json`.
 - `tools/planning/` — generators that produced `content/`, `schema/`, `manifest/` and `docs/CONTENT_SCHEMA.md`. Running all four on a clean checkout produces no diff.
 - **Stack (D-60):** Godot 4 with C# on .NET 8; the simulation is `src/CompanyWars.Sim`, a class library that references no Godot assembly; Compatibility renderer; X11 on Linux; GodotSteam. `docs/ARCHITECTURE.md` has the project layout.
-- No game code exists yet. The first project is `src/CompanyWars.Sim` (see the roadmap).
+- `src/` — the .NET libraries and tools; `tests/` — xunit, one project per library; `fixtures/sim/` — the ten recorded conformance fixtures; `game/` — the Godot 4 project (M0: the greybox screen). `src/CompanyWars.Sim/README.md` lists the readings the spec left open.
 
 ## Commands
 ```
@@ -18,7 +18,11 @@ pip install jsonschema
 python3 tools/planning/gen_content.py && python3 tools/planning/gen_schema.py \
   && python3 tools/planning/gen_manifest.py && python3 tools/planning/gen_doc.py
 git status   # must be clean afterwards
-dotnet build && dotnet test                       # once the solution exists (M0)
+dotnet build CompanyWars.sln && dotnet test CompanyWars.sln
+dotnet run --project src/CompanyWars.Tools -- validate-content
+dotnet run --project src/CompanyWars.Tools -- validate-manifest   # also writes art_coverage.json
+dotnet run --project src/CompanyWars.Tools -- fixtures check       # `fixtures record` regenerates; needs the fixtures-approved label
+dotnet build game/CompanyWars.Game.csproj                            # needs only the Godot.NET.Sdk package
 xvfb-run godot --path game -- --screenshots       # screenshot fixtures; --headless renders nothing
 ```
 

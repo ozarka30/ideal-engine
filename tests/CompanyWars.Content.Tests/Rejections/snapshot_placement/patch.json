@@ -1,0 +1,25 @@
+{
+  "file": "rivals/scripted/tut_01_two_desk_startup.json",
+  "ops": [
+    {
+      "path": "/snapshot/floors/1/occupants/-",
+      "append": {
+        "tile": [
+          4,
+          2
+        ],
+        "kind": "employee",
+        "defId": "emp.x_office_lady",
+        "instanceId": "e_x",
+        "attachments": []
+      }
+    },
+    {
+      "path": "/snapshot/globals/riders/-",
+      "append": {
+        "instanceId": "e_x",
+        "riderId": "rider.tenured"
+      }
+    }
+  ]
+}

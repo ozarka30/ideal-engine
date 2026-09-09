@@ -1,0 +1,9 @@
+{
+  "file": "employees.json",
+  "ops": [
+    {
+      "path": "/employees/8/effects/1/on",
+      "set": "ability"
+    }
+  ]
+}

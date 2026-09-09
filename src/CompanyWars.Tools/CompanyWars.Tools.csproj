@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- validate-content, validate-manifest, fixtures (ARCHITECTURE.md §2). -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>CompanyWars.Tools</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../CompanyWars.Sim/CompanyWars.Sim.csproj" />
+    <ProjectReference Include="../CompanyWars.Content/CompanyWars.Content.csproj" />
+    <ProjectReference Include="../CompanyWars.Manifest/CompanyWars.Manifest.csproj" />
+  </ItemGroup>
+</Project>

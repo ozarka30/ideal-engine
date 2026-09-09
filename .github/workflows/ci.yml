@@ -1,0 +1,104 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    # ARCHITECTURE.md §9.2 stages 1–5 and 8. Stage 6 (screenshots) joins when the Godot project has a scene worth
+    # comparing; stage 7 (balance smoke) joins with the harness in M2; stage 9 (export) with the release workflow.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: 1. build (warnings as errors)
+        run: dotnet build CompanyWars.sln --configuration Release
+
+      - name: 2. validate-content
+        run: dotnet run --project src/CompanyWars.Tools --configuration Release --no-build -- validate-content
+
+      - name: 3. validate-manifest
+        run: dotnet run --project src/CompanyWars.Tools --configuration Release --no-build -- validate-manifest
+
+      - name: 4. sim conformance fixtures
+        run: dotnet run --project src/CompanyWars.Tools --configuration Release --no-build -- fixtures check
+
+      - name: 5. unit tests (includes the reflection test on Sim's references)
+        run: dotnet test CompanyWars.sln --configuration Release --no-build
+
+      - name: upload art_coverage.json
+        uses: actions/upload-artifact@v4
+        with:
+          name: art_coverage
+          path: art_coverage.json
+
+  screenshots:
+    # Stage 6: the greybox screen rendered under a virtual display with Mesa llvmpipe, byte-identical to the
+    # committed fixtures in game/__screenshots__. --headless renders nothing, hence xvfb.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.7.2
+          use-dotnet: true
+          include-templates: false
+      - name: build
+        run: dotnet build CompanyWars.sln --configuration Release
+      - name: import
+        run: godot --headless --path game --import
+      - name: render
+        run: xvfb-run -a -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 -- --screenshots
+      - name: compare
+        run: dotnet run --project src/CompanyWars.Tools --configuration Release --no-build -- screenshot-compare
+      - name: upload rendered screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: game/__screenshots__/actual
+
+  planning-generators:
+    # tools/planning/ remains the authoring source for content/, schema/, manifest/ and docs/CONTENT_SCHEMA.md.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install jsonschema
+      - run: |
+          python3 tools/planning/gen_content.py && python3 tools/planning/gen_schema.py \
+            && python3 tools/planning/gen_manifest.py && python3 tools/planning/gen_doc.py
+      - name: generators produce no diff
+        run: git diff --exit-code
+
+  fixture-guard:
+    # Stage 8: fixtures/** and __screenshots__/** may change only under a human-applied `fixtures-approved` label.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: fixtures changed without approval?
+        env:
+          LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          changed=$(git diff --name-only "$BASE" "$HEAD" -- 'fixtures/**' '**/__screenshots__/**' || true)
+          if [ -n "$changed" ] && ! echo ",$LABELS," | grep -q ',fixtures-approved,'; then
+            echo "fixtures changed without the fixtures-approved label:"; echo "$changed"; exit 1
+          fi
+          echo "fixture guard: ok"

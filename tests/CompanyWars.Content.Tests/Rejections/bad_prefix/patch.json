@@ -1,0 +1,9 @@
+{
+  "file": "rooms.json",
+  "ops": [
+    {
+      "path": "/rooms/2/id",
+      "set": "emp.server_room"
+    }
+  ]
+}

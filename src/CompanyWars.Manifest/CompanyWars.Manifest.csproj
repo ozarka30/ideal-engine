@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Loads and validates manifest/sprites.json; derived fields; coverage (ART_PIPELINE.md §5, §7.2). -->
+  <PropertyGroup>
+    <RootNamespace>CompanyWars.Manifest</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../CompanyWars.Sim/CompanyWars.Sim.csproj" />
+    <ProjectReference Include="../CompanyWars.Content/CompanyWars.Content.csproj" />
+    <PackageReference Include="JsonSchema.Net" Version="9.4.0" />
+  </ItemGroup>
+</Project>

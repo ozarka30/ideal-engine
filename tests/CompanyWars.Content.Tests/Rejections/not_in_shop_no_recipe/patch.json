@@ -1,0 +1,9 @@
+{
+  "file": "employees.json",
+  "ops": [
+    {
+      "path": "/employees/0/inShop",
+      "set": false
+    }
+  ]
+}

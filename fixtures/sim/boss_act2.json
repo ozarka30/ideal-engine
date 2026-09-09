@@ -1,0 +1,5453 @@
+{
+  "name": "boss_act2",
+  "description": "The Compliance Office against the intended Act 2 counter-build: Morale and Anomaly, not Push.",
+  "seed": 10,
+  "round": 12,
+  "snapshotA": {
+    "schemaVersion": 1,
+    "contentVersion": "0.1.0",
+    "round": 12,
+    "floors": [
+      {
+        "index": -1,
+        "grid": {
+          "w": 3,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "b1_circle",
+            "defId": "room.summoning_circle",
+            "rect": [
+              0,
+              0,
+              2,
+              2
+            ],
+            "tenureRounds": 3
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              0,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.x_salaryman_ghost",
+            "instanceId": "e_a10",
+            "attachments": []
+          },
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.x_efficiency_wraith",
+            "instanceId": "e_a11",
+            "attachments": []
+          }
+        ]
+      },
+      {
+        "index": 0,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "g_reception",
+            "defId": "room.reception",
+            "rect": [
+              1,
+              0,
+              2,
+              2
+            ],
+            "tenureRounds": 0
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.sales_rep",
+            "instanceId": "e_a1",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.paralegal",
+            "instanceId": "e_a2",
+            "attachments": []
+          }
+        ]
+      },
+      {
+        "index": 1,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "f1_meeting",
+            "defId": "room.meeting_room",
+            "rect": [
+              1,
+              0,
+              2,
+              2
+            ],
+            "tenureRounds": 6
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.consultant",
+            "instanceId": "e_a3",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.consultant",
+            "instanceId": "e_a4",
+            "attachments": []
+          },
+          {
+            "tile": [
+              3,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.senior_dev",
+            "instanceId": "e_a5",
+            "attachments": []
+          },
+          {
+            "tile": [
+              1,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.headhunter",
+            "instanceId": "e_a6",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.team_lead",
+            "instanceId": "e_a7",
+            "attachments": []
+          }
+        ]
+      },
+      {
+        "index": 2,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "f2_sales",
+            "defId": "room.sales_floor",
+            "rect": [
+              1,
+              0,
+              2,
+              2
+            ],
+            "tenureRounds": 3
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.sales_rep",
+            "instanceId": "e_a8",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.account_manager",
+            "instanceId": "e_a9",
+            "attachments": []
+          },
+          {
+            "tile": [
+              1,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.headhunter",
+            "instanceId": "e_a12",
+            "attachments": []
+          }
+        ]
+      }
+    ],
+    "globals": {
+      "founderId": "founder.hoshino",
+      "modifiers": [],
+      "riders": [
+        {
+          "instanceId": "e_a10",
+          "riderId": "rider.tenured"
+        },
+        {
+          "instanceId": "e_a11",
+          "riderId": "rider.union_dispute"
+        }
+      ],
+      "leasedB1": true
+    }
+  },
+  "snapshotB": {
+    "schemaVersion": 1,
+    "contentVersion": "0.1.0",
+    "round": 12,
+    "floors": [
+      {
+        "index": 0,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "g_reception",
+            "defId": "room.reception",
+            "rect": [
+              1,
+              0,
+              2,
+              2
+            ],
+            "tenureRounds": 10
+          },
+          {
+            "roomId": "g_security",
+            "defId": "room.security_desk",
+            "rect": [
+              3,
+              0,
+              1,
+              2
+            ],
+            "tenureRounds": 6
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.paralegal",
+            "instanceId": "e_001",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.paralegal",
+            "instanceId": "e_002",
+            "attachments": []
+          },
+          {
+            "tile": [
+              1,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.paralegal",
+            "instanceId": "e_003",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.paralegal",
+            "instanceId": "e_004",
+            "attachments": []
+          },
+          {
+            "tile": [
+              3,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.compliance_officer",
+            "instanceId": "e_005",
+            "attachments": []
+          }
+        ]
+      },
+      {
+        "index": 1,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "f1_legal",
+            "defId": "room.legal_dept",
+            "rect": [
+              0,
+              0,
+              2,
+              2
+            ],
+            "tenureRounds": 6
+          },
+          {
+            "roomId": "f1_break",
+            "defId": "room.break_room",
+            "rect": [
+              3,
+              0,
+              1,
+              2
+            ],
+            "tenureRounds": 4
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              0,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.counsel",
+            "instanceId": "e_006",
+            "attachments": []
+          },
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.counsel",
+            "instanceId": "e_007",
+            "attachments": []
+          },
+          {
+            "tile": [
+              0,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.general_counsel",
+            "instanceId": "e_008",
+            "attachments": []
+          },
+          {
+            "tile": [
+              1,
+              1
+            ],
+            "kind": "furniture",
+            "defId": "furn.filing_cabinet",
+            "instanceId": "f_009",
+            "attachments": []
+          },
+          {
+            "tile": [
+              3,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.hr_manager",
+            "instanceId": "e_010",
+            "attachments": []
+          }
+        ]
+      },
+      {
+        "index": 2,
+        "grid": {
+          "w": 5,
+          "h": 3
+        },
+        "rooms": [
+          {
+            "roomId": "f2_legal",
+            "defId": "room.legal_dept",
+            "rect": [
+              1,
+              0,
+              2,
+              2
+            ],
+            "tenureRounds": 5
+          },
+          {
+            "roomId": "f2_kitchen",
+            "defId": "room.kitchenette",
+            "rect": [
+              4,
+              0,
+              1,
+              2
+            ],
+            "tenureRounds": 3
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.counsel",
+            "instanceId": "e_011",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.patent_attorney",
+            "instanceId": "e_012",
+            "attachments": []
+          },
+          {
+            "tile": [
+              1,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.paralegal",
+            "instanceId": "e_013",
+            "attachments": []
+          },
+          {
+            "tile": [
+              2,
+              1
+            ],
+            "kind": "furniture",
+            "defId": "furn.filing_cabinet",
+            "instanceId": "f_014",
+            "attachments": []
+          },
+          {
+            "tile": [
+              4,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.recruiter",
+            "instanceId": "e_015",
+            "attachments": []
+          }
+        ]
+      }
+    ],
+    "globals": {
+      "founderId": "founder.okada",
+      "modifiers": [
+        "mod.g_regulatory_capture"
+      ],
+      "riders": [],
+      "leasedB1": false
+    }
+  },
+  "expected": {
+    "schemaVersion": 1,
+    "seed": 10,
+    "round": 12,
+    "rulesHash": "0xfc987e6e",
+    "snapshotHashA": "0x5dc624aa",
+    "snapshotHashB": "0x364fce66",
+    "winner": "A",
+    "endTick": 420,
+    "finalShare": 10000,
+    "finalGoodwill": {
+      "a": 474,
+      "b": 2232
+    },
+    "finalCap": {
+      "a": 1750,
+      "b": 2232
+    },
+    "totalPush": {
+      "a": 2892,
+      "b": 1249
+    },
+    "entries": [
+      {
+        "seq": 0,
+        "tick": 0,
+        "kind": "banner",
+        "sourceSide": "*",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "banner",
+        "targetSide": "*",
+        "targetUnits": [],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 1,
+        "tick": 30,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 157,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 2,
+        "tick": 30,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 11,
+        "goodwillDelta": -11,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 3,
+        "tick": 40,
+        "kind": "regen",
+        "sourceSide": "A",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 52,
+        "goodwillDelta": 11,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 4,
+        "tick": 40,
+        "kind": "regen",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 632,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 5,
+        "tick": 60,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 158,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 6,
+        "tick": 60,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 11,
+        "goodwillDelta": -11,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 7,
+        "tick": 60,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 2,
+        "sourceInstanceId": "e_a1",
+        "sourceFloor": 0,
+        "abilityId": "ability.cold_call",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 28,
+        "goodwillDelta": -28,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 8,
+        "tick": 60,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 3,
+        "sourceInstanceId": "e_a2",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "B",
+        "targetUnits": [
+          12
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 9,
+        "tick": 60,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 9,
+        "sourceInstanceId": "e_a8",
+        "sourceFloor": 2,
+        "abilityId": "ability.cold_call",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 59,
+        "goodwillDelta": -59,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 10,
+        "tick": 60,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 12,
+        "sourceInstanceId": "e_001",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          6
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 11,
+        "tick": 60,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 13,
+        "sourceInstanceId": "e_002",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          6
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 12,
+        "tick": 60,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 15,
+        "sourceInstanceId": "e_003",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          6
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 13,
+        "tick": 60,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 16,
+        "sourceInstanceId": "e_004",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          6
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 14,
+        "tick": 60,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 24,
+        "sourceInstanceId": "e_013",
+        "sourceFloor": 2,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          6
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 2,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 15,
+        "tick": 80,
+        "kind": "regen",
+        "sourceSide": "A",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 52,
+        "goodwillDelta": 11,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 16,
+        "tick": 80,
+        "kind": "regen",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 632,
+        "goodwillDelta": 87,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 17,
+        "tick": 90,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 157,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 18,
+        "tick": 90,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 11,
+        "goodwillDelta": -11,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 19,
+        "tick": 100,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 50,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 88,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 20,
+        "tick": 100,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 6,
+        "goodwillDelta": -6,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 21,
+        "tick": 100,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [
+          12
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 22,
+        "tick": 100,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [
+          13
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 23,
+        "tick": 100,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [
+          15
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 24,
+        "tick": 100,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [
+          16
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 25,
+        "tick": 100,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 10,
+        "sourceInstanceId": "e_a9",
+        "sourceFloor": 2,
+        "abilityId": "ability.close_deal",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 164,
+        "goodwillDelta": -164,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 26,
+        "tick": 100,
+        "kind": "restore",
+        "sourceSide": "B",
+        "sourceUnit": 23,
+        "sourceInstanceId": "e_015",
+        "sourceFloor": 2,
+        "abilityId": "ability.team_building",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 92,
+        "goodwillDelta": 92,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 27,
+        "tick": 100,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 32,
+        "goodwillDelta": 0,
+        "capDelta": -32,
+        "shareDelta": 28,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "burnout"
+        ]
+      },
+      {
+        "seq": 28,
+        "tick": 102,
+        "kind": "retrigger",
+        "sourceSide": "A",
+        "sourceUnit": 8,
+        "sourceInstanceId": "e_a7",
+        "sourceFloor": 1,
+        "abilityId": "ability.delegate",
+        "targetSide": "A",
+        "targetUnits": [
+          5
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 29,
+        "tick": 102,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 5,
+        "sourceInstanceId": "e_a4",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          12
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 1,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 30,
+        "tick": 102,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 5,
+        "sourceInstanceId": "e_a4",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          13
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 1,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 31,
+        "tick": 102,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 5,
+        "sourceInstanceId": "e_a4",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          15
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 1,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 32,
+        "tick": 102,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 5,
+        "sourceInstanceId": "e_a4",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          16
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 1,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 33,
+        "tick": 110,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 6,
+        "sourceInstanceId": "e_a5",
+        "sourceFloor": 1,
+        "abilityId": "ability.ship_feature",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 135,
+        "goodwillDelta": -135,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 34,
+        "tick": 120,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 157,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 35,
+        "tick": 120,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 11,
+        "goodwillDelta": -11,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 36,
+        "tick": 120,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 2,
+        "sourceInstanceId": "e_a1",
+        "sourceFloor": 0,
+        "abilityId": "ability.cold_call",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 28,
+        "goodwillDelta": -28,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 37,
+        "tick": 120,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 3,
+        "sourceInstanceId": "e_a2",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "B",
+        "targetUnits": [
+          13
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 38,
+        "tick": 120,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 9,
+        "sourceInstanceId": "e_a8",
+        "sourceFloor": 2,
+        "abilityId": "ability.cold_call",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 59,
+        "goodwillDelta": -59,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 39,
+        "tick": 120,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 13,
+        "sourceInstanceId": "e_002",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          7
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 40,
+        "tick": 120,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 15,
+        "sourceInstanceId": "e_003",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          7
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 41,
+        "tick": 120,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 16,
+        "sourceInstanceId": "e_004",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          7
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 42,
+        "tick": 120,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 24,
+        "sourceInstanceId": "e_013",
+        "sourceFloor": 2,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          7
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 2,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 43,
+        "tick": 120,
+        "kind": "push",
+        "sourceSide": "B",
+        "sourceUnit": 17,
+        "sourceInstanceId": "e_006",
+        "sourceFloor": 1,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": -90,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 44,
+        "tick": 120,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 17,
+        "sourceInstanceId": "e_006",
+        "sourceFloor": 1,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [
+          10
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 3,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 45,
+        "tick": 120,
+        "kind": "push",
+        "sourceSide": "B",
+        "sourceUnit": 18,
+        "sourceInstanceId": "e_007",
+        "sourceFloor": 1,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": -90,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 46,
+        "tick": 120,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 18,
+        "sourceInstanceId": "e_007",
+        "sourceFloor": 1,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [
+          10
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 3,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 47,
+        "tick": 120,
+        "kind": "restore",
+        "sourceSide": "B",
+        "sourceUnit": 19,
+        "sourceInstanceId": "e_010",
+        "sourceFloor": 1,
+        "abilityId": "ability.wellness_program",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 240,
+        "goodwillDelta": 240,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 48,
+        "tick": 120,
+        "kind": "push",
+        "sourceSide": "B",
+        "sourceUnit": 21,
+        "sourceInstanceId": "e_011",
+        "sourceFloor": 2,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 103,
+        "goodwillDelta": -103,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 49,
+        "tick": 120,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 21,
+        "sourceInstanceId": "e_011",
+        "sourceFloor": 2,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [
+          10
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 3,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 50,
+        "tick": 120,
+        "kind": "regen",
+        "sourceSide": "A",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "suppressed"
+        ]
+      },
+      {
+        "seq": 51,
+        "tick": 120,
+        "kind": "regen",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 632,
+        "goodwillDelta": 22,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 52,
+        "tick": 120,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 64,
+        "goodwillDelta": -64,
+        "capDelta": -64,
+        "shareDelta": 56,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "burnout"
+        ]
+      },
+      {
+        "seq": 53,
+        "tick": 135,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 12,
+        "sourceInstanceId": "e_001",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          7
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 54,
+        "tick": 140,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 11,
+        "sourceInstanceId": "e_a12",
+        "sourceFloor": 2,
+        "abilityId": "ability.poach",
+        "targetSide": "B",
+        "targetUnits": [
+          22
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 2,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 55,
+        "tick": 140,
+        "kind": "push",
+        "sourceSide": "B",
+        "sourceUnit": 22,
+        "sourceInstanceId": "e_012",
+        "sourceFloor": 2,
+        "abilityId": "ability.litigation",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 134,
+        "goodwillDelta": -134,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 56,
+        "tick": 140,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 80,
+        "goodwillDelta": -80,
+        "capDelta": -80,
+        "shareDelta": 70,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "burnout"
+        ]
+      },
+      {
+        "seq": 57,
+        "tick": 150,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 158,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 58,
+        "tick": 150,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 11,
+        "goodwillDelta": -11,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 59,
+        "tick": 153,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 4,
+        "sourceInstanceId": "e_a3",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          12
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 60,
+        "tick": 153,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 4,
+        "sourceInstanceId": "e_a3",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          13
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 61,
+        "tick": 153,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 4,
+        "sourceInstanceId": "e_a3",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          15
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 62,
+        "tick": 153,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 4,
+        "sourceInstanceId": "e_a3",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          16
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 63,
+        "tick": 153,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 5,
+        "sourceInstanceId": "e_a4",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          12
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 64,
+        "tick": 153,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 5,
+        "sourceInstanceId": "e_a4",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          13
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 65,
+        "tick": 153,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 5,
+        "sourceInstanceId": "e_a4",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          15
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 66,
+        "tick": 153,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 5,
+        "sourceInstanceId": "e_a4",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          16
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 67,
+        "tick": 160,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 14,
+        "sourceInstanceId": "e_005",
+        "sourceFloor": 0,
+        "abilityId": "ability.waiver",
+        "targetSide": "B",
+        "targetUnits": [
+          13
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": -1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "cleanse",
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 68,
+        "tick": 160,
+        "kind": "regen",
+        "sourceSide": "A",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "suppressed"
+        ]
+      },
+      {
+        "seq": 69,
+        "tick": 160,
+        "kind": "regen",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 632,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 70,
+        "tick": 160,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 144,
+        "goodwillDelta": -144,
+        "capDelta": -144,
+        "shareDelta": 126,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "burnout"
+        ]
+      },
+      {
+        "seq": 71,
+        "tick": 170,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 7,
+        "sourceInstanceId": "e_a6",
+        "sourceFloor": 1,
+        "abilityId": "ability.poach",
+        "targetSide": "B",
+        "targetUnits": [
+          22
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 2,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 72,
+        "tick": 180,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 157,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 73,
+        "tick": 180,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 11,
+        "goodwillDelta": -11,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 74,
+        "tick": 180,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 2,
+        "sourceInstanceId": "e_a1",
+        "sourceFloor": 0,
+        "abilityId": "ability.cold_call",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 28,
+        "goodwillDelta": -28,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 75,
+        "tick": 180,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 3,
+        "sourceInstanceId": "e_a2",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "B",
+        "targetUnits": [
+          15
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 76,
+        "tick": 180,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 9,
+        "sourceInstanceId": "e_a8",
+        "sourceFloor": 2,
+        "abilityId": "ability.cold_call",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 59,
+        "goodwillDelta": -59,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 77,
+        "tick": 180,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 15,
+        "sourceInstanceId": "e_003",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          8
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 78,
+        "tick": 180,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 16,
+        "sourceInstanceId": "e_004",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          8
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 79,
+        "tick": 180,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 24,
+        "sourceInstanceId": "e_013",
+        "sourceFloor": 2,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          8
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 2,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 80,
+        "tick": 180,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 160,
+        "goodwillDelta": -73,
+        "capDelta": -160,
+        "shareDelta": 140,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "burnout"
+        ]
+      },
+      {
+        "seq": 81,
+        "tick": 188,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 13,
+        "sourceInstanceId": "e_002",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          8
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 82,
+        "tick": 200,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 12,
+        "sourceInstanceId": "e_001",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          8
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 83,
+        "tick": 200,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 50,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 88,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 84,
+        "tick": 200,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 6,
+        "goodwillDelta": -6,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 85,
+        "tick": 200,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [
+          12
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 86,
+        "tick": 200,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [
+          13
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 87,
+        "tick": 200,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [
+          15
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 88,
+        "tick": 200,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [
+          16
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 89,
+        "tick": 200,
+        "kind": "restore",
+        "sourceSide": "B",
+        "sourceUnit": 23,
+        "sourceInstanceId": "e_015",
+        "sourceFloor": 2,
+        "abilityId": "ability.team_building",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 92,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 90,
+        "tick": 200,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 20,
+        "sourceInstanceId": "e_008",
+        "sourceFloor": 1,
+        "abilityId": "ability.injunction",
+        "targetSide": "A",
+        "targetUnits": [
+          10
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.frozen"
+        ]
+      },
+      {
+        "seq": 91,
+        "tick": 200,
+        "kind": "regen",
+        "sourceSide": "A",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 52,
+        "goodwillDelta": 52,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 92,
+        "tick": 200,
+        "kind": "regen",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 632,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 93,
+        "tick": 200,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 192,
+        "goodwillDelta": -192,
+        "capDelta": -192,
+        "shareDelta": 168,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "burnout"
+        ]
+      },
+      {
+        "seq": 94,
+        "tick": 210,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 157,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 95,
+        "tick": 210,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 11,
+        "goodwillDelta": -11,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 96,
+        "tick": 220,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 6,
+        "sourceInstanceId": "e_a5",
+        "sourceFloor": 1,
+        "abilityId": "ability.ship_feature",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 135,
+        "goodwillDelta": -135,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 97,
+        "tick": 220,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 192,
+        "goodwillDelta": -57,
+        "capDelta": -192,
+        "shareDelta": 168,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "burnout"
+        ]
+      },
+      {
+        "seq": 98,
+        "tick": 240,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 158,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 99,
+        "tick": 240,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 11,
+        "goodwillDelta": -11,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 100,
+        "tick": 240,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 2,
+        "sourceInstanceId": "e_a1",
+        "sourceFloor": 0,
+        "abilityId": "ability.cold_call",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 28,
+        "goodwillDelta": -28,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 101,
+        "tick": 240,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 3,
+        "sourceInstanceId": "e_a2",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "B",
+        "targetUnits": [
+          16
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 102,
+        "tick": 240,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 9,
+        "sourceInstanceId": "e_a8",
+        "sourceFloor": 2,
+        "abilityId": "ability.cold_call",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 59,
+        "goodwillDelta": -59,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 103,
+        "tick": 240,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 16,
+        "sourceInstanceId": "e_004",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          8
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 104,
+        "tick": 240,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 24,
+        "sourceInstanceId": "e_013",
+        "sourceFloor": 2,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          8
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 2,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 105,
+        "tick": 240,
+        "kind": "retrigger",
+        "sourceSide": "A",
+        "sourceUnit": 8,
+        "sourceInstanceId": "e_a7",
+        "sourceFloor": 1,
+        "abilityId": "ability.delegate",
+        "targetSide": "A",
+        "targetUnits": [
+          5
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 106,
+        "tick": 240,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 5,
+        "sourceInstanceId": "e_a4",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          12
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 1,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 107,
+        "tick": 240,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 5,
+        "sourceInstanceId": "e_a4",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          13
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 1,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 108,
+        "tick": 240,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 5,
+        "sourceInstanceId": "e_a4",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          15
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 1,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 109,
+        "tick": 240,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 5,
+        "sourceInstanceId": "e_a4",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          16
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 1,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 110,
+        "tick": 240,
+        "kind": "push",
+        "sourceSide": "B",
+        "sourceUnit": 17,
+        "sourceInstanceId": "e_006",
+        "sourceFloor": 1,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": -90,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 111,
+        "tick": 240,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 17,
+        "sourceInstanceId": "e_006",
+        "sourceFloor": 1,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [
+          10
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 3,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 112,
+        "tick": 240,
+        "kind": "push",
+        "sourceSide": "B",
+        "sourceUnit": 18,
+        "sourceInstanceId": "e_007",
+        "sourceFloor": 1,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": -90,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 113,
+        "tick": 240,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 18,
+        "sourceInstanceId": "e_007",
+        "sourceFloor": 1,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [
+          10
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 3,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 114,
+        "tick": 240,
+        "kind": "restore",
+        "sourceSide": "B",
+        "sourceUnit": 19,
+        "sourceInstanceId": "e_010",
+        "sourceFloor": 1,
+        "abilityId": "ability.wellness_program",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 240,
+        "goodwillDelta": 87,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 115,
+        "tick": 240,
+        "kind": "push",
+        "sourceSide": "B",
+        "sourceUnit": 21,
+        "sourceInstanceId": "e_011",
+        "sourceFloor": 2,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 103,
+        "goodwillDelta": -103,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 116,
+        "tick": 240,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 21,
+        "sourceInstanceId": "e_011",
+        "sourceFloor": 2,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [
+          10
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 3,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 117,
+        "tick": 240,
+        "kind": "regen",
+        "sourceSide": "A",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "suppressed"
+        ]
+      },
+      {
+        "seq": 118,
+        "tick": 240,
+        "kind": "regen",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 632,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 119,
+        "tick": 240,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 192,
+        "goodwillDelta": -192,
+        "capDelta": -192,
+        "shareDelta": 168,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "burnout"
+        ]
+      },
+      {
+        "seq": 120,
+        "tick": 248,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 13,
+        "sourceInstanceId": "e_002",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          6
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 121,
+        "tick": 255,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 15,
+        "sourceInstanceId": "e_003",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          6
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 122,
+        "tick": 260,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 12,
+        "sourceInstanceId": "e_001",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          6
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 123,
+        "tick": 260,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 192,
+        "goodwillDelta": -192,
+        "capDelta": -192,
+        "shareDelta": 168,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "burnout"
+        ]
+      },
+      {
+        "seq": 124,
+        "tick": 270,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 157,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 125,
+        "tick": 270,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 11,
+        "goodwillDelta": -11,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 126,
+        "tick": 280,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 11,
+        "sourceInstanceId": "e_a12",
+        "sourceFloor": 2,
+        "abilityId": "ability.poach",
+        "targetSide": "B",
+        "targetUnits": [
+          22
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 127,
+        "tick": 280,
+        "kind": "push",
+        "sourceSide": "B",
+        "sourceUnit": 22,
+        "sourceInstanceId": "e_012",
+        "sourceFloor": 2,
+        "abilityId": "ability.litigation",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 111,
+        "goodwillDelta": -111,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 128,
+        "tick": 280,
+        "kind": "regen",
+        "sourceSide": "A",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "suppressed"
+        ]
+      },
+      {
+        "seq": 129,
+        "tick": 280,
+        "kind": "regen",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 632,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 130,
+        "tick": 280,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 200,
+        "goodwillDelta": -200,
+        "capDelta": -200,
+        "shareDelta": 175,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "burnout"
+        ]
+      },
+      {
+        "seq": 131,
+        "tick": 300,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 158,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 132,
+        "tick": 300,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 11,
+        "goodwillDelta": -11,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 133,
+        "tick": 300,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 2,
+        "sourceInstanceId": "e_a1",
+        "sourceFloor": 0,
+        "abilityId": "ability.cold_call",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 28,
+        "goodwillDelta": -28,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 134,
+        "tick": 300,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 3,
+        "sourceInstanceId": "e_a2",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "B",
+        "targetUnits": [
+          13
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 135,
+        "tick": 300,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 9,
+        "sourceInstanceId": "e_a8",
+        "sourceFloor": 2,
+        "abilityId": "ability.cold_call",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 59,
+        "goodwillDelta": -59,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 136,
+        "tick": 300,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 24,
+        "sourceInstanceId": "e_013",
+        "sourceFloor": 2,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          4
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 2,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 137,
+        "tick": 300,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 50,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 87,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 138,
+        "tick": 300,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 6,
+        "goodwillDelta": -6,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 139,
+        "tick": 300,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [
+          12
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 140,
+        "tick": 300,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [
+          13
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 141,
+        "tick": 300,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [
+          15
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 142,
+        "tick": 300,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [
+          16
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 143,
+        "tick": 300,
+        "kind": "restore",
+        "sourceSide": "B",
+        "sourceUnit": 23,
+        "sourceInstanceId": "e_015",
+        "sourceFloor": 2,
+        "abilityId": "ability.team_building",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 92,
+        "goodwillDelta": 87,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 144,
+        "tick": 300,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 200,
+        "goodwillDelta": -200,
+        "capDelta": -200,
+        "shareDelta": 175,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "burnout"
+        ]
+      },
+      {
+        "seq": 145,
+        "tick": 306,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 5,
+        "sourceInstanceId": "e_a4",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          12
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 146,
+        "tick": 306,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 5,
+        "sourceInstanceId": "e_a4",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          13
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 147,
+        "tick": 306,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 5,
+        "sourceInstanceId": "e_a4",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          15
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 148,
+        "tick": 306,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 5,
+        "sourceInstanceId": "e_a4",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          16
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 149,
+        "tick": 310,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 13,
+        "sourceInstanceId": "e_002",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          4
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 150,
+        "tick": 310,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 4,
+        "sourceInstanceId": "e_a3",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          12
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 151,
+        "tick": 310,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 4,
+        "sourceInstanceId": "e_a3",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          13
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 152,
+        "tick": 310,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 4,
+        "sourceInstanceId": "e_a3",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          15
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 153,
+        "tick": 310,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 4,
+        "sourceInstanceId": "e_a3",
+        "sourceFloor": 1,
+        "abilityId": "ability.efficiency_review",
+        "targetSide": "B",
+        "targetUnits": [
+          16
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 154,
+        "tick": 315,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 16,
+        "sourceInstanceId": "e_004",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          6
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 155,
+        "tick": 320,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 12,
+        "sourceInstanceId": "e_001",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          6
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 156,
+        "tick": 320,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 15,
+        "sourceInstanceId": "e_003",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          6
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 157,
+        "tick": 320,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 14,
+        "sourceInstanceId": "e_005",
+        "sourceFloor": 0,
+        "abilityId": "ability.waiver",
+        "targetSide": "B",
+        "targetUnits": [
+          13
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": -1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "cleanse",
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 158,
+        "tick": 320,
+        "kind": "regen",
+        "sourceSide": "A",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 52,
+        "goodwillDelta": 52,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 159,
+        "tick": 320,
+        "kind": "regen",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 632,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 160,
+        "tick": 320,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 200,
+        "goodwillDelta": -200,
+        "capDelta": -200,
+        "shareDelta": 175,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "burnout"
+        ]
+      },
+      {
+        "seq": 161,
+        "tick": 330,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 158,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 162,
+        "tick": 330,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 11,
+        "goodwillDelta": -11,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 163,
+        "tick": 340,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 200,
+        "goodwillDelta": -200,
+        "capDelta": -200,
+        "shareDelta": 175,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "burnout"
+        ]
+      },
+      {
+        "seq": 164,
+        "tick": 343,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 7,
+        "sourceInstanceId": "e_a6",
+        "sourceFloor": 1,
+        "abilityId": "ability.poach",
+        "targetSide": "B",
+        "targetUnits": [
+          22
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 165,
+        "tick": 356,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 10,
+        "sourceInstanceId": "e_a9",
+        "sourceFloor": 2,
+        "abilityId": "ability.close_deal",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 164,
+        "goodwillDelta": -164,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 166,
+        "tick": 360,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 157,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 167,
+        "tick": 360,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 11,
+        "goodwillDelta": -11,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 168,
+        "tick": 360,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 2,
+        "sourceInstanceId": "e_a1",
+        "sourceFloor": 0,
+        "abilityId": "ability.cold_call",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 28,
+        "goodwillDelta": -28,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 169,
+        "tick": 360,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 3,
+        "sourceInstanceId": "e_a2",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "B",
+        "targetUnits": [
+          13
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 170,
+        "tick": 360,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 9,
+        "sourceInstanceId": "e_a8",
+        "sourceFloor": 2,
+        "abilityId": "ability.cold_call",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 59,
+        "goodwillDelta": -59,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 171,
+        "tick": 360,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 24,
+        "sourceInstanceId": "e_013",
+        "sourceFloor": 2,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          6
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 2,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 172,
+        "tick": 360,
+        "kind": "push",
+        "sourceSide": "B",
+        "sourceUnit": 17,
+        "sourceInstanceId": "e_006",
+        "sourceFloor": 1,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": -90,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 173,
+        "tick": 360,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 17,
+        "sourceInstanceId": "e_006",
+        "sourceFloor": 1,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [
+          10
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 3,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 174,
+        "tick": 360,
+        "kind": "push",
+        "sourceSide": "B",
+        "sourceUnit": 18,
+        "sourceInstanceId": "e_007",
+        "sourceFloor": 1,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": -90,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 175,
+        "tick": 360,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 18,
+        "sourceInstanceId": "e_007",
+        "sourceFloor": 1,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [
+          10
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 3,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 176,
+        "tick": 360,
+        "kind": "restore",
+        "sourceSide": "B",
+        "sourceUnit": 19,
+        "sourceInstanceId": "e_010",
+        "sourceFloor": 1,
+        "abilityId": "ability.wellness_program",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 240,
+        "goodwillDelta": 240,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 177,
+        "tick": 360,
+        "kind": "push",
+        "sourceSide": "B",
+        "sourceUnit": 21,
+        "sourceInstanceId": "e_011",
+        "sourceFloor": 2,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 103,
+        "goodwillDelta": -103,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 178,
+        "tick": 360,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 21,
+        "sourceInstanceId": "e_011",
+        "sourceFloor": 2,
+        "abilityId": "ability.cease_desist",
+        "targetSide": "A",
+        "targetUnits": [
+          10
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 3,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 179,
+        "tick": 360,
+        "kind": "regen",
+        "sourceSide": "A",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "suppressed"
+        ]
+      },
+      {
+        "seq": 180,
+        "tick": 360,
+        "kind": "regen",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 632,
+        "goodwillDelta": 11,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 181,
+        "tick": 360,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 200,
+        "goodwillDelta": -200,
+        "capDelta": -200,
+        "shareDelta": 175,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "burnout"
+        ]
+      },
+      {
+        "seq": 182,
+        "tick": 369,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 6,
+        "sourceInstanceId": "e_a5",
+        "sourceFloor": 1,
+        "abilityId": "ability.ship_feature",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 135,
+        "goodwillDelta": -135,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 183,
+        "tick": 375,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 13,
+        "sourceInstanceId": "e_002",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          8
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 184,
+        "tick": 380,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 12,
+        "sourceInstanceId": "e_001",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          8
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 185,
+        "tick": 380,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 15,
+        "sourceInstanceId": "e_003",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          8
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 186,
+        "tick": 380,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 16,
+        "sourceInstanceId": "e_004",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          8
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 187,
+        "tick": 380,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 200,
+        "goodwillDelta": -65,
+        "capDelta": -200,
+        "shareDelta": 175,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "burnout"
+        ]
+      },
+      {
+        "seq": 188,
+        "tick": 390,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 90,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 158,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": []
+      },
+      {
+        "seq": 189,
+        "tick": 390,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 11,
+        "goodwillDelta": -11,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 0,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 190,
+        "tick": 400,
+        "kind": "banner",
+        "sourceSide": "*",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "banner",
+        "targetSide": "*",
+        "targetUnits": [],
+        "raw": 1,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": []
+      },
+      {
+        "seq": 191,
+        "tick": 400,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 14,
+        "sourceInstanceId": "e_005",
+        "sourceFloor": 0,
+        "abilityId": "ability.waiver",
+        "targetSide": "B",
+        "targetUnits": [
+          13
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": -1,
+        "depth": 0,
+        "month": 1,
+        "tags": [
+          "cleanse",
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 192,
+        "tick": 400,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 70,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 122,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": []
+      },
+      {
+        "seq": 193,
+        "tick": 400,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 8,
+        "goodwillDelta": -8,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 194,
+        "tick": 400,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [
+          12
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 195,
+        "tick": 400,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [
+          13
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 196,
+        "tick": 400,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [
+          15
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 197,
+        "tick": 400,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 1,
+        "sourceInstanceId": "e_a11",
+        "sourceFloor": -1,
+        "abilityId": "ability.review",
+        "targetSide": "B",
+        "targetUnits": [
+          16
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 198,
+        "tick": 400,
+        "kind": "restore",
+        "sourceSide": "B",
+        "sourceUnit": 23,
+        "sourceInstanceId": "e_015",
+        "sourceFloor": 2,
+        "abilityId": "ability.team_building",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 92,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": []
+      },
+      {
+        "seq": 199,
+        "tick": 400,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 20,
+        "sourceInstanceId": "e_008",
+        "sourceFloor": 1,
+        "abilityId": "ability.injunction",
+        "targetSide": "A",
+        "targetUnits": [
+          10
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 1,
+        "tags": [
+          "status.frozen"
+        ]
+      },
+      {
+        "seq": 200,
+        "tick": 400,
+        "kind": "regen",
+        "sourceSide": "A",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 31,
+        "goodwillDelta": 31,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": []
+      },
+      {
+        "seq": 201,
+        "tick": 400,
+        "kind": "regen",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "regen",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 379,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": []
+      },
+      {
+        "seq": 202,
+        "tick": 400,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 280,
+        "goodwillDelta": -280,
+        "capDelta": -280,
+        "shareDelta": 245,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": [
+          "burnout"
+        ]
+      },
+      {
+        "seq": 203,
+        "tick": 420,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 126,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 181,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": []
+      },
+      {
+        "seq": 204,
+        "tick": 420,
+        "kind": "anomaly",
+        "sourceSide": "A",
+        "sourceUnit": 0,
+        "sourceInstanceId": "e_a10",
+        "sourceFloor": -1,
+        "abilityId": "ability.overtime_eternal",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 15,
+        "goodwillDelta": -15,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": [
+          "self_cost"
+        ]
+      },
+      {
+        "seq": 205,
+        "tick": 420,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 2,
+        "sourceInstanceId": "e_a1",
+        "sourceFloor": 0,
+        "abilityId": "ability.cold_call",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 39,
+        "goodwillDelta": -39,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": []
+      },
+      {
+        "seq": 206,
+        "tick": 420,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 3,
+        "sourceInstanceId": "e_a2",
+        "sourceFloor": 0,
+        "abilityId": "ability.paperwork",
+        "targetSide": "B",
+        "targetUnits": [
+          12
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 1,
+        "depth": 0,
+        "month": 1,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 207,
+        "tick": 420,
+        "kind": "push",
+        "sourceSide": "A",
+        "sourceUnit": 9,
+        "sourceInstanceId": "e_a8",
+        "sourceFloor": 2,
+        "abilityId": "ability.cold_call",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 82,
+        "goodwillDelta": -82,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": []
+      },
+      {
+        "seq": 208,
+        "tick": 420,
+        "kind": "status",
+        "sourceSide": "B",
+        "sourceUnit": 24,
+        "sourceInstanceId": "e_013",
+        "sourceFloor": 2,
+        "abilityId": "ability.paperwork",
+        "targetSide": "A",
+        "targetUnits": [
+          8
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 2,
+        "depth": 0,
+        "month": 1,
+        "tags": [
+          "status.bureaucracy"
+        ]
+      },
+      {
+        "seq": 209,
+        "tick": 420,
+        "kind": "status",
+        "sourceSide": "A",
+        "sourceUnit": 11,
+        "sourceInstanceId": "e_a12",
+        "sourceFloor": 2,
+        "abilityId": "ability.poach",
+        "targetSide": "B",
+        "targetUnits": [
+          22
+        ],
+        "raw": 0,
+        "goodwillDelta": 0,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": [
+          "status.burnout"
+        ]
+      },
+      {
+        "seq": 210,
+        "tick": 420,
+        "kind": "push",
+        "sourceSide": "B",
+        "sourceUnit": 22,
+        "sourceInstanceId": "e_012",
+        "sourceFloor": 2,
+        "abilityId": "ability.litigation",
+        "targetSide": "A",
+        "targetUnits": [],
+        "raw": 155,
+        "goodwillDelta": -155,
+        "capDelta": 0,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": []
+      },
+      {
+        "seq": 211,
+        "tick": 420,
+        "kind": "morale",
+        "sourceSide": "B",
+        "sourceUnit": -1,
+        "sourceInstanceId": "",
+        "sourceFloor": -2,
+        "abilityId": "burnout",
+        "targetSide": "B",
+        "targetUnits": [],
+        "raw": 280,
+        "goodwillDelta": -159,
+        "capDelta": -280,
+        "shareDelta": 0,
+        "overflow": 0,
+        "stacks": 0,
+        "depth": 0,
+        "month": 1,
+        "tags": [
+          "burnout"
+        ]
+      }
+    ],
+    "stateHash": "0xd4fb6840"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "file": "rivals/scripted/tut_01_two_desk_startup.json",
+  "ops": [
+    {
+      "path": "/snapshot/floors/1/rooms/-",
+      "append": {
+        "roomId": "x1",
+        "defId": "room.open_plan",
+        "rect": [
+          0,
+          0,
+          2,
+          3
+        ],
+        "tenureRounds": 0
+      }
+    },
+    {
+      "path": "/snapshot/floors/1/rooms/-",
+      "append": {
+        "roomId": "x2",
+        "defId": "room.open_plan",
+        "rect": [
+          1,
+          0,
+          2,
+          3
+        ],
+        "tenureRounds": 0
+      }
+    }
+  ]
+}

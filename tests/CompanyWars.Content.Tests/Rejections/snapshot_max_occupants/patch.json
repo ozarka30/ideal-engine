@@ -1,0 +1,50 @@
+{
+  "file": "rivals/scripted/tut_01_two_desk_startup.json",
+  "ops": [
+    {
+      "path": "/snapshot/floors/-",
+      "append": {
+        "index": 3,
+        "grid": {
+          "w": 4,
+          "h": 2
+        },
+        "rooms": [
+          {
+            "roomId": "f3_corner",
+            "defId": "room.corner_office",
+            "rect": [
+              1,
+              0,
+              1,
+              2
+            ],
+            "tenureRounds": 0
+          }
+        ],
+        "occupants": [
+          {
+            "tile": [
+              1,
+              0
+            ],
+            "kind": "employee",
+            "defId": "emp.junior_dev",
+            "instanceId": "e_c1",
+            "attachments": []
+          },
+          {
+            "tile": [
+              1,
+              1
+            ],
+            "kind": "employee",
+            "defId": "emp.junior_dev",
+            "instanceId": "e_c2",
+            "attachments": []
+          }
+        ]
+      }
+    }
+  ]
+}

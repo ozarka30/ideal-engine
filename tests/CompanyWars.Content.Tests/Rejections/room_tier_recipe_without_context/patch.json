@@ -1,0 +1,9 @@
+{
+  "file": "recipes.json",
+  "ops": [
+    {
+      "path": "/recipes/@recipe.break_room_iii/context",
+      "set": null
+    }
+  ]
+}
