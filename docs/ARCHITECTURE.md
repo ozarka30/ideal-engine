@@ -89,7 +89,7 @@ One solution, `CompanyWars.sln`. C# throughout, `Nullable` enabled,
 | `src/CompanyWars.Build` | `net8.0` class library | The build phase as a reducer over actions; the economy; recipes; the rival template expander; snapshot legality | `BuildReducer`, `BuildState`, `RecipeMatcher`, `TemplateExpander`, `Constructibility` |
 | `src/CompanyWars.Harness` | `net8.0` console | Balance harness: populations, invariants, reports | `Matrix`, `Invariants`, `Report` |
 | `src/CompanyWars.Tools` | `net8.0` console | `validate-content`, `validate-manifest`, `slice`, `worklist`, `atlas`, `packs`, `screenshot-compare`, `fixtures` | |
-| `game/` | Godot 4 project, `CompanyWars.Game.csproj` (`Godot.NET.Sdk`) | The client: scenes, screens, the greybox renderer, playback, stores, input, the `Platform` implementation | `ScreenRouter`, `RenderList`, `GreyboxTextures`, `GodotSteamPlatform` |
+| `game/` | Godot 4 project, `CompanyWars.Game.csproj` (`Godot.NET.Sdk`, `net9.0`: Godot 4.7's Android template is built for it; the libraries stay `net8.0` and are referenced across the line) | The client: scenes, screens, the greybox renderer, playback, stores, input, the `Platform` implementation | `ScreenRouter`, `RenderList`, `GreyboxTextures`, `GodotSteamPlatform` |
 | `tests/*.Tests` | xunit, one per library | Conformance fixtures, reducer fixtures, loaders, migrations | |
 | `services/CompanyWars.Ranked` | **Deferred.** ASP.NET minimal API | Server re-simulation, ghost pool, matchmaking, rating | — |
 

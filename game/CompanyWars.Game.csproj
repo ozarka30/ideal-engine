@@ -1,7 +1,9 @@
 <Project Sdk="Godot.NET.Sdk/4.7.2">
-  <!-- The client (ARCHITECTURE.md §2, §7). References the libraries; nothing references this project. -->
+  <!-- The client (ARCHITECTURE.md §2, §7). References the libraries; nothing references this project.
+       The client assembly targets net9.0 because Godot 4.7's Android export template is built for it; the
+       libraries stay net8.0 (D-60) and are referenced across the version line without change. -->
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>CompanyWars.Game</RootNamespace>
     <Nullable>enable</Nullable>

@@ -19,7 +19,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: |
+            8.0.x
+            9.0.x
       - uses: chickensoft-games/setup-godot@v2
         with:
           version: 4.7.2
