@@ -86,8 +86,10 @@ history of a reversal is the most useful thing in a document like this.
 | [D-55](#d-55) | No screen may require text input | Craft | Research |
 | [D-56](#d-56) | A store-ready art gate on visibility tiers 1–2, ahead of art complete | Craft | Research |
 | [D-57](#d-57) | `inv.standing_pat_loses`: Tenure alone must lose to active spending | Craft | Research |
+| [D-58](#d-58) | Five strikes per run, both modes | Human | Q-STR-5 |
+| [D-59](#d-59) | Tauri is dropped; the stack is re-selected from research | Human | Q-TECH-1 |
 
-Forty-four craft decisions and thirteen human calls taken. Eight items remain open in
+Forty-four craft decisions and fifteen human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -1181,3 +1183,44 @@ run.
 the Tenure step or the late-round income, in that order.
 
 Authority: Craft · `RESEARCH_NOTES.md` §2
+
+---
+
+## D-58
+
+**A run ends at five strikes, not three, in both modes. Sixteen fights, so four losses
+are allowed: a 75% win floor.**
+
+*Why:* The human's call on Q-STR-5. The genre's reference games end at ten wins or
+five losses, a floor near 70%; three strikes over a fixed sixteen allowed two losses,
+an 87% floor, and the genre's evidence is that early luck-losses at that severity drive
+churn.
+
+*Consequence:* Supersedes the strike count in D-21; its other numbers stand. One field
+in `content/modes.json`, five strike icons in the top bar instead of three.
+
+Authority: Human · Question: [Q-STR-5](OPEN_QUESTIONS.md#q-str-5--how-many-strikes) · Supersedes part of [D-21](#d-21)
+
+---
+
+## D-59
+
+**Tauri is dropped. The stack is re-selected from a research pass over Godot 4 (C#
+and GDScript), MonoGame/FNA, Unity, Bevy, Electron + PixiJS, LÖVE and raylib against
+the six constraints the design already fixes. Until Q-TECH-1 is answered, no code that
+depends on an engine or packaging layer is written.**
+
+*Why:* The human's call, on the research finding that the Steam overlay cannot hook
+any Tauri webview and that Linux and Steam Deck could not be verified without a spike.
+The planning prompt permitted relitigating the stack only on a hard blocker stated
+plainly; this was one, and the human chose not to carry the risk. With no code
+written, the cost of re-selection is the research itself.
+
+*Consequence:* Supersedes locked decision 10 on packaging, and possibly on the engine
+and language, depending on the answer. Everything designed for the sim, the content,
+the manifest, the greybox workflow and the harness is stack-independent by
+construction and stands. `ARCHITECTURE.md` §2, §7, §8 and §9 are rewritten once the
+stack is chosen; the dependency rule, the stores, the save format and the `Platform`
+interface survive any answer.
+
+Authority: Human · Question: [Q-TECH-1](OPEN_QUESTIONS.md#q-tech-1--tauri-or-electron-given-the-steam-overlay-and-the-deck) · Supersedes part of locked decision 10

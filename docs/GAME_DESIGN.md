@@ -61,7 +61,7 @@ every round. The game is the argument between those two facts.
 
 | Term | Meaning |
 | --- | --- |
-| **Run** | One campaign or ranked attempt: 16 fights, 3 strikes |
+| **Run** | One campaign or ranked attempt: 16 fights, 5 strikes |
 | **Round** | One build phase followed by one fight. Rounds are numbered 1–16 |
 | **Interlude** | A campaign map node with no fight (Recruiter, Board Meeting, Consultant). Does not advance the round counter |
 | **Quarter** | The fight. 60 seconds, 1,200 ticks, divided into Month 1, Month 2, Crunch and the Bell |
@@ -824,7 +824,7 @@ whenever the pressure curve or the base Goodwill table moves.
 ### 15.3 Strikes
 
 Losing any fight — boss included — costs one strike and the map continues. A run ends
-at three strikes, or after fight 16. A run that reaches fight 16 with strikes remaining
+at five strikes (D-58), or after fight 16. A run that reaches fight 16 with strikes remaining
 is a win; its score is strikes remaining and total Market Share claimed.
 
 ### 15.4 Board Meeting modifiers — Phase 2 set
@@ -965,7 +965,7 @@ Fonts: `font.ui.8` is an 8-pixel-line pixel font with variable-width glyphs aver
 
 | Region | Rect | Contents |
 | --- | --- | --- |
-| `ui.build.topbar` | (0, 0, 640, 24) | Round `Q3 · FIGHT 7/16` at (8, 8); Budget `¥ 24` at (200, 8); upkeep `−¥4/qtr` at (280, 8); three strike icons 8×8 from (400, 8); **READY** button (552, 4, 80, 16) |
+| `ui.build.topbar` | (0, 0, 640, 24) | Round `Q3 · FIGHT 7/16` at (8, 8); Budget `¥ 24` at (200, 8); upkeep `−¥4/qtr` at (280, 8); five strike icons 8×8 from (400, 8); **READY** button (552, 4, 80, 16) |
 | `ui.build.tower` | (8, 32, 176, 304) | Elevator shaft (8, 32, 16, 304) with floor labels drawn inside it; three floor viewports stacked: above at y=32, **selected** at y=136, below at y=240, each 160 × 96 at x=24. Unselected floors dimmed 50%, still interactive. Scrolls by whole floors |
 | `ui.build.shop` | (192, 32, 232, 304) | Tab bar (192, 32, 232, 16); four cards 52 × 80 at x = 192, 248, 304, 360, y = 56; Otherworld row label (192, 140, 232, 8) and two cards at x = 192, 248, y = 152; Lease section (192, 240, 232, 64) with three buttons 72 × 24 at x = 192, 272, 352, y = 260 |
 | `ui.build.inspector` | (432, 32, 200, 304) | Portrait slot 64 × 64 at (440, 40); name `font.ui.8` at (512, 40); dept and tier at (512, 50); detail rows every 10 px from y = 112; for a room, the comparison block (440, 276, 184, 24) — *here ×1.40 · Tier II* / *on 2F ×1.38 now, ×1.61 by round 14* / *relocate: −3 Tenure rounds, ¥13*; action buttons at y = 308: **LAY OFF · ¥1** (440, 308, 184, 20) for staff, or **RELOCATE · ¥13** (440, 308, 90, 20) and **DEMOLISH · ¥13** (534, 308, 90, 20) for rooms |

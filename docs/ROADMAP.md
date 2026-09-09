@@ -89,15 +89,14 @@ reach the renderer.
 **Throwaway:** the fixture-picker debug page. **Carries forward:** everything else;
 the sim package is the one that the ranked server runs unchanged.
 
-**The stack spike.** Before any package depends on Tauri, one day: a hello-world
-Tauri build launched through Steam on Windows, macOS, and a Steam Deck (native Linux
-depot in the steamrt4 container), recording whether it launches, whether
-`libwebkit2gtk-4.1` is present, and what the overlay and on-screen keyboard do. The
-result answers Q-TECH-1. If it is Electron, `apps/desktop` changes and nothing else
-does (D-45). Also in the spike: the sim's conformance fixtures run in Node, WebView2,
-WKWebView and WebKitGTK and hash-match — the cross-engine determinism check.
+**The stack spike.** Tauri is dropped (D-59) and the stack is being re-selected from
+research (Q-TECH-1). Once chosen, one day before any package depends on it: a
+hello-world build launched through Steam on Windows, macOS and a Steam Deck, recording
+whether it launches and what the overlay and on-screen keyboard do; and the sim's
+conformance fixtures hash-matching wherever the sim will run (the engine, CI, and the
+future server runtime).
 
-**Human:** the Q-TECH-1 decision after the spike. A good moment to buy the packs and
+**Human:** the Q-TECH-1 decision after the research. A good moment to buy the packs and
 do the pack-fit pass (`ART_PIPELINE.md` §15), which is independent of all of this.
 
 ---
@@ -144,7 +143,7 @@ can be found that agents cannot fix, and it is deliberately early.
 ## 4. M2 — The loop, the vertical slice
 
 **Playable:** found a firm, build a tower, press Ready, watch it fight a templated
-rival, read the autopsy, build again. Sixteen rounds, three strikes, a run summary. No
+rival, read the autopsy, build again. Sixteen rounds, five strikes, a run summary. No
 map, no interludes, no portal, no recipes yet.
 
 This is the **earliest point at which the game is fun**, and the order of everything
@@ -296,7 +295,7 @@ seen it.
 - Performance budgets asserted (`ARCHITECTURE.md` §11); the render list profiled at
   the Parent Company fight.
 - Screenshot fixtures for every screen in every state.
-- The release workflow: Tauri bundles on three platforms, `steamcmd` depots, the art
+- The release workflow: bundles on three platforms for the chosen stack (Q-TECH-1), `steamcmd` depots, the art
   and licence gates wired (D-44).
 - Local telemetry (`BALANCE_PLAN.md` §10) and `tools/telemetry`.
 - A crash and corrupt-save recovery path that has been exercised.

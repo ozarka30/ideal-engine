@@ -589,14 +589,14 @@ modes = [
         ("rivalGimmicks", True), ("gimmicksFromRound", 8),
         ("portalUnlock", OD([("condition", "bossDefeated"), ("act", 1)])),
         ("winBonus", OD([("fight", 3), ("audit", 5), ("boss", 5)])),
-        ("strikes", 3), ("rounds", 16), ("metaUnlocks", True), ("rating", False), ("snapshotCapture", False),
+        ("strikes", 5), ("rounds", 16), ("metaUnlocks", True), ("rating", False), ("snapshotCapture", False),
         ("drawIsLossWithoutStrike", True), ("firstRunTutorial", True)]),
     OD([("id", "mode.ranked"), ("name", "Ranked"), ("map", None), ("interludes", False),
         ("rivalSource", OD([("scripted", False), ("templates", True), ("ghosts", True)])),
         ("rivalGimmicks", False), ("gimmicksFromRound", None),
         ("portalUnlock", OD([("condition", "round"), ("round", 5)])),
         ("winBonus", OD([("fight", 3), ("audit", 3), ("boss", 3)])),
-        ("strikes", 3), ("rounds", 16), ("metaUnlocks", False), ("rating", True), ("snapshotCapture", True),
+        ("strikes", 5), ("rounds", 16), ("metaUnlocks", False), ("rating", True), ("snapshotCapture", True),
         ("drawIsLossWithoutStrike", False), ("firstRunTutorial", False)]),
 ]
 

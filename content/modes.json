@@ -21,7 +21,7 @@
         "audit": 5,
         "boss": 5
       },
-      "strikes": 3,
+      "strikes": 5,
       "rounds": 16,
       "metaUnlocks": true,
       "rating": false,
@@ -50,7 +50,7 @@
         "audit": 3,
         "boss": 3
       },
-      "strikes": 3,
+      "strikes": 5,
       "rounds": 16,
       "metaUnlocks": false,
       "rating": true,

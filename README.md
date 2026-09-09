@@ -39,7 +39,7 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 - **Divergence** — two asset classes. Rooms are static commitments; employees are flexible and reoptimised every round
 - **Combat** — cooldown duel, nothing moves, market share tug-of-war
 - **Setting** — retro Japanese corporate occult
-- **Platform** — Steam, via TypeScript + PixiJS + Tauri
+- **Platform** — Steam. The stack is being re-selected (Q-TECH-1); Tauri was dropped after the research pass found the Steam overlay cannot hook its webviews
 
 ## Design phase progress
 
@@ -51,9 +51,9 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 | 4 — Technical | `ARCHITECTURE.md`, `ART_PIPELINE.md`, `manifest/` | Signed off (D-53) |
 | 5 — Balance and plan | `BALANCE_PLAN.md`, `ROADMAP.md`, `content/balance.json` | Signed off (D-53) |
 
-Fifty-seven decisions are logged — forty-four craft calls and thirteen human ones.
+Fifty-nine decisions are logged — forty-four craft calls and fifteen human ones.
 The design phase is signed off (D-53) and a research verification pass has been run;
-its findings are in `docs/RESEARCH_NOTES.md`, and three of them wait on the human:
-the stack question raised by the Steam overlay, the strike count, and the title. Ten items are open; one — Q-TECH-1 — must be answered before M0 begins; each is listed against the phase where it first bites.
+its findings are in `docs/RESEARCH_NOTES.md`, and Tauri has been dropped (D-59) and the stack is being re-selected from research;
+five strikes are adopted (D-58); the title still needs a registry search. Nine items are open; one — Q-TECH-1, the stack — must be answered before M0 begins; each is listed against the phase where it first bites.
 See the summary table in
 [`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md).

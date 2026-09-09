@@ -1,6 +1,14 @@
 # Company Wars — Architecture
 
-Status: **Phase 4 draft.** Module boundaries, the sim/render split, state management,
+Status: **Phase 4 draft — stack under re-selection.** Tauri was dropped after the
+research pass (D-59, Q-TECH-1); the engine and packaging layer are being chosen from
+`RESEARCH_NOTES.md` §9. Everything in this document that does not name Tauri, PixiJS or
+Vite stands: the dependency rule, the sim/render split, the three stores, the reducer,
+the save format, the `Platform` interface, the CI stages, the release gates and the
+deferred ranked backend are stack-independent by construction. The sections that name
+the stack (§2, §7, §8, §9) will be rewritten once Q-TECH-1 is answered.
+
+Original status: **Phase 4 draft.** Module boundaries, the sim/render split, state management,
 the save format and its migrations, Steam integration, the build and packaging
 pipeline, and the deferred async PvP backend. Builds on locked decision 10 (TypeScript
 + PixiJS + Vite, packaged via Tauri; the sim is a pure headless module), on

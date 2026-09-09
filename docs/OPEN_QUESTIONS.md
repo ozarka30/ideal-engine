@@ -47,7 +47,7 @@ decisions.
 | [Q-STR-2](#q-str-2--what-is-the-floor-expansion-curve) | Expansion curve | Floors are the biggest purchase in the game; three unlocks per run | DECIDED · [D-02](DECISION_LOG.md#d-02) |
 | [Q-STR-3](#q-str-3--rounds-per-run-fight-length-and-lives) | Rounds, fight length, lives | 16 fights, 60s quarter, 3 lives, ~45min run | DECIDED · [D-21](DECISION_LOG.md#d-21) |
 | [Q-STR-4](#q-str-4--what-shape-is-the-campaign-map-and-what-are-its-bosses) | Campaign map and bosses | 3 acts, branching, 5 node types, 3 named bosses | DECIDED · [D-22](DECISION_LOG.md#d-22) |
-| [Q-STR-5](#q-str-5--how-many-strikes) | Strikes | Five, not three — the genre's ~70% win floor rather than 87% | NEEDS SIGN-OFF |
+| [Q-STR-5](#q-str-5--how-many-strikes) | Strikes | Five, not three — the genre's ~70% win floor rather than 87% | DECIDED · [D-58](DECISION_LOG.md#d-58) |
 | [Q-GW-1](#q-gw-1--how-does-floor-output-aggregate-into-goodwill-damage-and-then-into-the-bar) | Output aggregation | Per-ability resolution tagged by floor; no separate floor cadence | DECIDED · [D-03](DECISION_LOG.md#d-03) |
 | [Q-GW-2](#q-gw-2--does-goodwill-regenerate) | Regeneration | Yes — discrete 2s ticks, suppressed 1s after any hit | DECIDED · [D-04](DECISION_LOG.md#d-04) |
 | [Q-GW-3](#q-gw-3--what-is-the-shape-of-the-quarter-close-pressure-curve) | Quarter Close curve | Three months plus a Bell; push up, regen down, stepped | DECIDED · [D-05](DECISION_LOG.md#d-05) |
@@ -76,7 +76,7 @@ decisions.
 | [Q-PVP-2](#q-pvp-2--how-are-players-matched-once-ranked-exists) | Matchmaking | Bucketed by round and rating; ghost chosen from the match seed | DECIDED · [D-19](DECISION_LOG.md#d-19) |
 | [Q-PVP-3](#q-pvp-3--what-is-the-anti-cheat-posture-given-the-client-owns-the-sim) | Anti-cheat | Server re-simulation of submitted snapshots; client result advisory | DECIDED · [D-20](DECISION_LOG.md#d-20) |
 | [Q-ARCH-1](#q-arch-1--when-does-controller-navigation-arrive) | Controller navigation | Post-v1; mouse and keyboard ship first; Steam Deck verification waits on it | DECIDED · [D-47](DECISION_LOG.md#d-47) |
-| [Q-TECH-1](#q-tech-1--tauri-or-electron-given-the-steam-overlay-and-the-deck) | Tauri or Electron | Keep Tauri, accept no overlay, verify the Deck in an M0 spike; Electron if the spike fails | NEEDS SIGN-OFF |
+| [Q-TECH-1](#q-tech-1--tauri-or-electron-given-the-steam-overlay-and-the-deck) | Which stack | Tauri is dropped (D-59); the stack is chosen from the research in `RESEARCH_NOTES.md` §9 | NEEDS SIGN-OFF |
 | [Q-UX-1](#q-ux-1--when-does-the-ux-review-happen) | UX review timing | Wireframes deferred; the greybox vertical slice is the UX milestone | DECIDED · [D-48](DECISION_LOG.md#d-48) |
 | [Q-RISK-1](#q-risk-1--is-the-guttykreum-licence-cleared-for-commercial-release) | Asset licence | Verify before any spend; treat as a release blocker with an owner and a date | NEEDS SIGN-OFF |
 | [Q-RISK-2](#q-risk-2--is-the-room-commitment-tension-actually-load-bearing) | Room commitment | Demolition is genuinely painful; rewards for good commitment scale to compensate | DECIDED · [D-24](DECISION_LOG.md#d-24) |
@@ -263,7 +263,7 @@ time prestige reaches zero.
 **Recommendation: B.** It is the number the genre converged on, it is one content
 field, and it keeps the rule legible. D-21's other numbers stand.
 
-**Status:** NEEDS SIGN-OFF — it changes how a lost run feels, which is the human's.
+**Status:** DECIDED · [D-58](DECISION_LOG.md#d-58) — five strikes, both modes.
 
 ---
 
@@ -1491,15 +1491,18 @@ and moving Steamworks from the Rust crate into the Node main process.
   macOS today, none on Linux, and a dependency on very young code in the release
   path.
 
-**Recommendation: A, with B as the pre-agreed fallback.** The design does not need the
-overlay: achievements can be shown in-game, text input is never required, and the Deck
-is post-v1 for verification anyway (D-47). What it needs is to *know* about Linux, and
-a one-day spike answers that before any Tauri-specific code exists. If the human
-values the overlay or wants the Deck certain, B is the honest choice and the
-architecture makes it cheap.
+**The human's answer (D-59): Tauri is dropped.** Not the spike, not the plugin. The
+question is now *which stack*, and its scope is wider than Electron-versus-Tauri: with
+no code written, the engine itself is open. Three research passes are evaluating
+Godot 4 (C# and GDScript), MonoGame/FNA, Unity, Bevy, Electron + PixiJS, LÖVE and
+raylib against the six constraints that are already designed — pixel discipline, a
+headless deterministic sim that must also run in CI and on a server, JSON content and
+manifest, Steam with overlay and Deck, agent-driven development, JSON saves. Their
+findings and a ranked recommendation are in `RESEARCH_NOTES.md` §9.
 
-**Status:** NEEDS SIGN-OFF — a stack decision is the human's, and the planning
-prompt's "state the blocker plainly" clause applies: this is one.
+**Status:** NEEDS SIGN-OFF — the stack is the human's; the recommendation will be in
+the research notes. Locked decision 10 is superseded on packaging by D-59 and may be
+superseded on the engine by the answer.
 
 ---
 
@@ -1641,7 +1644,7 @@ needed, is a decision only they can make.
 
 ## What remains open, and when it bites
 
-Ten items remain open. None blocked any phase; all five are drafted. Each is
+Nine items remain open. None blocked any phase; all five are drafted. Each is
 listed here against the moment it first bites, so it can be answered when it is
 actually needed rather than in a batch.
 
@@ -1653,8 +1656,7 @@ actually needed rather than in a batch.
 | [Q-GBX-3](#q-gbx-3--what-is-the-greybox-palette) greybox palette | Phase 4 — `ART_PIPELINE` | Low to change on paper, high to change once screens exist |
 | [Q-RISK-1](#q-risk-1--is-the-guttykreum-licence-cleared-for-commercial-release) asset licence | Release, and any art spend | Not a design decision. It needs an owner and a date, and it is cheapest to answer now |
 | [Q-GBX-5](#q-gbx-5--can-the-packs-produce-the-decided-battle-and-portrait-dimensions) pack-fit | Phase 4 — first greybox of the battle view | Not a decision. An afternoon with the packs open |
-| [Q-TECH-1](#q-tech-1--tauri-or-electron-given-the-steam-overlay-and-the-deck) stack | M0 — before `apps/desktop` exists | A one-day spike answers the unknown; the architecture makes either answer cheap |
-| [Q-STR-5](#q-str-5--how-many-strikes) strikes | M2 — the first runs | One content field |
+| [Q-TECH-1](#q-tech-1--tauri-or-electron-given-the-steam-overlay-and-the-deck) stack | M0 — before any code | Research in progress; the sim spec, content and manifest are stack-independent and stand |
 | [Q-RISK-3](#q-risk-3--is-the-title-clear) title | The store page | Two free searches |
 | [Q-LYR-3](#q-lyr-3--does-furniture-earn-its-tile) furniture trial | Vertical slice | A playtest gate with a fold-in plan already written |
 
