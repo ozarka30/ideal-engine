@@ -11,3 +11,9 @@ build/
 game/data/
 game/__screenshots__/drive/
 tools/dev/drive/current.json
+# Source asset packs stay outside the repo (licensed, and over GitHub's size limit); commit cut sprites at manifest paths
+*.zip
+*.7z
+*.rar
+*.tpz
+game/jpassets/
