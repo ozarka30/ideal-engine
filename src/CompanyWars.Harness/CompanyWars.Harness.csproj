@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The balance harness (BALANCE_PLAN.md): populations, invariants, reports. M2 carries the minimal form:
+       the field population and the three smoke invariants. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>CompanyWars.Harness</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../CompanyWars.Sim/CompanyWars.Sim.csproj" />
+    <ProjectReference Include="../CompanyWars.Content/CompanyWars.Content.csproj" />
+    <ProjectReference Include="../CompanyWars.Build/CompanyWars.Build.csproj" />
+    <ProjectReference Include="../CompanyWars.Tools/CompanyWars.Tools.csproj" />
+  </ItemGroup>
+</Project>

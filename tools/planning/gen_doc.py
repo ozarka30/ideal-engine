@@ -541,7 +541,7 @@ the word to the schema and the spec first, with a fixture, and then the content.
 | Furniture | {counts["furniture"]} | On trial (Q-LYR-3) |
 | Recipes | {counts["recipes"]} | {by_class["promotion"]} promotions, {by_class["renovation"]} renovations, {by_class["ritual"]} rituals |
 | Riders | {counts["riders"]} | Capped at 12 by design |
-| Modifiers | {counts["modifiers"]} | 8 Board Meeting, 10 rival-only gimmicks |
+| Modifiers | {counts["modifiers"]} | 7 Board Meeting, 10 rival-only gimmicks, 1 build-side (Unpaid Upkeep, never offered) |
 | Rival templates | 6 | One per archetype |
 | Scripted rivals | {n_scripted} | 3 bosses, 6 first-run fights |
 | Founders | {len(load("founders.json")["founders"])} | Cosmetic in v1; effects reserved |

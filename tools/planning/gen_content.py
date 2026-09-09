@@ -565,6 +565,8 @@ mod("mod.g_mirror", "Mirror", "No gimmick. The tower is a competent copy of your
 mod("mod.g_skeleton_crew", "Skeleton Crew", "Half the staff; each does double the work.", [stat("push", ALL, permille=2000)], rivalOnly=True, teaches="Fewer, larger hits — overflow timing.")
 mod("mod.g_zaibatsu", "Zaibatsu", "Every floor's output ×1.15.", [stat("floorOutput", subj("firm"), permille=1150, floor="*")], rivalOnly=True, teaches="A flat power lead; win on structure, not stats.")
 mod("mod.g_ghost_floor", "Ghost Floor", "B1 is leased at no Goodwill cost.", [stat("goodwillCap", subj("firm"), amount=150)], rivalOnly=True, teaches="A portal build with the tax waived.")
+# Build-side, never offered: one copy per ¥1 of upkeep that could not be paid this round (GAME_DESIGN §3.2, D-31).
+mod("mod.unpaid_upkeep", "Unpaid Upkeep", "Goodwill cap −100 for this round; rent the firm could not pay.", [stat("goodwillCap", subj("firm"), amount=-100)])
 
 # ---------------------------------------------------------------- shop
 shop = OD([

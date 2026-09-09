@@ -101,8 +101,8 @@ public partial class BattleScreen : Node2D
         DrawGoodwill("A", _view.FrameA(tick), _view.CapAtStartA, tick);
         DrawGoodwill("B", _view.FrameB(tick), _view.CapAtStartB, tick);
         DrawBanner(tick);
-        DrawFounder("A", _view.SnapshotA.Globals.FounderId, _r.RivalName(_r.RivalA));
-        DrawFounder("B", _view.SnapshotB.Globals.FounderId, _r.RivalName(_r.RivalB));
+        DrawFounder("A", _view.SnapshotA.Globals.FounderId, _r.NameA);
+        DrawFounder("B", _view.SnapshotB.Globals.FounderId, _r.NameB);
         DrawLedger("A", tick);
         DrawLedger("B", tick);
         DrawControls();
@@ -244,7 +244,7 @@ public partial class BattleScreen : Node2D
         DrawRect(new Rect2(r.Position, r.Size), Tones.Fill("interface"));
         DrawRect(new Rect2(r.Position, r.Size), Tones.Border("interface"), false);
         FirmFrame f = side == "A" ? _view.FrameA(tick) : _view.FrameB(tick);
-        string header = $"{side} · {_r.RivalName(side == "A" ? _r.RivalA : _r.RivalB)} · GW {f.Goodwill}/{f.Cap}{(f.Broken ? " — GOODWILL BROKEN —" : string.Empty)}";
+        string header = $"{side} · {(side == "A" ? _r.NameA : _r.NameB)} · GW {f.Goodwill}/{f.Cap}{(f.Broken ? " — GOODWILL BROKEN —" : string.Empty)}";
         _r.Font.Draw(this, r.Position.X + 2, r.Position.Y, header, _r.Font.Small, Tones.Hatch("interface"));
         int y = r.Position.Y + lineH;
         foreach (LedgerLine line in LiveLedger.Visible(_view, side, tick))
@@ -313,8 +313,7 @@ public partial class BattleScreen : Node2D
     {
         Rect2I r = _r.Layout.Rect("ui.battle.result");
         DrawRect(new Rect2(r.Position, r.Size), Tones.Fill("interface"));
-        long round = Math.Max(_r.Content.Rival(_r.RivalA).Round, _r.Content.Rival(_r.RivalB).Round);
-        string text = Autopsy.ResultBanner(_view, round, "A") + $" · {Autopsy.Seconds(_view.Result.EndTick)} · click for the autopsy";
+        string text = Autopsy.ResultBanner(_view, _r.FightRound, "A") + $" · {Autopsy.Seconds(_view.Result.EndTick)} · click for the autopsy";
         _r.Font.Draw(this, r.Position.X, r.Position.Y + 4, text, _r.Font.Large, Tones.Text("interface"), HorizontalAlignment.Center, r.Size.X);
     }
 

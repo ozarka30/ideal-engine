@@ -11,6 +11,7 @@ public partial class PickerScreen : Node2D
     private readonly List<(Rect2I Rect, string Side, string Id)> _rows = new();
     private Rect2I _seedButton;
     private Rect2I _fightButton;
+    private Rect2I _menuButton;
 
     public override void _Ready() => QueueRedraw();
 
@@ -43,6 +44,9 @@ public partial class PickerScreen : Node2D
         _fightButton = new Rect2I(8, 224, 120, 20);
         DrawRect(new Rect2(_fightButton.Position, _fightButton.Size), Tones.Fill("operations"));
         font.Draw(this, 12, 226, "FIGHT", font.Large, Tones.Text("operations"));
+        _menuButton = new Rect2I(136, 224, 120, 20);
+        DrawRect(new Rect2(_menuButton.Position, _menuButton.Size), Tones.Fill("interface"));
+        font.Draw(this, 140, 228, "MENU", font.Small, Tones.Text("interface"));
         font.Draw(this, 8, 340, "keys in battle: 1 2 4 speed · space pause · S skip · esc autopsy · hover a floor for the inset", font.Small, Tones.Hatch("interface"));
     }
 
@@ -61,6 +65,7 @@ public partial class PickerScreen : Node2D
             }
         }
         if (_seedButton.HasPoint(p)) { r.Seed++; QueueRedraw(); return; }
-        if (_fightButton.HasPoint(p)) r.Go("res://scenes/Battle.tscn");
+        if (_fightButton.HasPoint(p)) { r.CurrentFight = r.PickerFight(); r.Go("res://scenes/Battle.tscn"); }
+        if (_menuButton.HasPoint(p)) r.Go("res://scenes/Menu.tscn");
     }
 }

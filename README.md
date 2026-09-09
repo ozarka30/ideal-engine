@@ -31,10 +31,10 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 | [`docs/ROADMAP.md`](docs/ROADMAP.md) | Six milestones from foundations to ship-ready, each with what becomes playable and the question it answers; release gates on their own lines; post-v1; what the human does |
 | [`docs/RESEARCH_NOTES.md`](docs/RESEARCH_NOTES.md) | The post-sign-off verification pass: genre practice, stack risks, Steam requirements, licensing, agentic process — what was found, how far to trust it, what changed |
 | [`docs/INDEX.md`](docs/INDEX.md) | Routing table: which document to read before changing what |
-| [`src/`](src/) | The .NET 8 libraries: `CompanyWars.Sim` (the spec, implemented; references nothing but the base library), `CompanyWars.Content` (loader and §12 validator), `CompanyWars.Manifest` (loader, derived fields, coverage), `CompanyWars.Tools` (`validate-content`, `validate-manifest`, `fixtures`, `screenshot-compare`) |
+| [`src/`](src/) | The .NET 8 libraries: `CompanyWars.Sim` (the spec, implemented; references nothing but the base library), `CompanyWars.Content` (loader and §12 validator), `CompanyWars.Manifest` (loader, derived fields, coverage), `CompanyWars.Playback` (views over a result: clock, bars, the coalesced ledger, the autopsy), `CompanyWars.Build` (the reducer, economy, shop bags, legality, the template expander, the run), `CompanyWars.Harness` (the balance smoke), `CompanyWars.Tools` (`validate-content`, `validate-manifest`, `fixtures`, `screenshot-compare`) |
 | [`tests/`](tests/) | xunit, one project per library: the purity tests on the sim assembly, the §20 trace asserted tick by tick, the record round-trip, twenty-six content rejection fixtures, the wrong-size asset check |
 | [`fixtures/sim/`](fixtures/sim/) | The ten conformance fixtures of `SIMULATION_SPEC.md` §19, recorded inputs and results; read-only to agents |
-| [`game/`](game/) | The Godot 4 project: pixel-discipline settings, the greybox renderer, the M0 screenshot fixtures |
+| [`game/`](game/) | The Godot 4 project: menu, founder select, build, battle, autopsy and summary screens, the debug picker, screenshot fixtures |
 | [`src/CompanyWars.Sim/README.md`](src/CompanyWars.Sim/README.md) | Where each spec section lives in code, and the eleven readings the spec left open |
 
 ## At a glance
@@ -65,7 +65,9 @@ See the summary table in
 
 ## Implementation progress
 
-M0 (foundations) is landed except for the Steam Deck spike: `dotnet build CompanyWars.sln && dotnet test CompanyWars.sln`
-runs 45 tests green, the ten sim fixtures hash-match across processes, the content and manifest validators
-run green on the committed files and red on every rejection fixture, and the greybox screen renders
-byte-identically under a virtual display. Status and what remains are in `docs/ROADMAP.md` §2.
+M0 (foundations) is landed except for the Steam Deck spike; M1 (the fight) and M2 (the loop) are landed except
+for the human judgements each ends on. `dotnet build CompanyWars.sln && dotnet test CompanyWars.sln` runs the
+suites green, the ten sim fixtures hash-match across processes, the validators run green on the committed
+files and red on every rejection fixture, five screens render byte-identically under a virtual display, and
+the balance harness runs the three smoke invariants (currently failing, as a first pass should). Status and
+what remains are in `docs/ROADMAP.md` §2–§4.

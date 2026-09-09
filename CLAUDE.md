@@ -10,7 +10,7 @@ find the document that governs whatever you are about to change.
 - `manifest/` — the sprite manifest. Every visual slot with exact dimensions. Validates against `schema/manifest.schema.json`.
 - `tools/planning/` — generators that produced `content/`, `schema/`, `manifest/` and `docs/CONTENT_SCHEMA.md`. Running all four on a clean checkout produces no diff.
 - **Stack (D-60):** Godot 4 with C# on .NET 8; the simulation is `src/CompanyWars.Sim`, a class library that references no Godot assembly; Compatibility renderer; X11 on Linux; GodotSteam. `docs/ARCHITECTURE.md` has the project layout.
-- `src/` — the .NET libraries and tools (`Sim`, `Content`, `Manifest`, `Playback`, `Tools`); `tests/` — xunit, one project per library; `fixtures/sim/` — the ten recorded conformance fixtures; `game/` — the Godot 4 project: the picker, battle and autopsy screens, screenshot fixtures under `game/__screenshots__/`. `src/CompanyWars.Sim/README.md` lists the readings the spec left open.
+- `src/` — the .NET libraries and tools (`Sim`, `Content`, `Manifest`, `Playback`, `Build`, `Harness`, `Tools`); `tests/` — xunit, one project per library; `fixtures/sim/` — the ten recorded conformance fixtures; `game/` — the Godot 4 project: the picker, battle and autopsy screens, screenshot fixtures under `game/__screenshots__/`. `src/CompanyWars.Sim/README.md` lists the readings the spec left open.
 - **Positions come from the manifest too.** A `layout` point is where the entry's anchor sits; side B's placement is the mirror of side A's across the canvas, computed, never typed.
 
 ## Commands
@@ -23,6 +23,7 @@ dotnet build CompanyWars.sln && dotnet test CompanyWars.sln
 dotnet run --project src/CompanyWars.Tools -- validate-content
 dotnet run --project src/CompanyWars.Tools -- validate-manifest   # also writes art_coverage.json
 dotnet run --project src/CompanyWars.Tools -- fixtures check       # `fixtures record` regenerates; needs the fixtures-approved label
+dotnet run --project src/CompanyWars.Harness -- --rounds 1,6,12,16   # balance smoke; --seeds N; --json writes harness_smoke.json
 dotnet build game/CompanyWars.Game.csproj                            # needs only the Godot.NET.Sdk package
 xvfb-run godot --path game -- --screenshots       # screenshot fixtures; --headless renders nothing
 ```

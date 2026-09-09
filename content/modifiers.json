@@ -380,6 +380,23 @@
           "amount": 150
         }
       ]
+    },
+    {
+      "id": "mod.unpaid_upkeep",
+      "name": "Unpaid Upkeep",
+      "text": "Goodwill cap −100 for this round; rent the firm could not pay.",
+      "rivalOnly": false,
+      "effects": [
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "goodwillCap",
+          "subject": {
+            "scope": "firm"
+          },
+          "amount": -100
+        }
+      ]
     }
   ]
 }

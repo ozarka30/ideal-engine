@@ -32,7 +32,7 @@ public partial class AutopsyScreen : Node2D
         _r = ScreenRouter.Instance;
         _view = _r.LastView ?? _r.Fight();
         _playhead = _view.Result.EndTick;
-        _findings = Autopsy.Findings(_view, _r.RivalName(_r.RivalA), _r.RivalName(_r.RivalB));
+        _findings = Autopsy.Findings(_view, _r.NameA, _r.NameB);
         _bars = Autopsy.FloorBars(_view);
         _timeline = Autopsy.Timeline(_view, Columns);
         Refilter();
@@ -64,9 +64,8 @@ public partial class AutopsyScreen : Node2D
         // Banner
         Rect2I banner = L.Rect("ui.autopsy.banner");
         DrawRect(new Rect2(banner.Position, banner.Size), Tones.Fill("interface"));
-        long round = Math.Max(_r.Content.Rival(_r.RivalA).Round, _r.Content.Rival(_r.RivalB).Round);
-        font.Draw(this, banner.Position.X + 8, banner.Position.Y + 4, Autopsy.ResultBanner(_view, round, "A"), font.Large, Tones.Text("interface"));
-        font.Draw(this, banner.Position.X, banner.Position.Y + 8, $"{_r.RivalName(_r.RivalA)} vs {_r.RivalName(_r.RivalB)} · seed {_r.Seed} · {_view.Result.StateHash}", font.Small, Tones.Hatch("interface"), HorizontalAlignment.Right, banner.Size.X - 8);
+        font.Draw(this, banner.Position.X + 8, banner.Position.Y + 4, Autopsy.ResultBanner(_view, _r.FightRound, "A"), font.Large, Tones.Text("interface"));
+        font.Draw(this, banner.Position.X, banner.Position.Y + 8, $"{_r.NameA} vs {_r.NameB} · seed {_r.Seed} · {_view.Result.StateHash}", font.Small, Tones.Hatch("interface"), HorizontalAlignment.Right, banner.Size.X - 8);
 
         // Timeline
         Rect2I tl = L.Rect("ui.autopsy.timeline");
@@ -218,7 +217,7 @@ public partial class AutopsyScreen : Node2D
             {
                 if (mb.Pressed && tl.HasPoint(p)) { _dragging = true; Seek(p.X); }
                 if (!mb.Pressed) _dragging = false;
-                if (mb.Pressed && L.Rect("ui.autopsy.continue").HasPoint(p)) { _r.Go("res://scenes/Picker.tscn"); return; }
+                if (mb.Pressed && L.Rect("ui.autopsy.continue").HasPoint(p)) { Continue(); return; }
                 if (mb.Pressed)
                 {
                     foreach ((Rect2I rect, Action toggle) in _chips)
@@ -231,7 +230,13 @@ public partial class AutopsyScreen : Node2D
             if (mb.Pressed && mb.ButtonIndex == MouseButton.WheelUp) { _scroll = Math.Max(0, _scroll - 3); _playhead = _filtered.Count > 0 ? _filtered[_scroll].Tick : _playhead; QueueRedraw(); }
         }
         if (@event is InputEventMouseMotion mm && _dragging) Seek((int)mm.Position.X);
-        if (@event is InputEventKey { Pressed: true, Keycode: Key.Escape or Key.Enter }) _r.Go("res://scenes/Picker.tscn");
+        if (@event is InputEventKey { Pressed: true, Keycode: Key.Escape or Key.Enter }) Continue();
+    }
+
+    private void Continue()
+    {
+        if (_r.CurrentFight?.InRun == true) _r.AfterFight();
+        else _r.Go("res://scenes/Picker.tscn");
     }
 
     private void Seek(int x)

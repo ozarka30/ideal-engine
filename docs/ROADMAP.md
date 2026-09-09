@@ -213,6 +213,18 @@ like the consequence of it?
 **Throwaway:** the top-bar rival label (replaced by the dossier in M4). **Carries
 forward:** every system above; the linear loop *is* ranked's loop.
 
+**Status (M2 in progress).** Landed: `CompanyWars.Build` — the reducer over the closed
+action set with action-log undo, the economy (income, passives, upkeep, unpaid upkeep
+carried into the fight as copies of `mod.unpaid_upkeep`, severance, fees, leases), the
+shop's bags, placement legality, Tenure on Ready, the template expander with its
+fallback, the run with strikes and the win bonus; founder select, the build screen
+with aura badges, link lines, room signs and the inspector, the run loop through
+battle and autopsy, the run summary; `CompanyWars.Harness` in minimal form running
+`inv.fight_length`, `inv.bar_moves_early` and `inv.archetype_band` on the field
+population at rounds 1, 6, 12 and 16 — all three currently fail, which is the tuning
+loop's starting point, not a defect in the harness. Not yet: saves, the twenty runs,
+the furniture trial, the UX pass.
+
 **Human:** the twenty runs and the judgements. This milestone cannot be exited by an
 agent. If the answer to "is it fun" is no, the correct next milestone is not M3 — it
 is a return to `GAME_DESIGN.md` with the notes, and this roadmap is rewritten from M2

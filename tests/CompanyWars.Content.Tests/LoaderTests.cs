@@ -19,7 +19,7 @@ public class LoaderTests
         Assert.Equal(14, db.Furniture.Length);
         Assert.Equal(40, db.Recipes.Length);
         Assert.Equal(12, db.Riders.Length);
-        Assert.Equal(17, db.Modifiers.Length);
+        Assert.Equal(18, db.Modifiers.Length);
         Assert.Equal(8, db.Founders.Length);
         Assert.Equal(6, db.Templates.Templates.Length);
         Assert.Equal(9, db.ScriptedRivals.Length);

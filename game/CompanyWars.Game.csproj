@@ -12,5 +12,6 @@
     <ProjectReference Include="../src/CompanyWars.Content/CompanyWars.Content.csproj" />
     <ProjectReference Include="../src/CompanyWars.Manifest/CompanyWars.Manifest.csproj" />
     <ProjectReference Include="../src/CompanyWars.Playback/CompanyWars.Playback.csproj" />
+    <ProjectReference Include="../src/CompanyWars.Build/CompanyWars.Build.csproj" />
   </ItemGroup>
 </Project>

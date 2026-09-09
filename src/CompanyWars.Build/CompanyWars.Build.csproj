@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The build phase as a reducer over actions; the economy; the shop bags; placement legality; the rival
+       template expander; the run (ARCHITECTURE.md §2, §4). Pure; references Sim and Content; no Godot. -->
+  <PropertyGroup>
+    <RootNamespace>CompanyWars.Build</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../CompanyWars.Sim/CompanyWars.Sim.csproj" />
+    <ProjectReference Include="../CompanyWars.Content/CompanyWars.Content.csproj" />
+    <ProjectReference Include="../CompanyWars.Manifest/CompanyWars.Manifest.csproj" />
+  </ItemGroup>
+</Project>

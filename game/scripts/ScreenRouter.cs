@@ -30,6 +30,13 @@ public partial class ScreenRouter : Node
     public uint Seed { get; set; } = 1;
     public MatchView? LastView { get; set; }
 
+    // The run (ARCHITECTURE.md §4.1) and the fight the battle screen plays next.
+    public CompanyWars.Build.RunState? Run { get; set; }
+    public CompanyWars.Build.BuildState? Building { get; set; }
+    public CompanyWars.Build.Rival? CurrentRival { get; set; }
+    public FightSpec? CurrentFight { get; set; }
+    public string LastFounderId { get; set; } = "founder.sato";
+
     public bool ScreenshotMode { get; private set; }
     private readonly Queue<(string Name, string Scene)> _shots = new();
     private Node? _active;
@@ -51,11 +58,17 @@ public partial class ScreenRouter : Node
             _shots.Enqueue(("greybox", "res://scenes/Greybox.tscn"));
             _shots.Enqueue(("battle", "res://scenes/Battle.tscn"));
             _shots.Enqueue(("autopsy", "res://scenes/Autopsy.tscn"));
+            _shots.Enqueue(("founder", "res://scenes/Founder.tscn"));
+            _shots.Enqueue(("build", "res://scenes/Build.tscn"));
+            // The build fixture: a run seeded 1, round 1, as the founder screen would start it.
+            Run = CompanyWars.Build.Run.New(Content, "mode.ranked", 1, "founder.sato", null);
+            Building = CompanyWars.Build.BuildReducer.OpenRound(Content, Run);
+            CurrentRival = CompanyWars.Build.Run.RivalFor(Content, Run);
             CallDeferred(nameof(NextShot));
         }
         else
         {
-            CallDeferred(nameof(GoDeferred), "res://scenes/Picker.tscn");
+            CallDeferred(nameof(GoDeferred), "res://scenes/Menu.tscn");
         }
     }
 
@@ -69,19 +82,65 @@ public partial class ScreenRouter : Node
         GetTree().Root.AddChild(_active);
     }
 
-    /// <summary>Runs the chosen fight once and stores its view. The sim is called here and nowhere else in the client.</summary>
-    public MatchView Fight()
+    /// <summary>The debug picker's fight: two scripted rivals.</summary>
+    public FightSpec PickerFight()
     {
         ScriptedRival a = Content.Rival(RivalA);
         ScriptedRival b = Content.Rival(RivalB);
-        RuleSet rules = Content.RuleSetFor(Math.Max(a.Round, b.Round));
+        return new FightSpec(a.Snapshot, b.Snapshot, a.Name, b.Name, Seed, Math.Max(a.Round, b.Round), false);
+    }
+
+    /// <summary>Runs the current fight once and stores its view. The sim is called here and nowhere else in the client.</summary>
+    public MatchView Fight()
+    {
+        FightSpec f = CurrentFight ?? PickerFight();
+        CurrentFight = f;
+        RuleSet rules = Content.RuleSetFor(f.Round);
         ContentTable table = Content.ToContentTable();
-        MatchResult result = Simulator.Simulate(Seed, a.Snapshot, b.Snapshot, rules, table);
-        LastView = new MatchView(result, a.Snapshot, b.Snapshot, rules, table);
+        MatchResult result = Simulator.Simulate(f.Seed, f.A, f.B, rules, table);
+        LastView = new MatchView(result, f.A, f.B, rules, table);
         return LastView;
     }
 
-    public string RivalName(string id) => Content.Rival(id).Name;
+    public string NameA => CurrentFight?.NameA ?? Content.Rival(RivalA).Name;
+    public string NameB => CurrentFight?.NameB ?? Content.Rival(RivalB).Name;
+    public long FightRound => CurrentFight?.Round ?? Math.Max(Content.Rival(RivalA).Round, Content.Rival(RivalB).Round);
+
+    // ---------------------------------------------------------------- the run
+
+    public void StartRun(string founderId)
+    {
+        LastFounderId = founderId;
+        uint seed = (uint)Random.Shared.Next(); // the only non-deterministic input in the client: the run seed itself
+        Run = CompanyWars.Build.Run.New(Content, "mode.ranked", seed, founderId, null);
+        OpenRound();
+    }
+
+    public void OpenRound()
+    {
+        Building = CompanyWars.Build.BuildReducer.OpenRound(Content, Run!);
+        CurrentRival = CompanyWars.Build.Run.RivalFor(Content, Run!);
+        Go("res://scenes/Build.tscn");
+    }
+
+    /// <summary>Ready: commit, expand the rival, fight.</summary>
+    public void ReadyUp()
+    {
+        Run = CompanyWars.Build.BuildReducer.Commit(Content, Building!);
+        CompanyWars.Build.Rival rival = CurrentRival ?? CompanyWars.Build.Run.RivalFor(Content, Run);
+        CurrentFight = new FightSpec(Run.Tower, rival.Snapshot, Run.FirmName, rival.Name, CompanyWars.Build.Run.FightSeed(Run), Run.Round, true);
+        Go("res://scenes/Battle.tscn");
+    }
+
+    /// <summary>After the autopsy of a run fight: strikes, bonus, next round or the summary.</summary>
+    public void AfterFight()
+    {
+        if (Run == null || CurrentRival == null || LastView == null) { Go("res://scenes/Menu.tscn"); return; }
+        Run = CompanyWars.Build.Run.AfterFight(Content, Run, CurrentRival, LastView.Result);
+        CurrentFight = null;
+        if (Run.Over) Go("res://scenes/Summary.tscn");
+        else OpenRound();
+    }
 
     // ---------------------------------------------------------------- screenshot fixtures
 

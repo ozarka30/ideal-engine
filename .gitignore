@@ -6,3 +6,4 @@ art_coverage.json
 game/.godot/
 game/.mono/
 game/__screenshots__/actual/
+harness_smoke.json
