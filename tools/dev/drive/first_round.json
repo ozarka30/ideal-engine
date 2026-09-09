@@ -1,0 +1,86 @@
+[
+  {
+    "shot": "01_menu"
+  },
+  {
+    "tap": [
+      320,
+      168
+    ]
+  },
+  {
+    "wait": 6
+  },
+  {
+    "shot": "02_founder"
+  },
+  {
+    "tap": [
+      92,
+      92
+    ]
+  },
+  {
+    "wait": 4
+  },
+  {
+    "shot": "03_founder_selected"
+  },
+  {
+    "run": {
+      "founder": "founder.sato",
+      "seed": 1
+    }
+  },
+  {
+    "wait": 8
+  },
+  {
+    "shot": "04_build"
+  },
+  {
+    "tap": [
+      218,
+      96
+    ]
+  },
+  {
+    "wait": 4
+  },
+  {
+    "shot": "05_card_picked"
+  },
+  {
+    "tap": [
+      168,
+      184
+    ]
+  },
+  {
+    "wait": 4
+  },
+  {
+    "shot": "06_hired"
+  },
+  {
+    "key": "Enter"
+  },
+  {
+    "wait": 30
+  },
+  {
+    "shot": "07_battle"
+  },
+  {
+    "key": "Key4"
+  },
+  {
+    "wait": 240
+  },
+  {
+    "shot": "08_battle_later"
+  },
+  {
+    "quit": true
+  }
+]

@@ -373,6 +373,11 @@ runs every fixture without Godot. `dotnet run --project src/CompanyWars.Harness 
 4. sim conformance fixtures    (every fixture in fixtures/sim/ hash-matches, in dotnet test)
 5. unit tests                  (sim properties, build reducer, migrations, loaders)
 6. screenshot fixtures         (xvfb-run godot --path game -- --screenshots; Mesa llvmpipe; byte-identical PNGs)
+
+Not a CI stage: drive mode (`godot --path game -- --drive script.json`) plays a JSON list of taps, keys, waits
+and screenshots on the real screens, for an agent or a human to reproduce a flow without touching the keyboard.
+The Godot MCP server registered in `.mcp.json` launches the project and relays its stdout; a script parked at
+`tools/dev/drive/current.json` runs when the game starts without arguments.
 7. balance smoke               (a few hundred matchups; the invariants in BALANCE_PLAN must hold)
 8. fixture guard               (fails if fixtures/** changed without a human-applied `fixtures-approved` label)
 9. export                      (godot --headless --export-release for each platform; atlas step; derived manifest)

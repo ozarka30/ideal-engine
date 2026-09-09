@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 using CompanyWars.Content;
 using CompanyWars.Manifest;
 using CompanyWars.Playback;
@@ -12,7 +13,9 @@ namespace CompanyWars.Game;
 /// <summary>
 /// The autoload that holds exactly one active screen (ARCHITECTURE.md §7), the loaded content and manifest,
 /// the greybox textures and the pixel font, and the fight chosen on the picker. In screenshot mode it walks the
-/// fixture list, capturing each screen after three frames, and quits.
+/// fixture list, capturing each screen after three frames, and quits. In drive mode (<c>--drive script.json</c>)
+/// it plays a list of steps — taps, keys, waits, screenshots — so an agent can operate the game from outside
+/// through the Godot MCP server and read the result back as files and stdout lines.
 /// </summary>
 public partial class ScreenRouter : Node
 {
@@ -38,7 +41,11 @@ public partial class ScreenRouter : Node
     public string LastFounderId { get; set; } = "founder.sato";
 
     public bool ScreenshotMode { get; private set; }
+    public bool DriveMode { get; private set; }
     private readonly Queue<(string Name, string Scene)> _shots = new();
+    private readonly Queue<JsonElement> _drive = new();
+    private int _driveWait;
+    private int _driveStep;
     private Node? _active;
 
     public override void _Ready()
@@ -52,7 +59,18 @@ public partial class ScreenRouter : Node
         Textures = new GreyboxTextures(RepoRoot, Manifest);
         Layout = new ManifestLayout(Manifest.Manifest);
         Font = new PixelFont();
-        ScreenshotMode = Array.IndexOf(OS.GetCmdlineUserArgs(), "--screenshots") >= 0;
+        string[] userArgs = OS.GetCmdlineUserArgs();
+        ScreenshotMode = Array.IndexOf(userArgs, "--screenshots") >= 0;
+        int driveArg = Array.IndexOf(userArgs, "--drive");
+        if (driveArg >= 0 && driveArg + 1 < userArgs.Length)
+        {
+            LoadDrive(userArgs[driveArg + 1]);
+        }
+        else if (File.Exists(Path.Combine(RepoRoot, "tools", "dev", "drive", "current.json")))
+        {
+            // The MCP server's run_project passes no arguments: a script parked at this path drives the run instead.
+            LoadDrive(Path.Combine("tools", "dev", "drive", "current.json"));
+        }
         if (ScreenshotMode)
         {
             _shots.Enqueue(("greybox", "res://scenes/Greybox.tscn"));
@@ -196,6 +214,100 @@ public partial class ScreenRouter : Node
             }
         }
         dir.ListDirEnd();
+    }
+
+    // ---------------------------------------------------------------- drive mode
+
+    /// <summary>
+    /// A drive script is a JSON array of steps, run one per few frames, in order:
+    /// <c>{"run": {"founder": "founder.sato", "seed": 1}}</c> starts a run with a fixed seed;
+    /// <c>{"scene": "res://scenes/Menu.tscn"}</c> opens a screen; <c>{"tap": [x, y]}</c> taps a canvas point;
+    /// <c>{"key": "Enter"}</c> presses a key by its Godot name; <c>{"wait": 30}</c> waits frames;
+    /// <c>{"shot": "name"}</c> saves <c>game/__screenshots__/drive/name.png</c> at 2×; <c>{"quit": true}</c> exits.
+    /// Every step prints a <c>[drive]</c> line to stdout, which the MCP server's debug output relays.
+    /// </summary>
+    private void LoadDrive(string path)
+    {
+        string full = Path.IsPathRooted(path) ? path : Path.Combine(RepoRoot, path);
+        using JsonDocument doc = JsonDocument.Parse(File.ReadAllText(full));
+        foreach (JsonElement step in doc.RootElement.EnumerateArray()) _drive.Enqueue(step.Clone());
+        DriveMode = true;
+        _driveWait = 6; // let the menu draw before the first step
+        GD.Print($"[drive] loaded {_drive.Count} steps from {full}");
+    }
+
+    public override void _Process(double delta)
+    {
+        if (!DriveMode) return;
+        if (_driveWait > 0) { _driveWait--; return; }
+        if (_drive.Count == 0) { GD.Print("[drive] done"); DriveMode = false; GetTree().Quit(); return; }
+        JsonElement step = _drive.Dequeue();
+        _driveStep++;
+        _driveWait = 4;
+        try
+        {
+            DriveStep(step);
+        }
+        catch (Exception ex)
+        {
+            GD.Print($"[drive] step {_driveStep} failed: {ex.Message}");
+        }
+    }
+
+    private void DriveStep(JsonElement step)
+    {
+        if (step.TryGetProperty("wait", out JsonElement wait)) { _driveWait = wait.GetInt32(); GD.Print($"[drive] {_driveStep} wait {_driveWait}"); return; }
+        if (step.TryGetProperty("scene", out JsonElement scene)) { GD.Print($"[drive] {_driveStep} scene {scene.GetString()}"); Go(scene.GetString()!); return; }
+        if (step.TryGetProperty("run", out JsonElement run))
+        {
+            string founder = run.TryGetProperty("founder", out JsonElement f) ? f.GetString()! : "founder.sato";
+            uint seed = run.TryGetProperty("seed", out JsonElement sd) ? sd.GetUInt32() : 1u;
+            LastFounderId = founder;
+            Run = CompanyWars.Build.Run.New(Content, "mode.ranked", seed, founder, null);
+            GD.Print($"[drive] {_driveStep} run {founder} seed {seed}");
+            OpenRound();
+            return;
+        }
+        if (step.TryGetProperty("tap", out JsonElement tap))
+        {
+            int x = tap[0].GetInt32(), y = tap[1].GetInt32();
+            GD.Print($"[drive] {_driveStep} tap {x},{y}");
+            DriveTap(x, y);
+            return;
+        }
+        if (step.TryGetProperty("key", out JsonElement key))
+        {
+            string name = key.GetString()!;
+            if (!Enum.TryParse(name, true, out Key code)) throw new InvalidOperationException($"unknown key {name}");
+            GD.Print($"[drive] {_driveStep} key {code}");
+            Input.ParseInputEvent(new InputEventKey { Keycode = code, PhysicalKeycode = code, Pressed = true });
+            Input.ParseInputEvent(new InputEventKey { Keycode = code, PhysicalKeycode = code, Pressed = false });
+            return;
+        }
+        if (step.TryGetProperty("shot", out JsonElement shot))
+        {
+            string dir = Path.Combine(RepoRoot, "game", "__screenshots__", "drive");
+            Directory.CreateDirectory(dir);
+            Image image = GetViewport().GetTexture().GetImage();
+            image.Resize(image.GetWidth() * 2, image.GetHeight() * 2, Image.Interpolation.Nearest);
+            string file = Path.Combine(dir, $"{shot.GetString()}.png");
+            image.SavePng(file);
+            GD.Print($"[drive] {_driveStep} shot {file}");
+            return;
+        }
+        if (step.TryGetProperty("quit", out _)) { GD.Print($"[drive] {_driveStep} quit"); _drive.Clear(); _driveWait = 0; return; }
+        throw new InvalidOperationException("unknown step " + step.GetRawText());
+    }
+
+    /// <summary>A left click at a logical-canvas point, mapped through the integer stretch to window pixels.</summary>
+    private void DriveTap(int x, int y)
+    {
+        Vector2I win = GetWindow().Size;
+        int scale = Math.Max(1, Math.Min(win.X / Layout.CanvasW, win.Y / Layout.CanvasH));
+        var offset = new Vector2((win.X - Layout.CanvasW * scale) / 2f, (win.Y - Layout.CanvasH * scale) / 2f);
+        var pos = offset + new Vector2(x * scale + scale / 2f, y * scale + scale / 2f);
+        Input.ParseInputEvent(new InputEventMouseButton { ButtonIndex = MouseButton.Left, Pressed = true, Position = pos, GlobalPosition = pos });
+        Input.ParseInputEvent(new InputEventMouseButton { ButtonIndex = MouseButton.Left, Pressed = false, Position = pos, GlobalPosition = pos });
     }
 
     // ---------------------------------------------------------------- screenshot fixtures

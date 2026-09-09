@@ -26,7 +26,21 @@ dotnet run --project src/CompanyWars.Tools -- fixtures check       # `fixtures r
 dotnet run --project src/CompanyWars.Harness -- --rounds 1,6,12,16   # balance smoke; --seeds N; --json writes harness_smoke.json
 dotnet build game/CompanyWars.Game.csproj                            # needs only the Godot.NET.Sdk package
 xvfb-run godot --path game -- --screenshots       # screenshot fixtures; --headless renders nothing
+xvfb-run godot --path game -- --drive tools/dev/drive/first_round.json   # plays taps/keys/shots; writes game/__screenshots__/drive/
+tools/dev/godot.sh [--templates]                  # prints the Godot 4.7.2 mono path, downloading it into ~/.cache/companywars if absent
 ```
+
+## Driving the game from an agent
+- `.mcp.json` registers the Godot MCP server (`tools/dev/godot-mcp.sh` → Coding-Solo/godot-mcp): `run_project`,
+  `get_debug_output`, `stop_project`, `get_project_info`. Its `run_project` passes no arguments, so park a drive
+  script at `tools/dev/drive/current.json` (gitignored) before calling it; the game runs the script and prints
+  `[drive]` lines that `get_debug_output` returns while the game is still running: end a script meant for the MCP
+  with a long `wait` rather than `quit`, read the output, then `stop_project`. Shots land in
+  `game/__screenshots__/drive/` (gitignored).
+- Drive steps: `{"run": {"founder": "founder.sato", "seed": 1}}`, `{"scene": "res://…"}`, `{"tap": [x, y]}` in
+  1× canvas pixels, `{"key": "Enter"}`, `{"wait": frames}`, `{"shot": "name"}`, `{"quit": true}`.
+- Subagents in `.claude/agents/`: `playtest-reviewer` (Sonnet, reads shots against §19–§20) and `doc-check`
+  (Haiku, doc drift). Use them for the review passes; the main session does the edits.
 
 ## Rules that differ from defaults
 - **Content is data.** Never define an employee, room, recipe, rider, modifier or founder in code. Edit `tools/planning/gen_content.py` (the authoring source) and regenerate; do not hand-edit `content/*.json` or `docs/CONTENT_SCHEMA.md`.

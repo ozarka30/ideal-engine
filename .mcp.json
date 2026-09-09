@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "godot": {
+      "command": "bash",
+      "args": ["tools/dev/godot-mcp.sh"]
+    }
+  }
+}
