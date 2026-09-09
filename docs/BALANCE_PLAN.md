@@ -57,9 +57,9 @@ than it holds player-buildable archetypes to.
 
 ## 2. The harness
 
-`packages/harness` is a Node program that calls `simulate()` — the same module the
-client ships — over populations of snapshots and asserts the invariants. It never loads
-a renderer. It runs in three cadences:
+`CompanyWars.Harness` is a .NET console program that calls `Simulate()` — the same
+assembly the client ships — over populations of snapshots and asserts the invariants.
+It never loads Godot. It runs in three cadences:
 
 | Cadence | Trigger | Scope | Budget |
 | --- | --- | --- | --- |

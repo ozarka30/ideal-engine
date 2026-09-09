@@ -67,9 +67,12 @@ Those are deterministic too, but they are not this function.
 
 ## 2. Numeric model
 
-All quantities are integers. JavaScript implementations must keep every intermediate
-value within the exact-integer range of a double (|v| < 2^53); the multiplier chain in
-§9.2 is ordered so that no intermediate exceeds ~10^12.
+All quantities are integers. The reference implementation is C# (D-60): values are
+`long`, the RNG and the hash are `uint` in `unchecked` arithmetic, and no
+floating-point type appears anywhere in the sim assembly. Any other implementation
+must keep every intermediate within the exact-integer range of its numeric type; the
+multiplier chain in §9.2 is ordered so that no intermediate exceeds ~10^12, which fits
+a 64-bit integer and the 2^53 exact range of a double alike.
 
 **Permille.** Every multiplier is an integer in thousandths. A multiplier of 1.2 is
 written `1200`. Applying a multiplier `m` to a value `v`:
@@ -952,21 +955,29 @@ even if present in the file.
 ## 17. Random numbers
 
 One generator per match, seeded once. **mulberry32**, chosen because it is tiny, fast,
-32-bit throughout, and trivially identical across languages:
+32-bit throughout, and trivially identical across languages. The canonical algorithm,
+as the C# reference implements it (all arithmetic `unchecked`, all values `uint`):
 
+```csharp
+uint state = seed;
+
+uint Next()                                    // returns u32
+{
+    state += 0x6D2B79F5u;
+    uint t = state;
+    t = (t ^ (t >> 15)) * (t | 1u);
+    t ^= t + (t ^ (t >> 7)) * (t | 61u);
+    return t ^ (t >> 14);
+}
+
+uint Draw(uint n)                              // returns 0..n-1
+    => (uint)(((ulong)Next() * n) >> 32);       // exact; no rejection sampling
 ```
-state = seed >>> 0
 
-next():                                  // returns u32
-  state = (state + 0x6D2B79F5) >>> 0
-  t = state
-  t = Math.imul(t ^ (t >>> 15), t | 1) >>> 0
-  t = (t + Math.imul(t ^ (t >>> 7), t | 61)) >>> 0
-  return (t ^ (t >>> 14)) >>> 0
-
-draw(n):                                 // returns 0..n-1
-  return floor(next() * n / 4294967296)  // computed exactly; in JS: Number(BigInt(next()) * BigInt(n) / 4294967296n)
-```
+In a language without native 32-bit wrapping (JavaScript) the same steps are written
+with `Math.imul` and `>>> 0`; the results are identical. An earlier draft of this
+listing omitted the `^=` on the fourth line and did not match canonical mulberry32; it
+was corrected before any fixture was recorded (D-61).
 
 `draw` is biased by at most `n / 2^32` and that is acceptable; what matters is that
 every implementation is biased identically. `draw` is called **only** by
@@ -985,8 +996,10 @@ An implementation conforms if and only if all of the following hold.
    modifiers uses the canonical orders in §5.2 and §14. Object-key iteration order is
    never relied on.
 3. **One RNG, listed consumers.** Only §6's `random_floor` and `random` call `draw`.
-4. **No ambient input.** No clock, no `Math.random`, no environment, no I/O, no
-   locale-dependent string operations.
+4. **No ambient input.** No clock, no `System.Random` (or the language's equivalent),
+   no environment, no I/O, no locale-dependent string operations. In the C# reference
+   this is enforced by a banned-API analyzer and a reflection test on the assembly's
+   references (`ARCHITECTURE.md` §1).
 5. **Content is data.** The sim receives resolved definitions; it never parses files
    and never contains a definition.
 6. **Complete emission.** Every state change in §9–§14 emits the entry §16.1 requires,

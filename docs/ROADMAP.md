@@ -63,14 +63,16 @@ and manifest, and see a labelled rectangle on screen.
 
 **Systems**
 
-- The pnpm workspace and the dependency-direction lint (D-42).
-- `packages/sim` implementing `SIMULATION_SPEC.md` end to end, with the ten
+- The .NET solution, the project-reference graph, the reflection test on the sim's
+  references and the banned-API analyzer (D-42, `ARCHITECTURE.md` §1).
+- `CompanyWars.Sim` implementing `SIMULATION_SPEC.md` end to end, with the ten
   conformance fixtures from its §19 recorded and passing — including the mirror
   fixture's 90 entries and `totalPush` 1131.
-- `packages/content`: loader, validator, generated types. Every check in
-  `CONTENT_SCHEMA.md` §12 fails a fixture built to trip it.
-- `packages/manifest`: loader, validator, `overhang` recomputation, coverage report.
-- The greybox renderer: one screen, one entry, one labelled rectangle at exact size,
+- `CompanyWars.Content`: loader, validator, record types round-tripped against the
+  schema. Every check in `CONTENT_SCHEMA.md` §12 fails a fixture built to trip it.
+- `CompanyWars.Manifest`: loader, validator, `overhang` recomputation, coverage report.
+- The Godot project with the pixel-discipline settings from `ARCHITECTURE.md` §7 and
+  the greybox renderer: one screen, one entry, one labelled rectangle at exact size,
   tone from the palette, at 2× and 3×.
 - CI stages 1–5 from `ARCHITECTURE.md` §9.2.
 
@@ -89,14 +91,16 @@ reach the renderer.
 **Throwaway:** the fixture-picker debug page. **Carries forward:** everything else;
 the sim package is the one that the ranked server runs unchanged.
 
-**The stack spike.** Tauri is dropped (D-59) and the stack is being re-selected from
-research (Q-TECH-1). Once chosen, one day before any package depends on it: a
-hello-world build launched through Steam on Windows, macOS and a Steam Deck, recording
-whether it launches and what the overlay and on-screen keyboard do; and the sim's
-conformance fixtures hash-matching wherever the sim will run (the engine, CI, and the
-future server runtime).
+**The stack spike** (`ARCHITECTURE.md` §9.4). The stack is Godot 4 with C# (D-60).
+One day, before any screen exists: a hello-world export launched from the Steam
+client on Windows, macOS and the developer's own Steam Deck in gaming mode, confirming
+the overlay with the Compatibility renderer and X11 and documenting what Forward+ and
+Wayland do; the Linux build inside the steamrt4 container; the sim's mirror fixture
+hash-matching from both `dotnet test` and inside Godot; a screenshot under a virtual
+display byte-identical across two runs; the macOS export notarised from Linux.
 
-**Human:** the Q-TECH-1 decision after the research. A good moment to buy the packs and
+**Human:** the Deck half of the spike — launching the build on the device in gaming
+mode and reporting what the overlay does. Everything else in the spike is agent work. A good moment to buy the packs and
 do the pack-fit pass (`ART_PIPELINE.md` §15), which is independent of all of this.
 
 ---
@@ -295,7 +299,7 @@ seen it.
 - Performance budgets asserted (`ARCHITECTURE.md` §11); the render list profiled at
   the Parent Company fight.
 - Screenshot fixtures for every screen in every state.
-- The release workflow: bundles on three platforms for the chosen stack (Q-TECH-1), `steamcmd` depots, the art
+- The release workflow: `godot --headless --export-release` on three platforms, steamrt4 for Linux, notarisation from Linux, `steamcmd` depots, the art
   and licence gates wired (D-44).
 - Local telemetry (`BALANCE_PLAN.md` §10) and `tools/telemetry`.
 - A crash and corrupt-save recovery path that has been exercised.
@@ -372,7 +376,7 @@ almost nothing built for the campaign is wasted when ranked arrives. The audit:
 
 | Built in | Carries into ranked | Campaign-only, kept | Throwaway |
 | --- | --- | --- | --- |
-| M0 | sim, loaders, renderer, CI | — | fixture picker page |
+| M0 | sim, loaders, renderer, CI, the spike's findings | — | the hello-world spike project |
 | M1 | battle screen, ledger, autopsy, playback | — | debug rival picker |
 | M2 | build screen, reducer, economy, rooms, floors, expander, founders, the sixteen-round loop itself | — | top-bar rival label |
 | M3 | recipes, codex, Tenure, statuses, harness | gimmicks (config-gated) | pre-fight dossier panel |

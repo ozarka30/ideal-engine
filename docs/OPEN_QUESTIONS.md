@@ -76,7 +76,7 @@ decisions.
 | [Q-PVP-2](#q-pvp-2--how-are-players-matched-once-ranked-exists) | Matchmaking | Bucketed by round and rating; ghost chosen from the match seed | DECIDED · [D-19](DECISION_LOG.md#d-19) |
 | [Q-PVP-3](#q-pvp-3--what-is-the-anti-cheat-posture-given-the-client-owns-the-sim) | Anti-cheat | Server re-simulation of submitted snapshots; client result advisory | DECIDED · [D-20](DECISION_LOG.md#d-20) |
 | [Q-ARCH-1](#q-arch-1--when-does-controller-navigation-arrive) | Controller navigation | Post-v1; mouse and keyboard ship first; Steam Deck verification waits on it | DECIDED · [D-47](DECISION_LOG.md#d-47) |
-| [Q-TECH-1](#q-tech-1--tauri-or-electron-given-the-steam-overlay-and-the-deck) | Which stack | Godot 4 + C#, sim as a plain .NET library, Compatibility renderer, GodotSteam; MonoGame as fallback | NEEDS SIGN-OFF |
+| [Q-TECH-1](#q-tech-1--tauri-or-electron-given-the-steam-overlay-and-the-deck) | Which stack | Godot 4 + C#, sim as a plain .NET library, Compatibility renderer, GodotSteam | DECIDED · [D-60](DECISION_LOG.md#d-60) |
 | [Q-UX-1](#q-ux-1--when-does-the-ux-review-happen) | UX review timing | Wireframes deferred; the greybox vertical slice is the UX milestone | DECIDED · [D-48](DECISION_LOG.md#d-48) |
 | [Q-RISK-1](#q-risk-1--is-the-guttykreum-licence-cleared-for-commercial-release) | Asset licence | Verify before any spend; treat as a release blocker with an owner and a date | NEEDS SIGN-OFF |
 | [Q-RISK-2](#q-risk-2--is-the-room-commitment-tension-actually-load-bearing) | Room commitment | Demolition is genuinely painful; rewards for good commitment scale to compensate | DECIDED · [D-24](DECISION_LOG.md#d-24) |
@@ -1400,7 +1400,7 @@ postures.
 
 - **A — Trust the client, detect statistically.** Cheap. Catches the careless, not the
   determined. Ladder integrity is a matter of hope.
-- **B — Server re-simulation.** The server runs the *same headless TypeScript module*
+- **B — Server re-simulation.** The server runs the *same headless sim library* (`CompanyWars.Sim`, D-60)
   on the two submitted snapshots and the match seed. The client's result is advisory —
   it exists so the player sees a fight immediately, not so the ladder believes it.
 
@@ -1508,8 +1508,8 @@ one-day spike. **MonoGame with the same sim library** is the fallback if the spi
 fails. Electron is excluded for the reason Tauri was; Unity for agent-hostility; Bevy
 for churn; GDScript for trapping the sim inside the engine.
 
-**Status:** NEEDS SIGN-OFF — the stack is the human's. Locked decision 10 is
-superseded on packaging by D-59 and, if this is accepted, on engine and language too.
+**Status:** DECIDED · [D-60](DECISION_LOG.md#d-60) — recommendation accepted. The
+developer owns a Steam Deck, so the overlay spike runs on real hardware at M0.
 
 ---
 
@@ -1651,7 +1651,7 @@ needed, is a decision only they can make.
 
 ## What remains open, and when it bites
 
-Nine items remain open. None blocked any phase; all five are drafted. Each is
+Eight items remain open. None blocked any phase; all five are drafted. Each is
 listed here against the moment it first bites, so it can be answered when it is
 actually needed rather than in a batch.
 
@@ -1663,7 +1663,6 @@ actually needed rather than in a batch.
 | [Q-GBX-3](#q-gbx-3--what-is-the-greybox-palette) greybox palette | Phase 4 — `ART_PIPELINE` | Low to change on paper, high to change once screens exist |
 | [Q-RISK-1](#q-risk-1--is-the-guttykreum-licence-cleared-for-commercial-release) asset licence | Release, and any art spend | Not a design decision. It needs an owner and a date, and it is cheapest to answer now |
 | [Q-GBX-5](#q-gbx-5--can-the-packs-produce-the-decided-battle-and-portrait-dimensions) pack-fit | Phase 4 — first greybox of the battle view | Not a decision. An afternoon with the packs open |
-| [Q-TECH-1](#q-tech-1--tauri-or-electron-given-the-steam-overlay-and-the-deck) stack | M0 — before any code | Research in progress; the sim spec, content and manifest are stack-independent and stand |
 | [Q-RISK-3](#q-risk-3--is-the-title-clear) title | The store page | Two free searches |
 | [Q-LYR-3](#q-lyr-3--does-furniture-earn-its-tile) furniture trial | Vertical slice | A playtest gate with a fold-in plan already written |
 

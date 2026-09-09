@@ -88,8 +88,10 @@ history of a reversal is the most useful thing in a document like this.
 | [D-57](#d-57) | `inv.standing_pat_loses`: Tenure alone must lose to active spending | Craft | Research |
 | [D-58](#d-58) | Five strikes per run, both modes | Human | Q-STR-5 |
 | [D-59](#d-59) | Tauri is dropped; the stack is re-selected from research | Human | Q-TECH-1 |
+| [D-60](#d-60) | Godot 4 with C#; the sim as a plain .NET library; Compatibility renderer; X11; GodotSteam | Human | Q-TECH-1 |
+| [D-61](#d-61) | The mulberry32 listing corrected to the canonical algorithm; the C# listing is normative | Craft | — |
 
-Forty-four craft decisions and fifteen human calls taken. Eight items remain open in
+Forty-five craft decisions and sixteen human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -1224,3 +1226,52 @@ stack is chosen; the dependency rule, the stores, the save format and the `Platf
 interface survive any answer.
 
 Authority: Human · Question: [Q-TECH-1](OPEN_QUESTIONS.md#q-tech-1--tauri-or-electron-given-the-steam-overlay-and-the-deck) · Supersedes part of locked decision 10
+
+---
+
+## D-60
+
+**The stack is Godot 4 (4.6 or later) with C# on .NET 8. The simulation is
+`CompanyWars.Sim`, a class library that references nothing but the .NET base library —
+never a Godot assembly. The client uses the Compatibility (OpenGL) renderer and the
+X11 display driver on Linux. Steamworks is GodotSteam. MonoGame with the same sim
+library is the recorded fallback if the overlay spike fails.**
+
+*Why:* The human's call, accepting the recommendation three independent research
+passes reached (`RESEARCH_NOTES.md` §9). The deciding constraint is the headless sim:
+it must run in the game, in a CI harness at ten thousand matches a minute, and later
+on a server, producing identical hashes, and only a language with a first-class
+standalone runtime does that cleanly. C# sits with Java at the top of real-repository
+agent benchmarks, and it turns the Godot-3-versus-4 API mistake — the most common
+agent error on Godot — into a compile error rather than a silent runtime no-op.
+Electron was excluded for the reason Tauri was; Unity for agent-hostile scene files;
+Bevy for quarterly API churn; GDScript for trapping the sim inside the engine.
+
+*Consequence:* Supersedes locked decision 10 on engine, language and packaging; keeps
+its requirement that the sim be a pure headless module, now enforced by project
+references, a reflection test and a banned-API analyzer. `ARCHITECTURE.md` is
+rewritten. The one live risk — the overlay under Vulkan and Wayland — is a settings
+choice confirmed by a one-day spike on the developer's own Steam Deck at M0. Nothing
+in the sim spec, content, manifest, greybox workflow or balance plan changes.
+
+Authority: Human · Question: [Q-TECH-1](OPEN_QUESTIONS.md#q-tech-1--tauri-or-electron-given-the-steam-overlay-and-the-deck) · Supersedes locked decision 10
+
+---
+
+## D-61
+
+**The mulberry32 listing in `SIMULATION_SPEC.md` §17 is corrected to the canonical
+algorithm — the fourth step is `t ^= t + ((t ^ (t >> 7)) * (t | 61))`, with the XOR the
+earlier draft omitted — and the C# `unchecked uint` listing is now the normative one.**
+
+*Why:* Rewriting the RNG for C# exposed that the JavaScript draft dropped an `^=`; it
+would have produced a deterministic but non-standard generator, which is harmless for
+play and a trap for any future cross-check against a reference implementation. No
+fixture had been recorded, so it is a correction, not a schema bump.
+
+*Consequence:* The `random_selector` conformance fixture, when recorded at M0, is
+against the canonical generator. `Draw(n)` is specified as
+`(uint)(((ulong)Next() * n) >> 32)` — exact, no rejection sampling, identical in every
+language.
+
+Authority: Craft · `SIMULATION_SPEC.md` §17

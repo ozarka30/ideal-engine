@@ -39,7 +39,7 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 - **Divergence** — two asset classes. Rooms are static commitments; employees are flexible and reoptimised every round
 - **Combat** — cooldown duel, nothing moves, market share tug-of-war
 - **Setting** — retro Japanese corporate occult
-- **Platform** — Steam. Stack under sign-off (Q-TECH-1): the research recommends Godot 4 with C# and the sim as a plain .NET library; Tauri was dropped after the Steam overlay was found unable to hook its webviews
+- **Platform** — Steam, via Godot 4 with C# (D-60); the simulation is a plain .NET class library with no engine dependency, so the balance harness and the future server run the same code as the game
 
 ## Design phase progress
 
@@ -51,9 +51,9 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 | 4 — Technical | `ARCHITECTURE.md`, `ART_PIPELINE.md`, `manifest/` | Signed off (D-53) |
 | 5 — Balance and plan | `BALANCE_PLAN.md`, `ROADMAP.md`, `content/balance.json` | Signed off (D-53) |
 
-Fifty-nine decisions are logged — forty-four craft calls and fifteen human ones.
+Sixty-one decisions are logged — forty-five craft calls and sixteen human ones.
 The design phase is signed off (D-53) and a research verification pass has been run;
-its findings are in `docs/RESEARCH_NOTES.md`, and Tauri has been dropped (D-59) and the stack is being re-selected from research;
-five strikes are adopted (D-58); the title still needs a registry search. Nine items are open; one — Q-TECH-1, the stack — must be answered before M0 begins; each is listed against the phase where it first bites.
+its findings are in `docs/RESEARCH_NOTES.md`, and the stack is Godot 4 with C# (D-60) after Tauri was dropped (D-59); five strikes
+are adopted (D-58); the title still needs a registry search. Eight items are open, none blocking M0; each is listed against the phase where it first bites.
 See the summary table in
 [`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md).
