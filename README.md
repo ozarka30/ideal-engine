@@ -56,7 +56,7 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 | 4 — Technical | `ARCHITECTURE.md`, `ART_PIPELINE.md`, `manifest/` | Signed off (D-53) |
 | 5 — Balance and plan | `BALANCE_PLAN.md`, `ROADMAP.md`, `content/balance.json` | Signed off (D-53) |
 
-Sixty-four decisions are logged — forty-seven craft calls and seventeen human ones.
+Sixty-five decisions are logged — forty-eight craft calls and seventeen human ones.
 The design phase is signed off (D-53) and a research verification pass has been run;
 its findings are in `docs/RESEARCH_NOTES.md`, and the stack is Godot 4 with C# (D-60) after Tauri was dropped (D-59); five strikes
 are adopted (D-58); the title still needs a registry search. Eight items are open, none blocking M0; each is listed against the phase where it first bites.

@@ -93,8 +93,9 @@ history of a reversal is the most useful thing in a document like this.
 | [D-62](#d-62) | Within a tick, readiness is judged before cooldowns advance: phases run A, B, D, C, E, F | Human | — |
 | [D-63](#d-63) | No browser build: Godot 4 cannot export C# to the web; desktop nightly builds are the playtest channel | Craft | Q-TECH-1 |
 | [D-64](#d-64) | Undo and Drop are buttons as well as keys; the battle controls move off founder B's badge; the fallback pixel font is baked from DejaVu Sans | Craft | UX review |
+| [D-65](#d-65) | Cards and the inspector explain every entity in plain language generated from its content; the firm panel carries a primer on how a fight works | Craft | Playtest |
 
-Forty-seven craft decisions and seventeen human calls taken. Eight items remain open in
+Forty-eight craft decisions and seventeen human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -1353,3 +1354,29 @@ nothing else changes.
 
 Authority: Craft · `GAME_DESIGN.md` §19.1–§19.2, `ART_PIPELINE.md` §4.1
 
+---
+
+## D-65
+
+**Cards and the inspector explain every entity in plain language generated from its content,
+and the firm panel carries a primer on how a fight works.** `CompanyWars.Build.Explain` turns an
+employee, room or furniture definition into sentences — *Ship Feature: 60 Push every 4.0 s* —
+plus a one-line glossary for the damage kind it deals, and for an employee a *where to put it*
+block listing the rooms whose aura covers its department, the furniture that helps it, its
+ability's reach and the floor multipliers. A staff card shows department, tier, cooldown and the
+ability in two words (*35 Push*, *80 Restore*, *Cleanse*); picking up a card opens the inspector on
+it before it is placed. Nothing is authored per entity: a new employee explains itself from its
+effects, and a test checks that no explanation leaks a vocabulary token.
+
+*Why:* The first hands-on playtest opened the build screen and could not tell what a unit did,
+how damage happened or where anything should go. §19.1's detail rows printed the effect vocabulary
+(`push 35`, `static: stat push ×1.3`), which is the schema's language, not the player's. §20's
+"every mechanic legible on the screen where it matters" was unmet on the screen that matters
+most.
+
+*Consequence:* `GAME_DESIGN.md` §19.1's inspector and firm-panel rows are amended; the build
+screenshot fixture is re-recorded and a `build_inspect` fixture (the inspector open on a hire) is
+added. The wording is a placeholder in the same sense as the greybox art: the writer may
+re-phrase any sentence in `Explain.cs` without touching content or layout.
+
+Authority: Craft · `GAME_DESIGN.md` §19.1, §20

@@ -60,6 +60,7 @@ public partial class ScreenRouter : Node
             _shots.Enqueue(("autopsy", "res://scenes/Autopsy.tscn"));
             _shots.Enqueue(("founder", "res://scenes/Founder.tscn"));
             _shots.Enqueue(("build", "res://scenes/Build.tscn"));
+            _shots.Enqueue(("build_inspect", "res://scenes/Build.tscn"));
             // The build fixture: a run seeded 1, round 1, as the founder screen would start it.
             Run = CompanyWars.Build.Run.New(Content, "mode.ranked", 1, "founder.sato", null);
             Building = CompanyWars.Build.BuildReducer.OpenRound(Content, Run);
@@ -200,6 +201,9 @@ public partial class ScreenRouter : Node
     // ---------------------------------------------------------------- screenshot fixtures
 
     private string _currentShot = string.Empty;
+
+    /// <summary>The fixture being rendered, so a screen can open in the state the fixture shows; empty outside screenshot mode.</summary>
+    public string CurrentShot => _currentShot;
 
     private void NextShot()
     {

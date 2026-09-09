@@ -204,3 +204,34 @@ public class BuildTests
         Assert.Equal(rounds, run.History.Length);
     }
 }
+
+public class ExplainTests
+{
+    private static readonly string Root = CompanyWars.Tools.RepoRoot.Find(AppContext.BaseDirectory);
+    private static readonly Lazy<ContentDb> Db = new(() => ContentLoader.Load(Root));
+
+    [Fact]
+    public void EveryEmployeeExplainsItselfWithoutVocabularyWords()
+    {
+        ContentDb db = Db.Value;
+        string[] raw = { "permille", "afterFire", "status.", "highest_occupied", "most_populated", "everyN", "goodwillCap", "regenPerEvent", "_" };
+        foreach (EmployeeDef e in db.Employees)
+        {
+            string text = Explain.Ability(db, e) + " " + string.Join(" ", Explain.Passives(db, e.Effects, e)) + " " + string.Join(" ", Explain.Placement(db, e));
+            foreach (string r in raw) Assert.False(text.Contains(r, StringComparison.Ordinal), $"{e.Id}: '{r}' leaked into: {text}");
+            Assert.Contains("every", Explain.Ability(db, e));
+        }
+        foreach (RoomDef r in db.Rooms) Assert.NotEmpty(Explain.Passives(db, r.Effects));
+        foreach (FurnitureDef f in db.Furniture) Assert.NotEmpty(Explain.Passives(db, f.Effects));
+    }
+
+    [Fact]
+    public void KnownExplanationsReadAsIntended()
+    {
+        ContentDb db = Db.Value;
+        Assert.Equal("Ship Feature: 60 Push every 4.0 s.", Explain.Ability(db, db.Employees.First(e => e.Id == "emp.junior_dev")));
+        Assert.Contains("Open Plan", Explain.Placement(db, db.Employees.First(e => e.Id == "emp.junior_dev"))[0]);
+        Assert.Contains("Whiteboard", Explain.Placement(db, db.Employees.First(e => e.Id == "emp.junior_dev"))[1]);
+        Assert.Equal("Delegate: the hardest-hitting neighbour fires now every 6.0 s.", Explain.Ability(db, db.Employees.First(e => e.Id == "emp.team_lead")));
+    }
+}

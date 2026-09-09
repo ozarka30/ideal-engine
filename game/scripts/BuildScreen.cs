@@ -49,6 +49,11 @@ public partial class BuildScreen : Node2D
         if (_r.Building == null) { _r.Go("res://scenes/Menu.tscn"); return; }
         _selectedFloor = _db.Floors.First(f => f.Id == _db.Economy.StartingRosterFloor).Index;
         _hint = _r.Run!.Round == 1 ? _db.Tutorial.Hints.FirstOrDefault(h => h.Round == 1)?.Text ?? string.Empty : string.Empty;
+        if (_r.CurrentShot == "build_inspect")
+        {
+            // The fixture with the inspector open on a hire: the explainer is what a first-time player reads.
+            _selectedOccupant = Run.Tower.Floors.SelectMany(f => f.Occupants).First(o => o.Kind == "employee").InstanceId;
+        }
         QueueRedraw();
     }
 
@@ -425,10 +430,10 @@ public partial class BuildScreen : Node2D
             EmployeeDef d = _db.Employees.First(e => e.Id == defId);
             Effect ab = d.Effects.First(e => e.On == "ability");
             name = d.Name;
-            line1 = $"{d.Dept[..Math.Min(3, d.Dept.Length)]} T{d.Tier} {d.CooldownTicks / 20}.{d.CooldownTicks % 20 / 2}s";
-            line2 = $"{ab.Do} {(ab.Value?.Constant.HasValue == true ? ab.Value.Constant.Value.ToString() : ab.Status?[7..] ?? string.Empty)}";
+            line1 = $"{(d.Dept.Length <= 3 ? d.Dept.ToUpperInvariant() : char.ToUpperInvariant(d.Dept[0]) + d.Dept[1..3])} T{d.Tier} {Explain.Seconds(d.CooldownTicks)}";
+            line2 = ShortAction(ab, d);
             cost = $"¥{Economy.EmployeePrice(_db, d)}";
-            hint = $"{d.Name}: {d.Flavor}";
+            hint = $"{d.Name} · {Explain.Ability(_db, d)}";
             DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(rect.Position.X + 10, rect.Position.Y + 4, 32, 32), false);
         }
         else if (_tab == Shop.RoomsTab)
@@ -437,9 +442,9 @@ public partial class BuildScreen : Node2D
             name = d.Name;
             line1 = $"{d.Footprint.W}x{d.Footprint.H} {string.Join(" ", d.Floors.Select(f => Legality.FloorName(_db.Floors.First(x => x.Id == f).Index)))}";
             Effect? aura = d.Effects.FirstOrDefault(e => e.On == "static" && e.Do == "stat" && e.Permille != null);
-            line2 = aura != null ? $"{aura.Stat} ×{aura.Permille / 1000}.{aura.Permille % 1000 / 100}" : string.Empty;
+            line2 = aura != null ? $"×{aura.Permille / 1000}.{aura.Permille % 1000 / 100} {Explain.StatWord(aura.Stat)}" : string.Empty;
             cost = $"¥{d.Cost}";
-            hint = $"{d.Name}: {d.Flavor}";
+            hint = $"{d.Name} · {Explain.Passives(_db, d.Effects).FirstOrDefault() ?? d.Flavor}";
             DrawTextureRect(_r.Textures.For(L.Entry(d.Tile)), new Rect2(rect.Position.X + 10, rect.Position.Y + 4, 32, 32), true);
         }
         else
@@ -448,9 +453,9 @@ public partial class BuildScreen : Node2D
             name = d.Name;
             line1 = $"{d.Footprint.W}x{d.Footprint.H} {d.Rarity}";
             Effect e0 = d.Effects[0];
-            line2 = e0.Do == "stat" ? $"{e0.Stat} {(e0.Amount.HasValue ? "+" + e0.Amount : "×" + e0.Permille / 1000 + "." + e0.Permille % 1000 / 100)}" : e0.Do;
+            line2 = e0.Do == "stat" ? $"{(e0.Amount.HasValue ? "+" + e0.Amount : "×" + e0.Permille / 1000 + "." + e0.Permille % 1000 / 100)} {Explain.StatWord(e0.Stat)}" : ShortAction(e0, null);
             cost = $"¥{d.Cost}";
-            hint = $"{d.Name}: {d.Flavor}";
+            hint = $"{d.Name} · {Explain.Passives(_db, d.Effects).FirstOrDefault() ?? d.Flavor}";
             DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(rect.Position.X + 10, rect.Position.Y + 4, 32, 32), false);
         }
         _font.Draw(this, rect.Position.X + 2, rect.Position.Y + 40, name.Length > 10 ? name[..10] : name, _font.Small, Tones.Text("interface"));
@@ -458,7 +463,22 @@ public partial class BuildScreen : Node2D
         _font.Draw(this, rect.Position.X + 2, rect.Position.Y + 60, line2, _font.Small, Tones.Text("interface"));
         _font.Draw(this, rect.Position.X + 2, rect.Position.Y + 72, cost, _font.Small, Tones.Text("interface"));
         int i = index;
-        _hits.Add(rect, () => PickCard(i), hint + " · tap, then tap a tile");
+        _hits.Add(rect, () => PickCard(i), hint + " · tap the card to read more, then a tile to place");
+    }
+
+    /// <summary>The ability in card width: "60 Push", "1 Overtime", "Retrigger". Twelve characters at the small face.</summary>
+    private static string ShortAction(Effect ab, EmployeeDef? owner)
+    {
+        string text = ab.Do switch
+        {
+            "push" or "anomaly" or "morale" => Explain.Action(null!, ab, owner),
+            "restore" => Explain.Action(null!, ab, owner).Replace("restore ", string.Empty).Replace(" Goodwill", " Restore"),
+            "status" => $"{ab.Stacks} {Explain.Status(ab.Status ?? string.Empty).Split(':')[0]}",
+            "cleanse" => "Cleanse",
+            "retrigger" => "Retrigger",
+            _ => ab.Do,
+        };
+        return text.Length > 12 ? text[..12] : text;
     }
 
     private void PickCard(int index)
@@ -521,7 +541,12 @@ public partial class BuildScreen : Node2D
         SnapshotRoom? room = Run.Tower.Floors.SelectMany(f => f.Rooms).FirstOrDefault(r => r.RoomId == _selectedRoom);
         Vector2I action = L.Size("ui.build.action_button");
         int actionY = panel.Position.Y + panel.Size.Y - action.Y - 8; // §19.1: action buttons at y = 308
-        if (occ != null && occFloor != null)
+        int limitY = actionY - 10;
+        if (_carry is CarryKind.StaffCard or CarryKind.RoomCard or CarryKind.FurnitureCard)
+        {
+            DrawCardInspector(panel, x, y, limitY);
+        }
+        else if (occ != null && occFloor != null)
         {
             if (occ.Kind == "employee")
             {
@@ -531,15 +556,10 @@ public partial class BuildScreen : Node2D
                 _font.Draw(this, x + 72, y, d.Name, _font.Small, Tones.Text("interface"));
                 _font.Draw(this, x + 72, y + 10, $"{d.Dept} · tier {d.Tier}", _font.Small, Tones.Hatch("interface"));
                 int ry = panel.Position.Y + 80;
-                foreach (Effect e in d.Effects)
-                {
-                    if (e.On == "economy") { _font.Draw(this, x, ry, $"income +¥{e.Amount}/round", _font.Small, Tones.Text("interface")); ry += 10; continue; }
-                    string line = e.On == "ability" ? $"{e.Name}: {e.Do} {Describe(e)} every {d.CooldownTicks / 20}.{d.CooldownTicks % 20 / 2}s" : $"{e.On}: {e.Do} {Describe(e)}";
-                    _font.Draw(this, x, ry, line.Length > 44 ? line[..44] : line, _font.Small, Tones.Text("interface"));
-                    ry += 10;
-                }
                 long aura = Overlays.AuraPermille(_db, Run.Tower, occFloor, occ);
-                _font.Draw(this, x, ry + 4, $"aura {Overlays.AuraBadge(aura)} · floor ×{_db.FloorByIndex(occFloor.Index).OutputPermille / 1000}.{_db.FloorByIndex(occFloor.Index).OutputPermille % 1000 / 100}", _font.Small, Tones.Hatch("interface"));
+                _font.Draw(this, x, ry, $"here: room {Overlays.AuraBadge(aura)} · floor ×{_db.FloorByIndex(occFloor.Index).OutputPermille / 1000}.{_db.FloorByIndex(occFloor.Index).OutputPermille % 1000 / 100}", _font.Small, Tones.Hatch("interface"));
+                ry += 14;
+                DrawEmployeeExplanation(d, x, ref ry, limitY);
                 long fee = Economy.Severance(_db, Run.Tower, d);
                 var move = new Rect2I(x, actionY, action.X, action.Y);
                 var btn = new Rect2I(x + action.X + 4, actionY, action.X, action.Y);
@@ -555,7 +575,10 @@ public partial class BuildScreen : Node2D
                 FurnitureDef d = _db.Furniture.First(e => e.Id == occ.DefId);
                 DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(x, y, 32, 32), false);
                 _font.Draw(this, x + 72, y, d.Name, _font.Small, Tones.Text("interface"));
-                _font.Draw(this, x, panel.Position.Y + 80, d.Flavor ?? string.Empty, _font.Small, Tones.Text("interface"), HorizontalAlignment.Left, panel.Size.X - 16);
+                int ry = panel.Position.Y + 80;
+                DrawLines(Explain.Passives(_db, d.Effects), x, ref ry, limitY, Tones.Text("interface"));
+                ry += 4;
+                DrawLines(new[] { d.Flavor ?? string.Empty }, x, ref ry, limitY, Tones.Hatch("interface"));
                 var move = new Rect2I(x, actionY, action.X, action.Y);
                 var btn = new Rect2I(x + action.X + 4, actionY, action.X, action.Y);
                 string id = occ.InstanceId;
@@ -572,12 +595,7 @@ public partial class BuildScreen : Node2D
             _font.Draw(this, x + 72, y, d.Name, _font.Small, Tones.Text("interface"));
             _font.Draw(this, x + 72, y + 10, $"Tenure {room.TenureRounds} · Tier {Overlays.Tier(_db, room)}", _font.Small, Tones.Hatch("interface"));
             int ry = panel.Position.Y + 80;
-            foreach (Effect e in d.Effects)
-            {
-                string line = $"{e.On}: {e.Do} {Describe(e)}{(e.FromTier.HasValue ? $" from T{e.FromTier}" : string.Empty)}{(e.UntilTier.HasValue ? $" until T{e.UntilTier}" : string.Empty)}";
-                _font.Draw(this, x, ry, line.Length > 44 ? line[..44] : line, _font.Small, Tones.Text("interface"));
-                ry += 10;
-            }
+            DrawLines(Explain.Passives(_db, d.Effects), x, ref ry, Math.Min(limitY, panel.Position.Y + 236), Tones.Text("interface"));
             long fee = Economy.RenovationFee(_db, Run.Round);
             if (!d.Fixed)
             {
@@ -613,9 +631,93 @@ public partial class BuildScreen : Node2D
                 _font.Draw(this, x, ry, line, _font.Small, Tones.Text("interface"));
                 ry += 10;
             }
-            _font.Draw(this, x, ry + 10, "Z undo · Enter READY · wheel floors", _font.Small, Tones.Hatch("interface"));
-            _font.Draw(this, x, ry + 20, "click a card then a tile to place", _font.Small, Tones.Hatch("interface"));
-            _font.Draw(this, x, ry + 30, "click a person to pick up, a tile to move", _font.Small, Tones.Hatch("interface"));
+            ry += 6;
+            string[] primer = Explain.Primer();
+            int firmLimit = panel.Position.Y + panel.Size.Y - 22; // no action buttons on the firm panel: the primer may use their row
+            _font.Draw(this, x, ry, primer[0], _font.Small, Tones.Hatch("interface"));
+            ry += 10;
+            DrawLines(primer.Skip(1), x, ref ry, firmLimit, Tones.Text("interface"));
+            _font.Draw(this, x, Math.Min(ry + 4, firmLimit + 10), "Tap a card or a person to read what it does", _font.Small, Tones.Hatch("interface"));
+        }
+    }
+
+    /// <summary>The card being carried, explained before it is placed: what it does, and where it wants to stand.</summary>
+    private void DrawCardInspector(Rect2I panel, int x, int y, int limitY)
+    {
+        int ry = panel.Position.Y + 80;
+        if (_carry == CarryKind.StaffCard)
+        {
+            EmployeeDef d = _db.Employees.First(e => e.Id == Run.Shop.StaffCards[_carryIndex]);
+            DrawTextureRect(_r.Textures.For(L.Entry("ui.portrait")), new Rect2(x, y, 64, 64), false);
+            DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(x + 16, y + 16, 32, 32), false);
+            _font.Draw(this, x + 72, y, d.Name, _font.Small, Tones.Text("interface"));
+            _font.Draw(this, x + 72, y + 10, $"{d.Dept} · tier {d.Tier} · ¥{Economy.EmployeePrice(_db, d)}", _font.Small, Tones.Hatch("interface"));
+            _font.Draw(this, x + 72, y + 20, "tap a tile to hire", _font.Small, Tones.Hatch("interface"));
+            DrawEmployeeExplanation(d, x, ref ry, limitY);
+        }
+        else if (_carry == CarryKind.RoomCard)
+        {
+            RoomDef d = _db.Rooms.First(r => r.Id == Run.Shop.RoomCards[_carryIndex]);
+            DrawTextureRect(_r.Textures.For(L.Entry(d.Tile)), new Rect2(x, y, 64, 64), true);
+            _font.Draw(this, x + 72, y, d.Name, _font.Small, Tones.Text("interface"));
+            _font.Draw(this, x + 72, y + 10, $"{d.Footprint.W}x{d.Footprint.H} · ¥{d.Cost}", _font.Small, Tones.Hatch("interface"));
+            _font.Draw(this, x + 72, y + 20, "tap its top-left tile", _font.Small, Tones.Hatch("interface"));
+            _font.Draw(this, x, ry, "WHAT IT DOES", _font.Small, Tones.Hatch("interface"));
+            ry += 10;
+            DrawLines(Explain.Passives(_db, d.Effects), x, ref ry, limitY, Tones.Text("interface"));
+            ry += 4;
+            _font.Draw(this, x, ry, "WHERE TO PUT IT", _font.Small, Tones.Hatch("interface"));
+            ry += 10;
+            DrawLines(new[]
+            {
+                $"Fits on {string.Join(", ", d.Floors.Select(f => _db.Floors.First(x => x.Id == f).Name))}.",
+                "A room is a zone: people inside it get its bonus. It grows a Tenure tier every few rounds it stays put.",
+            }, x, ref ry, limitY, Tones.Text("interface"));
+        }
+        else
+        {
+            FurnitureDef d = _db.Furniture.First(f => f.Id == Run.Shop.FurnitureCards[_carryIndex]);
+            DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(x + 16, y + 16, 32, 32), false);
+            _font.Draw(this, x + 72, y, d.Name, _font.Small, Tones.Text("interface"));
+            _font.Draw(this, x + 72, y + 10, $"{d.Rarity} · ¥{d.Cost}", _font.Small, Tones.Hatch("interface"));
+            _font.Draw(this, x + 72, y + 20, "tap an empty tile", _font.Small, Tones.Hatch("interface"));
+            _font.Draw(this, x, ry, "WHAT IT DOES", _font.Small, Tones.Hatch("interface"));
+            ry += 10;
+            DrawLines(Explain.Passives(_db, d.Effects), x, ref ry, limitY, Tones.Text("interface"));
+            ry += 4;
+            _font.Draw(this, x, ry, "WHERE TO PUT IT", _font.Small, Tones.Hatch("interface"));
+            ry += 10;
+            DrawLines(new[] { "Furniture takes a tile and helps the four tiles around it. Put it beside the people it names." }, x, ref ry, limitY, Tones.Text("interface"));
+        }
+    }
+
+    /// <summary>What an employee does and where it should stand, from Explain; the same block for a card and a hire.</summary>
+    private void DrawEmployeeExplanation(EmployeeDef d, int x, ref int ry, int limitY)
+    {
+        Effect ab = d.Effects.First(e => e.On == "ability");
+        _font.Draw(this, x, ry, "WHAT IT DOES", _font.Small, Tones.Hatch("interface"));
+        ry += 10;
+        DrawLines(new[] { Explain.Ability(_db, d) }, x, ref ry, limitY, Tones.Text("interface"));
+        DrawLines(Explain.Passives(_db, d.Effects, d), x, ref ry, limitY, Tones.Text("interface"));
+        DrawLines(new[] { Explain.Kind(ab.Do) }, x, ref ry, limitY, Tones.Hatch("interface"));
+        if (ab.Do == "status" && ab.Status != null) DrawLines(new[] { Explain.Status(ab.Status) }, x, ref ry, limitY, Tones.Hatch("interface"));
+        ry += 4;
+        _font.Draw(this, x, ry, "WHERE TO PUT IT", _font.Small, Tones.Hatch("interface"));
+        ry += 10;
+        DrawLines(Explain.Placement(_db, d), x, ref ry, limitY, Tones.Text("interface"));
+    }
+
+    /// <summary>Wraps each line to the inspector's 44 columns and stops at limitY; the panel never overflows its buttons.</summary>
+    private void DrawLines(IEnumerable<string> lines, int x, ref int ry, int limitY, Color tone)
+    {
+        foreach (string text in lines)
+        {
+            foreach (string line in Ui.Wrap(text, 44, 4))
+            {
+                if (ry > limitY) return;
+                _font.Draw(this, x, ry, line, _font.Small, tone);
+                ry += 10;
+            }
         }
     }
 
@@ -654,15 +756,6 @@ public partial class BuildScreen : Node2D
     }
 
     private long FloorOf(SnapshotRoom room) => Run.Tower.Floors.First(f => f.Rooms.Contains(room)).Index;
-
-    private static string Describe(Effect e)
-    {
-        if (e.Value != null) return e.Value.Constant?.ToString() ?? (e.Value.Base.HasValue ? $"{e.Value.Base}+{e.Value.Each}/{e.Value.PerTag}" : $"{e.Value.PermilleOfTargetCap}‰ of cap");
-        if (e.Stat != null) return $"{e.Stat} {(e.Amount.HasValue ? (e.Amount >= 0 ? "+" : string.Empty) + e.Amount : "×" + e.Permille / 1000 + "." + e.Permille % 1000 / 100)}";
-        if (e.Flag != null) return e.Flag;
-        if (e.Status != null) return $"{e.Status[7..]} +{e.Stacks}";
-        return string.Empty;
-    }
 
     private void DrawHint()
     {
