@@ -25,6 +25,9 @@ public partial class BattleScreen : Node2D
     private bool _captured;
     private int _hoverFloor = int.MinValue;
     private string _hoverSide = "A";
+    private int _pinnedFloor = int.MinValue;   // touch: a tapped segment keeps its inset until a tap elsewhere
+    private string _pinnedSide = "A";
+    private readonly Hits _hits = new();
 
     public override void _Ready()
     {
@@ -88,6 +91,7 @@ public partial class BattleScreen : Node2D
 
     public override void _Draw()
     {
+        _hits.Clear();
         long tick = _clock.Tick;
         ManifestLayout L = _r.Layout;
         PixelFont font = _r.Font;
@@ -106,7 +110,8 @@ public partial class BattleScreen : Node2D
         DrawLedger("A", tick);
         DrawLedger("B", tick);
         DrawControls();
-        if (_hoverFloor != int.MinValue) DrawInset(_hoverSide, _hoverFloor, tick);
+        if (_pinnedFloor != int.MinValue) DrawInset(_pinnedSide, _pinnedFloor, tick);
+        else if (_hoverFloor != int.MinValue) DrawInset(_hoverSide, _hoverFloor, tick);
         if (_clock.Finished) DrawResult();
         _ = font;
     }
@@ -116,9 +121,10 @@ public partial class BattleScreen : Node2D
         ManifestLayout L = _r.Layout;
         for (int f = 0; f <= 3; f++)
         {
-            string id = HasFloor(snap, f) ? "fx.tower.floor_segment" : "fx.tower.floor_segment_empty";
+            bool leased = HasFloor(snap, f);
+            string id = leased ? "fx.tower.floor_segment" : "fx.tower.floor_segment_empty";
             Rect2I rect = SegmentRect(side, f);
-            DrawTextureRect(_r.Textures.For(L.Entry(id)), new Rect2(rect.Position, rect.Size), false);
+            DrawTextureRect(_r.Textures.For(L.Entry(id)), new Rect2(rect.Position, rect.Size), false, leased ? Colors.White : new Color(1, 1, 1, 0.5f));
             _r.Font.Draw(this, rect.Position.X + 2, rect.Position.Y + 2, LiveLedger.FloorName(f), _r.Font.Small, Tones.Text("structure"));
         }
         Rect2I top = SegmentRect(side, 3);
@@ -165,8 +171,8 @@ public partial class BattleScreen : Node2D
         long total = _view.Rules.ShareTotal;
         DrawRect(new Rect2(r.Position, r.Size), Tones.Fill("interface"));
         int aWidth = (int)(r.Size.X * share / total);
-        DrawRect(new Rect2(r.Position.X, r.Position.Y, aWidth, r.Size.Y), Tones.Fill("people"));
-        DrawRect(new Rect2(r.Position.X + aWidth, r.Position.Y, r.Size.X - aWidth, r.Size.Y), Tones.Fill("anomalous"));
+        DrawRect(new Rect2(r.Position.X, r.Position.Y, aWidth, r.Size.Y), Tones.Fill(Ui.SideTone("A")));
+        DrawRect(new Rect2(r.Position.X + aWidth, r.Position.Y, r.Size.X - aWidth, r.Size.Y), Tones.Fill(Ui.SideTone("B")));
         for (int i = 1; i < 10; i++)
         {
             int x = r.Position.X + r.Size.X * i / 10;
@@ -174,10 +180,17 @@ public partial class BattleScreen : Node2D
         }
         DrawRect(new Rect2(r.Position, r.Size), Tones.Border("interface"), false);
         _r.Font.Draw(this, r.Position.X - 36, r.Position.Y + 2, Percent(share, total), _r.Font.Small, Tones.Text("interface").Inverted(), HorizontalAlignment.Right, 34);
-        _r.Font.Draw(this, r.Position.X + r.Size.X + 2, r.Position.Y + 2, Percent(total - share, total), _r.Font.Small, Tones.Text("interface").Inverted());
+        _r.Font.Draw(this, r.Position.X + r.Size.X + 2, r.Position.Y + 2, Complement(share, total), _r.Font.Small, Tones.Text("interface").Inverted());
     }
 
     private static string Percent(long v, long total) => $"{v * 1000 / total / 10}.{v * 1000 / total % 10}%";
+
+    /// <summary>B's label is 100% less A's rounded label, so the two always sum to 100.0.</summary>
+    private static string Complement(long a, long total)
+    {
+        long tenths = 1000 - a * 1000 / total;
+        return $"{tenths / 10}.{tenths % 10}%";
+    }
 
     private void DrawGoodwill(string side, FirmFrame f, long capAtStart, long tick)
     {
@@ -191,17 +204,23 @@ public partial class BattleScreen : Node2D
         long breakTick = _view.BreakTick(side);
         bool flash = breakTick >= 0 && tick - breakTick < 20 && (tick - breakTick) / 5 % 2 == 0;
         if (flash) fill = Tones.Fill("invalid");
-        DrawRect(new Rect2(r.Position, r.Size), Tones.Fill("structure"));
+        Color eroded = Tones.Hatch("people"); // Morale's tone: the cap the bar used to have
+        eroded.A = 0.35f;
         if (side == "A")
         {
+            DrawRect(new Rect2(r.Position.X, r.Position.Y, frameW, r.Size.Y), Tones.Fill("structure"));
             DrawRect(new Rect2(r.Position.X, r.Position.Y, fillW, r.Size.Y), fill);
             DrawRect(new Rect2(r.Position.X, r.Position.Y, frameW, r.Size.Y), frame, false);
+            for (int hx = r.Position.X + frameW + 2; hx < r.Position.X + r.Size.X; hx += 4) DrawLine(new Vector2(hx, r.Position.Y + 2), new Vector2(hx, r.Position.Y + r.Size.Y - 2), eroded);
             _r.Font.Draw(this, r.Position.X + 4, r.Position.Y, f.Goodwill.ToString("N0"), _r.Font.Large, text);
         }
         else
         {
+            int left = r.Position.X + r.Size.X - frameW;
+            DrawRect(new Rect2(left, r.Position.Y, frameW, r.Size.Y), Tones.Fill("structure"));
             DrawRect(new Rect2(r.Position.X + r.Size.X - fillW, r.Position.Y, fillW, r.Size.Y), fill);
-            DrawRect(new Rect2(r.Position.X + r.Size.X - frameW, r.Position.Y, frameW, r.Size.Y), frame, false);
+            DrawRect(new Rect2(left, r.Position.Y, frameW, r.Size.Y), frame, false);
+            for (int hx = left - 2; hx > r.Position.X; hx -= 4) DrawLine(new Vector2(hx, r.Position.Y + 2), new Vector2(hx, r.Position.Y + r.Size.Y - 2), eroded);
             _r.Font.Draw(this, r.Position.X, r.Position.Y, f.Goodwill.ToString("N0"), _r.Font.Large, text, HorizontalAlignment.Right, r.Size.X - 4);
         }
     }
@@ -246,9 +265,12 @@ public partial class BattleScreen : Node2D
         FirmFrame f = side == "A" ? _view.FrameA(tick) : _view.FrameB(tick);
         string header = $"{side} · {(side == "A" ? _r.NameA : _r.NameB)} · GW {f.Goodwill}/{f.Cap}{(f.Broken ? " — GOODWILL BROKEN —" : string.Empty)}";
         _r.Font.Draw(this, r.Position.X + 2, r.Position.Y, header, _r.Font.Small, Tones.Hatch("interface"));
+        // Newest at the bottom, like a console: the eye reads time top to bottom, the same direction as the autopsy.
+        IReadOnlyList<LedgerLine> lines = LiveLedger.Visible(_view, side, tick);
         int y = r.Position.Y + lineH;
-        foreach (LedgerLine line in LiveLedger.Visible(_view, side, tick))
+        for (int i = lines.Count - 1; i >= 0; i--)
         {
+            LedgerLine line = lines[i];
             Color c = line.Rollup ? Tones.Hatch("interface") : Tones.Fill(Tones.ForKind(line.Kind)).Lightened(0.35f);
             _r.Font.Draw(this, r.Position.X + 2, y, $"{line.Tick / 20,3}s {line.Text}", _r.Font.Small, c);
             y += lineH;
@@ -258,15 +280,15 @@ public partial class BattleScreen : Node2D
     private void DrawControls()
     {
         Rect2I r = _r.Layout.Rect("ui.battle.controls");
-        DrawRect(new Rect2(r.Position, r.Size), Tones.Fill("interface"));
         string[] labels = { "1×", "2×", "4×", "▸▸" };
         int cell = r.Size.X / labels.Length;
         for (int i = 0; i < labels.Length; i++)
         {
             bool active = (i == 0 && _clock.Speed == 1) || (i == 1 && _clock.Speed == 2) || (i == 2 && _clock.Speed == 4);
-            var cr = new Rect2(r.Position.X + i * cell, r.Position.Y, cell, r.Size.Y);
-            if (active) DrawRect(cr, Tones.Fill("operations"));
-            _r.Font.Draw(this, (int)cr.Position.X, r.Position.Y + 2, labels[i], _r.Font.Small, Tones.Text("interface"), HorizontalAlignment.Center, cell);
+            var cr = new Rect2I(r.Position.X + i * cell, r.Position.Y, cell, r.Size.Y);
+            Ui.Button(this, cr, labels[i], active ? "operations" : "interface");
+            int speed = i switch { 0 => 1, 1 => 2, 2 => 4, _ => 0 };
+            _hits.Add(cr, () => { if (speed == 0) _clock.Skip(); else _clock.SetSpeed(speed); }, speed == 0 ? "Skip to the result" : $"Play at {speed}×");
         }
     }
 
@@ -337,22 +359,22 @@ public partial class BattleScreen : Node2D
         if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left } click)
         {
             var p = new Vector2I((int)click.Position.X, (int)click.Position.Y);
-            Rect2I c = _r.Layout.Rect("ui.battle.controls");
-            if (c.HasPoint(p))
+            Hits.Hit? hit = _hits.At(p);
+            if (hit != null) { hit.Value.Click(); QueueRedraw(); return; }
+            foreach (string side in new[] { "A", "B" })
             {
-                int cell = (p.X - c.Position.X) / (c.Size.X / 4);
-                switch (cell)
+                for (int f = -1; f <= 3; f++)
                 {
-                    case 0: _clock.SetSpeed(1); break;
-                    case 1: _clock.SetSpeed(2); break;
-                    case 2: _clock.SetSpeed(4); break;
-                    default: _clock.Skip(); break;
+                    if (!SegmentRect(side, f).HasPoint(p)) continue;
+                    bool same = _pinnedFloor == f && _pinnedSide == side;
+                    _pinnedFloor = same ? int.MinValue : f;
+                    _pinnedSide = side;
+                    QueueRedraw();
+                    return;
                 }
             }
-            else if (_clock.Finished)
-            {
-                _r.Go("res://scenes/Autopsy.tscn");
-            }
+            _pinnedFloor = int.MinValue;
+            if (_clock.Finished) _r.Go("res://scenes/Autopsy.tscn");
         }
     }
 }

@@ -27,12 +27,15 @@ public partial class BuildScreen : Node2D
     private CarryKind _carry = CarryKind.None;
     private int _carryIndex = -1;
     private string _carryId = string.Empty;
-    private string _hint = string.Empty;
+    private string _hint = string.Empty;           // the reducer's refusal, cleared by the next action
+    private string _lastTapHint = string.Empty;    // touch has no hover: the last tapped element's summary stays
     private string _selectedOccupant = string.Empty;
     private string _selectedRoom = string.Empty;
     private int _frames;
     private bool _captured;
-    private readonly List<(Rect2I Rect, Action Click, string Hint)> _hits = new();
+    private int _flashFrames;
+    private (long Floor, long Col, long Row) _flashTile;
+    private readonly Hits _hits = new();
 
     private BuildState State => _r.Building!;
     private RunState Run => State.Current;
@@ -51,6 +54,7 @@ public partial class BuildScreen : Node2D
 
     public override void _Process(double delta)
     {
+        if (_flashFrames > 0) { _flashFrames--; QueueRedraw(); }
         if (!_r.ScreenshotMode) return;
         _frames++;
         if (_frames == 3 && !_captured) { _captured = true; _r.Capture(); }
@@ -68,8 +72,69 @@ public partial class BuildScreen : Node2D
         catch (BuildException ex)
         {
             _hint = ex.Message;
+            if (action is Hire h) Flash(h.Floor, h.Col, h.Row);
+            else if (action is BuyRoom br) Flash(br.Floor, br.Col, br.Row);
+            else if (action is BuyFurniture bf) Flash(bf.Floor, bf.Col, bf.Row);
+            else if (action is Move mv) Flash(mv.Floor, mv.Col, mv.Row);
+            else if (action is Relocate rl) Flash(rl.Floor, rl.Col, rl.Row);
         }
         QueueRedraw();
+    }
+
+    /// <summary>Illegal placement: the tile flashes the invalid tone (GAME_DESIGN.md §20). On touch this is the whole feedback.</summary>
+    private void Flash(long floor, long col, long row)
+    {
+        _flashTile = (floor, col, row);
+        _flashFrames = 30;
+    }
+
+    /// <summary>Would this placement be accepted? Asked of the reducer itself, so the preview and the rule never disagree.</summary>
+    private bool WouldAccept(BuildAction action)
+    {
+        try
+        {
+            BuildReducer.Apply(_db, State, action);
+            return true;
+        }
+        catch (BuildException)
+        {
+            return false;
+        }
+    }
+
+    private BuildAction? CarryAction(long floor, long col, long row) => _carry switch
+    {
+        CarryKind.StaffCard => new Hire(_carryIndex, floor, col, row),
+        CarryKind.RoomCard => new BuyRoom(_carryIndex, floor, col, row),
+        CarryKind.FurnitureCard => new BuyFurniture(_carryIndex, floor, col, row),
+        CarryKind.Occupant => new Move(_carryId, floor, col, row),
+        CarryKind.Room => new Relocate(_carryId, floor, col, row),
+        _ => null,
+    };
+
+    private (long W, long H) CarryFootprint()
+    {
+        switch (_carry)
+        {
+            case CarryKind.RoomCard: { RoomDef d = _db.Rooms.First(r => r.Id == Run.Shop.RoomCards[_carryIndex]); return (d.Footprint.W, d.Footprint.H); }
+            case CarryKind.FurnitureCard: { FurnitureDef d = _db.Furniture.First(f => f.Id == Run.Shop.FurnitureCards[_carryIndex]); return (d.Footprint.W, d.Footprint.H); }
+            case CarryKind.Room: { SnapshotRoom room = Run.Tower.Floors.SelectMany(f => f.Rooms).First(r => r.RoomId == _carryId); return (room.Rect[2], room.Rect[3]); }
+            case CarryKind.Occupant: { (SnapshotFloor _, SnapshotOccupant o) = BuildReducer.Find(Run, _carryId); return Legality.Footprint(_db, o); }
+            default: return (1, 1);
+        }
+    }
+
+    private string CarryLabel()
+    {
+        switch (_carry)
+        {
+            case CarryKind.StaffCard: return _db.Employees.First(e => e.Id == Run.Shop.StaffCards[_carryIndex]).Name;
+            case CarryKind.RoomCard: return _db.Rooms.First(r => r.Id == Run.Shop.RoomCards[_carryIndex]).Name;
+            case CarryKind.FurnitureCard: return _db.Furniture.First(f => f.Id == Run.Shop.FurnitureCards[_carryIndex]).Name;
+            case CarryKind.Occupant: { (SnapshotFloor _, SnapshotOccupant o) = BuildReducer.Find(Run, _carryId); return o.Kind == "employee" ? _db.Employees.First(e => e.Id == o.DefId).Name : _db.Furniture.First(f => f.Id == o.DefId).Name; }
+            case CarryKind.Room: return _db.Rooms.First(r => r.Id == Run.Tower.Floors.SelectMany(f => f.Rooms).First(x => x.RoomId == _carryId).DefId).Name;
+            default: return string.Empty;
+        }
     }
 
     private void Undo()
@@ -132,19 +197,16 @@ public partial class BuildScreen : Node2D
             DrawRect(s, Tones.Border("interface"), false);
         }
         Rect2I ready = L.Rect("ui.build.ready");
-        DrawRect(new Rect2(ready.Position, ready.Size), Tones.Fill("operations"));
-        _font.Draw(this, ready.Position.X, ready.Position.Y + 4, "READY", _font.Small, Tones.Text("operations"), HorizontalAlignment.Center, ready.Size.X);
-        _hits.Add((ready, () => _r.ReadyUp(), "Commit the tower and fight. No confirmation; undo is Z."));
-        // Touch and controller adapters (D-47): the keys Z and Esc as buttons, sized from the READY button.
+        Ui.Button(this, ready, "READY", "operations");
+        _hits.Add(ready, () => _r.ReadyUp(), "Commit the tower and fight. No confirmation; UNDO is always one press away.");
+        // Touch and controller adapters (D-47, D-64): the keys Z and Esc as buttons, sized from the READY button.
         int half = ready.Size.X / 2;
         var undo = new Rect2I(ready.Position.X - half * 2 - 8, ready.Position.Y, half, ready.Size.Y);
         var drop = new Rect2I(ready.Position.X - half - 4, ready.Position.Y, half, ready.Size.Y);
-        DrawRect(new Rect2(undo.Position, undo.Size), State.Log.Length > 0 ? Tones.Fill("support") : Tones.Fill("structure"));
-        _font.Draw(this, undo.Position.X, undo.Position.Y + 4, "UNDO", _font.Small, Tones.Text("support"), HorizontalAlignment.Center, undo.Size.X);
-        _hits.Add((undo, Undo, "Undo the last action (Z)"));
-        DrawRect(new Rect2(drop.Position, drop.Size), _carry != CarryKind.None ? Tones.Fill("support") : Tones.Fill("structure"));
-        _font.Draw(this, drop.Position.X, drop.Position.Y + 4, "DROP", _font.Small, Tones.Text("support"), HorizontalAlignment.Center, drop.Size.X);
-        _hits.Add((drop, DropCarry, "Put down what you are carrying (Esc, right-click)"));
+        Ui.Button(this, undo, "UNDO", "support", State.Log.Length > 0);
+        _hits.Add(undo, Undo, "Undo the last action (Z)");
+        Ui.Button(this, drop, _carry == CarryKind.None ? "DROP" : "DROP " + Ui.Abbrev(CarryLabel(), 6), "support", _carry != CarryKind.None);
+        _hits.Add(drop, DropCarry, "Put down what you are carrying (Esc, right-click)");
     }
 
     private void DrawTower()
@@ -156,12 +218,10 @@ public partial class BuildScreen : Node2D
         // Floor up and down as buttons at the shaft's ends, for touch (the wheel and the arrow keys do the same).
         var up = new Rect2I(shaft.Position.X, shaft.Position.Y + shaft.Size.Y - 2 * shaft.Size.X, shaft.Size.X, shaft.Size.X);
         var down = new Rect2I(shaft.Position.X, shaft.Position.Y + shaft.Size.Y - shaft.Size.X, shaft.Size.X, shaft.Size.X);
-        DrawRect(new Rect2(up.Position, up.Size), _selectedFloor < 3 ? Tones.Fill("support") : Tones.Fill("structure"));
-        DrawRect(new Rect2(down.Position, down.Size), _selectedFloor > -1 ? Tones.Fill("support") : Tones.Fill("structure"));
-        _font.Draw(this, up.Position.X, up.Position.Y + 4, "▲", _font.Small, Tones.Text("support"), HorizontalAlignment.Center, up.Size.X);
-        _font.Draw(this, down.Position.X, down.Position.Y + 4, "▼", _font.Small, Tones.Text("support"), HorizontalAlignment.Center, down.Size.X);
-        _hits.Add((up, () => { if (_selectedFloor < 3) _selectedFloor++; QueueRedraw(); }, "Floor up (wheel, arrow up)"));
-        _hits.Add((down, () => { if (_selectedFloor > -1) _selectedFloor--; QueueRedraw(); }, "Floor down (wheel, arrow down)"));
+        Ui.Button(this, up, "▲", "support", _selectedFloor < 3);
+        Ui.Button(this, down, "▼", "support", _selectedFloor > -1);
+        _hits.Add(up, () => { if (_selectedFloor < 3) _selectedFloor++; QueueRedraw(); }, "Floor up (wheel, arrow up)");
+        _hits.Add(down, () => { if (_selectedFloor > -1) _selectedFloor--; QueueRedraw(); }, "Floor down (wheel, arrow down)");
         foreach ((int slot, long index) in VisibleFloors())
         {
             int y = FloorSlotY(slot);
@@ -172,14 +232,16 @@ public partial class BuildScreen : Node2D
             _font.Draw(this, shaft.Position.X + 2, y + 2, Legality.FloorName(index), _font.Small, Tones.Text("structure"));
             var hit = new Rect2I(frame.Position, frame.Size);
             long captured = index;
-            if (!selected) _hits.Add((hit, () => { _selectedFloor = captured; QueueRedraw(); }, $"Select {Legality.FloorName(index)}"));
             if (!Legality.HasFloor(Run.Tower, index))
             {
                 DrawTextureRect(_r.Textures.For(L.Entry("ui.build.floor_void")), new Rect2(frame.Position, frame.Size), true, dim);
                 FloorDef fd = _db.FloorByIndex(index);
-                _font.Draw(this, frame.Position.X + 4, y + 4, $"{fd.Name} · lease ¥{fd.Lease}", _font.Small, Tones.Hatch("structure"));
+                _font.Draw(this, frame.Position.X + 4, y + 4, $"{fd.Name} · tap to lease ¥{fd.Lease}", _font.Small, Tones.Hatch("structure"));
+                string floorId = fd.Id;
+                _hits.Add(hit, () => { _selectedFloor = captured; Do(new Lease(floorId)); }, $"Lease {fd.Name} for ¥{fd.Lease}; then −¥{fd.UpkeepBudget} upkeep per round{(fd.RequiresPortal ? "; needs the portal" : string.Empty)}");
                 continue;
             }
+            if (!selected) _hits.Add(hit, () => { _selectedFloor = captured; QueueRedraw(); }, $"Select {Legality.FloorName(index)}");
             SnapshotFloor floor = Legality.Floor(Run.Tower, index);
             DrawTextureRect(_r.Textures.For(L.Entry("ui.build.floor_frame")), new Rect2(frame.Position, frame.Size), false, dim);
             // void beyond the grid
@@ -202,12 +264,12 @@ public partial class BuildScreen : Node2D
                 if (room.RoomId == _selectedRoom && selected) DrawRect(rr, Tones.Fill("operations"), false, 1);
                 Vector2I sign = L.Size("ui.room_sign");
                 DrawTextureRect(_r.Textures.For(L.Entry("ui.room_sign")), new Rect2(tl.Position.X, tl.Position.Y, sign.X, sign.Y), false, dim);
-                _font.Draw(this, tl.Position.X + 1, tl.Position.Y, rdef.Name.Length > 7 ? rdef.Name[..7] : rdef.Name, _font.Small, Tones.Text("interface"));
+                _font.Draw(this, tl.Position.X + 1, tl.Position.Y, Ui.Abbrev(rdef.Name, 6), _font.Small, Tones.Text("interface"));
                 long tier = Overlays.Tier(_db, room);
                 Vector2I pip = L.Size("ui.tenure_pip");
                 for (int i = 0; i < tier; i++) DrawRect(new Rect2(tl.Position.X + sign.X - (i + 1) * (pip.X + 1), tl.Position.Y + 2, pip.X, pip.Y), Tones.Fill("support"));
                 string roomId = room.RoomId;
-                if (selected) _hits.Add((new Rect2I((int)rr.Position.X, (int)rr.Position.Y, (int)rr.Size.X, (int)rr.Size.Y), () => ClickTile(index, room.Rect[0], room.Rect[1]), $"{rdef.Name} · {rdef.Flavor}"));
+                if (selected) _hits.Add(new Rect2I((int)rr.Position.X, (int)rr.Position.Y, (int)rr.Size.X, (int)rr.Size.Y), () => ClickTile(index, room.Rect[0], room.Rect[1]), $"{rdef.Name} · Tenure {room.TenureRounds} (Tier {Overlays.Tier(_db, room)}) · {rdef.Flavor}");
             }
             // grid, landing highlight, tiles
             for (long row = 0; row < floor.Grid.H; row++)
@@ -220,7 +282,7 @@ public partial class BuildScreen : Node2D
                     if (selected)
                     {
                         long c = col, rw = row;
-                        _hits.Add((t, () => ClickTile(index, c, rw), HintForTile(floor, c, rw)));
+                        _hits.Add(t, () => ClickTile(index, c, rw), HintForTile(floor, c, rw));
                     }
                 }
             }
@@ -256,6 +318,33 @@ public partial class BuildScreen : Node2D
                         _font.Draw(this, (int)br.Position.X, (int)br.Position.Y, Overlays.AuraBadge(aura), _font.Small, Tones.Text("interface") * dim);
                     }
                 }
+            }
+            // Placement preview while carrying: the footprint at the hovered tile, in operations if the reducer would
+            // accept it and invalid if it would not; and the refusal flash after a failed tap.
+            if (selected && _carry != CarryKind.None)
+            {
+                Vector2 m = GetViewport().GetMousePosition();
+                var mp = new Vector2I((int)m.X, (int)m.Y);
+                for (long row = 0; row < floor.Grid.H; row++)
+                {
+                    for (long col = 0; col < floor.Grid.W; col++)
+                    {
+                        if (!TileRect(slot, col, row).HasPoint(mp)) continue;
+                        BuildAction? a = CarryAction(index, col, row);
+                        if (a == null) continue;
+                        (long fw, long fh) = CarryFootprint();
+                        Rect2I t0 = TileRect(slot, col, row);
+                        var pr = new Rect2(t0.Position.X, t0.Position.Y, fw * L.Tile, fh * L.Tile);
+                        DrawRect(pr, Tones.Fill(WouldAccept(a) ? "operations" : "invalid"), false, 2);
+                    }
+                }
+            }
+            if (selected && _flashFrames > 0 && _flashTile.Floor == index)
+            {
+                Rect2I ft = TileRect(slot, _flashTile.Col, _flashTile.Row);
+                Color inv = Tones.Fill("invalid");
+                inv.A = (_flashFrames / 5) % 2 == 0 ? 0.7f : 0.3f;
+                DrawTextureRect(_r.Textures.For(L.Entry("ui.invalid_tile")), new Rect2(ft.Position, ft.Size), false, inv);
             }
         }
     }
@@ -293,10 +382,9 @@ public partial class BuildScreen : Node2D
         {
             var rect = new Rect2I(shop.Position.X + i * tab.X, shop.Position.Y, tab.X, tab.Y);
             bool active = tabs[i] == _tab;
-            DrawRect(new Rect2(rect.Position, rect.Size), active ? Tones.Fill("operations") : Tones.Fill("interface"));
-            _font.Draw(this, rect.Position.X, rect.Position.Y + 4, tabs[i].ToUpperInvariant(), _font.Small, Tones.Text("interface"), HorizontalAlignment.Center, rect.Size.X);
+            Ui.Button(this, rect, tabs[i].ToUpperInvariant(), active ? "operations" : "interface");
             string t = tabs[i];
-            _hits.Add((rect, () => { _tab = t; DropCarry(); }, $"Show the {t} tab"));
+            _hits.Add(rect, () => { _tab = t; DropCarry(); }, $"Show the {t} tab");
         }
         string[] cards = _tab == Shop.StaffTab ? Run.Shop.StaffCards : _tab == Shop.RoomsTab ? Run.Shop.RoomCards : Run.Shop.FurnitureCards;
         Vector2I card = L.Size("ui.card.applicant");
@@ -305,11 +393,10 @@ public partial class BuildScreen : Node2D
             var rect = new Rect2I(shop.Position.X + i * (card.X + 4), shop.Position.Y + 24, card.X, card.Y);
             DrawCard(rect, cards[i], i);
         }
-        var reroll = new Rect2I(shop.Position.X, shop.Position.Y + 110, 120, 12);
+        var reroll = new Rect2I(shop.Position.X, shop.Position.Y + 108, 116, 16);
         long rerollCost = Economy.RerollCost(_db, Run.Tower);
-        DrawRect(new Rect2(reroll.Position, reroll.Size), Tones.Fill("support"));
-        _font.Draw(this, reroll.Position.X + 2, reroll.Position.Y + 2, $"REROLL {_tab.ToUpperInvariant()} · ¥{rerollCost}", _font.Small, Tones.Text("support"));
-        _hits.Add((reroll, () => Do(new Reroll(_tab)), "Replace this tab's cards from its bag; nothing repeats until the bag empties"));
+        Ui.Button(this, reroll, $"REROLL {_tab.ToUpperInvariant()} · ¥{rerollCost}", "support", Run.Budget >= rerollCost);
+        _hits.Add(reroll, () => Do(new Reroll(_tab)), "Replace this tab's cards from its bag; nothing repeats until the bag empties");
         _font.Draw(this, shop.Position.X, shop.Position.Y + 128, "Otherworld Temp Agency · the portal is closed", _font.Small, Tones.Hatch("anomalous"));
 
         _font.Draw(this, shop.Position.X, shop.Position.Y + 208, "LEASE", _font.Small, Tones.Hatch("interface"));
@@ -320,11 +407,9 @@ public partial class BuildScreen : Node2D
             FloorDef fd = _db.Floors.First(f => f.Id == floorId);
             var rect = new Rect2I(shop.Position.X + k * 80, shop.Position.Y + 228, lb.X, lb.Y);
             bool owned = Legality.HasFloor(Run.Tower, fd.Index);
-            DrawRect(new Rect2(rect.Position, rect.Size), owned ? Tones.Fill("structure") : Tones.Fill("interface"));
-            DrawRect(new Rect2(rect.Position, rect.Size), Tones.Border("interface"), false);
-            _font.Draw(this, rect.Position.X + 2, rect.Position.Y + 2, Legality.FloorName(fd.Index) + (owned ? " leased" : $" ¥{fd.Lease}"), _font.Small, Tones.Text("interface"));
-            _font.Draw(this, rect.Position.X + 2, rect.Position.Y + 12, owned ? $"−¥{fd.UpkeepBudget}/qtr" : $"then −¥{fd.UpkeepBudget}/qtr", _font.Small, Tones.Hatch("interface"));
-            if (!owned) _hits.Add((rect, () => Do(new Lease(floorId)), $"Lease {fd.Name} for ¥{fd.Lease}; upkeep ¥{fd.UpkeepBudget} per round{(fd.RequiresPortal ? "; needs the portal" : string.Empty)}"));
+            bool can = !owned && Run.Budget >= fd.Lease && (!fd.RequiresPortal || Run.PortalOpen);
+            Ui.Button(this, rect, owned ? $"{Legality.FloorName(fd.Index)} leased · −¥{fd.UpkeepBudget}/q" : $"{Legality.FloorName(fd.Index)} ¥{fd.Lease} · −¥{fd.UpkeepBudget}/q", "interface", can);
+            if (!owned) _hits.Add(rect, () => Do(new Lease(floorId)), $"Lease {fd.Name} for ¥{fd.Lease}; upkeep ¥{fd.UpkeepBudget} per round{(fd.RequiresPortal ? "; needs the portal" : string.Empty)}");
             k++;
         }
     }
@@ -371,9 +456,9 @@ public partial class BuildScreen : Node2D
         _font.Draw(this, rect.Position.X + 2, rect.Position.Y + 40, name.Length > 10 ? name[..10] : name, _font.Small, Tones.Text("interface"));
         _font.Draw(this, rect.Position.X + 2, rect.Position.Y + 50, line1, _font.Small, Tones.Text("interface"));
         _font.Draw(this, rect.Position.X + 2, rect.Position.Y + 60, line2, _font.Small, Tones.Text("interface"));
-        _font.Draw(this, rect.Position.X + 2, rect.Position.Y + 70, cost, _font.Small, Tones.Text("interface"));
+        _font.Draw(this, rect.Position.X + 2, rect.Position.Y + 72, cost, _font.Small, Tones.Text("interface"));
         int i = index;
-        _hits.Add((rect, () => PickCard(i), hint + " · click, then click a tile"));
+        _hits.Add(rect, () => PickCard(i), hint + " · tap, then tap a tile");
     }
 
     private void PickCard(int index)
@@ -400,10 +485,18 @@ public partial class BuildScreen : Node2D
         SnapshotOccupant? o = Legality.OccupantAt(_db, floor, col, row);
         if (o != null)
         {
-            _selectedOccupant = o.InstanceId;
-            _selectedRoom = string.Empty;
-            _carry = CarryKind.Occupant;
-            _carryId = o.InstanceId;
+            // First tap selects (the inspector opens); a second tap on the selected occupant picks it up.
+            if (_selectedOccupant == o.InstanceId)
+            {
+                _carry = CarryKind.Occupant;
+                _carryId = o.InstanceId;
+                _hint = string.Empty;
+            }
+            else
+            {
+                _selectedOccupant = o.InstanceId;
+                _selectedRoom = string.Empty;
+            }
             QueueRedraw();
             return;
         }
@@ -427,7 +520,7 @@ public partial class BuildScreen : Node2D
         }
         SnapshotRoom? room = Run.Tower.Floors.SelectMany(f => f.Rooms).FirstOrDefault(r => r.RoomId == _selectedRoom);
         Vector2I action = L.Size("ui.build.action_button");
-        int actionY = panel.Position.Y + panel.Size.Y - action.Y - 4;
+        int actionY = panel.Position.Y + panel.Size.Y - action.Y - 8; // §19.1: action buttons at y = 308
         if (occ != null && occFloor != null)
         {
             if (occ.Kind == "employee")
@@ -448,11 +541,14 @@ public partial class BuildScreen : Node2D
                 long aura = Overlays.AuraPermille(_db, Run.Tower, occFloor, occ);
                 _font.Draw(this, x, ry + 4, $"aura {Overlays.AuraBadge(aura)} · floor ×{_db.FloorByIndex(occFloor.Index).OutputPermille / 1000}.{_db.FloorByIndex(occFloor.Index).OutputPermille % 1000 / 100}", _font.Small, Tones.Hatch("interface"));
                 long fee = Economy.Severance(_db, Run.Tower, d);
-                var btn = new Rect2I(x, actionY, panel.Size.X - 16, action.Y);
-                DrawRect(new Rect2(btn.Position, btn.Size), Tones.Fill("invalid"));
-                _font.Draw(this, btn.Position.X, btn.Position.Y + 6, $"LAY OFF · ¥{fee}", _font.Small, Tones.Text("invalid"), HorizontalAlignment.Center, btn.Size.X);
+                var move = new Rect2I(x, actionY, action.X, action.Y);
+                var btn = new Rect2I(x + action.X + 4, actionY, action.X, action.Y);
                 string id = occ.InstanceId;
-                _hits.Add((btn, () => { Do(new LayOff(id)); DropCarry(); _selectedOccupant = string.Empty; }, $"Lay off for ¥{fee} severance. Refunds nothing."));
+                bool carrying = _carry == CarryKind.Occupant && _carryId == id;
+                Ui.Button(this, move, carrying ? "CARRYING" : "MOVE", "support", !carrying);
+                _hits.Add(move, () => { _carry = CarryKind.Occupant; _carryId = id; QueueRedraw(); }, "Pick up, then tap a tile (or tap the person again)");
+                Ui.Button(this, btn, $"LAY OFF ¥{fee}", "invalid");
+                _hits.Add(btn, () => { Do(new LayOff(id)); DropCarry(); _selectedOccupant = string.Empty; }, $"Lay off for ¥{fee} severance. Refunds nothing.");
             }
             else
             {
@@ -460,11 +556,13 @@ public partial class BuildScreen : Node2D
                 DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(x, y, 32, 32), false);
                 _font.Draw(this, x + 72, y, d.Name, _font.Small, Tones.Text("interface"));
                 _font.Draw(this, x, panel.Position.Y + 80, d.Flavor ?? string.Empty, _font.Small, Tones.Text("interface"), HorizontalAlignment.Left, panel.Size.X - 16);
-                var btn = new Rect2I(x, actionY, panel.Size.X - 16, action.Y);
-                DrawRect(new Rect2(btn.Position, btn.Size), Tones.Fill("invalid"));
-                _font.Draw(this, btn.Position.X, btn.Position.Y + 6, "SELL · ¥0", _font.Small, Tones.Text("invalid"), HorizontalAlignment.Center, btn.Size.X);
+                var move = new Rect2I(x, actionY, action.X, action.Y);
+                var btn = new Rect2I(x + action.X + 4, actionY, action.X, action.Y);
                 string id = occ.InstanceId;
-                _hits.Add((btn, () => { Do(new Sell(id)); DropCarry(); _selectedOccupant = string.Empty; }, "Sell furniture. Refunds nothing, costs nothing."));
+                Ui.Button(this, move, "MOVE", "support");
+                _hits.Add(move, () => { _carry = CarryKind.Occupant; _carryId = id; QueueRedraw(); }, "Pick up, then tap a tile");
+                Ui.Button(this, btn, $"SELL ¥{_db.Economy.FurnitureSellRefund}", "invalid");
+                _hits.Add(btn, () => { Do(new Sell(id)); DropCarry(); _selectedOccupant = string.Empty; }, "Sell furniture. Refunds nothing, costs nothing.");
             }
         }
         else if (room != null)
@@ -483,15 +581,14 @@ public partial class BuildScreen : Node2D
             long fee = Economy.RenovationFee(_db, Run.Round);
             if (!d.Fixed)
             {
+                DrawCompare(room, d, x, panel.Position.Y + 244, panel.Size.X - 16, fee);
                 var rel = new Rect2I(x, actionY, action.X, action.Y);
                 var dem = new Rect2I(x + action.X + 4, actionY, action.X, action.Y);
-                DrawRect(new Rect2(rel.Position, rel.Size), Tones.Fill("support"));
-                _font.Draw(this, rel.Position.X, rel.Position.Y + 6, $"RELOCATE ¥{fee}", _font.Small, Tones.Text("support"), HorizontalAlignment.Center, rel.Size.X);
-                DrawRect(new Rect2(dem.Position, dem.Size), Tones.Fill("invalid"));
-                _font.Draw(this, dem.Position.X, dem.Position.Y + 6, $"DEMOLISH ¥{fee}", _font.Small, Tones.Text("invalid"), HorizontalAlignment.Center, dem.Size.X);
+                Ui.Button(this, rel, $"RELOCATE ¥{fee}", "support", Run.Budget >= fee);
+                Ui.Button(this, dem, $"DEMOLISH ¥{fee}", "invalid", Run.Budget >= fee);
                 string id = room.RoomId;
-                _hits.Add((rel, () => { _carry = CarryKind.Room; _carryId = id; _hint = "Click the new top-left tile on any leased floor"; QueueRedraw(); }, $"Move the room for ¥{fee}; it keeps its Tenure less {_db.Economy.RelocationTenurePenaltyRounds} rounds"));
-                _hits.Add((dem, () => { Do(new Demolish(id)); _selectedRoom = string.Empty; }, $"Demolish for ¥{fee}. Tenure is forfeited; occupants stay."));
+                _hits.Add(rel, () => { _carry = CarryKind.Room; _carryId = id; _hint = string.Empty; _lastTapHint = "Tap the new top-left tile on any leased floor"; QueueRedraw(); }, $"Move the room for ¥{fee}; it keeps its Tenure less {_db.Economy.RelocationTenurePenaltyRounds} rounds");
+                _hits.Add(dem, () => { Do(new Demolish(id)); _selectedRoom = string.Empty; }, $"Demolish for ¥{fee}. Tenure is forfeited; occupants stay.");
             }
         }
         else
@@ -522,6 +619,42 @@ public partial class BuildScreen : Node2D
         }
     }
 
+    /// <summary>The relocation trade-off (GAME_DESIGN.md §19.1, §20): here, elsewhere now and by a later round, and the fee.</summary>
+    private void DrawCompare(SnapshotRoom room, RoomDef d, int x, int y, int w, long fee)
+    {
+        Vector2I size = L.Size("ui.build.room_compare");
+        DrawRect(new Rect2(x, y, w, size.Y), Tones.Fill("structure"));
+        Effect? aura = d.Effects.FirstOrDefault(e => e.On == "static" && e.Do == "stat" && e.Permille != null && e.Stat is "push" or "anomaly" or "restore");
+        long basePermille = aura?.Permille ?? 1000;
+        long step = _db.Rules.Tenure.StepPermille;
+        long tierNow = Overlays.Tier(_db, room);
+        long here = (basePermille + step * tierNow) * _db.FloorByIndex(FloorOf(room)).OutputPermille / 1000;
+        string[] tiers = { "—", "I", "II", "III" };
+        _font.Draw(this, x + 2, y, $"here {Overlays.AuraBadge(here)} · Tier {tiers[Math.Clamp((int)tierNow, 0, 3)]}", _font.Small, Tones.Text("interface"));
+        long tenureAfter = Math.Max(0, room.TenureRounds - _db.Economy.RelocationTenurePenaltyRounds);
+        long tierAfter = _db.Rules.Tenure.TierRounds.Count(t => t <= tenureAfter);
+        FloorDef? best = null;
+        foreach (SnapshotFloor sf in Run.Tower.Floors)
+        {
+            FloorDef fd = _db.FloorByIndex(sf.Index);
+            if (sf.Index == FloorOf(room) || Array.IndexOf(d.Floors, fd.Id) < 0) continue;
+            if (best == null || fd.OutputPermille > best.OutputPermille) best = fd;
+        }
+        if (best != null)
+        {
+            long now = (basePermille + step * tierAfter) * best.OutputPermille / 1000;
+            long later = (basePermille + step * Math.Min(3, tierAfter + 2)) * best.OutputPermille / 1000;
+            _font.Draw(this, x + 2, y + 8, $"on {Legality.FloorName(best.Index)} {Overlays.AuraBadge(now)} now, {Overlays.AuraBadge(later)} two tiers on", _font.Small, Tones.Text("interface"));
+        }
+        else
+        {
+            _font.Draw(this, x + 2, y + 8, "no other leased floor takes this room", _font.Small, Tones.Hatch("interface"));
+        }
+        _font.Draw(this, x + 2, y + 16, $"relocate: −{_db.Economy.RelocationTenurePenaltyRounds} Tenure rounds, ¥{fee}", _font.Small, Tones.Text("interface"));
+    }
+
+    private long FloorOf(SnapshotRoom room) => Run.Tower.Floors.First(f => f.Rooms.Contains(room)).Index;
+
     private static string Describe(Effect e)
     {
         if (e.Value != null) return e.Value.Constant?.ToString() ?? (e.Value.Base.HasValue ? $"{e.Value.Base}+{e.Value.Each}/{e.Value.PerTag}" : $"{e.Value.PermilleOfTargetCap}‰ of cap");
@@ -536,17 +669,14 @@ public partial class BuildScreen : Node2D
         Rect2I hint = L.Rect("ui.build.hint");
         DrawRect(new Rect2(hint.Position, hint.Size), Tones.Fill("interface"));
         string text = _hint;
+        Color tone = _hint.Length > 0 ? Tones.Fill("invalid").Lightened(0.4f) : Tones.Text("interface");
         if (text.Length == 0)
         {
             Vector2 m = GetViewport().GetMousePosition();
-            var p = new Vector2I((int)m.X, (int)m.Y);
-            foreach ((Rect2I rect, Action _, string h) in _hits)
-            {
-                if (rect.HasPoint(p)) { text = h; break; }
-            }
+            text = _hits.HintAt(new Vector2I((int)m.X, (int)m.Y));
+            if (text.Length == 0) text = _lastTapHint;
         }
-        if (_carry != CarryKind.None && _hint.Length == 0) text = "Carrying · click a tile to place, right-click or Esc to drop · " + text;
-        _font.Draw(this, hint.Position.X + 4, hint.Position.Y + 4, text.Length > 110 ? text[..110] : text, _font.Small, Tones.Text("interface"));
+        _font.Draw(this, hint.Position.X + 4, hint.Position.Y + 4, text.Length > 118 ? text[..118] : text, _font.Small, tone);
     }
 
     // ---------------------------------------------------------------- input
@@ -560,14 +690,13 @@ public partial class BuildScreen : Node2D
             var p = new Vector2I((int)mb.Position.X, (int)mb.Position.Y);
             if (mb.ButtonIndex == MouseButton.Left)
             {
-                // Hit zones are registered during the draw; the smallest rect under the cursor wins (a tile before its room).
-                (Rect2I Rect, Action Click, string Hint)? best = null;
-                foreach ((Rect2I rect, Action click, string hint) in _hits)
+                // Hit zones are registered during the draw; the smallest rect under the point wins (a tile before its room).
+                Hits.Hit? best = _hits.At(p);
+                if (best != null)
                 {
-                    if (!rect.HasPoint(p)) continue;
-                    if (best == null || rect.Size.X * rect.Size.Y < best.Value.Rect.Size.X * best.Value.Rect.Size.Y) best = (rect, click, hint);
+                    _lastTapHint = best.Value.Hint;
+                    best.Value.Click();
                 }
-                best?.Click();
             }
             else if (mb.ButtonIndex == MouseButton.Right)
             {

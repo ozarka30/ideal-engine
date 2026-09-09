@@ -977,7 +977,10 @@ Executive (4 × 2) draws 128 × 64 top-left-aligned in its 160 × 96 slot with t
 remainder hatched in the `structure` tone. B1 (3 × 3) draws 96 × 96. Landing column
 tiles carry a 1-pixel highlight on their left edge.
 
-Undo is a key, not a button. Ready has no confirmation.
+Undo is a key and a button: **UNDO** and **DROP** sit left of READY at (464, 4, 40, 16) and
+(508, 4, 40, 16) so the build phase works by touch and, later, by controller (D-47, D-64).
+A **REROLL** button (192, 140, 116, 16) sits under the cards; the Otherworld row moves to
+y = 160 until the portal is open. Ready has no confirmation.
 
 ### 19.2 Battle screen
 
@@ -996,7 +999,7 @@ Undo is a key, not a button. Ready has no confirmation.
 | `ui.battle.ledger.a` | (8, 304, 308, 56) | Header line, then six lines at 8 px |
 | `ui.battle.ledger.b` | (324, 304, 308, 56) | Same |
 | `ui.battle.floor_inset` | 168 × 104, anchored at the hovered segment, clamped to screen | The hovered floor's top-down grid at 1×, employees drawn, the most recent firer highlighted |
-| `ui.battle.controls` | (560, 48, 72, 12) | `1× 2× 4× ▸▸` |
+| `ui.battle.controls` | (520, 48, 72, 16) | `1× 2× 4× ▸▸`; left of founder B's badge frame, which starts at x = 596 (D-64) |
 
 Empty floor slots (unleased) draw as a segment in the `structure` tone with no
 windows. The two towers use the isometric city packs; the inset uses the top-down

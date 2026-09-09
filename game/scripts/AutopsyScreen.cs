@@ -21,7 +21,10 @@ public partial class AutopsyScreen : Node2D
     private readonly HashSet<string> _kinds = new(StringComparer.Ordinal);
     private readonly HashSet<string> _sides = new(StringComparer.Ordinal);
     private readonly HashSet<long> _floors = new();
-    private readonly List<(Rect2I Rect, Action Toggle)> _chips = new();
+    private readonly Hits _hits = new();
+    private bool _scrollDragging;
+    private int _scrollDragStartY;
+    private int _scrollDragStart;
     private List<LedgerEntry> _filtered = new();
     private string[] _findings = Array.Empty<string>();
     private FloorTotals[] _bars = Array.Empty<FloorTotals>();
@@ -65,7 +68,7 @@ public partial class AutopsyScreen : Node2D
         Rect2I banner = L.Rect("ui.autopsy.banner");
         DrawRect(new Rect2(banner.Position, banner.Size), Tones.Fill("interface"));
         font.Draw(this, banner.Position.X + 8, banner.Position.Y + 4, Autopsy.ResultBanner(_view, _r.FightRound, "A"), font.Large, Tones.Text("interface"));
-        font.Draw(this, banner.Position.X, banner.Position.Y + 8, $"{_r.NameA} vs {_r.NameB} · seed {_r.Seed} · {_view.Result.StateHash}", font.Small, Tones.Hatch("interface"), HorizontalAlignment.Right, banner.Size.X - 8);
+        font.Draw(this, banner.Position.X, banner.Position.Y + 8, $"{_r.NameA} vs {_r.NameB} · at {Autopsy.Seconds(_playhead)} share {_view.Share(_playhead) / 100}.{_view.Share(_playhead) % 100 / 10}%", font.Small, Tones.Hatch("interface"), HorizontalAlignment.Right, banner.Size.X - 8);
 
         // Timeline
         Rect2I tl = L.Rect("ui.autopsy.timeline");
@@ -77,7 +80,7 @@ public partial class AutopsyScreen : Node2D
             long t = c * span;
             if (t > _view.Result.EndTick) break;
             int h = (int)(tl.Size.Y * _timeline[c] / _view.Rules.ShareTotal);
-            DrawRect(new Rect2(tl.Position.X + c * colW, tl.Position.Y + tl.Size.Y - h, colW - 1, h), Tones.Fill("people"));
+            DrawRect(new Rect2(tl.Position.X + c * colW, tl.Position.Y + tl.Size.Y - h, colW - 1, h), Tones.Fill(Ui.SideTone("A")));
         }
         foreach (long start in _view.Rules.MonthStart)
         {
@@ -87,7 +90,6 @@ public partial class AutopsyScreen : Node2D
         }
         int px = tl.Position.X + (int)(_playhead / span) * colW;
         DrawLine(new Vector2(px, tl.Position.Y), new Vector2(px, tl.Position.Y + tl.Size.Y), Tones.Fill("invalid"), 1);
-        font.Draw(this, tl.Position.X + 2, tl.Position.Y, $"share · {Autopsy.Seconds(_playhead)} · {_view.Share(_playhead) / 100}.{_view.Share(_playhead) % 100 / 10}%", font.Small, Tones.Text("interface"));
 
         // Floors
         Rect2I fl = L.Rect("ui.autopsy.floors");
@@ -102,10 +104,11 @@ public partial class AutopsyScreen : Node2D
             font.Draw(this, fl.Position.X + 2, y + 2, LiveLedger.FloorName(b.FloorIndex), font.Small, Tones.Text("interface"));
             int barX = fl.Position.X + 24;
             int barW = fl.Size.X - 28;
-            DrawRect(new Rect2(barX, y + 2, (int)(barW * b.A / max), 8), Tones.Fill("people"));
-            DrawRect(new Rect2(barX, y + 12, (int)(barW * b.B / max), 8), Tones.Fill("anomalous"));
-            font.Draw(this, barX + 2, y + 2, b.A.ToString(), font.Small, Tones.Text("people"));
-            font.Draw(this, barX + 2, y + 12, b.B.ToString(), font.Small, Tones.Text("anomalous"));
+            int wA = (int)(barW * b.A / max), wB = (int)(barW * b.B / max);
+            DrawRect(new Rect2(barX, y + 2, wA, 8), Tones.Fill(Ui.SideTone("A")));
+            DrawRect(new Rect2(barX, y + 12, wB, 8), Tones.Fill(Ui.SideTone("B")));
+            font.Draw(this, barX, y + 2, b.A.ToString(), font.Small, Tones.Text("interface"), HorizontalAlignment.Right, barW);
+            font.Draw(this, barX, y + 12, b.B.ToString(), font.Small, Tones.Text("interface"), HorizontalAlignment.Right, barW);
         }
 
         // Findings
@@ -114,7 +117,7 @@ public partial class AutopsyScreen : Node2D
         int fy = fd.Position.Y + 2;
         for (int i = 0; i < _findings.Length; i++)
         {
-            foreach (string line in Wrap(_findings[i], 44, 3))
+            foreach (string line in Ui.Wrap(_findings[i], 44, 3))
             {
                 font.Draw(this, fd.Position.X + 2, fy, line, font.Small, Tones.Text("interface"));
                 fy += LineH;
@@ -125,16 +128,15 @@ public partial class AutopsyScreen : Node2D
         // Filters
         Rect2I ft = L.Rect("ui.autopsy.filters");
         DrawRect(new Rect2(ft.Position, ft.Size), Tones.Fill("interface"));
-        _chips.Clear();
-        int cx = ft.Position.X + 2;
+        _hits.Clear();
+        int cx = ft.Position.X;
         void Chip(string label, bool active, Action toggle)
         {
-            int w = font.Width(label, font.Small) + 6;
-            var rect = new Rect2I(cx, ft.Position.Y + 2, w, ft.Size.Y - 4);
-            DrawRect(new Rect2(rect.Position, rect.Size), active ? Tones.Fill("operations") : Tones.Fill("structure"));
-            font.Draw(this, cx + 3, ft.Position.Y + 3, label, font.Small, Tones.Text("interface"));
-            _chips.Add((rect, toggle));
-            cx += w + 3;
+            int w = Math.Max(16, font.Width(label, font.Small) + 6);
+            var rect = new Rect2I(cx, ft.Position.Y, w, ft.Size.Y);
+            Ui.Button(this, rect, label, active ? "operations" : "structure");
+            _hits.Add(rect, () => { toggle(); Refilter(); QueueRedraw(); }, $"Filter: {label}");
+            cx += w + 2;
         }
         Chip("ALL", _kinds.Count == 0 && _sides.Count == 0 && _floors.Count == 0, () => { _kinds.Clear(); _sides.Clear(); _floors.Clear(); });
         foreach (string k in Autopsy.KindFilters) Chip(k.ToUpperInvariant(), _kinds.Contains(k), () => Toggle(_kinds, k));
@@ -148,7 +150,7 @@ public partial class AutopsyScreen : Node2D
         DrawRect(new Rect2(lg.Position, lg.Size), Tones.Fill("interface"));
         int rows = lg.Size.Y / LineH;
         int selected = SelectedRow();
-        if (selected >= 0 && (selected < _scroll || selected >= _scroll + rows)) _scroll = Math.Max(0, selected - rows / 2);
+        if (!_scrollDragging && selected >= 0 && (selected < _scroll || selected >= _scroll + rows)) _scroll = Math.Max(0, selected - rows / 2);
         for (int i = 0; i < rows && _scroll + i < _filtered.Count; i++)
         {
             LedgerEntry e = _filtered[_scroll + i];
@@ -156,12 +158,21 @@ public partial class AutopsyScreen : Node2D
             if (_scroll + i == selected) DrawRect(new Rect2(lg.Position.X, y, lg.Size.X, LineH), Tones.Fill("operations"));
             font.Draw(this, lg.Position.X + 2, y, Row(e), font.Small, Tones.Fill(Tones.ForKind(e.Kind)).Lightened(0.35f));
         }
-        font.Draw(this, lg.Position.X, lg.Position.Y + lg.Size.Y - LineH, $"{_filtered.Count} entries · wheel to scroll · drag the timeline", font.Small, Tones.Hatch("interface"), HorizontalAlignment.Right, lg.Size.X - 2);
+        // Scroll thumb on the right edge: where these rows sit within the filtered ledger.
+        if (_filtered.Count > rows)
+        {
+            int trackH = lg.Size.Y;
+            int thumbH = Math.Max(4, trackH * rows / _filtered.Count);
+            int thumbY = lg.Position.Y + (trackH - thumbH) * _scroll / Math.Max(1, _filtered.Count - rows);
+            DrawRect(new Rect2(lg.Position.X + lg.Size.X - 2, thumbY, 2, thumbH), Tones.Hatch("interface"));
+        }
+        // Footer in the free strip beside CONTINUE, never over a row.
+        font.Draw(this, 216, 340, $"{_filtered.Count} entries · drag or wheel to scroll · drag the timeline", font.Small, Tones.Hatch("interface"), HorizontalAlignment.Left, 332);
 
         // Continue
         Rect2I ct = L.Rect("ui.autopsy.continue");
-        DrawRect(new Rect2(ct.Position, ct.Size), Tones.Fill("operations"));
-        font.Draw(this, ct.Position.X, ct.Position.Y + 4, "CONTINUE", font.Small, Tones.Text("operations"), HorizontalAlignment.Center, ct.Size.X);
+        Ui.Button(this, ct, "CONTINUE", "operations");
+        _hits.Add(ct, Continue, "Back to the build phase");
     }
 
     private static void Toggle<T>(HashSet<T> set, T item)
@@ -178,33 +189,20 @@ public partial class AutopsyScreen : Node2D
         return _filtered.Count - 1;
     }
 
+    /// <summary>Rows speak the ledger's language, in seconds, with only the numbers that moved (GAME_DESIGN.md §20).</summary>
     private string Row(LedgerEntry e)
     {
-        string src = e.SourceUnit >= 0 && _view.Unit(e.SourceUnit) is UnitInfo u ? $"{LiveLedger.FloorName(u.Unit.FloorIndex)} {u.Name}" : e.AbilityId;
-        string tgt = e.TargetUnits.Length > 0 && _view.Unit(e.TargetUnits[0]) is UnitInfo t ? t.Name : e.TargetSide;
-        string tags = e.Tags.Length > 0 ? " [" + string.Join(",", e.Tags) + "]" : string.Empty;
-        return $"{e.Tick,4} {e.SourceSide} {e.Kind,-9} {src} → {tgt} raw {e.Raw} gw {e.GoodwillDelta} cap {e.CapDelta} sh {e.ShareDelta}{(e.Stacks != 0 ? $" st {e.Stacks}" : string.Empty)}{(e.Depth > 0 ? " d1" : string.Empty)}{tags}";
+        string text = LiveLedger.Describe(_view, e);
+        var parts = new List<string>();
+        if (e.Kind is "status" or "retrigger" && e.TargetUnits.Length > 0 && _view.Unit(e.TargetUnits[0]) is UnitInfo t) text += $" → {t.Name}";
+        if (e.GoodwillDelta != 0 && e.Kind != "regen" && e.Kind != "restore") parts.Add($"gw {e.GoodwillDelta:+#;-#;0}");
+        if (e.CapDelta != 0) parts.Add($"cap {e.CapDelta:+#;-#;0}");
+        if (e.ShareDelta != 0 && e.Kind is not ("push" or "anomaly")) parts.Add($"share {e.ShareDelta:+#;-#;0}");
+        if (e.Depth > 0) parts.Add("retriggered");
+        string side = e.SourceSide == "*" ? " " : e.SourceSide;
+        return $"{Autopsy.Seconds(e.Tick),6} {side} {text}{(parts.Count > 0 ? " · " + string.Join(" ", parts) : string.Empty)}";
     }
 
-    private static IEnumerable<string> Wrap(string text, int width, int maxLines)
-    {
-        var lines = new List<string>();
-        string current = string.Empty;
-        foreach (string word in text.Split(' '))
-        {
-            if (current.Length + word.Length + 1 > width && current.Length > 0)
-            {
-                lines.Add(current);
-                current = word;
-            }
-            else
-            {
-                current = current.Length == 0 ? word : current + " " + word;
-            }
-        }
-        if (current.Length > 0) lines.Add(current);
-        return lines.GetRange(0, Math.Min(maxLines, lines.Count));
-    }
 
     public override void _UnhandledInput(InputEvent @event)
     {
@@ -216,20 +214,23 @@ public partial class AutopsyScreen : Node2D
             if (mb.ButtonIndex == MouseButton.Left)
             {
                 if (mb.Pressed && tl.HasPoint(p)) { _dragging = true; Seek(p.X); }
-                if (!mb.Pressed) _dragging = false;
-                if (mb.Pressed && L.Rect("ui.autopsy.continue").HasPoint(p)) { Continue(); return; }
+                if (mb.Pressed && L.Rect("ui.autopsy.ledger").HasPoint(p)) { _scrollDragging = true; _scrollDragStartY = p.Y; _scrollDragStart = _scroll; }
+                if (!mb.Pressed) { _dragging = false; _scrollDragging = false; }
                 if (mb.Pressed)
                 {
-                    foreach ((Rect2I rect, Action toggle) in _chips)
-                    {
-                        if (rect.HasPoint(p)) { toggle(); Refilter(); QueueRedraw(); return; }
-                    }
+                    Hits.Hit? hit = _hits.At(p);
+                    if (hit != null) { hit.Value.Click(); return; }
                 }
             }
             if (mb.Pressed && mb.ButtonIndex == MouseButton.WheelDown) { _scroll = Math.Min(_scroll + 3, Math.Max(0, _filtered.Count - 1)); _playhead = _filtered.Count > 0 ? _filtered[_scroll].Tick : _playhead; QueueRedraw(); }
             if (mb.Pressed && mb.ButtonIndex == MouseButton.WheelUp) { _scroll = Math.Max(0, _scroll - 3); _playhead = _filtered.Count > 0 ? _filtered[_scroll].Tick : _playhead; QueueRedraw(); }
         }
         if (@event is InputEventMouseMotion mm && _dragging) Seek((int)mm.Position.X);
+        if (@event is InputEventMouseMotion mm2 && _scrollDragging)
+        {
+            _scroll = Math.Clamp(_scrollDragStart - ((int)mm2.Position.Y - _scrollDragStartY) / LineH, 0, Math.Max(0, _filtered.Count - 1));
+            QueueRedraw();
+        }
         if (@event is InputEventKey { Pressed: true, Keycode: Key.Escape or Key.Enter }) Continue();
     }
 

@@ -20,22 +20,18 @@ public partial class MenuScreen : Node2D
         Vector2I size = L.Size("ui.menu.button");
         _newRun = new Rect2I((L.CanvasW - size.X) / 2, 160, size.X, size.Y);
         _debug = new Rect2I((L.CanvasW - size.X) / 2, 184, size.X, size.Y);
-        Button(_newRun, "NEW RUN", "operations");
-        Button(_debug, "DEBUG FIGHT", "interface");
-    }
-
-    private void Button(Rect2I rect, string label, string tone)
-    {
-        DrawRect(new Rect2(rect.Position, rect.Size), Tones.Fill(tone));
-        DrawRect(new Rect2(rect.Position, rect.Size), Tones.Border(tone), false);
-        ScreenRouter.Instance.Font.Draw(this, rect.Position.X, rect.Position.Y + 4, label, ScreenRouter.Instance.Font.Small, Tones.Text(tone), HorizontalAlignment.Center, rect.Size.X);
+        Ui.Button(this, _newRun, "NEW RUN", "operations");
+        Ui.Button(this, _debug, "DEBUG FIGHT", "interface");
+        r.Font.Draw(this, 0, 220, "Enter starts a run", r.Font.Small, Tones.Hatch("interface"), HorizontalAlignment.Center, L.CanvasW);
     }
 
     public override void _UnhandledInput(InputEvent @event)
     {
+        if (@event is InputEventMouseMotion) { QueueRedraw(); return; }
+        if (@event is InputEventKey { Pressed: true, Keycode: Key.Enter or Key.KpEnter }) { ScreenRouter.Instance.Go("res://scenes/Founder.tscn"); return; }
         if (@event is not InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left } click) return;
         var p = new Vector2I((int)click.Position.X, (int)click.Position.Y);
-        if (_newRun.HasPoint(p)) ScreenRouter.Instance.Go("res://scenes/Founder.tscn");
-        else if (_debug.HasPoint(p)) ScreenRouter.Instance.Go("res://scenes/Picker.tscn");
+        if (_newRun.Grow(Hits.TouchSlop).HasPoint(p)) ScreenRouter.Instance.Go("res://scenes/Founder.tscn");
+        else if (_debug.Grow(Hits.TouchSlop).HasPoint(p)) ScreenRouter.Instance.Go("res://scenes/Picker.tscn");
     }
 }

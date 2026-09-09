@@ -92,8 +92,9 @@ history of a reversal is the most useful thing in a document like this.
 | [D-61](#d-61) | The mulberry32 listing corrected to the canonical algorithm; the C# listing is normative | Craft | — |
 | [D-62](#d-62) | Within a tick, readiness is judged before cooldowns advance: phases run A, B, D, C, E, F | Human | — |
 | [D-63](#d-63) | No browser build: Godot 4 cannot export C# to the web; desktop nightly builds are the playtest channel | Craft | Q-TECH-1 |
+| [D-64](#d-64) | Undo and Drop are buttons as well as keys; the battle controls move off founder B's badge; the fallback pixel font is baked from DejaVu Sans | Craft | UX review |
 
-Forty-six craft decisions and seventeen human calls taken. Eight items remain open in
+Forty-seven craft decisions and seventeen human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -1325,4 +1326,30 @@ the bundle on macOS) until the resource-pack loader lands with the release pipel
 reversed by a new entry, not by editing this one.
 
 Authority: Craft · `ARCHITECTURE.md` §9.3
+
+---
+
+## D-64
+
+**Three corrections from the M2 UX review. (1) `GAME_DESIGN.md` §19.1's "Undo is a key, not a
+button" is superseded: UNDO and DROP are buttons left of READY, floor up/down are buttons in
+the shaft, and a REROLL button sits under the cards. (2) §19.2's playback controls move from
+(560, 48, 72, 12) to (520, 48, 72, 16): the spec's own rect overlapped founder B's badge at
+x = 596. (3) The fallback pixel font the build ships (`ART_PIPELINE.md` §4.1) is baked from
+DejaVu Sans by `tools/planning/gen_font.py` into an 8 px BMFont, so `font.ui.8` and
+`font.ui.16` render at exactly 1× and 2× with every glyph the UI uses.**
+
+*Why:* A first playtest build must run by touch on a phone and, later, by controller on the
+Deck (D-47), and a key-only undo fails both. The controls collision was visible in the first
+battle screenshot. Godot's built-in TTF fallback rendered "×" as a different letter and
+overran the 8 px line, which made the multiplier badges — the build screen's main readout —
+unreadable; a baked bitmap face fixes that without deciding the shipped face (Q: m5x7 or Pixel
+Operator, `ART_PIPELINE.md` §9), which stays the human's licence call.
+
+*Consequence:* §19.1 and §19.2 are edited to match; `manifest/sprites.json` carries the new
+controls rect; screenshot fixtures are re-recorded. The baked font is a placeholder in the
+same sense as every other greybox asset: when the real face lands at the manifest's path,
+nothing else changes.
+
+Authority: Craft · `GAME_DESIGN.md` §19.1–§19.2, `ART_PIPELINE.md` §4.1
 

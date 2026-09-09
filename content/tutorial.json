@@ -3,11 +3,11 @@
   "hints": [
     {
       "round": 1,
-      "text": "Drag your two developers onto 1F and press READY. Watch the ledger under your Goodwill."
+      "text": "Your two developers are already on 1F. Press READY, then read the ledger at the bottom of the fight."
     },
     {
       "round": 2,
-      "text": "The shop restocks each round. Press R to reroll it for ¥1."
+      "text": "The shop restocks each round. REROLL replaces a tab's cards for ¥1 and never repeats one until the bag is empty."
     },
     {
       "round": 3,

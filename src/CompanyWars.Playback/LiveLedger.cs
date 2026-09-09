@@ -102,6 +102,9 @@ public static class LiveLedger
         }
     }
 
+    /// <summary>One entry as the ledger would word it, for the autopsy's full ledger.</summary>
+    public static string Describe(MatchView view, LedgerEntry entry) => Line(view, entry.SourceSide == "*" ? "A" : entry.SourceSide, new List<LedgerEntry> { entry }).Text;
+
     private static LedgerLine Line(MatchView view, string side, List<LedgerEntry> entries)
     {
         LedgerEntry first = entries[0];

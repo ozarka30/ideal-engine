@@ -5009,7 +5009,7 @@
       "footprint": null,
       "sprite": {
         "w": 72,
-        "h": 12,
+        "h": 16,
         "anchor": {
           "x": 0.0,
           "y": 0.0
@@ -5023,12 +5023,12 @@
         "battle"
       ],
       "visibility": 2,
-      "reads": "1x 2x 4x and skip",
+      "reads": "1x 2x 4x and skip; left of founder B's badge, which starts at x=596",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
       "layout": {
-        "x": 560,
+        "x": 520,
         "y": 48
       },
       "overhang": null

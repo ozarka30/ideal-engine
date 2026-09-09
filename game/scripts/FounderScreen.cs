@@ -63,19 +63,29 @@ public partial class FounderScreen : Node2D
 
         Rect2I bio = L.Rect("ui.founder.bio");
         DrawRect(new Rect2(bio.Position, bio.Size), Tones.Fill("interface"));
-        if (selected != null) font.Draw(this, bio.Position.X + 4, bio.Position.Y + 4, selected.Bio, font.Small, Tones.Text("interface"), HorizontalAlignment.Left, bio.Size.X - 8);
+        if (selected != null)
+        {
+            int by = bio.Position.Y + 4;
+            foreach (string line in Ui.Wrap(selected.Bio, 110, 4))
+            {
+                font.Draw(this, bio.Position.X + 4, by, line, font.Small, Tones.Text("interface"));
+                by += 8;
+            }
+        }
 
         Rect2I name = L.Rect("ui.founder.firm_name");
         DrawRect(new Rect2(name.Position, name.Size), Tones.Fill("interface"));
-        font.Draw(this, name.Position.X + 4, name.Position.Y + 4, selected != null ? CompanyWars.Build.Run.DefaultFirmName(selected) : string.Empty, font.Small, Tones.Text("interface"));
+        font.Draw(this, name.Position.X + 4, name.Position.Y + 4, "FIRM · ", font.Small, Tones.Hatch("interface"));
+        font.Draw(this, name.Position.X + 4 + font.Width("FIRM · ", font.Small), name.Position.Y + 4, selected != null ? CompanyWars.Build.Run.DefaultFirmName(selected) : string.Empty, font.Small, Tones.Text("interface"));
 
         Rect2I confirm = L.Rect("ui.founder.confirm");
-        DrawRect(new Rect2(confirm.Position, confirm.Size), Tones.Fill("operations"));
-        font.Draw(this, confirm.Position.X, confirm.Position.Y + 4, "FOUND THE FIRM", font.Small, Tones.Text("operations"), HorizontalAlignment.Center, confirm.Size.X);
+        Ui.Button(this, confirm, "FOUND THE FIRM", "operations", _selected.Length > 0);
     }
 
     public override void _UnhandledInput(InputEvent @event)
     {
+        if (@event is InputEventMouseMotion) { QueueRedraw(); return; }
+        if (@event is InputEventKey { Pressed: true, Keycode: Key.Enter or Key.KpEnter } && _selected.Length > 0) { ScreenRouter.Instance.StartRun(_selected); return; }
         if (@event is not InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left } click) return;
         var p = new Vector2I((int)click.Position.X, (int)click.Position.Y);
         foreach ((Rect2I rect, string id) in _cards)

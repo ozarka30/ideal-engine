@@ -283,6 +283,13 @@ public sealed class PixelFont
 {
     public PixelFont()
     {
+        // The baked fallback pixel font (ART_PIPELINE.md §4.1, D-64): 8 px line, every glyph the UI uses.
+        if (ResourceLoader.Exists("res://fonts/fallback_8.fnt"))
+        {
+            Face = GD.Load<FontFile>("res://fonts/fallback_8.fnt");
+            Bitmap = true;
+            return;
+        }
         Font fallback = ThemeDB.FallbackFont;
         if (fallback is FontFile file)
         {
@@ -300,13 +307,15 @@ public sealed class PixelFont
     }
 
     public Font Face { get; }
+    public bool Bitmap { get; }
 
     public int Small => 8;
     public int Large => 16;
 
+    /// <summary>Draws with (x, y) as the top-left of the line box: an 8 px line at size 8, exactly 16 at size 16.</summary>
     public void Draw(CanvasItem c, int x, int y, string text, int size, Color color, HorizontalAlignment align = HorizontalAlignment.Left, int width = -1)
     {
-        int ascent = (int)Math.Round(Face.GetAscent(size));
+        int ascent = Bitmap ? size * 7 / 8 : (int)Math.Round(Face.GetAscent(size));
         c.DrawString(Face, new Vector2(x, y + ascent), text, align, width, size, color);
     }
 

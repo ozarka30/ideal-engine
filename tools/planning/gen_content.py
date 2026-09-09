@@ -766,8 +766,8 @@ balance = OD([
 
 # ---------------------------------------------------------------- tutorial
 tutorial = OD([("id", "tutorial.first_run"), ("hints", [
-    OD([("round", 1), ("text", "Drag your two developers onto 1F and press READY. Watch the ledger under your Goodwill.")]),
-    OD([("round", 2), ("text", "The shop restocks each round. Press R to reroll it for ¥1.")]),
+    OD([("round", 1), ("text", "Your two developers are already on 1F. Press READY, then read the ledger at the bottom of the fight.")]),
+    OD([("round", 2), ("text", "The shop restocks each round. REROLL replaces a tab's cards for ¥1 and never repeats one until the bag is empty.")]),
     OD([("round", 3), ("text", "Rooms are auras. Put an employee inside one and watch the badge appear.")]),
     OD([("round", 4), ("text", "Furniture affects its neighbours. Two juniors beside a whiteboard is a promotion.")]),
     OD([("round", 5), ("text", "Laying someone off costs severance. Flexibility is real. It is never free.")]),

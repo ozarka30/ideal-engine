@@ -141,7 +141,7 @@ entry("ui.battle.banner", "ui", "interface", "Month banner", 160, 12, TL, screen
 entry("ui.battle.ledger", "ui", "interface", "Ledger panel", 308, 56, TL, screens=BT, visibility=2, rect=(8, 304), reads="Header + six lines of font.ui.8; amount, name, source, xN badge; tone by kind")
 entry("ui.battle.ledger_rollup", "ui", "interface", "Ledger roll-up line", 308, 8, TL, screens=BT, visibility=2, reads="'+3 more · Fl.2' dimmed")
 entry("ui.battle.floor_inset", "ui", "interface", "Floor inset", 168, 104, TL, screens=BT, visibility=2, reads="A 4px frame around a 160x96 top-down floor; most recent firer highlighted")
-entry("ui.battle.controls", "ui", "interface", "Playback controls", 72, 12, TL, screens=BT, visibility=2, rect=(560, 48), reads="1x 2x 4x and skip")
+entry("ui.battle.controls", "ui", "interface", "Playback controls", 72, 16, TL, screens=BT, visibility=2, rect=(520, 48), reads="1x 2x 4x and skip; left of founder B's badge, which starts at x=596")
 entry("ui.battle.result", "ui", "interface", "Result banner", 640, 24, TL, screens=BT, visibility=2, rect=(0, 0), reads="'Q7 · WON · 71.2% MARKET SHARE'")
 entry("fx.tower.floor_segment", "fx", "structure", "Tower floor segment", 96, 32, BC, screens=BT, visibility=2, perspective="iso", verify=True, rect=(200, 280),
       reads="One storey of an isometric office block with windows that can light; tiles vertically", candidate="Japanese City (isometric building tiles) — VERIFY a 96x32 slice reads (Q-GBX-5)")
