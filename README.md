@@ -68,7 +68,9 @@ See the summary table in
 There is no browser build: Godot 4 cannot export a C# project to the web (D-63). Every push to
 `main` produces desktop builds instead — download the zip for your platform from the
 [nightly pre-release](../../releases/tag/nightly) (or from the `builds` workflow's artifacts),
-unzip, and run `CompanyWars.exe` / `CompanyWars.x86_64` / the `.app`. Everything is greybox: each
+unzip, and run `CompanyWars.exe` / `CompanyWars.x86_64` / the `.app`. On Android, download the APK,
+allow installs from your browser, open it and launch in landscape (C# on Android is experimental in
+Godot 4.7; iOS has no C# support). Everything is greybox: each
 sprite is a placeholder at its final size and tone. To run from source instead, open `game/` in
 Godot 4.7.2 (.NET) and press Play.
 

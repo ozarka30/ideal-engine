@@ -162,7 +162,39 @@ public partial class ScreenRouter : Node
         {
             if (File.Exists(Path.Combine(c, "content", "index.json")) && File.Exists(Path.Combine(c, "manifest", "sprites.json"))) return c;
         }
-        throw new InvalidOperationException("content/ and manifest/ not found beside the project or the executable; looked in: " + string.Join(", ", candidates));
+        // An export: the data rides inside the resource pack under res://data (ARCHITECTURE.md §2) and is copied
+        // to user://data, which is a real directory on every platform including Android, so the libraries can
+        // read it with System.IO exactly as they read the repository.
+        if (DirAccess.DirExistsAbsolute("res://data/content"))
+        {
+            CopyTree("res://data", "user://data");
+            return ProjectSettings.GlobalizePath("user://data");
+        }
+        throw new InvalidOperationException("content/ and manifest/ not found beside the project, beside the executable, or packed under res://data; looked in: " + string.Join(", ", candidates));
+    }
+
+    private static void CopyTree(string from, string to)
+    {
+        DirAccess.MakeDirRecursiveAbsolute(to);
+        using DirAccess dir = DirAccess.Open(from) ?? throw new InvalidOperationException("cannot open " + from);
+        dir.IncludeHidden = false;
+        dir.ListDirBegin();
+        for (string name = dir.GetNext(); name.Length > 0; name = dir.GetNext())
+        {
+            string src = from + "/" + name;
+            string dst = to + "/" + name;
+            if (dir.CurrentIsDir())
+            {
+                CopyTree(src, dst);
+            }
+            else if (!name.EndsWith(".import", StringComparison.Ordinal))
+            {
+                using Godot.FileAccess input = Godot.FileAccess.Open(src, Godot.FileAccess.ModeFlags.Read) ?? throw new InvalidOperationException("cannot read " + src);
+                using Godot.FileAccess output = Godot.FileAccess.Open(dst, Godot.FileAccess.ModeFlags.Write) ?? throw new InvalidOperationException("cannot write " + dst);
+                output.StoreBuffer(input.GetBuffer((long)input.GetLength()));
+            }
+        }
+        dir.ListDirEnd();
     }
 
     // ---------------------------------------------------------------- screenshot fixtures

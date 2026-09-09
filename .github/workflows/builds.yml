@@ -27,6 +27,8 @@ jobs:
           include-templates: true
       - name: build libraries
         run: dotnet build CompanyWars.sln --configuration Release
+      - name: pack content, schema and manifest into the resource pack
+        run: mkdir -p game/data && cp -r content schema manifest game/data/
       - name: import
         run: godot --headless --path game --import
       - name: export
@@ -36,20 +38,42 @@ jobs:
           godot --headless --path game --export-release "Linux" ../build/linux/CompanyWars.x86_64
           godot --headless --path game --export-release "Windows" ../build/windows/CompanyWars.exe
           godot --headless --path game --export-release "macOS" ../build/macos/CompanyWars.zip
-      - name: content and manifest ride beside the executable
-        # The libraries read content/ and manifest/ by path in development (ARCHITECTURE.md §2); the export
-        # carries them next to the binary until the resource-pack loader lands with the release pipeline.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: "platforms;android-34 build-tools;34.0.0"
+      - name: debug keystore and editor settings for the Android export
         run: |
           set -e
-          for d in linux windows; do
-            cp -r content schema manifest build/$d/
-          done
-          cd build/macos && unzip -q CompanyWars.zip && rm CompanyWars.zip
-          app=$(ls -d *.app | head -1)
-          mkdir -p "$app/Contents/Resources"
-          cp -r ../../content ../../schema ../../manifest "$app/Contents/Resources/"
-          zip -qr ../CompanyWars-macos.zip "$app"
-          cd .. && zip -qr CompanyWars-linux.zip linux && zip -qr CompanyWars-windows.zip windows
+          mkdir -p "$HOME/.local/share/godot/keystores"
+          keytool -genkeypair -v -keystore "$HOME/.local/share/godot/keystores/debug.keystore" -alias androiddebugkey \
+            -storepass android -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          mkdir -p "$HOME/.config/godot"
+          {
+            echo '[gd_resource type="EditorSettings" format=3]'
+            echo
+            echo '[resource]'
+            echo "export/android/android_sdk_path = \"$ANDROID_HOME\""
+            echo "export/android/java_sdk_path = \"$JAVA_HOME\""
+            echo "export/android/debug_keystore = \"$HOME/.local/share/godot/keystores/debug.keystore\""
+            echo 'export/android/debug_keystore_user = "androiddebugkey"'
+            echo 'export/android/debug_keystore_pass = "android"'
+          } > "$HOME/.config/godot/editor_settings-4.7.tres"
+          cat "$HOME/.config/godot/editor_settings-4.7.tres"
+      - name: export Android (debug-signed, arm64)
+        run: |
+          set -e
+          mkdir -p build/android
+          godot --headless --path game --export-debug "Android" ../build/android/CompanyWars.apk
+          cp build/android/CompanyWars.apk build/CompanyWars-android.apk
+          ls -la build/android
+      - name: zip
+        run: |
+          set -e
+          cd build && cp macos/CompanyWars.zip CompanyWars-macos.zip && zip -qr CompanyWars-linux.zip linux && zip -qr CompanyWars-windows.zip windows
       - uses: actions/upload-artifact@v4
         with:
           name: CompanyWars-linux
@@ -62,6 +86,10 @@ jobs:
         with:
           name: CompanyWars-macos
           path: build/CompanyWars-macos.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CompanyWars-android
+          path: build/CompanyWars-android.apk
       - name: refresh the nightly pre-release
         uses: softprops/action-gh-release@v2
         with:
@@ -72,7 +100,10 @@ jobs:
             Automated desktop builds of the latest `main`. Greybox: every sprite is a placeholder at its final size.
             Windows: unzip and run CompanyWars.exe. Linux: unzip, `chmod +x CompanyWars.x86_64`, run.
             macOS: unsigned; right-click → Open the first time.
+            Android: a debug-signed APK for sideloading (C# on Android is experimental in Godot 4.7). Allow
+            installs from your browser or file manager, open the APK, then launch Company Wars; landscape.
           files: |
             build/CompanyWars-linux.zip
             build/CompanyWars-windows.zip
             build/CompanyWars-macos.zip
+            build/CompanyWars-android.apk

@@ -135,8 +135,16 @@ public partial class BuildScreen : Node2D
         DrawRect(new Rect2(ready.Position, ready.Size), Tones.Fill("operations"));
         _font.Draw(this, ready.Position.X, ready.Position.Y + 4, "READY", _font.Small, Tones.Text("operations"), HorizontalAlignment.Center, ready.Size.X);
         _hits.Add((ready, () => _r.ReadyUp(), "Commit the tower and fight. No confirmation; undo is Z."));
-        if (_r.CurrentRival != null) _font.Draw(this, 8, 350, string.Empty, _font.Small, Tones.Hatch("interface"));
-        if (_r.CurrentRival != null) _font.Draw(this, 452, 8, $"vs {_r.CurrentRival.Name}", _font.Small, Tones.Hatch("interface"), HorizontalAlignment.Right, 96);
+        // Touch and controller adapters (D-47): the keys Z and Esc as buttons, sized from the READY button.
+        int half = ready.Size.X / 2;
+        var undo = new Rect2I(ready.Position.X - half * 2 - 8, ready.Position.Y, half, ready.Size.Y);
+        var drop = new Rect2I(ready.Position.X - half - 4, ready.Position.Y, half, ready.Size.Y);
+        DrawRect(new Rect2(undo.Position, undo.Size), State.Log.Length > 0 ? Tones.Fill("support") : Tones.Fill("structure"));
+        _font.Draw(this, undo.Position.X, undo.Position.Y + 4, "UNDO", _font.Small, Tones.Text("support"), HorizontalAlignment.Center, undo.Size.X);
+        _hits.Add((undo, Undo, "Undo the last action (Z)"));
+        DrawRect(new Rect2(drop.Position, drop.Size), _carry != CarryKind.None ? Tones.Fill("support") : Tones.Fill("structure"));
+        _font.Draw(this, drop.Position.X, drop.Position.Y + 4, "DROP", _font.Small, Tones.Text("support"), HorizontalAlignment.Center, drop.Size.X);
+        _hits.Add((drop, DropCarry, "Put down what you are carrying (Esc, right-click)"));
     }
 
     private void DrawTower()
@@ -145,6 +153,15 @@ public partial class BuildScreen : Node2D
         Rect2I shaft = L.Rect("ui.build.shaft");
         DrawTextureRect(_r.Textures.For(L.Entry("ui.build.tower")), new Rect2(tower.Position, tower.Size), false);
         DrawTextureRect(_r.Textures.For(L.Entry("ui.build.shaft")), new Rect2(shaft.Position, shaft.Size), false);
+        // Floor up and down as buttons at the shaft's ends, for touch (the wheel and the arrow keys do the same).
+        var up = new Rect2I(shaft.Position.X, shaft.Position.Y + shaft.Size.Y - 2 * shaft.Size.X, shaft.Size.X, shaft.Size.X);
+        var down = new Rect2I(shaft.Position.X, shaft.Position.Y + shaft.Size.Y - shaft.Size.X, shaft.Size.X, shaft.Size.X);
+        DrawRect(new Rect2(up.Position, up.Size), _selectedFloor < 3 ? Tones.Fill("support") : Tones.Fill("structure"));
+        DrawRect(new Rect2(down.Position, down.Size), _selectedFloor > -1 ? Tones.Fill("support") : Tones.Fill("structure"));
+        _font.Draw(this, up.Position.X, up.Position.Y + 4, "▲", _font.Small, Tones.Text("support"), HorizontalAlignment.Center, up.Size.X);
+        _font.Draw(this, down.Position.X, down.Position.Y + 4, "▼", _font.Small, Tones.Text("support"), HorizontalAlignment.Center, down.Size.X);
+        _hits.Add((up, () => { if (_selectedFloor < 3) _selectedFloor++; QueueRedraw(); }, "Floor up (wheel, arrow up)"));
+        _hits.Add((down, () => { if (_selectedFloor > -1) _selectedFloor--; QueueRedraw(); }, "Floor down (wheel, arrow down)"));
         foreach ((int slot, long index) in VisibleFloors())
         {
             int y = FloorSlotY(slot);

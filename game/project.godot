@@ -25,6 +25,7 @@ window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 window/stretch/scale_mode="integer"
 display_server/driver.linuxbsd="x11"
+window/handheld/orientation=4
 
 [dotnet]
 
