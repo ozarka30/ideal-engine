@@ -148,6 +148,16 @@ nothing built on top of it matters.
 **Throwaway:** the debug rival picker. **Carries forward:** the battle screen, the
 ledger, the autopsy, playback — all of it is the ranked spectator view too.
 
+**Status (M1 in progress).** Landed: `CompanyWars.Playback` (clock, derived frames, the
+live ledger with coalescing and the four-lines-per-second budget, the autopsy views),
+with the budget asserted over every ordered pair of scripted rivals; the debug rival
+picker; the battle screen with towers, bursts, floating numbers, both bars, the banner,
+founder badges, both ledgers, the floor inset on hover, playback controls and the result
+banner; the autopsy screen with timeline, playhead, floor bars, findings, filter chips
+and the full ledger; screenshot fixtures for both. Not yet: the 60 fps measurement at 3×
+on real hardware (only a software renderer is available to agents), the two human
+readability judgements.
+
 **Human:** the two readability judgements. This is the first place a design problem
 can be found that agents cannot fix, and it is deliberately early.
 

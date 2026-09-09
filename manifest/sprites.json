@@ -3681,10 +3681,14 @@
         "battle"
       ],
       "visibility": 2,
-      "reads": "A 2px frame around a 32x32 badge; A at (8,48), B at (596,48)",
+      "reads": "A 2px frame around a 32x32 badge; A at (8,48), B mirrored at (596,48)",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
+      "layout": {
+        "x": 8,
+        "y": 48
+      },
       "overhang": null
     },
     {
@@ -4871,6 +4875,10 @@
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
+      "layout": {
+        "x": 8,
+        "y": 28
+      },
       "overhang": null
     },
     {
@@ -4931,6 +4939,10 @@
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
+      "layout": {
+        "x": 8,
+        "y": 304
+      },
       "overhang": null
     },
     {
@@ -5079,6 +5091,10 @@
       "candidateSource": "Japanese City (isometric building tiles) — VERIFY a 96x32 slice reads (Q-GBX-5)",
       "verify": true,
       "releaseGate": true,
+      "layout": {
+        "x": 200,
+        "y": 280
+      },
       "overhang": null
     },
     {

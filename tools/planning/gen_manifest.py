@@ -90,7 +90,7 @@ entry("ui.founder.grid", "ui", "interface", "Founder grid", 608, 208, TL, screen
 entry("ui.founder.bio", "ui", "interface", "Founder bio panel", 608, 40, TL, screens=FS, visibility=3, rect=(16, 256), reads="The selected founder's bio, up to four lines of font.ui.8")
 entry("ui.founder.firm_name", "ui", "interface", "Firm name field", 240, 16, TL, screens=FS, visibility=3, rect=(16, 304), reads="Text field, default from the founder's surname + ' Holdings'")
 entry("ui.founder.confirm", "ui", "interface", "FOUND THE FIRM button", 120, 16, TL, screens=FS, visibility=3, rect=(504, 304), reads="The commit button")
-entry("ui.battle.founder", "ui", "people", "Battle founder badge frame", 36, 36, TL, screens=["battle"], visibility=2, reads="A 2px frame around a 32x32 badge; A at (8,48), B at (596,48)")
+entry("ui.battle.founder", "ui", "people", "Battle founder badge frame", 36, 36, TL, screens=["battle"], visibility=2, rect=(8, 48), reads="A 2px frame around a 32x32 badge; A at (8,48), B mirrored at (596,48)")
 entry("ui.map.dossier_badge", "ui", "people", "Dossier founder badge frame", 36, 36, TL, screens=["map"], visibility=3, reads="A 2px frame around the rival founder's 32x32 badge at (160,4) inside the dossier")
 entry("ui.build.firm_panel", "ui", "interface", "Inspector default: the firm", 200, 304, TL, screens=["build"], visibility=1, rect=(432, 32),
       reads="Shown when nothing is selected: founder portrait 64x64 at (440,40); firm name at (512,40); founder name and title at (512,50) and (512,60); run stats from y=112: round, strikes, fights won, Goodwill cap, floors leased, staff count")
@@ -135,15 +135,15 @@ BT = ["battle"]
 entry("bg.battle.street", "background", "structure", "Battle street backdrop", 640, 360, TL, screens=BT, visibility=2, perspective="iso", rect=(0, 0),
       reads="A Japanese city street at dusk, isometric, two lots facing each other", candidate="Japanese City / Osaka / Dotonbori (isometric)")
 entry("ui.battle.bar", "ui", "interface", "Market Share bar", 320, 12, TL, screens=BT, visibility=2, rect=(160, 8), reads="Two-colour fill from 50/50, 10% ticks, percent labels at both ends")
-entry("ui.battle.goodwill_bar", "ui", "interface", "Goodwill bar", 200, 16, TL, screens=BT, visibility=2,
+entry("ui.battle.goodwill_bar", "ui", "interface", "Goodwill bar", 200, 16, TL, screens=BT, visibility=2, rect=(8, 28),
       reads="A frame whose right (or left, mirrored) end marks the live cap; fill inside it; number in font.ui.16 overlaid; dims when suppressed; flashes on break")
 entry("ui.battle.banner", "ui", "interface", "Month banner", 160, 12, TL, screens=BT, visibility=2, rect=(240, 48), reads="'— CRUNCH —' centred; slides in dimmed one second early")
-entry("ui.battle.ledger", "ui", "interface", "Ledger panel", 308, 56, TL, screens=BT, visibility=2, reads="Header + six lines of font.ui.8; amount, name, source, xN badge; tone by kind")
+entry("ui.battle.ledger", "ui", "interface", "Ledger panel", 308, 56, TL, screens=BT, visibility=2, rect=(8, 304), reads="Header + six lines of font.ui.8; amount, name, source, xN badge; tone by kind")
 entry("ui.battle.ledger_rollup", "ui", "interface", "Ledger roll-up line", 308, 8, TL, screens=BT, visibility=2, reads="'+3 more · Fl.2' dimmed")
 entry("ui.battle.floor_inset", "ui", "interface", "Floor inset", 168, 104, TL, screens=BT, visibility=2, reads="A 4px frame around a 160x96 top-down floor; most recent firer highlighted")
 entry("ui.battle.controls", "ui", "interface", "Playback controls", 72, 12, TL, screens=BT, visibility=2, rect=(560, 48), reads="1x 2x 4x and skip")
 entry("ui.battle.result", "ui", "interface", "Result banner", 640, 24, TL, screens=BT, visibility=2, rect=(0, 0), reads="'Q7 · WON · 71.2% MARKET SHARE'")
-entry("fx.tower.floor_segment", "fx", "structure", "Tower floor segment", 96, 32, BC, screens=BT, visibility=2, perspective="iso", verify=True,
+entry("fx.tower.floor_segment", "fx", "structure", "Tower floor segment", 96, 32, BC, screens=BT, visibility=2, perspective="iso", verify=True, rect=(200, 280),
       reads="One storey of an isometric office block with windows that can light; tiles vertically", candidate="Japanese City (isometric building tiles) — VERIFY a 96x32 slice reads (Q-GBX-5)")
 entry("fx.tower.floor_segment_empty", "fx", "structure", "Unleased floor segment", 96, 32, BC, screens=BT, visibility=2, perspective="iso", verify=True, reads="The same storey with no windows, in the structure tone")
 entry("fx.tower.roof", "fx", "structure", "Tower roof", 96, 16, BC, screens=BT, visibility=2, perspective="iso", verify=True, reads="Roof cap with a water tank or signage", candidate="Japanese City — VERIFY (Q-GBX-5)")

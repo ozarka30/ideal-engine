@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Views over a MatchResult (ARCHITECTURE.md §3): the playback clock, the derived bars, the live ledger with
+       its coalescing and line budget (D-08), and the autopsy. Pure; references Sim only; testable without Godot. -->
+  <PropertyGroup>
+    <RootNamespace>CompanyWars.Playback</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../CompanyWars.Sim/CompanyWars.Sim.csproj" />
+  </ItemGroup>
+</Project>

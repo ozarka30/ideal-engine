@@ -59,7 +59,8 @@ Arrows point at dependencies. The rule, enforced three ways:
   references nothing. `Content` and `Manifest` reference `Sim` for shared types.
   `Build` references `Sim`, `Content`, `Manifest`. The Godot project references all
   of them and `Godot.NET.Sdk`; nothing references the Godot project. `Harness`
-  references `Sim`, `Content`, `Build` — never the Godot project.
+  references `Sim`, `Content`, `Build` — never the Godot project. `Playback`
+  references `Sim` only; the Godot project references it for every battle and autopsy view.
 - **A reflection test.** `Sim.Tests` asserts that `CompanyWars.Sim.dll` references
   only `System.*` assemblies. It fails the build if anyone adds a package.
 - **A banned-API analyzer.** `Microsoft.CodeAnalysis.BannedApiAnalyzers` with a
@@ -84,6 +85,7 @@ One solution, `CompanyWars.sln`. C# throughout, `Nullable` enabled,
 | `src/CompanyWars.Sim` | `net8.0` class library | `SIMULATION_SPEC.md`, implemented | `Simulate(seed, a, b, rules)`, `TowerSnapshot`, `MatchResult`, `LedgerEntry`, `StateHash`, `Mulberry32` |
 | `src/CompanyWars.Content` | `net8.0` class library | Loads and validates `content/` against the schema; resolves ids; exposes typed definitions | `ContentDb`, `ContentLoader`, `ContentValidator` |
 | `src/CompanyWars.Manifest` | `net8.0` class library | Loads and validates `manifest/sprites.json`; derived fields; coverage | `SpriteManifest`, `ManifestValidator`, `Coverage` |
+| `src/CompanyWars.Playback` | `net8.0` class library | Views over a `MatchResult` (§3): the playback clock, the derived Goodwill and share frames, the live ledger with its coalescing and line budget (D-08), the autopsy's timeline, floor bars, findings and filters. References `Sim` only, so the line budget is a unit test | `PlaybackClock`, `MatchView`, `LiveLedger`, `Autopsy` |
 | `src/CompanyWars.Build` | `net8.0` class library | The build phase as a reducer over actions; the economy; recipes; the rival template expander; snapshot legality | `BuildReducer`, `BuildState`, `RecipeMatcher`, `TemplateExpander`, `Constructibility` |
 | `src/CompanyWars.Harness` | `net8.0` console | Balance harness: populations, invariants, reports | `Matrix`, `Invariants`, `Report` |
 | `src/CompanyWars.Tools` | `net8.0` console | `validate-content`, `validate-manifest`, `slice`, `worklist`, `atlas`, `packs`, `screenshot-compare`, `fixtures` | |

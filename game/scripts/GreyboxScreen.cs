@@ -10,8 +10,7 @@ namespace CompanyWars.Game;
 /// <summary>
 /// M0's one screen: the greybox renderer drawing one manifest entry as a labelled rectangle at its exact size,
 /// in its palette tone, on the 640x360 logical canvas (ART_PIPELINE.md §4, ARCHITECTURE.md §7).
-/// Started with <c>-- --screenshots</c> it writes PNGs of the canvas at 2x and 3x into game/__screenshots__/actual/
-/// and quits, so CI can compare them byte for byte against the committed ones.
+/// In screenshot mode the router captures it after three frames (game/__screenshots__/greybox_*.png).
 /// </summary>
 public partial class GreyboxScreen : Node2D
 {
@@ -23,18 +22,16 @@ public partial class GreyboxScreen : Node2D
     private string _status = string.Empty;
     private int _frames;
     private bool _screenshots;
+    private bool _captured;
 
     public override void _Ready()
     {
-        PixelDiscipline.Assert();
-        string root = RepoRoot();
-        ContentDb db = ContentLoader.Load(root);
-        _report = ManifestValidator.Validate(root, db);
-        if (_report.Errors.Count > 0) throw new InvalidOperationException("manifest invalid: " + string.Join("; ", _report.Errors));
-        _textures = new GreyboxTextures(root, _report);
+        ScreenRouter r = ScreenRouter.Instance;
+        _report = r.Manifest;
+        _textures = r.Textures;
         _entry = Array.Find(_report.Manifest.Entries, e => e.Id == EntryId) ?? throw new InvalidOperationException(EntryId + " is not in the manifest");
-        _status = $"content {db.ContentVersion} · manifest {_report.Manifest.ManifestVersion} · {_report.Coverage.WithArt}/{_report.Coverage.Gated} with art";
-        _screenshots = Array.IndexOf(OS.GetCmdlineUserArgs(), "--screenshots") >= 0;
+        _status = $"content {r.Content.ContentVersion} · manifest {_report.Manifest.ManifestVersion} · {_report.Coverage.WithArt}/{_report.Coverage.Gated} with art";
+        _screenshots = r.ScreenshotMode;
         QueueRedraw();
     }
 
@@ -59,24 +56,9 @@ public partial class GreyboxScreen : Node2D
     {
         if (!_screenshots) return;
         _frames++;
-        if (_frames < 3) return;
-        string dir = Path.Combine(RepoRoot(), "game", "__screenshots__", "actual");
-        Directory.CreateDirectory(dir);
-        Image image = GetViewport().GetTexture().GetImage();
-        foreach (int scale in new[] { 2, 3 })
-        {
-            Image scaled = (Image)image.Duplicate();
-            scaled.Resize(image.GetWidth() * scale, image.GetHeight() * scale, Image.Interpolation.Nearest);
-            scaled.SavePng(Path.Combine(dir, $"greybox_{scale}x.png"));
-        }
-        GetTree().Quit();
-    }
-
-    private static string RepoRoot()
-    {
-        // The Godot project lives at <repo>/game; content and manifest are read by path in development (ARCHITECTURE.md §2).
-        string dir = ProjectSettings.GlobalizePath("res://");
-        return Path.GetFullPath(Path.Combine(dir, ".."));
+        if (_frames < 3 || _captured) return;
+        _captured = true;
+        ScreenRouter.Instance.Capture();
     }
 }
 

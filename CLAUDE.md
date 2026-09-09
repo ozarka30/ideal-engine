@@ -10,7 +10,8 @@ find the document that governs whatever you are about to change.
 - `manifest/` — the sprite manifest. Every visual slot with exact dimensions. Validates against `schema/manifest.schema.json`.
 - `tools/planning/` — generators that produced `content/`, `schema/`, `manifest/` and `docs/CONTENT_SCHEMA.md`. Running all four on a clean checkout produces no diff.
 - **Stack (D-60):** Godot 4 with C# on .NET 8; the simulation is `src/CompanyWars.Sim`, a class library that references no Godot assembly; Compatibility renderer; X11 on Linux; GodotSteam. `docs/ARCHITECTURE.md` has the project layout.
-- `src/` — the .NET libraries and tools; `tests/` — xunit, one project per library; `fixtures/sim/` — the ten recorded conformance fixtures; `game/` — the Godot 4 project (M0: the greybox screen). `src/CompanyWars.Sim/README.md` lists the readings the spec left open.
+- `src/` — the .NET libraries and tools (`Sim`, `Content`, `Manifest`, `Playback`, `Tools`); `tests/` — xunit, one project per library; `fixtures/sim/` — the ten recorded conformance fixtures; `game/` — the Godot 4 project: the picker, battle and autopsy screens, screenshot fixtures under `game/__screenshots__/`. `src/CompanyWars.Sim/README.md` lists the readings the spec left open.
+- **Positions come from the manifest too.** A `layout` point is where the entry's anchor sits; side B's placement is the mirror of side A's across the canvas, computed, never typed.
 
 ## Commands
 ```

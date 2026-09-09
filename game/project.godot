@@ -7,9 +7,13 @@ config_version=5
 [application]
 
 config/name="Company Wars"
-run/main_scene="res://scenes/Greybox.tscn"
+run/main_scene="res://scenes/Boot.tscn"
 config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+ScreenRouter="*res://scenes/Router.tscn"
 
 [display]
 
