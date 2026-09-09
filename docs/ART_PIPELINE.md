@@ -431,7 +431,7 @@ Fixed globally, in the manifest header, and asserted by the renderer at start-up
 | Scale factors | integers only: 2, 3, 4, 6. Never fractional. Letterbox otherwise |
 | Filtering | nearest-neighbour, everywhere, including UI and fonts |
 | Positions | integer logical pixels. The renderer rounds any computed position before draw and asserts in debug builds that nothing fractional reached it |
-| Fonts | `font.ui.8` at 1×; `font.ui.16` is the same face at exactly 2×; no other sizes. Candidate face: **m5x7** (Daniel Linssen, CC0), a 5×7 proportional pixel font matching the spec; confirm tabular digits before adopting, else Pixel Operator (CC0) |
+| Fonts | `font.ui.8` at 1× is **Honey Pigeon** baked to an 8 px line; `font.ui.16` is **Honeyblot Caps** baked to a 16 px line for headers, banners, tall buttons and the Goodwill numbers (D-66); no other sizes. Both by Steven Colling under his Font License 1.0: the bitmap export ships, the font files do not enter the repository. Digits are proportional; columns that need alignment right-align on the number, not the glyph |
 | Camera | integer logical offsets; the build viewport scrolls by whole floors |
 
 A greybox authored at a fractional scale would not match the art that replaces it;

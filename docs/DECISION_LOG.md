@@ -94,8 +94,9 @@ history of a reversal is the most useful thing in a document like this.
 | [D-63](#d-63) | No browser build: Godot 4 cannot export C# to the web; desktop nightly builds are the playtest channel | Craft | Q-TECH-1 |
 | [D-64](#d-64) | Undo and Drop are buttons as well as keys; the battle controls move off founder B's badge; the fallback pixel font is baked from DejaVu Sans | Craft | UX review |
 | [D-65](#d-65) | Cards and the inspector explain every entity in plain language generated from its content; the firm panel carries a primer on how a fight works | Craft | Playtest |
+| [D-66](#d-66) | The shipped faces are Honey Pigeon (body, 8 px line) and Honeyblot Caps (headers, 16 px line), baked to bitmaps; the font files stay out of the repository | Human | `ART_PIPELINE.md` §9 |
 
-Forty-eight craft decisions and seventeen human calls taken. Eight items remain open in
+Forty-eight craft decisions and eighteen human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -1380,3 +1381,24 @@ added. The wording is a placeholder in the same sense as the greybox art: the wr
 re-phrase any sentence in `Explain.cs` without touching content or layout.
 
 Authority: Craft · `GAME_DESIGN.md` §19.1, §20
+
+---
+
+## D-66
+
+**The game's faces are Honey Pigeon for body text at the 8 px line and Honeyblot Caps for headers at the
+16 px line, both by Steven Colling, licensed for the project. `tools/planning/gen_font.py` bakes each into a
+monochrome BMFont at exactly its line height; glyphs a face lacks (arrows, the minus sign) are borrowed
+from DejaVu Sans at the same line. The TrueType sources live in `game/fonts/source/`, ignored by git;
+only the baked bitmaps and the licence text are committed.**
+
+*Why:* The owner chose the faces. The licence permits a bitmap export the game needs and forbids
+redistributing the font files, which a repository would do. `font.ui.16` was specified as the 8 px face at
+exactly 2×; a separate header face at a true 16 px line is a better use of the slot and keeps the
+one-size-per-slot rule (§9: no other sizes).
+
+*Consequence:* `ART_PIPELINE.md` §9's font row is amended; the m5x7 / Pixel Operator candidates are
+dropped. Every screenshot fixture is re-recorded. Digits are proportional in both faces, so the ledger
+and bars right-align numbers rather than relying on tabular glyphs.
+
+Authority: Human · `ART_PIPELINE.md` §4.1, §9

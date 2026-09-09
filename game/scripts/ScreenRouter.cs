@@ -394,18 +394,57 @@ public sealed class ManifestLayout
     }
 }
 
-/// <summary>font.ui.8 at 1x and font.ui.16 at exactly 2x, filtering off (ART_PIPELINE.md §9). The real face is a manifest slot; this is its fallback.</summary>
+/// <summary>
+/// font.ui.8 and font.ui.16 (ART_PIPELINE.md §9): the body face at an 8 px line and the header face at a 16 px line,
+/// both baked bitmaps from tools/planning/gen_font.py (D-66), filtering off. If a baked face is missing the
+/// redistributable fallback face stands in, and if that is missing too, Godot's own fallback at the same sizes.
+/// </summary>
 public sealed class PixelFont
 {
+    private readonly Font _small;
+    private readonly Font _large;
+    private readonly int _smallAscent;
+    private readonly int _largeAscent;
+
     public PixelFont()
     {
-        // The baked fallback pixel font (ART_PIPELINE.md §4.1, D-64): 8 px line, every glyph the UI uses.
-        if (ResourceLoader.Exists("res://fonts/fallback_8.fnt"))
+        (_small, _smallAscent, bool smallBitmap) = LoadBitmap("res://fonts/ui_8.fnt", 8) ?? LoadBitmap("res://fonts/fallback_8.fnt", 8) ?? Vector();
+        (_large, _largeAscent, bool largeBitmap) = LoadBitmap("res://fonts/header_16.fnt", 16) ?? LoadBitmap("res://fonts/fallback_8.fnt", 16) ?? Vector();
+        Bitmap = smallBitmap && largeBitmap;
+    }
+
+    /// <summary>A baked BMFont and its baseline row, read from the .fnt's <c>base=</c> so the line box is exact.</summary>
+    private static (Font, int, bool)? LoadBitmap(string path, int line)
+    {
+        if (!ResourceLoader.Exists(path)) return null;
+        var face = GD.Load<FontFile>(path);
+        int ascent = line * 7 / 8;
+        using Godot.FileAccess f = Godot.FileAccess.Open(path, Godot.FileAccess.ModeFlags.Read);
+        if (f != null)
         {
-            Face = GD.Load<FontFile>("res://fonts/fallback_8.fnt");
-            Bitmap = true;
-            return;
+            string text = f.GetAsText();
+            int i = text.IndexOf("base=", StringComparison.Ordinal);
+            if (i >= 0)
+            {
+                int j = i + 5;
+                while (j < text.Length && char.IsDigit(text[j])) j++;
+                if (int.TryParse(text[(i + 5)..j], out int b)) ascent = b * line / Math.Max(1, LineHeight(text, line));
+            }
         }
+        return (face, ascent, true);
+    }
+
+    private static int LineHeight(string fnt, int fallback)
+    {
+        int i = fnt.IndexOf("lineHeight=", StringComparison.Ordinal);
+        if (i < 0) return fallback;
+        int j = i + 11;
+        while (j < fnt.Length && char.IsDigit(fnt[j])) j++;
+        return int.TryParse(fnt[(i + 11)..j], out int h) && h > 0 ? h : fallback;
+    }
+
+    private static (Font, int, bool) Vector()
+    {
         Font fallback = ThemeDB.FallbackFont;
         if (fallback is FontFile file)
         {
@@ -414,28 +453,29 @@ public sealed class PixelFont
             f.Hinting = TextServer.Hinting.Normal;
             f.SubpixelPositioning = TextServer.SubpixelPositioning.Disabled;
             f.Oversampling = 1.0f;
-            Face = f;
+            return (f, -1, false);
         }
-        else
-        {
-            Face = fallback;
-        }
+        return (fallback, -1, false);
     }
 
-    public Font Face { get; }
+    public Font Face => _small;
     public bool Bitmap { get; }
 
     public int Small => 8;
     public int Large => 16;
 
+    private Font FaceFor(int size) => size >= Large ? _large : _small;
+
     /// <summary>Draws with (x, y) as the top-left of the line box: an 8 px line at size 8, exactly 16 at size 16.</summary>
     public void Draw(CanvasItem c, int x, int y, string text, int size, Color color, HorizontalAlignment align = HorizontalAlignment.Left, int width = -1)
     {
-        int ascent = Bitmap ? size * 7 / 8 : (int)Math.Round(Face.GetAscent(size));
-        c.DrawString(Face, new Vector2(x, y + ascent), text, align, width, size, color);
+        Font face = FaceFor(size);
+        int ascent = size >= Large ? _largeAscent : _smallAscent;
+        if (ascent < 0) ascent = (int)Math.Round(face.GetAscent(size));
+        c.DrawString(face, new Vector2(x, y + ascent), text, align, width, size, color);
     }
 
-    public int Width(string text, int size) => (int)Math.Ceiling(Face.GetStringSize(text, HorizontalAlignment.Left, -1, size).X);
+    public int Width(string text, int size) => (int)Math.Ceiling(FaceFor(size).GetStringSize(text, HorizontalAlignment.Left, -1, size).X);
 }
 
 /// <summary>Palette tones by name and by ledger kind.</summary>
