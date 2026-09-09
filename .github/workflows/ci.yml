@@ -58,7 +58,9 @@ jobs:
       - name: import
         run: godot --headless --path game --import
       - name: render
-        run: xvfb-run -a -s "-screen 0 1280x720x24" godot --path game --rendering-driver opengl3 -- --screenshots
+        run: |
+          xvfb-run -a -s "-screen 0 1920x1080x24" godot --path game --rendering-driver opengl3 --resolution 1280x720 -- --screenshots
+          xvfb-run -a -s "-screen 0 1920x1080x24" godot --path game --rendering-driver opengl3 --resolution 1920x1080 -- --screenshots
       - name: compare
         run: dotnet run --project src/CompanyWars.Tools --configuration Release --no-build -- screenshot-compare
       - name: upload rendered screenshots

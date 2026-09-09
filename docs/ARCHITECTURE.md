@@ -279,7 +279,7 @@ holds exactly one active.
 | Setting | Value |
 | --- | --- |
 | `display/window/size/viewport_width/height` | 640 × 360 |
-| `display/window/stretch/mode` | `viewport` |
+| `display/window/stretch/mode` | `canvas_items` (D-67: sprites integer-scaled with nearest filtering; text rendered at the window's resolution) |
 | `display/window/stretch/aspect` | `keep` |
 | `display/window/stretch/scale_mode` | `integer` |
 | `rendering/textures/canvas_textures/default_texture_filter` | `Nearest` |
@@ -372,7 +372,7 @@ runs every fixture without Godot. `dotnet run --project src/CompanyWars.Harness 
 3. validate-manifest           (schema + derived fields + references + perspective + dimensions of present files)
 4. sim conformance fixtures    (every fixture in fixtures/sim/ hash-matches, in dotnet test)
 5. unit tests                  (sim properties, build reducer, migrations, loaders)
-6. screenshot fixtures         (xvfb-run godot --path game -- --screenshots; Mesa llvmpipe; byte-identical PNGs)
+6. screenshot fixtures         (xvfb-run godot --path game --resolution 1280x720 -- --screenshots, and again at 1920x1080; Mesa llvmpipe; byte-identical PNGs)
 
 Not a CI stage: drive mode (`godot --path game -- --drive script.json`) plays a JSON list of taps, keys, waits
 and screenshots on the real screens, for an agent or a human to reproduce a flow without touching the keyboard.

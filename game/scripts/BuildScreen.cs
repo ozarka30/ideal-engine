@@ -707,12 +707,13 @@ public partial class BuildScreen : Node2D
         DrawLines(Explain.Placement(_db, d), x, ref ry, limitY, Tones.Text("interface"));
     }
 
-    /// <summary>Wraps each line to the inspector's 44 columns and stops at limitY; the panel never overflows its buttons.</summary>
+    /// <summary>Wraps each line to the inspector's width and stops at limitY; the panel never overflows its buttons.</summary>
     private void DrawLines(IEnumerable<string> lines, int x, ref int ry, int limitY, Color tone)
     {
+        int width = L.Rect("ui.build.inspector").Size.X - 16;
         foreach (string text in lines)
         {
-            foreach (string line in Ui.Wrap(text, 44, 4))
+            foreach (string line in Ui.Wrap(_font, _font.Small, text, width, 4))
             {
                 if (ry > limitY) return;
                 _font.Draw(this, x, ry, line, _font.Small, tone);

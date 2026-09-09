@@ -66,7 +66,7 @@ public partial class FounderScreen : Node2D
         if (selected != null)
         {
             int by = bio.Position.Y + 4;
-            foreach (string line in Ui.Wrap(selected.Bio, 110, 4))
+            foreach (string line in Ui.Wrap(font, font.Small, selected.Bio, bio.Size.X - 8, 4))
             {
                 font.Draw(this, bio.Position.X + 4, by, line, font.Small, Tones.Text("interface"));
                 by += 8;

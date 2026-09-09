@@ -429,9 +429,9 @@ Fixed globally, in the manifest header, and asserted by the renderer at start-up
 | Base tile | 32 × 32 |
 | Logical canvas | 640 × 360 (D-26) |
 | Scale factors | integers only: 2, 3, 4, 6. Never fractional. Letterbox otherwise |
-| Filtering | nearest-neighbour, everywhere, including UI and fonts |
+| Filtering | nearest-neighbour for every texture. Text is the exception (D-67): the faces are vector fonts, antialiased at the window's resolution |
 | Positions | integer logical pixels. The renderer rounds any computed position before draw and asserts in debug builds that nothing fractional reached it |
-| Fonts | `font.ui.8` at 1× is **Honey Pigeon** baked to an 8 px line; `font.ui.16` is **Honeyblot Caps** baked to a 16 px line for headers, banners, tall buttons and the Goodwill numbers (D-66); no other sizes. Both by Steven Colling under his Font License 1.0: the bitmap export ships, the font files do not enter the repository. Digits are proportional; columns that need alignment right-align on the number, not the glyph |
+| Fonts | `font.ui.8` is **Honey Pigeon** at an 8 px line; `font.ui.16` is **Honeyblot Caps** at a 16 px line for headers, banners, tall buttons and the Goodwill numbers (D-66, D-67); no other sizes. Both by Steven Colling under his Font License 1.0, shipped as the TrueType files in `game/fonts/` and rendered as antialiased vectors at the window's resolution, not as pixel art. Digits are proportional; columns that need alignment right-align on the number, not the glyph |
 | Camera | integer logical offsets; the build viewport scrolls by whole floors |
 
 A greybox authored at a fractional scale would not match the art that replaces it;

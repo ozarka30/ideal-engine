@@ -223,7 +223,7 @@ public partial class ScreenRouter : Node
     /// <c>{"run": {"founder": "founder.sato", "seed": 1}}</c> starts a run with a fixed seed;
     /// <c>{"scene": "res://scenes/Menu.tscn"}</c> opens a screen; <c>{"tap": [x, y]}</c> taps a canvas point;
     /// <c>{"key": "Enter"}</c> presses a key by its Godot name; <c>{"wait": 30}</c> waits frames;
-    /// <c>{"shot": "name"}</c> saves <c>game/__screenshots__/drive/name.png</c> at 2×; <c>{"quit": true}</c> exits.
+    /// <c>{"shot": "name"}</c> saves <c>game/__screenshots__/drive/name.png</c> at the window's size; <c>{"quit": true}</c> exits.
     /// Every step prints a <c>[drive]</c> line to stdout, which the MCP server's debug output relays.
     /// </summary>
     private void LoadDrive(string path)
@@ -289,7 +289,6 @@ public partial class ScreenRouter : Node
             string dir = Path.Combine(RepoRoot, "game", "__screenshots__", "drive");
             Directory.CreateDirectory(dir);
             Image image = GetViewport().GetTexture().GetImage();
-            image.Resize(image.GetWidth() * 2, image.GetHeight() * 2, Image.Interpolation.Nearest);
             string file = Path.Combine(dir, $"{shot.GetString()}.png");
             image.SavePng(file);
             GD.Print($"[drive] {_driveStep} shot {file}");
@@ -335,13 +334,10 @@ public partial class ScreenRouter : Node
         if (!ScreenshotMode) return;
         string dir = Path.Combine(RepoRoot, "game", "__screenshots__", "actual");
         Directory.CreateDirectory(dir);
+        // The window is the fixture: run once at 1280x720 for the 2x set and once at 1920x1080 for 3x (--resolution).
         Image image = GetViewport().GetTexture().GetImage();
-        foreach (int scale in new[] { 2, 3 })
-        {
-            Image scaled = (Image)image.Duplicate();
-            scaled.Resize(image.GetWidth() * scale, image.GetHeight() * scale, Image.Interpolation.Nearest);
-            scaled.SavePng(Path.Combine(dir, $"{_currentShot}_{scale}x.png"));
-        }
+        int scale = Math.Max(1, image.GetWidth() / Layout.CanvasW);
+        image.SavePng(Path.Combine(dir, $"{_currentShot}_{scale}x.png"));
         CallDeferred(nameof(NextShot));
     }
 }
@@ -395,71 +391,35 @@ public sealed class ManifestLayout
 }
 
 /// <summary>
-/// font.ui.8 and font.ui.16 (ART_PIPELINE.md §9): the body face at an 8 px line and the header face at a 16 px line,
-/// both baked bitmaps from tools/planning/gen_font.py (D-66), filtering off. If a baked face is missing the
-/// redistributable fallback face stands in, and if that is missing too, Godot's own fallback at the same sizes.
+/// The two faces (D-66, D-67): Honey Pigeon for body text at the 8 px line and Honeyblot Caps for headers at the
+/// 16 px line, loaded as vector fonts and rendered at the window's resolution, antialiased. Text is the one thing on
+/// screen that is not pixel art; the canvas_items stretch mode keeps sprites integer-scaled and lets text be smooth.
+/// Godot's own fallback face stands in for a missing file.
 /// </summary>
 public sealed class PixelFont
 {
     private readonly Font _small;
     private readonly Font _large;
-    private readonly int _smallAscent;
-    private readonly int _largeAscent;
 
     public PixelFont()
     {
-        (_small, _smallAscent, bool smallBitmap) = LoadBitmap("res://fonts/ui_8.fnt", 8) ?? LoadBitmap("res://fonts/fallback_8.fnt", 8) ?? Vector();
-        (_large, _largeAscent, bool largeBitmap) = LoadBitmap("res://fonts/header_16.fnt", 16) ?? LoadBitmap("res://fonts/fallback_8.fnt", 16) ?? Vector();
-        Bitmap = smallBitmap && largeBitmap;
+        _small = LoadVector("res://fonts/HoneyPigeon.ttf") ?? Fallback();
+        _large = LoadVector("res://fonts/honeyblot_caps.ttf") ?? Fallback();
     }
 
-    /// <summary>A baked BMFont and its baseline row, read from the .fnt's <c>base=</c> so the line box is exact.</summary>
-    private static (Font, int, bool)? LoadBitmap(string path, int line)
+    private static Font? LoadVector(string path)
     {
         if (!ResourceLoader.Exists(path)) return null;
-        var face = GD.Load<FontFile>(path);
-        int ascent = line * 7 / 8;
-        using Godot.FileAccess f = Godot.FileAccess.Open(path, Godot.FileAccess.ModeFlags.Read);
-        if (f != null)
-        {
-            string text = f.GetAsText();
-            int i = text.IndexOf("base=", StringComparison.Ordinal);
-            if (i >= 0)
-            {
-                int j = i + 5;
-                while (j < text.Length && char.IsDigit(text[j])) j++;
-                if (int.TryParse(text[(i + 5)..j], out int b)) ascent = b * line / Math.Max(1, LineHeight(text, line));
-            }
-        }
-        return (face, ascent, true);
+        var face = (FontFile)GD.Load<FontFile>(path).Duplicate();
+        face.Antialiasing = TextServer.FontAntialiasing.Gray;
+        face.Hinting = TextServer.Hinting.None;
+        face.SubpixelPositioning = TextServer.SubpixelPositioning.Auto;
+        return face;
     }
 
-    private static int LineHeight(string fnt, int fallback)
-    {
-        int i = fnt.IndexOf("lineHeight=", StringComparison.Ordinal);
-        if (i < 0) return fallback;
-        int j = i + 11;
-        while (j < fnt.Length && char.IsDigit(fnt[j])) j++;
-        return int.TryParse(fnt[(i + 11)..j], out int h) && h > 0 ? h : fallback;
-    }
-
-    private static (Font, int, bool) Vector()
-    {
-        Font fallback = ThemeDB.FallbackFont;
-        if (fallback is FontFile file)
-        {
-            var f = (FontFile)file.Duplicate();
-            f.Antialiasing = TextServer.FontAntialiasing.None;
-            f.Hinting = TextServer.Hinting.Normal;
-            f.SubpixelPositioning = TextServer.SubpixelPositioning.Disabled;
-            f.Oversampling = 1.0f;
-            return (f, -1, false);
-        }
-        return (fallback, -1, false);
-    }
+    private static Font Fallback() => ThemeDB.FallbackFont;
 
     public Font Face => _small;
-    public bool Bitmap { get; }
 
     public int Small => 8;
     public int Large => 16;
@@ -470,8 +430,7 @@ public sealed class PixelFont
     public void Draw(CanvasItem c, int x, int y, string text, int size, Color color, HorizontalAlignment align = HorizontalAlignment.Left, int width = -1)
     {
         Font face = FaceFor(size);
-        int ascent = size >= Large ? _largeAscent : _smallAscent;
-        if (ascent < 0) ascent = (int)Math.Round(face.GetAscent(size));
+        int ascent = (int)Math.Round(face.GetAscent(size));
         c.DrawString(face, new Vector2(x, y + ascent), text, align, width, size, color);
     }
 

@@ -25,7 +25,7 @@ dotnet run --project src/CompanyWars.Tools -- validate-manifest   # also writes 
 dotnet run --project src/CompanyWars.Tools -- fixtures check       # `fixtures record` regenerates; needs the fixtures-approved label
 dotnet run --project src/CompanyWars.Harness -- --rounds 1,6,12,16   # balance smoke; --seeds N; --json writes harness_smoke.json
 dotnet build game/CompanyWars.Game.csproj                            # needs only the Godot.NET.Sdk package
-xvfb-run godot --path game -- --screenshots       # screenshot fixtures; --headless renders nothing
+xvfb-run -s "-screen 0 1920x1080x24" godot --path game --resolution 1280x720 -- --screenshots   # 2x fixtures; run again at 1920x1080 for 3x
 xvfb-run godot --path game -- --drive tools/dev/drive/first_round.json   # plays taps/keys/shots; writes game/__screenshots__/drive/
 tools/dev/godot.sh [--templates]                  # prints the Godot 4.7.2 mono path, downloading it into ~/.cache/companywars if absent
 ```
@@ -46,6 +46,7 @@ tools/dev/godot.sh [--templates]                  # prints the Godot 4.7.2 mono 
 - **Content is data.** Never define an employee, room, recipe, rider, modifier or founder in code. Edit `tools/planning/gen_content.py` (the authoring source) and regenerate; do not hand-edit `content/*.json` or `docs/CONTENT_SCHEMA.md`.
 - **The effect vocabulary is closed.** Adding a trigger, action, stat, flag, selector or scope is a schema change, a `SIMULATION_SPEC.md` §6.4 change and a fixture — never a content-only edit. See `docs/CONTENT_SCHEMA.md` §14.
 - **No pixel size anywhere except `manifest/sprites.json`.** Layout code reads the manifest.
+- **Text is not pixel art (D-67).** The two faces in `game/fonts/` render as antialiased vectors at the window's resolution; everything else scales by the integer factor with nearest filtering (`canvas_items` stretch). Do not bake fonts to bitmaps. The font files are licensed for the game, not for redistribution: keep the repository private.
 - **The sim is pure.** `CompanyWars.Sim` references nothing but the .NET base library — never `Godot.NET.Sdk`. No `System.Random`, `DateTime`, `Stopwatch`, `System.IO`, `Math.Pow`, `Math.Sqrt`, and no `float`/`double`/`decimal` anywhere in it. `long` and permille only; RNG and hash in `unchecked uint` (D-27, D-61).
 - **The sim's language is C#; the client's is C#.** No GDScript except where a Godot editor plugin demands it. Godot 3 API names are compile errors here, not silent no-ops; if a build fails on a Godot API, check the 4.x docs, do not guess.
 - **Fixtures are read-only to agents.** If a spec and a fixture disagree, stop and report which; do not change either. A hook blocks writes under `fixtures/`.

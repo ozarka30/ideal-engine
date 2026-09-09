@@ -95,8 +95,9 @@ history of a reversal is the most useful thing in a document like this.
 | [D-64](#d-64) | Undo and Drop are buttons as well as keys; the battle controls move off founder B's badge; the fallback pixel font is baked from DejaVu Sans | Craft | UX review |
 | [D-65](#d-65) | Cards and the inspector explain every entity in plain language generated from its content; the firm panel carries a primer on how a fight works | Craft | Playtest |
 | [D-66](#d-66) | The shipped faces are Honey Pigeon (body, 8 px line) and Honeyblot Caps (headers, 16 px line), baked to bitmaps; the font files stay out of the repository | Human | `ART_PIPELINE.md` §9 |
+| [D-67](#d-67) | Text is not pixel art: the faces render as antialiased vectors at the window's resolution under the `canvas_items` stretch; the font files ship in the project. Supersedes D-66's baking | Human | `ART_PIPELINE.md` §9 |
 
-Forty-eight craft decisions and eighteen human calls taken. Eight items remain open in
+Forty-eight craft decisions and nineteen human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -1402,3 +1403,23 @@ dropped. Every screenshot fixture is re-recorded. Digits are proportional in bot
 and bars right-align numbers rather than relying on tabular glyphs.
 
 Authority: Human · `ART_PIPELINE.md` §4.1, §9
+
+---
+
+## D-67
+
+**Text is not pixel art. The two faces render as vector fonts, antialiased at the window's resolution; the
+project's stretch mode is `canvas_items` so sprites still scale by the integer factor with nearest filtering
+while text is drawn at full resolution. The TrueType files ship in `game/fonts/`. This supersedes D-66's
+bitmap baking and `ART_PIPELINE.md` §9's "nearest-neighbour everywhere, including fonts".**
+
+*Why:* The owner ruled that the chosen faces are hand-drawn text, not pixel fonts, and should look like it.
+Baked at an 8 px line they were at the edge of legibility and lost their character; rendered at 2× or 3× the
+same sizes read cleanly and keep the 8 px and 16 px line boxes every layout depends on.
+
+*Consequence:* `project.godot` and the pixel-discipline assert change to `canvas_items`; screenshot fixtures
+are captured at the window's size, so the 2× and 3× sets come from two runs at 1280×720 and 1920×1080;
+word wrap measures with the face rather than counting characters. The licence permits the files inside the
+product but not making them available to others: the repository must be private.
+
+Authority: Human · `ART_PIPELINE.md` §9, `ARCHITECTURE.md` §7

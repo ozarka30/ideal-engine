@@ -65,14 +65,14 @@ public static class Ui
         r.Font.Draw(c, rect.Position.X, rect.Position.Y + (rect.Size.Y - textH) / 2 + (pressed ? 1 : 0), label, size, text, HorizontalAlignment.Center, rect.Size.X);
     }
 
-    /// <summary>Wraps at word boundaries to a character width; the greybox face is close to monospace at 8 px.</summary>
-    public static IEnumerable<string> Wrap(string text, int width, int maxLines)
+    /// <summary>Wraps at word boundaries to a pixel width, measured with the face that will draw it (the faces are proportional).</summary>
+    public static IEnumerable<string> Wrap(PixelFont font, int size, string text, int width, int maxLines)
     {
         var lines = new List<string>();
         string current = string.Empty;
         foreach (string word in text.Split(' '))
         {
-            if (current.Length + word.Length + 1 > width && current.Length > 0)
+            if (current.Length > 0 && font.Width(current + " " + word, size) > width)
             {
                 lines.Add(current);
                 current = word;

@@ -117,7 +117,7 @@ public partial class AutopsyScreen : Node2D
         int fy = fd.Position.Y + 2;
         for (int i = 0; i < _findings.Length; i++)
         {
-            foreach (string line in Ui.Wrap(_findings[i], 44, 3))
+            foreach (string line in Ui.Wrap(font, font.Small, _findings[i], fd.Size.X - 4, 3))
             {
                 font.Draw(this, fd.Position.X + 2, fy, line, font.Small, Tones.Text("interface"));
                 fy += LineH;

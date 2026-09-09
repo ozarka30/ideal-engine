@@ -69,7 +69,9 @@ public static class PixelDiscipline
     {
         Check(ProjectSettings.GetSetting("display/window/size/viewport_width").AsInt32() == 640, "viewport width must be 640");
         Check(ProjectSettings.GetSetting("display/window/size/viewport_height").AsInt32() == 360, "viewport height must be 360");
-        Check(ProjectSettings.GetSetting("display/window/stretch/mode").AsString() == "viewport", "stretch mode must be viewport");
+        // canvas_items, not viewport (D-67): sprites still scale by the integer factor with nearest filtering, and text
+        // renders at the window's resolution so the vector faces are smooth rather than blocky.
+        Check(ProjectSettings.GetSetting("display/window/stretch/mode").AsString() == "canvas_items", "stretch mode must be canvas_items");
         Check(ProjectSettings.GetSetting("display/window/stretch/scale_mode").AsString() == "integer", "stretch scale must be integer");
         Check(ProjectSettings.GetSetting("rendering/textures/canvas_textures/default_texture_filter").AsInt32() == 0, "texture filter must be nearest");
         Check(ProjectSettings.GetSetting("rendering/2d/snap/snap_2d_transforms_to_pixel").AsBool(), "2D transforms must snap to pixels");
