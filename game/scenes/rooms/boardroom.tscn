@@ -1,66 +1,23 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene format=4 uid="uid://h0wv1xbyyt88"]
 
-[ext_resource type="Texture2D" path="res://assets/packs/japanese_office_interior.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://dw0157a8f55hi" path="res://assets/packs/japanese_office_interior.png" id="1"]
+[ext_resource type="TileSet" uid="uid://cydacchwkehi4" path="res://assets/packs/japanese_office_interior.tres" id="2_3wvf8"]
 
-[sub_resource type="AtlasTexture" id="japanese_office_interior_27_23"]
-atlas = ExtResource("1")
-region = Rect2(864, 736, 32, 32)
+[node name="Room" type="Node2D" unique_id=615802700]
 
-[sub_resource type="AtlasTexture" id="office_50_3"]
-atlas = ExtResource("1")
-region = Rect2(1600, 96, 32, 32)
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=281054367]
+scale = Vector2(0.5, 0.5)
+tile_map_data = PackedByteArray("AAAAAAIAAABAABEAAAABAAIAAABBABEAAAACAAIAAABBABEAAAADAAIAAABCABEAAAAAAAMAAABAABIAAAAAAAQAAABAABIAAAADAAMAAABCABIAAAADAAQAAABCABIAAAAAAAUAAABAABMAAAABAAUAAABBABMAAAABAAQAAABBABIAAAACAAQAAABBABIAAAACAAUAAABBABMAAAADAAUAAABCABMAAAABAAMAAABBABIAAAACAAMAAABBABIAAAA=")
+tile_set = ExtResource("2_3wvf8")
 
-[sub_resource type="AtlasTexture" id="office_51_3"]
-atlas = ExtResource("1")
-region = Rect2(1632, 96, 32, 32)
+[node name="TileMapLayer2" type="TileMapLayer" parent="." unique_id=747836831]
+position = Vector2(0, -3)
+scale = Vector2(0.5, 0.5)
+tile_map_data = PackedByteArray("AAAAAAQAAAAwAAQAAAABAAMAAAAxAAMAAAABAAQAAAAxAAQAAAACAAQAAAAyAAQAAAADAAQAAAAzAAQAAAACAAMAAAAyAAMAAAADAAMAAAAzAAMAAAAAAAMAAAAwAAMAAAA=")
+tile_set = ExtResource("2_3wvf8")
 
-[sub_resource type="AtlasTexture" id="office_50_4"]
-atlas = ExtResource("1")
-region = Rect2(1600, 128, 32, 32)
-
-[sub_resource type="AtlasTexture" id="office_51_4"]
-atlas = ExtResource("1")
-region = Rect2(1632, 128, 32, 32)
-
-; room.boardroom.tile -- 64x96, the top 32px overhangs the footprint (D-73)
-[node name="Room" type="Node2D"]
-
-[node name="floor_0_0" type="Sprite2D" parent="."]
-position = Vector2(0, 32)
-centered = false
-texture = SubResource("japanese_office_interior_27_23")
-
-[node name="floor_1_0" type="Sprite2D" parent="."]
-position = Vector2(32, 32)
-centered = false
-texture = SubResource("japanese_office_interior_27_23")
-
-[node name="floor_0_1" type="Sprite2D" parent="."]
-position = Vector2(0, 64)
-centered = false
-texture = SubResource("japanese_office_interior_27_23")
-
-[node name="floor_1_1" type="Sprite2D" parent="."]
-position = Vector2(32, 64)
-centered = false
-texture = SubResource("japanese_office_interior_27_23")
-
-[node name="fitting_0" type="Sprite2D" parent="."]
-position = Vector2(0, 0)
-centered = false
-texture = SubResource("office_50_3")
-
-[node name="fitting_1" type="Sprite2D" parent="."]
-position = Vector2(32, 0)
-centered = false
-texture = SubResource("office_51_3")
-
-[node name="fitting_2" type="Sprite2D" parent="."]
-position = Vector2(0, 32)
-centered = false
-texture = SubResource("office_50_4")
-
-[node name="fitting_3" type="Sprite2D" parent="."]
-position = Vector2(32, 32)
-centered = false
-texture = SubResource("office_51_4")
+[node name="TileMapLayer3" type="TileMapLayer" parent="." unique_id=2024437937]
+position = Vector2(0, 8)
+scale = Vector2(0.5, 0.5)
+tile_map_data = PackedByteArray("AAAAAAQAAAA5AAQAAAAAAAUAAAA5AAUAAAADAAQAAAA6AAQAAAADAAUAAAA6AAUAAAAAAAEAAAA5AAQAAAAAAAIAAAA5AAUAAAADAAEAAAA6AAQAAAADAAIAAAA6AAUAAAABAAEAAAA8AAkAAAACAAEAAAA9AAkAAAA=")
+tile_set = ExtResource("2_3wvf8")
