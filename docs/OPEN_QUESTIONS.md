@@ -1076,7 +1076,7 @@ risk that the art backlog never closes.
    entries) has a present asset file.
 2. The dimension validator passes on every present asset.
 3. Zero entries render in the `invalid` tone in a full campaign playthrough capture.
-4. The perspective rule holds: no screen mixes top-down and isometric sources.
+4. The perspective rule holds: no screen mixes interior and exterior sources.
 
 Tiers still exist, but they **order the worklist rather than exempt anything**. That
 is the important distinction: ranking is a scheduling tool, not a licence.
@@ -1101,29 +1101,37 @@ ahead of the curve of measured completeness.
 `fx.tower.basement` and `ui.portrait` in Phase 4. Nothing in Phase 2 or 3.
 
 Raised by `GAME_DESIGN.md` §19. The brief forbids approximate greyboxes, so Phase 2
-*decided* the dimensions the isometric battle view and the inspector portrait use
-rather than leaving them open: floor segments are 96 × 32, the roof 96 × 16, the
-basement 96 × 24, the portrait 64 × 64. Those numbers were chosen to fit the 640 × 360
-canvas; they were not derived from the packs.
+*decided* the dimensions the battle view and the inspector portrait use rather than
+leaving them open: floor segments are 96 × 32, the roof 96 × 16, the basement 96 × 24,
+the portrait 64 × 64. Those numbers were chosen to fit the 640 × 360 canvas; they were
+not derived from the packs.
 
-**What has to happen.** Before any of those four entries is greyboxed, open the
-Japanese City / Osaka / Dotonbori packs and the Portraits pack and confirm a slice at
-each declared size reads correctly. If one cannot, change the manifest entry — and
-the screen layout that depends on it — *then* greybox. The rule is that a greybox is
-never built against a dimension that is known to be wrong.
+**What has to happen.** Before any of those four entries is greyboxed, open the city
+packs and the Portraits pack and confirm a slice at each declared size reads
+correctly. If one cannot, change the manifest entry — and the screen layout that
+depends on it — *then* greybox. The rule is that a greybox is never built against a
+dimension that is known to be wrong.
 
 **Recommendation.** Do this as the first task of Phase 4, before the manifest schema
 is finalised, so that any change is a spec edit rather than a re-layout. It is an
 afternoon with the packs open, not a design question.
 
-**Status:** OPEN — a verification, not a decision. Needs the packs, which are not yet
-owned: the plan is to buy the Japan Collection complete edition, so every pack in the
-brief's inventory will be available and the manifest's candidate-source lines stand.
-The check waits on the purchase and nothing in Phase 5 waits on the check. Phase 4
-flagged thirteen manifest entries with `verify: true` (the four tower pieces, the
-inspector portrait, the eight founder portraits — the nine portraits are one check);
-the release gate refuses to close while any is set. Procedure in `ART_PIPELINE.md`
-§15.
+**Status:** DECIDED · [D-69](DECISION_LOG.md#d-69), [D-71](DECISION_LOG.md#d-71). The packs are owned
+and unzipped (`docs/PACKS.md`), the check ran, and `verify` is clear across the manifest:
+
+- **The four tower pieces pass**, but not as isometric slices — no pack in the
+  collection is isometric. They are front-on facade bands: three 32 px wall tiles wide
+  by one storey tall is exactly 96 × 32, the parapet cap is 96 × 16, and the towers sit
+  left and right of the street ([D-69](DECISION_LOG.md#d-69)). `verify` is cleared on
+  all four.
+- **The nine portraits failed, and the entries moved.** The pack ships 96 × 96 (and
+  96 × 112 windowed); 96 is not an integer downscale of 64, and a hand-placed 64 crop
+  cuts through the face and loses the hair silhouette that tells the eight founders
+  apart. So the entries are 96 × 96 and the two layouts that place them — the build
+  inspector and firm panel, and the founder-select card — moved with them
+  ([D-71](DECISION_LOG.md#d-71)).
+
+Procedure in `ART_PIPELINE.md` §15.
 
 ---
 

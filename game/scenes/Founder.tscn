@@ -1,6 +1,138 @@
-[gd_scene load_steps=2 format=3 uid="uid://cw_founder_m2"]
+[gd_scene load_steps=8 format=3 uid="uid://cw_founder_m2"]
 
 [ext_resource type="Script" path="res://scripts/FounderScreen.cs" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui/founder/grid.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui/founder/detail.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui/founder/confirm.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/ui/founder/sato/portrait.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/ui/founder/sato/badge.png" id="6"]
+[ext_resource type="Texture2D" path="res://assets/topdown/emp/junior_dev.png" id="7"]
 
 [node name="Founder" type="Node2D"]
 script = ExtResource("1")
+
+; Layout is the authority for position (D-77). Every child is a slot the screen draws:
+; its name is what the code asks for, its position is where that lands, and its size is
+; what it occupies. Names carry no dots -- Godot forbids them in node names, so they are
+; short names rather than manifest ids. Drag these in the 2D editor and the game follows;
+; nothing converts them back. The manifest still owns sizes, anchors and draw order, so
+; a ColorRect's size here is a visual aid, not the truth — resize the manifest entry.
+; Slots with art are Sprite2D showing the real texture; the rest are ColorRect boxes
+; standing in for text. A Sprite2D of chrome is scaled 0.5 because chrome ships at 2x (D-76).
+; The portrait, badge and roster show one example -- content picks the real one at runtime.
+[node name="Layout" type="Node2D" parent="."]
+
+[node name="title" type="ColorRect" parent="Layout"]
+offset_left = 16.0
+offset_top = 0.0
+offset_right = 336.0
+offset_bottom = 32.0
+color = Color(0.85, 0.8, 0.65, 0.25)
+
+[node name="grid" type="Sprite2D" parent="Layout"]
+position = Vector2(8, 32)
+centered = false
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2")
+[node name="tiles" type="Node2D" parent="Layout"]
+position = Vector2(16, 40)
+
+[node name="detail" type="Sprite2D" parent="Layout"]
+position = Vector2(168, 32)
+centered = false
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3")
+[node name="portrait" type="Sprite2D" parent="Layout"]
+position = Vector2(184, 48)
+centered = false
+texture = ExtResource("5")
+[node name="name" type="ColorRect" parent="Layout"]
+offset_left = 296.0
+offset_top = 48.0
+offset_right = 416.0
+offset_bottom = 64.0
+color = Color(0.85, 0.8, 0.65, 0.2)
+
+[node name="title_line" type="ColorRect" parent="Layout"]
+offset_left = 296.0
+offset_top = 72.0
+offset_right = 416.0
+offset_bottom = 80.0
+color = Color(0.85, 0.8, 0.65, 0.2)
+
+[node name="badge" type="Sprite2D" parent="Layout"]
+position = Vector2(296, 96)
+centered = false
+texture = ExtResource("6")
+[node name="badge_caption" type="ColorRect" parent="Layout"]
+offset_left = 334.0
+offset_top = 106.0
+offset_right = 424.0
+offset_bottom = 114.0
+color = Color(0.85, 0.8, 0.65, 0.2)
+
+[node name="firm_caption" type="ColorRect" parent="Layout"]
+offset_left = 424.0
+offset_top = 44.0
+offset_right = 480.0
+offset_bottom = 52.0
+color = Color(0.85, 0.8, 0.65, 0.2)
+
+[node name="firm_name" type="ColorRect" parent="Layout"]
+offset_left = 424.0
+offset_top = 56.0
+offset_right = 616.0
+offset_bottom = 72.0
+color = Color(0.85, 0.8, 0.65, 0.2)
+
+[node name="bio" type="ColorRect" parent="Layout"]
+offset_left = 184.0
+offset_top = 164.0
+offset_right = 616.0
+offset_bottom = 200.0
+color = Color(0.85, 0.8, 0.65, 0.2)
+
+[node name="rule" type="ColorRect" parent="Layout"]
+offset_left = 184.0
+offset_top = 204.0
+offset_right = 616.0
+offset_bottom = 205.0
+color = Color(0.85, 0.8, 0.65, 0.4)
+
+[node name="stakes_heading" type="ColorRect" parent="Layout"]
+offset_left = 184.0
+offset_top = 212.0
+offset_right = 336.0
+offset_bottom = 228.0
+color = Color(0.85, 0.8, 0.65, 0.2)
+
+[node name="roster" type="Sprite2D" parent="Layout"]
+position = Vector2(184, 228)
+centered = false
+texture = ExtResource("7")
+[node name="roster_line" type="ColorRect" parent="Layout"]
+offset_left = 272.0
+offset_top = 236.0
+offset_right = 616.0
+offset_bottom = 244.0
+color = Color(0.85, 0.8, 0.65, 0.2)
+
+[node name="budget_line" type="ColorRect" parent="Layout"]
+offset_left = 272.0
+offset_top = 248.0
+offset_right = 616.0
+offset_bottom = 256.0
+color = Color(0.85, 0.8, 0.65, 0.2)
+
+[node name="passive_line" type="ColorRect" parent="Layout"]
+offset_left = 184.0
+offset_top = 276.0
+offset_right = 616.0
+offset_bottom = 284.0
+color = Color(0.85, 0.8, 0.65, 0.2)
+
+[node name="confirm" type="Sprite2D" parent="Layout"]
+position = Vector2(456, 306)
+centered = false
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4")

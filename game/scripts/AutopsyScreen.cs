@@ -9,6 +9,7 @@ namespace CompanyWars.Game;
 /// <summary>The autopsy (GAME_DESIGN.md §19.3): banner, share timeline with a draggable playhead, per-floor bars, three findings, filter chips, the full ledger, CONTINUE.</summary>
 public partial class AutopsyScreen : Node2D
 {
+    private SceneLayout _at = null!;
     private const int Columns = 60;
 
     private ScreenRouter _r = null!;
@@ -34,6 +35,7 @@ public partial class AutopsyScreen : Node2D
 
     public override void _Ready()
     {
+        _at = new SceneLayout(this);
         _r = ScreenRouter.Instance;
         _view = _r.LastView ?? _r.Fight();
         _playhead = _view.Result.EndTick;
@@ -68,13 +70,13 @@ public partial class AutopsyScreen : Node2D
         DrawRect(new Rect2(0, 0, L.CanvasW, L.CanvasH), Tones.Fill("structure"));
 
         // Banner
-        Rect2I banner = L.Rect("ui.autopsy.banner");
+        Rect2I banner = _at.Rect("banner");
         DrawRect(new Rect2(banner.Position, banner.Size), Tones.Fill("interface"));
         font.Draw(this, banner.Position.X + 8, banner.Position.Y + 4, Autopsy.ResultBanner(_view, _r.FightRound, "A"), font.Large, Tones.Text("interface"));
         font.Draw(this, banner.Position.X, banner.Position.Y + 8, $"{_r.NameA} vs {_r.NameB} · at {Autopsy.Seconds(_playhead)} share {_view.Share(_playhead) / 100}.{_view.Share(_playhead) % 100 / 10}%", font.Small, Tones.Hatch("interface"), HorizontalAlignment.Right, banner.Size.X - 8);
 
         // Timeline
-        Rect2I tl = L.Rect("ui.autopsy.timeline");
+        Rect2I tl = _at.Rect("timeline");
         DrawRect(new Rect2(tl.Position, tl.Size), Tones.Fill("interface"));
         int colW = tl.Size.X / Columns;
         long span = _view.Rules.QuarterTicks / Columns;
@@ -95,7 +97,7 @@ public partial class AutopsyScreen : Node2D
         DrawLine(new Vector2(px, tl.Position.Y), new Vector2(px, tl.Position.Y + tl.Size.Y), Tones.Fill("invalid"), 1);
 
         // Floors, or the side's staff by output (D-68): the chart players sell by.
-        Rect2I fl = L.Rect("ui.autopsy.floors");
+        Rect2I fl = _at.Rect("floors");
         DrawRect(new Rect2(fl.Position, fl.Size), Tones.Fill("interface"));
         _hits.Clear();
         int tabH = 16;
@@ -139,7 +141,7 @@ public partial class AutopsyScreen : Node2D
         }
 
         // Findings
-        Rect2I fd = L.Rect("ui.autopsy.findings");
+        Rect2I fd = _at.Rect("findings");
         DrawRect(new Rect2(fd.Position, fd.Size), Tones.Fill("interface"));
         int fy = fd.Position.Y + 2;
         for (int i = 0; i < _findings.Length; i++)
@@ -153,7 +155,7 @@ public partial class AutopsyScreen : Node2D
         }
 
         // Filters
-        Rect2I ft = L.Rect("ui.autopsy.filters");
+        Rect2I ft = _at.Rect("filters");
         DrawRect(new Rect2(ft.Position, ft.Size), Tones.Fill("interface"));
         int cx = ft.Position.X;
         void Chip(string label, bool active, Action toggle)
@@ -172,7 +174,7 @@ public partial class AutopsyScreen : Node2D
         foreach ((string label, long f) in new[] { ("G", 0L), ("1", 1L), ("2", 2L), ("3", 3L), ("B1", -1L) }) Chip(label, _floors.Contains(f), () => Toggle(_floors, f));
 
         // Ledger
-        Rect2I lg = L.Rect("ui.autopsy.ledger");
+        Rect2I lg = _at.Rect("ledger");
         DrawRect(new Rect2(lg.Position, lg.Size), Tones.Fill("interface"));
         int rows = lg.Size.Y / LineH;
         int selected = SelectedRow();
@@ -196,7 +198,7 @@ public partial class AutopsyScreen : Node2D
         font.Draw(this, 216, 340, $"{_filtered.Count} entries · drag or wheel to scroll · drag the timeline", font.Small, Tones.Hatch("interface"), HorizontalAlignment.Left, 332);
 
         // Continue
-        Rect2I ct = L.Rect("ui.autopsy.continue");
+        Rect2I ct = _at.Rect("continue");
         Ui.Button(this, ct, "CONTINUE", "operations");
         _hits.Add(ct, Continue, "Back to the build phase");
     }
@@ -236,11 +238,11 @@ public partial class AutopsyScreen : Node2D
         if (@event is InputEventMouseButton mb)
         {
             var p = new Vector2I((int)mb.Position.X, (int)mb.Position.Y);
-            Rect2I tl = L.Rect("ui.autopsy.timeline");
+            Rect2I tl = _at.Rect("timeline");
             if (mb.ButtonIndex == MouseButton.Left)
             {
                 if (mb.Pressed && tl.HasPoint(p)) { _dragging = true; Seek(p.X); }
-                if (mb.Pressed && L.Rect("ui.autopsy.ledger").HasPoint(p)) { _scrollDragging = true; _scrollDragStartY = p.Y; _scrollDragStart = _scroll; }
+                if (mb.Pressed && _at.Rect("ledger").HasPoint(p)) { _scrollDragging = true; _scrollDragStartY = p.Y; _scrollDragStart = _scroll; }
                 if (!mb.Pressed) { _dragging = false; _scrollDragging = false; }
                 if (mb.Pressed)
                 {
@@ -268,7 +270,7 @@ public partial class AutopsyScreen : Node2D
 
     private void Seek(int x)
     {
-        Rect2I tl = _r.Layout.Rect("ui.autopsy.timeline");
+        Rect2I tl = _at.Rect("timeline");
         int colW = tl.Size.X / Columns;
         long span = _view.Rules.QuarterTicks / Columns;
         int col = Math.Clamp((x - tl.Position.X) / colW, 0, Columns - 1);

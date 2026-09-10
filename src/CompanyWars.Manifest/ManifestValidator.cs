@@ -36,8 +36,8 @@ public static class ManifestValidator
 {
     public const string SchemaId = "https://companywars.invalid/schema/manifest.schema.json";
 
-    private static readonly string[] IsoScreens = { "battle", "map", "menu" };
-    private static readonly string[] TopdownScreens = { "build", "shop", "battle.inset", "autopsy", "reward", "codex" };
+    private static readonly string[] ExteriorScreens = { "battle", "map", "menu" };
+    private static readonly string[] InteriorScreens = { "build", "shop", "battle.inset", "autopsy", "reward", "codex" };
 
     public static SpriteManifest Load(string repoRoot)
     {
@@ -88,8 +88,8 @@ public static class ManifestValidator
             if (derived != e.Overhang) errors.Add($"{e.Id}: stored overhang {Describe(e.Overhang)} differs from derived {Describe(derived)}");
 
             // 5. Perspective
-            if (e.Perspective == "topdown" && e.Screens.Any(s => IsoScreens.Contains(s))) errors.Add($"{e.Id}: topdown entry lists an isometric screen");
-            if (e.Perspective == "iso" && e.Screens.Any(s => TopdownScreens.Contains(s))) errors.Add($"{e.Id}: iso entry lists a top-down screen");
+            if (e.Perspective == "topdown" && e.Screens.Any(s => ExteriorScreens.Contains(s))) errors.Add($"{e.Id}: topdown entry lists an exterior screen");
+            if (e.Perspective == "exterior" && e.Screens.Any(s => InteriorScreens.Contains(s))) errors.Add($"{e.Id}: exterior entry lists an interior screen");
 
             // 6. Dimensions of present files
             string file = Path.Combine(repoRoot, e.Sprite.Asset);
@@ -116,6 +116,15 @@ public static class ManifestValidator
                         needH = Math.Max(needH, (f[1] + 1) * e.Sprite.H);
                     }
                     if (w < needW || h < needH) errors.Add($"{e.Id}: {e.Sprite.Asset} is {w}x{h}, frames need at least {needW}x{needH}");
+                }
+                else if (e.Perspective == "ui")
+                {
+                    // Chrome is not pixel art (D-76): it may ship at any integer multiple of its
+                    // declared size and is drawn down into that rect with a smooth filter.
+                    if (w % e.Sprite.W != 0 || h % e.Sprite.H != 0 || w / e.Sprite.W != h / e.Sprite.H)
+                    {
+                        errors.Add($"{e.Id}: {e.Sprite.Asset} is {w}x{h}, not an integer multiple of {e.Sprite.W}x{e.Sprite.H}");
+                    }
                 }
                 else if (w != e.Sprite.W || h != e.Sprite.H)
                 {

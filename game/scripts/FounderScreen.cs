@@ -1,22 +1,30 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CompanyWars.Build;
+using CompanyWars.Content;
 using CompanyWars.Sim;
 using Godot;
 
 namespace CompanyWars.Game;
 
-/// <summary>Founder select (GAME_DESIGN.md §19.7, D-46): eight cards, a bio, a default firm name, FOUND THE FIRM. No text input (D-55).</summary>
+/// <summary>
+/// Founder select (GAME_DESIGN.md §19.7): a roster column of eight thumbnails and a detail panel for the one
+/// selected (D-72). The title is type on the backdrop, not a plate (D-75); the firm name is a readout, not a
+/// control, and the screen has exactly one button. No text input (D-55).
+/// </summary>
 public partial class FounderScreen : Node2D
 {
     private string _selected = string.Empty;
-    private readonly List<(Rect2I Rect, string Id)> _cards = new();
+    private readonly List<(Rect2I Rect, string Id)> _tiles = new();
+    private SceneLayout _at = null!;
 
     private int _frames;
     private bool _captured;
 
     public override void _Ready()
     {
+        _at = new SceneLayout(this);
         _selected = ScreenRouter.Instance.LastFounderId;
         QueueRedraw();
     }
@@ -33,62 +41,103 @@ public partial class FounderScreen : Node2D
         ScreenRouter r = ScreenRouter.Instance;
         ManifestLayout L = r.Layout;
         PixelFont font = r.Font;
-        DrawRect(new Rect2(0, 0, L.CanvasW, L.CanvasH), Tones.Fill("structure"));
-        Rect2I header = L.Rect("ui.founder.header");
-        DrawRect(new Rect2(header.Position, header.Size), Tones.Fill("interface"));
-        font.Draw(this, header.Position.X + 8, header.Position.Y + 4, "CHOOSE A FOUNDER", font.Large, Tones.Text("interface"));
 
-        Rect2I grid = L.Rect("ui.founder.grid");
-        Vector2I card = L.Size("ui.founder.card");
-        int cellW = grid.Size.X / 4, cellH = grid.Size.Y / 2;
-        _cards.Clear();
-        int i = 0;
+        DrawRect(new Rect2(0, 0, L.CanvasW, L.CanvasH), Tones.Ground());
+        Vector2I title = _at.At("title");
+        font.Draw(this, title.X, title.Y, "CHOOSE A FOUNDER", font.Title, Tones.Hatch("support"));
+
+        DrawEntry(L, "ui.founder.grid", _at.Rect("grid"));
+        Vector2I tile = L.Size("ui.founder.tile");
+        Vector2I tiles = _at.Origin("tiles");
+        _tiles.Clear();
         FounderDef? selected = null;
+        int i = 0;
         foreach (FounderDef f in r.Content.Founders)
         {
-            int col = i % 4, row = i / 4;
-            int x = grid.Position.X + col * cellW + (cellW - card.X) / 2;
-            int y = grid.Position.Y + row * cellH + (cellH - card.Y) / 2;
-            var rect = new Rect2I(x, y, card.X, card.Y);
+            var rect = new Rect2I(tiles.X + i % 2 * 72, tiles.Y + i / 2 * 72, tile.X, tile.Y);
             bool sel = f.Id == _selected;
             if (sel) selected = f;
-            DrawTextureRect(r.Textures.For(L.Entry("ui.founder.card")), new Rect2(rect.Position, rect.Size), false);
-            if (sel) DrawRect(new Rect2(rect.Position, rect.Size), Tones.Fill("operations"), false, 2);
-            Vector2I portrait = L.Size(f.Portrait);
-            DrawTextureRect(r.Textures.For(L.Entry(f.Portrait)), new Rect2(x + 4, y + 4, portrait.X, portrait.Y), false);
-            font.Draw(this, x + 4, y + 72, f.Name, font.Small, Tones.Text("people"), HorizontalAlignment.Left, 64);
-            font.Draw(this, x + 4, y + 82, f.Title, font.Small, Tones.Hatch("people"), HorizontalAlignment.Left, 64);
-            _cards.Add((rect, f.Id));
+            DrawTextureRect(r.Textures.For(L.Entry("ui.founder.tile")), new Rect2(rect.Position, rect.Size), false);
+            Vector2I thumb = L.Size(f.Id + ".thumb");
+            DrawTextureRect(r.Textures.For(L.Entry(f.Id + ".thumb")), new Rect2(rect.Position.X + 8, rect.Position.Y + 8, thumb.X, thumb.Y), false);
+            if (sel) DrawRect(new Rect2(rect.Position, rect.Size), Tones.Fill("support"), false, 2);
+            _tiles.Add((rect, f.Id));
             i++;
         }
 
-        Rect2I bio = L.Rect("ui.founder.bio");
-        DrawRect(new Rect2(bio.Position, bio.Size), Tones.Fill("interface"));
+        DrawEntry(L, "ui.founder.detail", _at.Rect("detail"));
+        Color ink = Tones.Text("interface");
+        Color muted = Tones.Border("interface");
         if (selected != null)
         {
-            int by = bio.Position.Y + 4;
-            foreach (string line in Ui.Wrap(font, font.Small, selected.Bio, bio.Size.X - 8, 3))
+            Vector2I portrait = L.Size(selected.Portrait);
+            DrawTextureRect(r.Textures.For(L.Entry(selected.Portrait)), new Rect2(_at.At("portrait"), portrait), false);
+            Text(font, "name", selected.Name, font.Large, ink);
+            Text(font, "title_line", selected.Title, font.Small, muted);
+
+            // The badge is what represents this founder in a fight; the founder itself does nothing there (D-46).
+            Vector2I badge = L.Size(selected.Badge);
+            DrawTextureRect(r.Textures.For(L.Entry(selected.Badge)), new Rect2(_at.At("badge"), badge), false);
+            Text(font, "badge_caption", "your badge in the fight", font.Small, muted);
+
+            Text(font, "firm_caption", "FIRM NAME", font.Small, muted);
+            Text(font, "firm_name", CompanyWars.Build.Run.DefaultFirmName(selected), font.Large, ink);
+
+            Rect2I bio = _at.Rect("bio");
+            int by = bio.Position.Y;
+            foreach (string line in Ui.Wrap(font, font.Small, selected.Bio, bio.Size.X, 3))
             {
-                font.Draw(this, bio.Position.X + 4, by, line, font.Small, Tones.Text("interface"));
-                by += 8;
+                font.Draw(this, bio.Position.X, by, line, font.Small, ink);
+                by += 12;
             }
-            // The stakes (D-68): what the choice starts you with, and the passive or its absence (D-46).
-            FloorDef start = r.Content.Floors.First(f => f.Id == r.Content.Economy.StartingRosterFloor);
-            string passive = selected.Effects.Length == 0
+
+            Rect2I rule = _at.Rect("rule");
+            DrawLine(rule.Position, new Vector2(rule.Position.X + rule.Size.X, rule.Position.Y), muted);
+            Text(font, "stakes_heading", "YOU START WITH", font.Large, muted);
+
+            // The stakes (D-68), drawn from content rather than written down: the roster as sprites, then in words.
+            EconomyFile eco = r.Content.Economy;
+            Vector2I roster = _at.At("roster");
+            int rx = roster.X;
+            foreach (string id in eco.StartingRoster)
+            {
+                EmployeeDef d = r.Content.Employees.First(e => e.Id == id);
+                Vector2I s = L.Size(d.Sprite);
+                DrawTextureRect(r.Textures.For(L.Entry(d.Sprite)), new Rect2(rx, roster.Y, s.X, s.Y), false);
+                rx += 40;
+            }
+            FloorDef start = r.Content.Floors.First(f => f.Id == eco.StartingRosterFloor);
+            string names = Roster(r.Content, eco.StartingRoster);
+            Text(font, "roster_line", $"{names} on {Legality.FloorName(start.Index)}", font.Small, ink);
+            Text(font, "budget_line", $"¥{eco.StartingBudget} to spend", font.Small, ink);
+            Text(font, "passive_line", selected.Effects.Length == 0
                 ? "no founder passive in this build"
-                : string.Join(" ", Explain.Passives(r.Content, selected.Effects));
-            string stakes = $"Starts with ¥{r.Content.Economy.StartingBudget} and {r.Content.Economy.StartingRoster.Length} staff on {Legality.FloorName(start.Index)} · {passive}";
-            font.Draw(this, bio.Position.X + 4, bio.Position.Y + bio.Size.Y - 10, stakes, font.Small, Tones.Hatch("interface"));
+                : string.Join(" ", Explain.Passives(r.Content, selected.Effects)), font.Small, muted);
         }
 
-        Rect2I name = L.Rect("ui.founder.firm_name");
-        DrawRect(new Rect2(name.Position, name.Size), Tones.Fill("interface"));
-        font.Draw(this, name.Position.X + 4, name.Position.Y + 4, "FIRM · ", font.Small, Tones.Hatch("interface"));
-        font.Draw(this, name.Position.X + 4 + font.Width("FIRM · ", font.Small), name.Position.Y + 4, selected != null ? CompanyWars.Build.Run.DefaultFirmName(selected) : string.Empty, font.Small, Tones.Text("interface"));
-
-        Rect2I confirm = L.Rect("ui.founder.confirm");
-        Ui.Button(this, confirm, "FOUND THE FIRM", "operations", _selected.Length > 0);
+        Ui.Button(this, _at.Rect("confirm"), "FOUND THE FIRM", "operations", _selected.Length > 0, "ui.founder.confirm");
     }
+
+    /// <summary>Chrome ships at an integer multiple of its slot and is drawn down into it (D-76).</summary>
+    private void DrawEntry(ManifestLayout L, string id, Rect2I rect) =>
+        DrawTextureRect(ScreenRouter.Instance.Textures.For(L.Entry(id)), new Rect2(rect.Position, rect.Size), false);
+
+    /// <summary>Text at a slot's top-left; the scene decides where that is (D-77).</summary>
+    private void Text(PixelFont font, string slot, string text, int size, Color color)
+    {
+        Vector2I p = _at.At(slot);
+        font.Draw(this, p.X, p.Y, text, size, color);
+    }
+
+    /// <summary>"two Junior Developers", "a Junior Developer and a Recruiter" — the roster said out loud.</summary>
+    private static string Roster(ContentDb db, string[] ids)
+    {
+        string[] names = ids.Select(id => db.Employees.First(e => e.Id == id).Name).ToArray();
+        if (names.Length > 1 && names.Distinct().Count() == 1) return $"{Count(names.Length)} {names[0]}s";
+        return string.Join(" and ", names);
+    }
+
+    private static string Count(int n) => n switch { 2 => "two", 3 => "three", 4 => "four", 5 => "five", _ => n.ToString() };
 
     public override void _UnhandledInput(InputEvent @event)
     {
@@ -96,10 +145,10 @@ public partial class FounderScreen : Node2D
         if (@event is InputEventKey { Pressed: true, Keycode: Key.Enter or Key.KpEnter } && _selected.Length > 0) { ScreenRouter.Instance.StartRun(_selected); return; }
         if (@event is not InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left } click) return;
         var p = new Vector2I((int)click.Position.X, (int)click.Position.Y);
-        foreach ((Rect2I rect, string id) in _cards)
+        foreach ((Rect2I rect, string id) in _tiles)
         {
             if (rect.HasPoint(p)) { _selected = id; QueueRedraw(); return; }
         }
-        if (ScreenRouter.Instance.Layout.Rect("ui.founder.confirm").HasPoint(p) && _selected.Length > 0) ScreenRouter.Instance.StartRun(_selected);
+        if (_at.Rect("confirm").HasPoint(p) && _selected.Length > 0) ScreenRouter.Instance.StartRun(_selected);
     }
 }

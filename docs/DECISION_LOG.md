@@ -97,6 +97,16 @@ history of a reversal is the most useful thing in a document like this.
 | [D-66](#d-66) | The shipped faces are Honey Pigeon (body, 8 px line) and Honeyblot Caps (headers, 16 px line), baked to bitmaps; the font files stay out of the repository | Human | `ART_PIPELINE.md` §9 |
 | [D-67](#d-67) | Text is not pixel art: the faces render as antialiased vectors at the window's resolution under the `canvas_items` stretch; the font files ship in the project. Supersedes D-66's baking | Human | `ART_PIPELINE.md` §9 |
 | [D-68](#d-68) | Reference-driven screen changes: employees visible in the battle facades and bursts from their windows; price first and tier as a colour on cards; a READY under the shop; founder stakes line; settings screen and build tag; lead-change cue; staff bars on the autopsy | Craft | UI review |
+| [D-69](#d-69) | No pack is isometric: the battle towers are front-on facade bands, the `iso` perspective becomes `exterior`, and the four tower dimensions pass verification | Craft | [Q-GBX-5](OPEN_QUESTIONS.md#q-gbx-5--can-the-packs-produce-the-decided-battle-and-portrait-dimensions) |
+| [D-70](#d-70) | Employees wear Character Pack bodies: Idle frame 1, one body per employee, no repeat inside a department, tier carried by age and formality; extraplanar staff are the same bodies under a spectral recolour | Craft | Phase 4 |
+| [D-71](#d-71) | Portraits are 96 × 96, the pack's own size: the nine portrait entries and the two layouts that place them grow, and each founder is cast to a face from the Portraits pack | Craft | [Q-GBX-5](OPEN_QUESTIONS.md#q-gbx-5--can-the-packs-produce-the-decided-battle-and-portrait-dimensions) |
+| [D-72](#d-72) | Founder select is a roster column plus a detail panel, not a wall of equal cards; a 48 × 48 thumbnail slot per founder, halved 2:1 at author time | Craft | UI review |
+| [D-73](#d-73) | A room's art is one composed plan at its footprint size, plus a 32 px band of overhang above it for back-row fittings; every tile inside stays walkable | Craft | Phase 4 |
+| [D-74](#d-74) | The UI chrome is the Isle of Lore 2 UI Pack, halved 2:1 and recoloured to the greybox tones; §14's `anomalous` rule is scoped to world art, and `ui` entries are exempt | Craft | Phase 4 · [Q-RISK-1](OPEN_QUESTIONS.md#q-risk-1--is-the-guttykreum-licence-clear-for-a-commercial-steam-release) |
+| [D-75](#d-75) | A screen's title is Honeyblot Caps at a new 32 px line, set on the backdrop with no plate; the founder header slot is deleted | Craft | UI review |
+| [D-76](#d-76) | UI chrome is not pixel art either: it ships at an integer multiple of its declared size and is drawn down with a smooth filter, as D-67 already does for text | Craft | UI review |
+| [D-77](#d-77) | A screen's scene owns position; the manifest keeps sizes, anchors, footprints and draw order. Art moves to `game/assets/` so the editor can see it | Human | UI workflow |
+| [D-78](#d-78) | Room plans are authored as Godot scenes and baked to their PNG; the build screen's floor rows and shaft become nodes too. The `.room` recipe format is retired | Human | UI workflow |
 
 Forty-nine craft decisions and nineteen human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
@@ -1451,3 +1461,282 @@ added (`fx.tower.window_occupant`, `ui.build.ready_shop`); every screenshot fixt
 "bursts at the segment's centre" is superseded. Founder passives stay empty (D-46); the stakes line says so.
 
 Authority: Craft · `GAME_DESIGN.md` §19, `ARCHITECTURE.md` §7
+
+---
+
+## D-69
+
+**No GuttyKreum pack is isometric. The battle towers are front-on facades: a storey is three 32 px wall
+tiles wide by one tile tall, the two towers stand left and right of the street, and the manifest's
+`iso` perspective is renamed `exterior` — assets move from `assets/iso/` to `assets/exterior/`. The four
+tower dimensions are verified unchanged at 96 × 32, 96 × 32, 96 × 16 and 96 × 24. This supersedes the
+premise, in `DESIGN_BRIEF.md` §4 and `GAME_DESIGN.md` §19.2, that the city packs are isometric.**
+
+*Why:* The packs arrived and the premise was simply wrong: GuttyKreum draws top-down floors and
+front-on walls in one tileset, and there is no isometric art anywhere in the thirty-three packs. The
+useful part of the premise survives — the exterior and the interior must not mix on one screen — so the
+enum keeps its job under a name that is true. The dimensions survive too, and not by luck: a facade band
+is a whole number of 32 px tiles, so 96 × 32 was already the natural cut.
+
+*Consequence:* The perspective enum is `topdown | exterior | ui`; the schema, `ManifestValidator` and the
+atlas groups follow. `verify` clears on the four tower entries, leaving nine (the portraits, which fail
+their own check — Q-GBX-5). A leased segment carries fifteen unlit windows in a 5 × 3 grid at an 18 × 9
+pitch and the occupant sprite lights one; an unleased segment is bare wall, which is what makes an empty
+floor read from across the street. `assets/exterior/fx/tower/` now holds four cut sprites from the Osaka
+tilemap, the first art in the repository.
+
+Authority: Craft · `ART_PIPELINE.md` §12, §15 · `GAME_DESIGN.md` §19.2 · Question: [Q-GBX-5](OPEN_QUESTIONS.md#q-gbx-5--can-the-packs-produce-the-decided-battle-and-portrait-dimensions)
+
+---
+
+## D-70
+
+**Every employee wears a body from `characterpack/Blackoutlinecharacters`: frame 1 of that body's Idle
+set, which is the facing-down standing pose. No two employees in the same department share a body, and
+tier is carried by age and formality — students and youths at T1, working adults at T2, elders and
+traditional dress at T3. The ten extraplanar employees are the same bodies under a spectral duotone
+recolour at 78% alpha, violet except the Kappa Intern (green) and the Recruiting Oni (red). The mapping
+lives in `gen_manifest.py`'s `EMP_BASE` and reaches the manifest as each entry's `candidateSource`;
+`tools/dev/cut_employees.py` reads it back out and cuts the forty PNGs.**
+
+*Why:* The pack has nineteen bodies and the roster has forty employees, so something has to repeat. Tier
+is the axis worth spending the silhouette on: a player reads "this is a senior hire" from across the
+board and reads department from the card's glyph and the window tone anyway (D-68). Repeating a body
+across departments costs less than repeating one inside a department, where two cards sit side by side.
+
+*Consequence:* The pack's "Idle" folder is four facings, not an animation loop, so there is no idle
+animation to play — an employee is one static frame, and the eight-frame walk cycles go unused until
+something moves. Department is not yet readable from the sprite itself; a per-department recolour pass
+would fix that and is the next art step, not a blocker. Forty-four of 184 slots now have art.
+
+Authority: Craft · `ART_PIPELINE.md` §7.1 · `assets/PACKS.md`
+
+---
+
+## D-71
+
+**Portraits are 96 × 96, not 64 × 64. `ui.portrait` and the eight `founder.*.portrait` entries take the
+Portraits pack's own size, from its `transparent_bg` cut, and the two layouts that place them move with
+them: the build inspector and firm panel put the portrait at (440, 40) with their text at x = 544 and
+their body from y = 144, and the founder card grows to 104 × 120 in a 152 × 128 cell, pushing the bio to
+y = 288 and the firm-name row to y = 332. Each founder is cast to a specific face — Sato to
+`oldbusinessman1`, Hoshino to `femaletrendy1`, Okada to `malepunk1`, Nakagawa to `femalestudent1`,
+Moriyama to `youngbusinessman1`, Ueda to `femalebaker1`, The Founder to `femaleelder1`, Kitamura to
+`maletraditional1` — and each badge takes the matching Character Pack body. This supersedes the 64 × 64
+in `GAME_DESIGN.md` §19.1, §19.7 and §19.8.**
+
+*Why:* 96 is not an integer downscale of 64, so §9's pixel discipline rules out resampling, and a
+64 × 64 crop was tried and rejected: it cuts through the face and takes the hair silhouette with it — the
+baker's cap, the elder's bun, the glasses — which is exactly what tells eight founders apart at a glance.
+Redrawing eight faces to fit a number chosen before the pack was open is the tail wagging the dog.
+
+*Consequence:* Q-GBX-5 closes and `verify` is now clear on every manifest entry. The build panel loses
+32 px of vertical budget below the portrait — the stats and the six-sentence primer still fit, with a few
+pixels to spare, and that is the tightest thing on the screen. The founder-select screen keeps its
+four-by-two grid; the bottom row lands 12 px clear of the canvas edge. Sixty manifest entries now have
+art and 122 remain on the worklist.
+
+Authority: Craft · `GAME_DESIGN.md` §19.1, §19.7, §19.8 · `ART_PIPELINE.md` §15 · Question: [Q-GBX-5](OPEN_QUESTIONS.md#q-gbx-5--can-the-packs-produce-the-decided-battle-and-portrait-dimensions)
+
+---
+
+## D-72
+
+**Founder select is a roster column and a detail panel. The left column is eight 64 × 64 tiles in two
+columns of four, each holding a new 48 × 48 `founder.*.thumb`; the right panel, 464 × 312 at (168, 32),
+gives the selected founder a 96 × 96 portrait, name and title, the battle badge that represents them in
+a fight, the bio, and a *YOU START WITH* block drawn from `content/economy.json` — the starting roster as
+sprites, the starting budget, the starting floor — with the firm-name field and **FOUND THE FIRM** on its
+bottom row. The thumbnails are the 96 × 96 portraits halved 2:1 by a box average at author time, which
+`ART_PIPELINE.md` §9's integer-factor rule permits and nearest-neighbour would ruin. This supersedes the
+four-by-two card grid of D-71 and the `ui.founder.bio` strip; `ui.founder.card` becomes
+`ui.founder.tile`.**
+
+*Why:* Eight equal cards make the player compare eight things at once and read none of them. Every
+selection screen worth copying — and the references we were handed are all of them — puts a compact grid
+of faces on one side and spends the rest of the screen on the one being considered. Ours had a
+three-line bio strip under the grid doing that job in a tenth of the space.
+
+*Consequence:* Eight new manifest entries (192 total), and the founder screen's Godot layout and its
+screenshot fixtures must be rebuilt — the numbers here are from a mock, not from the running screen. The
+*YOU START WITH* block is identical on all eight panels because founders are cosmetic in v1 (D-46);
+stating that plainly beats implying a difference that is not there. When founders gain effects, the
+block is where the difference will show.
+
+Authority: Craft · `GAME_DESIGN.md` §19.7 · `ART_PIPELINE.md` §9
+
+---
+
+## D-73
+
+**A room's art is one composed plan at the room's own footprint — 64 × 64 for a 2 × 2, 64 × 96 for a
+2 × 3, 32 × 64 for a 1 × 2 — plus a 32 px band above it, anchored bottom-left so `ART_PIPELINE.md` §2.1
+derives the band as top overhang. The plan is floor across the footprint and fittings along the back
+row: a counter for Reception, racks for the Server Room, a table and chairs for the Boardroom, shelves
+of files for Legal. Every tile inside the footprint stays walkable and no fitting may sit where a person
+will stand. Plans are composed from the pack tilemaps by `tools/dev/compose.py` from a recipe under
+`tools/dev/rooms/*.room`; the recipe is the committed record of which cells a room is made of. This
+supersedes the single 32 × 32 tileable `room.*.tile` of `GAME_DESIGN.md` §19.8.**
+
+*Why:* A repeated floor tile cannot say "Server Room" — the pack has no floor that reads as a server
+room, because in the source art rooms are told apart by what is in them. Composing the room the way the
+pack's own example maps do is the only way to get a room that looks like that room.
+
+*Consequence:* The back row of a room carries its fittings, which is where the fiction and the mechanics
+agree — people work in front of the thing that defines the room. The 32 px overhang means a room placed
+on a floor's back row draws into the wall band above it, which is what that band is for. Player-placed
+furniture and the room's own fittings can still collide visually if furniture lands on the back row;
+that is a placement rule to settle when furniture placement is built, not an art problem. The entry ids
+keep the `.tile` suffix — they are stable keys referenced from `content/rooms.json`, and renaming keys
+for prose costs more than it buys. Six of sixteen rooms are composed; the other ten need their cells
+picked.
+
+Authority: Craft · `GAME_DESIGN.md` §19.8 · `ART_PIPELINE.md` §2 · supersedes the tile model, not [D-12](#d-12) — a room is still a zone over tiles, not an object consuming them
+
+---
+
+## D-74
+
+**The UI chrome comes from Steven Colling's Isle of Lore 2: UI Pack. Every element is halved 2:1 by a
+box average at author time — the pack draws an 18 px 9-slice corner and our canvas is 640 × 360, so 9 px
+is what fits — then recoloured from its blue-and-white onto a four-stop ramp built from a greybox tone,
+then 9-sliced to the manifest's size. The mapping is a table, `tools/dev/ui/slots.txt`, one row of
+`<manifest id> <element> <unit> <tone>`, and `tools/dev/ui.py` builds every slot from it. Cards take
+their *category* tone rather than `interface`. Controls 16 px tall take the pack's `box` (5 px corners);
+20 px and taller take `button_square` (9 px). `ART_PIPELINE.md` §14's rule that non-GuttyKreum art is
+categorised `anomalous` is scoped to world art — `topdown` and `exterior` entries — and `ui` entries are
+exempt.**
+
+*Why:* Our chrome was 1 px rectangles because nothing better existed, and 89 of the remaining slots are
+`ui`. This pack is not a foreign style in any meaningful sense: its author drew Honeyblot Caps and Honey
+Pigeon, the two faces already in `game/fonts/` (D-67), and the pack's own documentation names them as
+the fonts it was drawn against. The `anomalous` rule exists so a Kappa Intern from another artist reads
+as being from another plane; a panel border cannot read as anything, because the player never meets one
+inside the fiction. Applying the rule to chrome would have tinted the entire interface violet, which is
+the rule doing the opposite of its purpose.
+
+*Consequence:* **This is the first pack in the repository with a licence record** — Steven Colling Game
+Asset License 1.0, recorded at `packs/stevencolling/isle_of_lore_2_ui/LICENSE.md`: commercial use and
+modification granted, no attribution required, redistribution only as content files of the project. That
+last clause is why `packs/` is gitignored and only the recoloured sprites are committed. Q-RISK-1 is
+unchanged for the GuttyKreum packs, which still have no record. `tools/dev/packs.py` now keys packs as
+`vendor/pack` and flags a missing `LICENSE.md` per pack. Nineteen chrome slots are built; the rest of
+the 89 need rows in the table, and the small glyph slots — 8 × 8 departments, pips, the budget mark —
+are not 9-sliceable and still have to be drawn.
+
+Authority: Craft · `ART_PIPELINE.md` §13, §14 · Question: [Q-RISK-1](OPEN_QUESTIONS.md#q-risk-1--is-the-guttykreum-licence-clear-for-a-commercial-steam-release)
+
+---
+
+## D-75
+
+**A screen's own title is type, not a panel. `ui.founder.header` is deleted — a 640 × 24 plate behind
+`CHOOSE A FOUNDER` was a slot that existed only to hold text — and the title is set at (16, 0) in a new
+`font.ui.32`: Honeyblot Caps at a 32 px line, exactly 2× `font.ui.16`. The font ladder becomes 8, 16, 32,
+each an integer double of the last. This amends `ART_PIPELINE.md` §9's "no other sizes" and supersedes
+the header row of `GAME_DESIGN.md` §19.7.**
+
+*Why:* The plate did nothing the backdrop was not already doing, and it boxed the title into 24 px on a
+screen with room to spare. Honeyblot Caps is a display face — it was drawn to be seen large, and at a
+16 px line under a panel border it was being used as a label. The 32 px line lands the title in the band
+above the panels, which already start at y = 32, so nothing moves.
+
+*Consequence:* One fewer slot to draw, and the title now depends on the face rather than on art, which
+means it follows D-67 — vector, antialiased at the window's resolution, never baked. Six other 640 × 24
+header slots stand unchanged: the map header, the codex header, the autopsy banner, the battle result
+banner and the menu. They are not all titles — a result banner is a state readout and probably wants its
+plate — so each is its own call rather than a sweep.
+
+Authority: Craft · `GAME_DESIGN.md` §19.7 · `ART_PIPELINE.md` §9
+
+## D-76
+
+**UI chrome is not pixel art. A `ui` entry's file may be any integer multiple of its declared
+`sprite.w × sprite.h`, the same multiple in both axes; `tools/dev/ui.py` writes 2×, and the renderer
+draws the texture down into its manifest-sized rect with a smooth filter. Layout stays in canvas units
+and nothing about the 640 × 360 grid moves. Pixel art is unchanged: nearest filtering, integer scale.
+This extends D-67 from text to chrome and amends `ART_PIPELINE.md` §5's dimension rule and §9.**
+
+*Why:* The Isle of Lore 2 pack is drawn smooth, with an 18 px 9-slice corner. Squeezing it into a 9 px
+corner to fit the canvas grid threw away three quarters of its pixels, and then the game's 2× nearest
+upscale magnified what survived — the corners came back as stair-steps. The pack's corner is exactly 2×
+ours, so writing chrome at 2× is lossless in both directions. The precedent was already set: D-67 ruled
+that hand-drawn text should not be pretend pixel art, and a hand-drawn rounded panel is the same
+argument with the same answer.
+
+*Consequence:* At a 2× window a 2× chrome texture maps 1:1 to device pixels, so that case is exact. At 3×
+it is a 1.5× upscale of an already-antialiased source, and the artefacts predicted for it were looked for
+in a captured 1920 × 1080 fixture and are not visible — the pack's own soft edges hide the uneven
+sampling, and pixel art beside it stays hard-edged. **No filter change is needed at 2× or 3×; 4× and 6×
+are unmeasured** and should be looked at before either ships. `ManifestValidator` accepts the multiple;
+the placeholder path is unchanged, so a slot without art still renders at exactly its declared size.
+
+Authority: Craft · `ART_PIPELINE.md` §5, §9, §13 · extends [D-67](#d-67)
+
+---
+
+## D-77
+
+**A screen's own scene is the authority for position. Each `game/scenes/<Screen>.tscn` gains a `Layout`
+node whose children are the screen's slots — a `ColorRect` per drawn element, named for what the code
+asks for, positioned and sized where it belongs. `SceneLayout` reads them; the screen draws there. The
+guides are hidden at load, so the 2D editor shows them and the game never does. The manifest keeps what
+it validates well — sizes, anchors, footprints, overhang, draw order, perspective, coverage — and gives
+up position. The art tree moves from `assets/` to `game/assets/` so `res://` can reach it. This
+supersedes the rule in `CLAUDE.md` that positions come from the manifest, and `GAME_DESIGN.md` §19's
+rect tables become the intended layout rather than the live one.**
+
+*Why:* The owner wants to move things by dragging them, and every alternative made that worse. The
+manifest could not answer for most of a screen anyway — `FounderScreen` held eleven positions as C#
+literals against three in the manifest, so the rule was already being broken, quietly, in the place it
+mattered most. Naming the scene as the authority makes the practice and the rule agree, and removes the
+conversion step entirely: there is nothing to sync because there is only one copy.
+
+*Consequence:* Headless work is untouched. `CompanyWars.Sim` references nothing but the base library and
+`Build` and `Playback` are pure, so the harness, the ten conformance fixtures and all 69 tests never load
+Godot — layout was only ever read by the client. Screenshot fixtures still need a real window, which was
+already true and unrelated. What is genuinely lost: no validator now holds sizes and positions together,
+and a `.tscn` is a Godot format rather than a contract other tools can read — if anything outside the
+client ever needs to know where something sits, it will have to parse a scene or be told.
+
+All four screens that had manifest positions — founder, build, battle, autopsy — are migrated, and
+`tools/dev/scenes.py` scaffolded the last three from the manifest's own rects, so the move is
+pixel-neutral: every one of the twelve screenshot fixtures is byte-identical across it. The remaining
+screens (menu, picker, summary, settings, greybox) never used manifest layout at all. **Nothing reads
+`sprite.layout` any more**, so the field should now be deleted from the generator, the schema, the C#
+record and `ManifestLayout`; it is dead weight until that happens.
+
+A slot's node is a `Sprite2D` where its art exists and a `ColorRect` where it does not, so the 2D editor
+shows the real screen rather than a diagram. Two things the scaffolder has to get right and a hand-written
+scene easily will not: a layout point is where the *anchor* sits, not the top-left, so the anchor is baked
+into the node's position; and chrome ships at 2× (D-76), so its sprite is scaled to half. The first of
+those was wrong on the first run and moved the battle towers by 48 × 32 px, which the fixture comparison
+caught.
+
+Authority: Human · `ARCHITECTURE.md` §7 · `GAME_DESIGN.md` §19 · supersedes the position half of [D-15](#d-15)'s neighbourhood in `CLAUDE.md`
+
+---
+
+## D-78
+
+**A room plan is authored as `game/scenes/rooms/<room>.tscn` — one `Sprite2D` per 32 × 32 tile, each an
+`AtlasTexture` region of a pack tilemap, in the plan's own coordinate space with the overhang band at the
+top. `tools/dev/rooms.py --scaffold` mirrors the tilemaps into `game/assets/packs/` so `res://` can reach
+them and writes the scenes; `tools/dev/rooms.py` bakes each scene into the PNG at its manifest path. The
+`.room` recipe format and `tools/dev/compose.py` are retired — one authoring format, not two. On the build
+screen, the three visible floor rows and the lift shaft become `Layout` nodes, so the grid follows them;
+the 32 px tile pitch does not, because grid sizes are not a knob (`BALANCE_PLAN.md` §9).**
+
+*Why:* The recipes worked but nobody can see a room in `put office 58,0 at 0,0`. Arranging a server room's
+racks is a job for the eye, and the same argument that moved screen layout into scenes (D-77) applies to
+what a room is made of. Baking to a PNG rather than drawing the scene at runtime keeps everything the
+manifest validates — one texture per room, its size, its anchor, its overhang, its place in the draw
+order — exactly as it was.
+
+*Consequence:* The mirrored tilemaps are licensed pack art, so `game/assets/packs/` is gitignored and
+`--scaffold` recreates it; a checkout without the packs opens the room scenes with missing textures, which
+is already true of anything that regenerates art. The migration is pixel-neutral — the six baked rooms and
+all twelve screenshot fixtures are byte-identical across it, including the build grid change, which was
+caught being 32 px off the first time by exactly that comparison.
+
+Authority: Human · `ART_PIPELINE.md` §7.1 · extends [D-73](#d-73) and [D-77](#d-77)

@@ -16,6 +16,7 @@ namespace CompanyWars.Game;
 /// </summary>
 public partial class BuildScreen : Node2D
 {
+    private SceneLayout _at = null!;
     private enum CarryKind { None, StaffCard, RoomCard, FurnitureCard, Occupant, Room }
 
     private ScreenRouter _r = null!;
@@ -42,6 +43,7 @@ public partial class BuildScreen : Node2D
 
     public override void _Ready()
     {
+        _at = new SceneLayout(this);
         _r = ScreenRouter.Instance;
         _db = _r.Content;
         L = _r.Layout;
@@ -159,11 +161,19 @@ public partial class BuildScreen : Node2D
 
     // ---------------------------------------------------------------- geometry
 
-    private int FloorSlotY(int slot) => L.Rect("ui.build.tower").Position.Y + slot * 104; // above, selected, below
+    private static readonly string[] FloorSlots = { "floor_above", "floor_selected", "floor_below" };
 
+    /// <summary>Where each of the three visible floors sits; the scene holds it, not a 104px stride (D-78).</summary>
+    private int FloorSlotY(int slot) => _at.Rect(FloorSlots[slot]).Position.Y;
+
+    /// <summary>
+    /// A tile on the build grid. The row comes from the scene and the column from the shaft's right edge,
+    /// so dragging either moves the grid with it. The 32px pitch is not a knob (BALANCE_PLAN.md §9).
+    /// </summary>
     private Rect2I TileRect(int slot, long col, long row)
     {
-        int x = L.Rect("ui.build.tower").Position.X + L.Size("ui.build.shaft").X + (int)col * L.Tile;
+        Rect2I shaft = _at.Rect("shaft");
+        int x = shaft.Position.X + shaft.Size.X + (int)col * L.Tile;
         int y = FloorSlotY(slot) + (int)row * L.Tile;
         return new Rect2I(x, y, L.Tile, L.Tile);
     }
@@ -189,7 +199,7 @@ public partial class BuildScreen : Node2D
 
     private void DrawTopBar()
     {
-        Rect2I bar = L.Rect("ui.build.topbar");
+        Rect2I bar = _at.Rect("topbar");
         DrawRect(new Rect2(bar.Position, bar.Size), Tones.Fill("interface"));
         Mode mode = _db.Modes.First(m => m.Id == Run.Mode);
         _font.Draw(this, 8, 8, $"Q{Run.Round} · FIGHT {Run.Round}/{mode.Rounds}", _font.Small, Tones.Text("interface"));
@@ -201,7 +211,7 @@ public partial class BuildScreen : Node2D
             DrawRect(s, i < Run.Strikes ? Tones.Fill("people") : Tones.Fill("structure"));
             DrawRect(s, Tones.Border("interface"), false);
         }
-        Rect2I ready = L.Rect("ui.build.ready");
+        Rect2I ready = _at.Rect("ready");
         Ui.Button(this, ready, "READY", "operations");
         _hits.Add(ready, () => _r.ReadyUp(), "Commit the tower and fight. No confirmation; UNDO is always one press away.");
         // Touch and controller adapters (D-47, D-64): the keys Z and Esc as buttons, sized from the READY button.
@@ -216,8 +226,8 @@ public partial class BuildScreen : Node2D
 
     private void DrawTower()
     {
-        Rect2I tower = L.Rect("ui.build.tower");
-        Rect2I shaft = L.Rect("ui.build.shaft");
+        Rect2I tower = _at.Rect("tower");
+        Rect2I shaft = _at.Rect("shaft");
         DrawTextureRect(_r.Textures.For(L.Entry("ui.build.tower")), new Rect2(tower.Position, tower.Size), false);
         DrawTextureRect(_r.Textures.For(L.Entry("ui.build.shaft")), new Rect2(shaft.Position, shaft.Size), false);
         // Floor up and down as buttons at the shaft's ends, for touch (the wheel and the arrow keys do the same).
@@ -379,7 +389,7 @@ public partial class BuildScreen : Node2D
 
     private void DrawShop()
     {
-        Rect2I shop = L.Rect("ui.build.shop");
+        Rect2I shop = _at.Rect("shop");
         DrawTextureRect(_r.Textures.For(L.Entry("ui.build.shop")), new Rect2(shop.Position, shop.Size), false);
         Vector2I tab = L.Size("ui.build.tab");
         string[] tabs = { Shop.StaffTab, Shop.RoomsTab, Shop.FurnitureTab };
@@ -417,7 +427,7 @@ public partial class BuildScreen : Node2D
             if (k == 0)
             {
                 // The commit where the thumb already is on touch (D-68); the top-right READY stays for keyboard and mouse.
-                Rect2I readyShop = L.Rect("ui.build.ready_shop");
+                Rect2I readyShop = _at.Rect("ready_shop");
                 Ui.Button(this, readyShop, "READY", "operations");
                 _hits.Add(readyShop, () => _r.ReadyUp(), "Commit the tower and fight. No confirmation; UNDO is always one press away.");
             }
@@ -539,7 +549,7 @@ public partial class BuildScreen : Node2D
 
     private void DrawInspector()
     {
-        Rect2I panel = L.Rect("ui.build.inspector");
+        Rect2I panel = _at.Rect("inspector");
         DrawTextureRect(_r.Textures.For(L.Entry("ui.build.inspector")), new Rect2(panel.Position, panel.Size), false);
         int x = panel.Position.X + 8, y = panel.Position.Y + 8;
         SnapshotOccupant? occ = null;
@@ -721,7 +731,7 @@ public partial class BuildScreen : Node2D
     /// <summary>Wraps each line to the inspector's width and stops at limitY; the panel never overflows its buttons.</summary>
     private void DrawLines(IEnumerable<string> lines, int x, ref int ry, int limitY, Color tone)
     {
-        int width = L.Rect("ui.build.inspector").Size.X - 16;
+        int width = _at.Rect("inspector").Size.X - 16;
         foreach (string text in lines)
         {
             foreach (string line in Ui.Wrap(_font, _font.Small, text, width, 4))
@@ -771,7 +781,7 @@ public partial class BuildScreen : Node2D
 
     private void DrawHint()
     {
-        Rect2I hint = L.Rect("ui.build.hint");
+        Rect2I hint = _at.Rect("hint");
         DrawRect(new Rect2(hint.Position, hint.Size), Tones.Fill("interface"));
         string text = _hint;
         Color tone = _hint.Length > 0 ? Tones.Fill("invalid").Lightened(0.4f) : Tones.Text("interface");

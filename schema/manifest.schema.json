@@ -160,7 +160,7 @@
             },
             "asset": {
               "type": "string",
-              "pattern": "^assets/(topdown|iso|ui)/.+\\.png$"
+              "pattern": "^game/assets/(topdown|exterior|ui)/.+\\.png$"
             },
             "sourceRect": {
               "oneOf": [
@@ -208,7 +208,7 @@
         "perspective": {
           "enum": [
             "topdown",
-            "iso",
+            "exterior",
             "ui"
           ]
         },
@@ -373,7 +373,7 @@
           "if": {
             "properties": {
               "perspective": {
-                "const": "iso"
+                "const": "exterior"
               }
             }
           },

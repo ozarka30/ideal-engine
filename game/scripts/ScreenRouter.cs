@@ -397,8 +397,8 @@ public sealed class ManifestLayout
 }
 
 /// <summary>
-/// The two faces (D-66, D-67): Honey Pigeon for body text at the 8 px line and Honeyblot Caps for headers at the
-/// 16 px line, loaded as vector fonts and rendered at the window's resolution, antialiased. Text is the one thing on
+/// The two faces (D-66, D-67): Honey Pigeon for body text at the 8 px line and Honeyblot Caps at the 16 px line for
+/// headers and at the 32 px line for a screen's own title (D-75), loaded as vector fonts and rendered at the window's resolution, antialiased. Text is the one thing on
 /// screen that is not pixel art; the canvas_items stretch mode keeps sprites integer-scaled and lets text be smooth.
 /// Godot's own fallback face stands in for a missing file.
 /// </summary>
@@ -430,6 +430,9 @@ public sealed class PixelFont
     public int Small => 8;
     public int Large => 16;
 
+    /// <summary>A screen's own title (D-75): Honeyblot Caps at a 32px line, exactly 2x Large.</summary>
+    public int Title => 32;
+
     private Font FaceFor(int size) => size >= Large ? _large : _small;
 
     /// <summary>Draws with (x, y) as the top-left of the line box: an 8 px line at size 8, exactly 16 at size 16.</summary>
@@ -450,6 +453,9 @@ public static class Tones
     public static Color Border(string tone) => Color.FromHtml(ScreenRouter.Instance.Manifest.Palette.Tones[tone].Border);
     public static Color Hatch(string tone) => Color.FromHtml(ScreenRouter.Instance.Manifest.Palette.Tones[tone].Hatch);
     public static Color Text(string tone) => Color.FromHtml(ScreenRouter.Instance.Manifest.Palette.Tones[tone].Text);
+
+    /// <summary>The backdrop every screen sits on, outside the seven tones.</summary>
+    public static Color Ground() => Color.FromHtml(ScreenRouter.Instance.Manifest.Palette.Ground.Backdrop);
 
     public static string ForKind(string kind) => kind switch
     {

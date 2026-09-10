@@ -49,7 +49,7 @@ public sealed class Hits
 /// <summary>Shared widgets in the greybox style (GAME_DESIGN.md §13): buttons invert on hover, and the pressed state offsets the label.</summary>
 public static class Ui
 {
-    public static void Button(CanvasItem c, Rect2I rect, string label, string tone, bool enabled = true)
+    public static void Button(CanvasItem c, Rect2I rect, string label, string tone, bool enabled = true, string? slot = null)
     {
         ScreenRouter r = ScreenRouter.Instance;
         Vector2 m = c.GetViewport().GetMousePosition();
@@ -58,8 +58,18 @@ public static class Ui
         Color fill = enabled ? Tones.Fill(tone) : Tones.Fill("structure");
         Color text = enabled ? Tones.Text(tone) : Tones.Hatch("interface");
         if (hover) (fill, text) = (text, fill);
-        c.DrawRect(new Rect2(rect.Position, rect.Size), fill);
-        c.DrawRect(new Rect2(rect.Position, rect.Size), Tones.Border(tone), false);
+
+        // A button with art draws it (D-74); the greybox rect is what a slot without art falls back to.
+        if (slot != null && r.Manifest.Present.Contains(slot))
+        {
+            c.DrawTextureRect(r.Textures.For(r.Layout.Entry(slot)), new Rect2(rect.Position, rect.Size), false,
+                enabled ? Colors.White : new Color(1, 1, 1, 0.5f));
+        }
+        else
+        {
+            c.DrawRect(new Rect2(rect.Position, rect.Size), fill);
+            c.DrawRect(new Rect2(rect.Position, rect.Size), Tones.Border(tone), false);
+        }
         int size = rect.Size.Y >= 20 ? r.Font.Large : r.Font.Small;
         int textH = size;
         r.Font.Draw(c, rect.Position.X, rect.Position.Y + (rect.Size.Y - textH) / 2 + (pressed ? 1 : 0), label, size, text, HorizontalAlignment.Center, rect.Size.X);

@@ -60,16 +60,16 @@ Base asset pack: **GuttyKreum's "The Japan Collection"** (itch.io). All tiles ar
 | Interior Essentials (721 tiles) | Break rooms, lounges, non-office interiors |
 | Horror Interiors | Basement / portal floor — the occult reveal, still in-style |
 | Bar, Train Station, Train Interiors, School Interiors | Campaign event locations |
-| Japanese City / Osaka / Dotonbori (isometric) | Exteriors, meta map, battle backdrop |
+| Osaka / Dotonbori / Dark Tokyo / Kanagawa | Exteriors, meta map, battle backdrop |
 | Backgrounds | Menus, transitions |
 
-**The city packs are isometric; the interior packs and characters are top-down.**
-Do not mix them inside one view. This is resolved by assigning each perspective a
-job:
+**No pack in the collection is isometric (D-69).** GuttyKreum draws top-down floors
+and front-on walls in one tileset. Do not mix an interior floor grid and an exterior
+elevation inside one view. This is resolved by assigning each a job:
 
 - **Interior / build view — top-down.** The floorplan grid the player edits.
-- **Exterior / battle view — isometric.** Two buildings facing each other across a
-  street.
+- **Exterior / battle view — front-on facades.** Two buildings facing each other
+  across a street, each a stack of 96 × 32 storey bands.
 
 Extending to non-GuttyKreum art later is handled diegetically: the **Otherworld
 Temp Agency** behind the portal supplies extraplanar contractors, so any future
@@ -86,8 +86,8 @@ importantly *understand*, a fight spread across four grids?
 
 Direction to develop:
 
-- Camera sits on the street. Both towers face each other, drawn with isometric
-  city art.
+- Camera sits on the street. Both towers face each other, drawn as facades from the
+  city packs, left and right of the canvas.
 - Effects pop from windows — a floor firing an ability produces a burst, a
   floating number, an icon at that floor's windows.
 - Hovering a floor opens its top-down floorplan as an inset/tooltip, showing which
