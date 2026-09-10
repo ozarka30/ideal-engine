@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3]
 
-[ext_resource type="Texture2D" path="res://assets/packs/office.png" id="1"]
+[ext_resource type="Texture2D" path="res://assets/packs/japanese_office_interior.png" id="1"]
 
 [sub_resource type="AtlasTexture" id="office_31_22"]
 atlas = ExtResource("1")

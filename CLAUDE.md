@@ -33,7 +33,8 @@ python3 tools/dev/gallery.py                      # build/gallery.html: every sc
 python3 tools/dev/worklist.py                     # docs/ART_WORKLIST.md: every slot without art, ranked, with its exact path and size; creates the folders
 python3 tools/dev/packs.py                        # docs/pack_index.csv: every PNG in packs/ with its size; docs/PACKS.md maps candidateSource to pack
 python3 tools/dev/cut_sprites.py                  # re-cuts every sprite whose candidateSource names a pack file (D-70, D-71)
-python3 tools/dev/rooms.py                        # bakes game/scenes/rooms/*.tscn into the room plan PNGs (D-78); --scaffold mirrors the pack tilemaps under res://
+python3 tools/dev/tilesets.py --write             # mirrors all 59 pack tilemaps under res:// and gives each a TileSet palette (gitignored; run once per checkout)
+python3 tools/dev/rooms.py                        # bakes game/scenes/rooms/*.tscn into the room plan PNGs (D-78)
 python3 tools/dev/ui.py                           # builds the UI chrome from tools/dev/ui/slots.txt (D-74)
 ```
 

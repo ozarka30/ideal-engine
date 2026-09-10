@@ -97,3 +97,19 @@ in `ui_pack_controls/ui_pack_icons.{standard,outline}`, plus keyboard, mouse and
 Everything is drawn at an 18 px 9-slice corner and blue-on-white for recolouring; `tools/dev/ui.py`
 halves it to a 9 px corner and maps it onto a greybox tone. Licence recorded and clear —
 `LICENSE.md` beside the pack. Same author as the two fonts in `game/fonts/` (D-67).
+
+## Designing with the packs inside Godot
+
+```
+python3 tools/dev/tilesets.py --write
+```
+
+Mirrors all 59 tilemap sheets from 25 packs into `game/assets/packs/` and writes a Godot **TileSet** beside
+each one — 28,617 tiles in total, only the cells that have something in them, so a palette has no holes to
+misclick into. Add a `TileMapLayer`, point its `tile_set` at one of the `.tres`, and the pack is a brush.
+
+The folder is gitignored: these are licensed sheets, and the rule is that only cut sprites at manifest
+paths get committed. Re-run the command on a fresh checkout.
+
+The 21,648 individually cut tiles under each pack's `Tiles/` folder are deliberately **not** mirrored —
+Godot would import every one of them. The sheet reaches the same art for a fraction of the cost.
