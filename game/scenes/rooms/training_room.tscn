@@ -2,11 +2,16 @@
 
 [ext_resource type="TileSet" path="res://assets/packs/japanese_office_interior.tres" id="1"]
 
-; training_room: the plan is 64x96; the top 32px overhangs the footprint and is where
-; back-row fittings go. Tiles are painted at half scale, so a layer cell is 16px.
+; training_room: plan 64x96; the top 32px overhangs the footprint. Layers are half
+; scale, so a cell is 16px and a source tile draws at 16px.
 [node name="Room" type="Node2D"]
 
 [node name="Floor" type="TileMapLayer" parent="."]
 scale = Vector2(0.5, 0.5)
 tile_map_data = PackedByteArray("AAAAAAIAAAAbABcAAAABAAIAAAAbABcAAAACAAIAAAAbABcAAAADAAIAAAAbABcAAAAAAAMAAAAbABcAAAABAAMAAAAbABcAAAACAAMAAAAbABcAAAADAAMAAAAbABcAAAAAAAQAAAAbABcAAAABAAQAAAAbABcAAAACAAQAAAAbABcAAAADAAQAAAAbABcAAAAAAAUAAAAbABcAAAABAAUAAAAbABcAAAACAAUAAAAbABcAAAADAAUAAAAbABcAAAA=")
+tile_set = ExtResource("1")
+
+[node name="Fittings" type="TileMapLayer" parent="."]
+scale = Vector2(0.5, 0.5)
+tile_map_data = PackedByteArray("AAABAAEAAAAzAAAAAAACAAEAAAA0AAAAAAABAAIAAAAzAAEAAAACAAIAAAA0AAEAAAA=")
 tile_set = ExtResource("1")

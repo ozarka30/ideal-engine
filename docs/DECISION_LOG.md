@@ -109,6 +109,7 @@ history of a reversal is the most useful thing in a document like this.
 | [D-78](#d-78) | Room plans are authored as Godot scenes and baked to their PNG; the build screen's floor rows and shaft become nodes too. The `.room` recipe format is retired | Human | UI workflow |
 | [D-79](#d-79) | A room renders live from its scene through a SubViewport at 2x, not from a baked PNG: baking at half scale threw away the resolution that painting at half scale bought | Human | UI workflow |
 | [D-80](#d-80) | The GuttyKreum licence is recorded and clear for release; the sheets a room draws from are committed, the rest stay a local palette | Human | [Q-RISK-1](OPEN_QUESTIONS.md#q-risk-1--is-the-guttykreum-licence-clear-for-a-commercial-steam-release) |
+| [D-81](#d-81) | The sim is handled headlessly and anything visible is editable in Godot: a visible number belongs in a scene, not in a `_Draw` | Human | UI workflow |
 
 Forty-nine craft decisions and nineteen human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
@@ -1790,3 +1791,27 @@ them as files. That is a packaging task, not an art one, and it is open. Both `.
 hid art this session — a bare `build/` and a bare `packs/` — are now anchored to the repository root.
 
 Authority: Human · `ART_PIPELINE.md` §14 · Question: [Q-RISK-1](OPEN_QUESTIONS.md#q-risk-1--is-the-guttykreum-licence-clear-for-a-commercial-steam-release)
+
+---
+
+## D-81
+
+**Two halves of the project, and a rule for each. The simulation is handled headlessly: `CompanyWars.Sim`
+references nothing but the base library, `Build` and `Playback` are pure, and the harness, the ten
+conformance fixtures and all sixty-nine tests run without Godot ever loading. Anything a player can see
+goes the other way: it is a node in a scene, positioned and sized in the 2D editor. A visible number found
+in a `_Draw` is not a constant to tidy — it is a node that has not been made yet.**
+
+*Why:* the owner edits by dragging, and the two halves want opposite things. Balance work needs to run a
+thousand fights a second with no window; layout work needs to be seen and nudged. Keeping the boundary
+sharp means neither compromises the other, and it is already how the code is built — D-60 put the sim
+behind an assembly that cannot reference Godot, and D-77 moved position into the scenes.
+
+*Consequence:* the build screen's shop tabs, card row, reroll, lease row and the four top-bar readouts are
+now `Layout` nodes rather than offsets from the shop panel, and the change is pixel-neutral — the same
+window renders byte-identically before and after. What remains in code is genuinely internal to a widget:
+where a card's price sits inside the card. Those become editable when a card is its own scene, which is
+the next step this rule implies. Screens with no manifest layout at all — menu, picker, summary, settings,
+greybox — have not been converted and should be.
+
+Authority: Human · `ARCHITECTURE.md` §1, §7 · extends [D-60](#d-60) and [D-77](#d-77)

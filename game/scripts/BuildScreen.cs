@@ -242,6 +242,15 @@ public partial class BuildScreen : Node2D
         DrawTextureRect(vp.GetTexture(), new Rect2(tile.Position.X, tile.Position.Y - o.Top, plan.X, plan.Y), false, dim);
     }
 
+    /// <summary>Text at a slot the scene positions (D-77). Anything visible is editable in Godot.</summary>
+    private void Text(string slot, string text) => Text(slot, text, Tones.Text("interface"));
+
+    private void Text(string slot, string text, Color color)
+    {
+        Vector2I p = _at.At(slot);
+        _font.Draw(this, p.X, p.Y, text, _font.Small, color);
+    }
+
     // ---------------------------------------------------------------- drawing
 
     public override void _Draw()
@@ -261,12 +270,12 @@ public partial class BuildScreen : Node2D
         Rect2I bar = _at.Rect("topbar");
         DrawRect(new Rect2(bar.Position, bar.Size), Tones.Fill("interface"));
         Mode mode = _db.Modes.First(m => m.Id == Run.Mode);
-        _font.Draw(this, 8, 8, $"Q{Run.Round} · FIGHT {Run.Round}/{mode.Rounds}", _font.Small, Tones.Text("interface"));
-        _font.Draw(this, 200, 8, $"¥ {Run.Budget}", _font.Small, Tones.Text("interface"));
-        _font.Draw(this, 280, 8, $"+¥{State.Income}{(State.Passives > 0 ? $"+{State.Passives}" : string.Empty)} −¥{State.Upkeep}/qtr{(State.UnpaidUpkeep > 0 ? $" ({State.UnpaidUpkeep} unpaid → Goodwill)" : string.Empty)}", _font.Small, Tones.Text("interface"));
+        Text("topbar_round", $"Q{Run.Round} · FIGHT {Run.Round}/{mode.Rounds}");
+        Text("topbar_budget", $"¥ {Run.Budget}");
+        Text("topbar_income", $"+¥{State.Income}{(State.Passives > 0 ? $"+{State.Passives}" : string.Empty)} −¥{State.Upkeep}/qtr{(State.UnpaidUpkeep > 0 ? $" ({State.UnpaidUpkeep} unpaid → Goodwill)" : string.Empty)}");
         for (int i = 0; i < mode.Strikes; i++)
         {
-            var s = new Rect2(400 + i * 10, 8, 8, 8);
+            var s = new Rect2(_at.X("strikes") + i * 10, _at.Y("strikes"), 8, 8);
             DrawRect(s, i < Run.Strikes ? Tones.Fill("people") : Tones.Fill("structure"));
             DrawRect(s, Tones.Border("interface"), false);
         }
@@ -454,7 +463,7 @@ public partial class BuildScreen : Node2D
         string[] tabs = { Shop.StaffTab, Shop.RoomsTab, Shop.FurnitureTab };
         for (int i = 0; i < tabs.Length; i++)
         {
-            var rect = new Rect2I(shop.Position.X + i * tab.X, shop.Position.Y, tab.X, tab.Y);
+            var rect = new Rect2I(_at.X("tabs") + i * tab.X, _at.Y("tabs"), tab.X, tab.Y);
             bool active = tabs[i] == _tab;
             Ui.Button(this, rect, tabs[i].ToUpperInvariant(), active ? "operations" : "interface");
             string t = tabs[i];
@@ -464,22 +473,22 @@ public partial class BuildScreen : Node2D
         Vector2I card = L.Size("ui.card.applicant");
         for (int i = 0; i < cards.Length; i++)
         {
-            var rect = new Rect2I(shop.Position.X + i * (card.X + 4), shop.Position.Y + 24, card.X, card.Y);
+            var rect = new Rect2I(_at.X("cards") + i * (card.X + 4), _at.Y("cards"), card.X, card.Y);
             DrawCard(rect, cards[i], i);
         }
-        var reroll = new Rect2I(shop.Position.X, shop.Position.Y + 108, 116, 16);
+        Rect2I reroll = _at.Rect("reroll");
         long rerollCost = Economy.RerollCost(_db, Run.Tower);
         Ui.Button(this, reroll, $"REROLL {_tab.ToUpperInvariant()} · ¥{rerollCost}", "support", Run.Budget >= rerollCost);
         _hits.Add(reroll, () => Do(new Reroll(_tab)), "Replace this tab's cards from its bag; nothing repeats until the bag empties");
-        _font.Draw(this, shop.Position.X, shop.Position.Y + 128, "Otherworld Temp Agency · the portal is closed", _font.Small, Tones.Hatch("anomalous"));
+        Text("otherworld", "Otherworld Temp Agency · the portal is closed", Tones.Hatch("anomalous"));
 
-        _font.Draw(this, shop.Position.X, shop.Position.Y + 208, "LEASE", _font.Small, Tones.Hatch("interface"));
+        Text("lease_label", "LEASE", Tones.Hatch("interface"));
         Vector2I lb = L.Size("ui.build.lease_button");
         int k = 0;
         foreach (string floorId in _db.Shop.Leases)
         {
             FloorDef fd = _db.Floors.First(f => f.Id == floorId);
-            var rect = new Rect2I(shop.Position.X + k * 80, shop.Position.Y + 228, lb.X, lb.Y);
+            var rect = new Rect2I(_at.X("lease") + k * 80, _at.Y("lease"), lb.X, lb.Y);
             bool owned = Legality.HasFloor(Run.Tower, fd.Index);
             bool can = !owned && Run.Budget >= fd.Lease && (!fd.RequiresPortal || Run.PortalOpen);
             Ui.Button(this, rect, owned ? $"{Legality.FloorName(fd.Index)} leased · −¥{fd.UpkeepBudget}/q" : $"{Legality.FloorName(fd.Index)} ¥{fd.Lease} · −¥{fd.UpkeepBudget}/q", "interface", can);
