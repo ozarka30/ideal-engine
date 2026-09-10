@@ -15,3 +15,4 @@ tools/dev/drive/current.json
 game/jpassets/
 *.tpz
 game/__screenshots__/references/
+packs/

@@ -339,7 +339,7 @@ visible placeholders. The README badge reads `withArt / gated`.
 
 ### 7.3 The ranked art worklist
 
-`tools/worklist [--tier N] [--screen build] [--out worklist/]`
+`python3 tools/dev/worklist.py [--tier N]` — writes `assets/WORKLIST.md` and creates every asset folder (the `--screen` and per-slot sheet options are not built yet)
 
 The most important tool in this workflow, because replacement is developer-paced and
 unordered, and a coverage number is not a plan. For every gated entry without art, it

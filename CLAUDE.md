@@ -29,6 +29,7 @@ xvfb-run -s "-screen 0 1920x1080x24" godot --path game --resolution 1280x720 -- 
 xvfb-run godot --path game -- --drive tools/dev/drive/first_round.json   # plays taps/keys/shots; writes game/__screenshots__/drive/
 tools/dev/godot.sh [--templates]                  # prints the Godot 4.7.2 mono path, downloading it into ~/.cache/companywars if absent
 python3 tools/dev/gallery.py                      # build/gallery.html: every screen, the last drive run, and any reference shots under game/__screenshots__/references/
+python3 tools/dev/worklist.py                     # assets/WORKLIST.md: every slot without art, ranked, with its exact path and size; creates the folders
 ```
 
 ## Driving the game from an agent
@@ -54,6 +55,7 @@ python3 tools/dev/gallery.py                      # build/gallery.html: every sc
 - **One knob per commit** when tuning numbers. The Quarter Close curve, the bar scale, tick rate, grid sizes, Tenure tiers and retrigger depth are not knobs (`docs/BALANCE_PLAN.md` §9).
 - **Decisions are appended, never edited.** A reversal is a new entry in `docs/DECISION_LOG.md` naming what it supersedes. Before changing a rule, grep the log for it.
 - **Never gate a CI step on an art file existing.** Absent assets are valid; a dimension mismatch on a present one is not.
+- **Art goes at the manifest's path.** A PNG at `sprite.asset` (relative to the repository root) at exactly `sprite.w × sprite.h` replaces the placeholder; `assets/WORKLIST.md` lists every slot. Source packs stay under `packs/` and out of git; commit only the cut sprites.
 - **Never require text input on any screen** (D-55).
 
 ## Gotchas
