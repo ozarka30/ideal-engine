@@ -27,9 +27,18 @@ public sealed class SceneLayout
         if (_root is CanvasItem guides) guides.Visible = false;
     }
 
-    private Node Slot(string name) =>
-        _root.GetNodeOrNull(name)
-        ?? throw new InvalidOperationException($"{_screen}: Layout has no slot named '{name}' (D-77)");
+    private System.Collections.Generic.Dictionary<string, (Vector2 Position, Vector2 Size)>? _snapshot;
+
+    private (Vector2 Position, Vector2 Size) Read(string name)
+    {
+        if (_snapshot != null)
+        {
+            return _snapshot.TryGetValue(name, out (Vector2, Vector2) box) ? box
+                : throw new InvalidOperationException($"{_screen}: Layout has no slot named '{name}' (D-77)");
+        }
+        return Box(_root.GetNodeOrNull(name)
+                   ?? throw new InvalidOperationException($"{_screen}: Layout has no slot named '{name}' (D-77)"));
+    }
 
     /// <summary>
     /// A slot is a ColorRect where there is no art to show and a Sprite2D where there is, so the 2D editor
@@ -47,14 +56,14 @@ public sealed class SceneLayout
     /// <summary>Where the slot's top-left sits, in canvas pixels.</summary>
     public Vector2I At(string name)
     {
-        Vector2 p = Box(Slot(name)).Position;
+        Vector2 p = Read(name).Position;
         return new Vector2I((int)Math.Round(p.X), (int)Math.Round(p.Y));
     }
 
     /// <summary>The slot's box. Width and height are the scene's, for hit-testing and centred text.</summary>
     public Rect2I Rect(string name)
     {
-        (Vector2 p, Vector2 size) = Box(Slot(name));
+        (Vector2 p, Vector2 size) = Read(name);
         return new Rect2I(
             (int)Math.Round(p.X), (int)Math.Round(p.Y),
             (int)Math.Round(size.X), (int)Math.Round(size.Y));
@@ -65,6 +74,30 @@ public sealed class SceneLayout
     public int Y(string name) => At(name).Y;
 
     /// <summary>A bare Node2D marker, for a repeating grid whose origin is draggable but whose pitch is code.</summary>
+    /// <summary>
+    /// A widget's own layout, loaded from its scene once. The offsets are relative to the widget's
+    /// top-left, so a screen adds them to wherever it is drawing that widget -- a card appears four
+    /// times in the shop and each one reads the same scene (D-81).
+    /// </summary>
+    public static SceneLayout Widget(string path)
+    {
+        if (_widgets.TryGetValue(path, out SceneLayout? found)) return found;
+        Node scene = GD.Load<PackedScene>(path).Instantiate<Node>();
+        var layout = new SceneLayout(scene);
+        // Snapshot the offsets and free the scene. A widget is read, never shown: keeping the
+        // instance alive would hold its textures open and leak them at exit.
+        layout._snapshot = new System.Collections.Generic.Dictionary<string, (Vector2, Vector2)>();
+        foreach (Node child in layout._root.GetChildren())
+        {
+            layout._snapshot[child.Name] = Box(child);
+        }
+        scene.Free();
+        _widgets[path] = layout;
+        return layout;
+    }
+
+    private static readonly System.Collections.Generic.Dictionary<string, SceneLayout> _widgets = new();
+
     public Vector2I Origin(string name)
     {
         Node2D n = _root.GetNodeOrNull<Node2D>(name)

@@ -1080,7 +1080,7 @@ effect in that list, applied like a modifier, and the sim already reads it.
 
 | Entity | Sprite | Anchor | Footprint | `sortBias` | Notes |
 | --- | --- | --- | --- | --- | --- |
-| `ui.card.applicant` | 52 × 80 | top-left | — | 0 | Cost first: `¥2` in `font.ui.16` at (2, 2), the card's largest mark (D-68); a 52 × 2 tier band along the top edge in the tier tone (T1 interface, T2 support, T3 operations); portrait slot (18, 4, 32, 32) = idle sprite frame; name (2, 40, 48, 8); dept, tier and cooldown (2, 50, 48, 8); the ability in two words (2, 60, 48, 8); rider strip replaces the ability line for extraplanar |
+| `ui.card.applicant` | 52 × 80 | top-left | — | 0 | Laid out by `game/scenes/widgets/Card.tscn`, whose slots are relative to the card's own corner and are the editable copy of the offsets below (D-81). Cost first: `¥2` in `font.ui.16` at (2, 2), the card's largest mark (D-68); a 52 × 2 tier band along the top edge in the tier tone (T1 interface, T2 support, T3 operations); portrait slot (18, 4, 32, 32) = idle sprite frame; name (2, 40, 48, 8); dept, tier and cooldown (2, 50, 48, 8); the ability in two words (2, 60, 48, 8); rider strip replaces the ability line for extraplanar |
 | `ui.card.room` | 52 × 80 | top-left | — | 0 | Footprint diagram 32 × 32 at (10, 4), 8 px per cell; name; aura line; legal floors as up to five 6 × 6 glyphs at (2, 60); cost tag |
 | `ui.card.furniture` | 52 × 80 | top-left | — | 0 | Sprite at (10, 4); name; effect line; cost |
 | `emp.*` | 32 × 32 | bottom-centre | 1 × 1 | 0 | Down-facing idle frame in build view |
