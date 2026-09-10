@@ -28,6 +28,7 @@ dotnet build game/CompanyWars.Game.csproj                            # needs onl
 xvfb-run -s "-screen 0 1920x1080x24" godot --path game --resolution 1280x720 -- --screenshots   # 2x fixtures; run again at 1920x1080 for 3x
 xvfb-run godot --path game -- --drive tools/dev/drive/first_round.json   # plays taps/keys/shots; writes game/__screenshots__/drive/
 tools/dev/godot.sh [--templates]                  # prints the Godot 4.7.2 mono path, downloading it into ~/.cache/companywars if absent
+python3 tools/dev/gallery.py                      # build/gallery.html: every screen, the last drive run, and any reference shots under game/__screenshots__/references/
 ```
 
 ## Driving the game from an agent
