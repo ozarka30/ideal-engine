@@ -1,0 +1,68 @@
+[
+  {
+    "run": {
+      "founder": "founder.sato",
+      "seed": 1
+    }
+  },
+  {
+    "wait": 10
+  },
+  {
+    "shot": "a_grid"
+  },
+  {
+    "tap": [
+      305,
+      40
+    ]
+  },
+  {
+    "wait": 6
+  },
+  {
+    "shot": "b_shop_cards"
+  },
+  {
+    "tap": [
+      15,
+      327
+    ]
+  },
+  {
+    "wait": 8
+  },
+  {
+    "tap": [
+      56,
+      168
+    ]
+  },
+  {
+    "wait": 8
+  },
+  {
+    "shot": "c_inspector"
+  },
+  {
+    "key": "Enter"
+  },
+  {
+    "wait": 40
+  },
+  {
+    "tap": [
+      200,
+      264
+    ]
+  },
+  {
+    "wait": 8
+  },
+  {
+    "shot": "d_battle_inset"
+  },
+  {
+    "quit": true
+  }
+]

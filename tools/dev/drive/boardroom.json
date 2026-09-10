@@ -1,0 +1,12 @@
+[
+  { "scene": "res://scenes/Picker.tscn" },
+  { "wait": 8 },
+  { "tap": [100, 148] },
+  { "wait": 4 },
+  { "tap": [60, 234] },
+  { "wait": 40 },
+  { "tap": [200, 168] },
+  { "wait": 10 },
+  { "shot": "board_inset_3f" },
+  { "quit": true }
+]

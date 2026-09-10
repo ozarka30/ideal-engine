@@ -17,8 +17,9 @@ nearest, matching the project's texture filter, so the bake is what the editor s
 Sheets live under res:// because tools/dev/tilesets.py mirrors them there; run that
 first on a fresh checkout. They are licensed pack art, so that folder is gitignored.
 
-    python3 tools/dev/rooms.py              # bake every scene to its PNG
-    python3 tools/dev/rooms.py boardroom    # or just the ones named
+    python3 tools/dev/rooms.py                       # bake every scene to its PNG
+    python3 tools/dev/rooms.py boardroom             # or just the ones named
+    python3 tools/dev/rooms.py --new sales_floor     # start a blank room: floor laid, nothing else
 """
 import base64
 import json
@@ -142,9 +143,53 @@ def bake(scene, entry):
     return im, tiles
 
 
+FLOOR_CELL = (27, 23)      # japanese_office_interior v3: the blue tile autotile's centre fill
+
+
+def scaffold(name, entry):
+    """A blank room to paint into: the floor laid across the footprint, nothing else."""
+    dest = SCENES / f"{name}.tscn"
+    if dest.exists():
+        print(f"  {name}: already exists, leaving it alone")
+        return
+    w, h = entry["sprite"]["w"], entry["sprite"]["h"]
+    band = h - entry["footprint"]["h"] * CELL          # overhang above the footprint
+    step = CELL // 2                                    # tiles are painted at half scale
+    ax, ay = FLOOR_CELL
+    cells_out = []
+    for cy in range(band // step, h // step):
+        for cx in range(w // step):
+            cells_out.append(struct.pack("<hhhhhh", cx, cy, 0, ax, ay, 0))
+    data = base64.b64encode(struct.pack("<H", 0) + b"".join(cells_out)).decode()
+    lines = [
+        "[gd_scene load_steps=2 format=3]",
+        "",
+        '[ext_resource type="TileSet" path="res://assets/packs/japanese_office_interior.tres" id="1"]',
+        "",
+        f"; {name}: the plan is {w}x{h}; the top {band}px overhangs the footprint and is where",
+        "; back-row fittings go. Tiles are painted at half scale, so a layer cell is 16px.",
+        '[node name="Room" type="Node2D"]',
+        "",
+        '[node name="Floor" type="TileMapLayer" parent="."]',
+        "scale = Vector2(0.5, 0.5)",
+        f'tile_map_data = PackedByteArray("{data}")',
+        'tile_set = ExtResource("1")',
+        "",
+    ]
+    dest.write_text("\n".join(lines), encoding="utf-8", newline="\n")
+    print(f"  {name}: {w}x{h}, floor laid, ready to paint")
+
+
 def main():
     wanted = [a for a in sys.argv[1:] if not a.startswith("-")]
     entries = {e["id"]: e for e in json.loads((ROOT / "manifest" / "sprites.json").read_text(encoding="utf-8"))["entries"]}
+    if "--new" in sys.argv:
+        for name in wanted:
+            target = f"room.{name}.tile"
+            if target not in entries:
+                sys.exit(f"no manifest entry {target}")
+            scaffold(name, entries[target])
+        return
     for scene in sorted(SCENES.glob("*.tscn")):
         if wanted and scene.stem not in wanted:
             continue
