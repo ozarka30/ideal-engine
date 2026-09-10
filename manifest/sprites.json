@@ -12,7 +12,7 @@
     4,
     6
   ],
-  "assetRoot": "assets/",
+  "assetRoot": "game/assets/",
   "palette": "manifest/greybox_palette.json",
   "visibilityTiers": {
     "1": "on the build screen every round",
@@ -37,7 +37,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/intern.png",
+        "asset": "game/assets/topdown/emp/intern.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -56,7 +56,7 @@
       ],
       "visibility": 1,
       "reads": "A engineering at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleYouth/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -82,7 +82,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/junior_dev.png",
+        "asset": "game/assets/topdown/emp/junior_dev.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -101,7 +101,7 @@
       ],
       "visibility": 1,
       "reads": "A engineering at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleStudent1/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -127,7 +127,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/qa_tester.png",
+        "asset": "game/assets/topdown/emp/qa_tester.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -146,7 +146,7 @@
       ],
       "visibility": 1,
       "reads": "A engineering at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleStudent/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -172,7 +172,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/senior_dev.png",
+        "asset": "game/assets/topdown/emp/senior_dev.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -191,7 +191,7 @@
       ],
       "visibility": 2,
       "reads": "A engineering at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleBusinessMan/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -217,7 +217,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/devops.png",
+        "asset": "game/assets/topdown/emp/devops.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -236,7 +236,7 @@
       ],
       "visibility": 2,
       "reads": "A engineering at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MalePunk/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -262,7 +262,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/sysadmin.png",
+        "asset": "game/assets/topdown/emp/sysadmin.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -281,7 +281,7 @@
       ],
       "visibility": 2,
       "reads": "A engineering at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleCasual/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -307,7 +307,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/architect.png",
+        "asset": "game/assets/topdown/emp/architect.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -326,7 +326,7 @@
       ],
       "visibility": 2,
       "reads": "A engineering at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleBusinessManOld/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -352,7 +352,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/cto.png",
+        "asset": "game/assets/topdown/emp/cto.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -371,7 +371,7 @@
       ],
       "visibility": 2,
       "reads": "A engineering at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleTraditional/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -397,7 +397,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/paralegal.png",
+        "asset": "game/assets/topdown/emp/paralegal.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -416,7 +416,7 @@
       ],
       "visibility": 1,
       "reads": "A legal at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleTrendy/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -442,7 +442,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/compliance_officer.png",
+        "asset": "game/assets/topdown/emp/compliance_officer.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -461,7 +461,7 @@
       ],
       "visibility": 1,
       "reads": "A legal at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleStudent/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -487,7 +487,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/counsel.png",
+        "asset": "game/assets/topdown/emp/counsel.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -506,7 +506,7 @@
       ],
       "visibility": 2,
       "reads": "A legal at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleOfficeWorker/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -532,7 +532,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/patent_attorney.png",
+        "asset": "game/assets/topdown/emp/patent_attorney.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -551,7 +551,7 @@
       ],
       "visibility": 2,
       "reads": "A legal at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleTrafficCop/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -577,7 +577,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/general_counsel.png",
+        "asset": "game/assets/topdown/emp/general_counsel.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -596,7 +596,7 @@
       ],
       "visibility": 2,
       "reads": "A legal at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleElder/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -622,7 +622,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/recruiter.png",
+        "asset": "game/assets/topdown/emp/recruiter.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -641,7 +641,7 @@
       ],
       "visibility": 1,
       "reads": "A hr at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleYouth/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -667,7 +667,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/office_manager.png",
+        "asset": "game/assets/topdown/emp/office_manager.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -686,7 +686,7 @@
       ],
       "visibility": 1,
       "reads": "A hr at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleBaker/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -712,7 +712,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/hr_manager.png",
+        "asset": "game/assets/topdown/emp/hr_manager.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -731,7 +731,7 @@
       ],
       "visibility": 2,
       "reads": "A hr at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleCafeMaid/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -757,7 +757,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/trainer.png",
+        "asset": "game/assets/topdown/emp/trainer.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -776,7 +776,7 @@
       ],
       "visibility": 2,
       "reads": "A hr at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleCasual/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -802,7 +802,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/head_of_people.png",
+        "asset": "game/assets/topdown/emp/head_of_people.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -821,7 +821,7 @@
       ],
       "visibility": 2,
       "reads": "A hr at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleBusinessManOld/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -847,7 +847,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/telemarketer.png",
+        "asset": "game/assets/topdown/emp/telemarketer.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -866,7 +866,7 @@
       ],
       "visibility": 1,
       "reads": "A sales at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleStudent1/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -892,7 +892,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/sales_rep.png",
+        "asset": "game/assets/topdown/emp/sales_rep.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -911,7 +911,7 @@
       ],
       "visibility": 1,
       "reads": "A sales at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleTrendy/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -937,7 +937,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/account_manager.png",
+        "asset": "game/assets/topdown/emp/account_manager.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -956,7 +956,7 @@
       ],
       "visibility": 2,
       "reads": "A sales at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleBusinessMan/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -982,7 +982,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/headhunter.png",
+        "asset": "game/assets/topdown/emp/headhunter.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1001,7 +1001,7 @@
       ],
       "visibility": 2,
       "reads": "A sales at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MalePunk/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1027,7 +1027,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/sales_director.png",
+        "asset": "game/assets/topdown/emp/sales_director.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1046,7 +1046,7 @@
       ],
       "visibility": 2,
       "reads": "A sales at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleElder/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1072,7 +1072,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/key_account_manager.png",
+        "asset": "game/assets/topdown/emp/key_account_manager.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1091,7 +1091,7 @@
       ],
       "visibility": 2,
       "reads": "A sales at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleTraditional/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1117,7 +1117,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/team_lead.png",
+        "asset": "game/assets/topdown/emp/team_lead.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1136,7 +1136,7 @@
       ],
       "visibility": 1,
       "reads": "A management at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleYouth/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1162,7 +1162,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/project_manager.png",
+        "asset": "game/assets/topdown/emp/project_manager.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1181,7 +1181,7 @@
       ],
       "visibility": 1,
       "reads": "A management at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleStudent/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1207,7 +1207,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/middle_manager.png",
+        "asset": "game/assets/topdown/emp/middle_manager.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1226,7 +1226,7 @@
       ],
       "visibility": 2,
       "reads": "A management at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleTrafficCop/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1252,7 +1252,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/consultant.png",
+        "asset": "game/assets/topdown/emp/consultant.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1271,7 +1271,7 @@
       ],
       "visibility": 2,
       "reads": "A management at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleOfficeWorker/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1297,7 +1297,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/director.png",
+        "asset": "game/assets/topdown/emp/director.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1316,7 +1316,7 @@
       ],
       "visibility": 2,
       "reads": "A management at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleBusinessManOld/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1342,7 +1342,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/vp_operations.png",
+        "asset": "game/assets/topdown/emp/vp_operations.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1361,7 +1361,7 @@
       ],
       "visibility": 2,
       "reads": "A management at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleTraditional/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1387,7 +1387,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/x_salaryman_ghost.png",
+        "asset": "game/assets/topdown/emp/x_salaryman_ghost.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1406,7 +1406,7 @@
       ],
       "visibility": 3,
       "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleBusinessMan/Idle frame 1 (facing down), violet spectral recolour",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1432,7 +1432,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/x_office_lady.png",
+        "asset": "game/assets/topdown/emp/x_office_lady.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1451,7 +1451,7 @@
       ],
       "visibility": 3,
       "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleOfficeWorker/Idle frame 1 (facing down), violet spectral recolour",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1477,7 +1477,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/x_auditor.png",
+        "asset": "game/assets/topdown/emp/x_auditor.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1496,7 +1496,7 @@
       ],
       "visibility": 3,
       "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleTrafficCop/Idle frame 1 (facing down), violet spectral recolour",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1522,7 +1522,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/x_fax_spirit.png",
+        "asset": "game/assets/topdown/emp/x_fax_spirit.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1541,7 +1541,7 @@
       ],
       "visibility": 3,
       "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/Gutty-Chan/Idle frame 1 (facing down), violet spectral recolour",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1567,7 +1567,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/x_kappa_intern.png",
+        "asset": "game/assets/topdown/emp/x_kappa_intern.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1586,7 +1586,7 @@
       ],
       "visibility": 1,
       "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleYouth/Idle frame 1 (facing down), green spectral recolour",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1612,7 +1612,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/x_salaryman_who_never_left.png",
+        "asset": "game/assets/topdown/emp/x_salaryman_who_never_left.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1631,7 +1631,7 @@
       ],
       "visibility": 4,
       "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleBusinessManOld/Idle frame 1 (facing down), violet spectral recolour",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1657,7 +1657,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/x_the_chairman.png",
+        "asset": "game/assets/topdown/emp/x_the_chairman.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1676,7 +1676,7 @@
       ],
       "visibility": 4,
       "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleTraditional/Idle frame 1 (facing down), violet spectral recolour",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1702,7 +1702,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/x_the_partner.png",
+        "asset": "game/assets/topdown/emp/x_the_partner.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1721,7 +1721,7 @@
       ],
       "visibility": 4,
       "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleElder/Idle frame 1 (facing down), violet spectral recolour",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1747,7 +1747,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/x_efficiency_wraith.png",
+        "asset": "game/assets/topdown/emp/x_efficiency_wraith.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1766,7 +1766,7 @@
       ],
       "visibility": 4,
       "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/Witch/Idle frame 1 (facing down), violet spectral recolour",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1792,7 +1792,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/emp/x_recruiting_oni.png",
+        "asset": "game/assets/topdown/emp/x_recruiting_oni.png",
         "sourceRect": null,
         "frames": {
           "idleDown": [
@@ -1811,7 +1811,7 @@
       ],
       "visibility": 4,
       "reads": "A spectral extraplanar at a glance; department must be readable from silhouette or uniform colour",
-      "candidateSource": "Horror Interiors / JRPG Characters (recolour)",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MalePunk/Idle frame 1 (facing down), red spectral recolour",
       "verify": false,
       "releaseGate": true,
       "overhang": {
@@ -1825,19 +1825,19 @@
       "id": "room.reception.tile",
       "kind": "tile",
       "category": "structure",
-      "label": "Reception floor tile",
+      "label": "Reception floor plan",
       "footprint": {
-        "w": 1,
-        "h": 1
+        "w": 2,
+        "h": 2
       },
       "sprite": {
-        "w": 32,
-        "h": 32,
+        "w": 64,
+        "h": 96,
         "anchor": {
           "x": 0.0,
-          "y": 0.0
+          "y": 1.0
         },
-        "asset": "assets/topdown/room/reception/tile.png",
+        "asset": "game/assets/topdown/room/reception/tile.png",
         "sourceRect": null
       },
       "sortBias": -10,
@@ -1848,13 +1848,13 @@
         "shop"
       ],
       "visibility": 1,
-      "reads": "A tileable floor surface that says 'Reception' without a label; top edge carries a 1px wall",
-      "candidateSource": "Office Interior floor tiles",
+      "reads": "The room itself at 2x2 tiles: floor, and fittings along the back row that say 'Reception' without a label. Every tile stays walkable — people stand here",
+      "candidateSource": "tools/dev/rooms/reception.room",
       "verify": false,
       "releaseGate": true,
       "overhang": {
         "left": 0,
-        "top": 0,
+        "top": 32,
         "right": 0,
         "bottom": 0
       }
@@ -1863,19 +1863,19 @@
       "id": "room.open_plan.tile",
       "kind": "tile",
       "category": "operations",
-      "label": "Open Plan Office floor tile",
+      "label": "Open Plan Office floor plan",
       "footprint": {
-        "w": 1,
-        "h": 1
+        "w": 2,
+        "h": 3
       },
       "sprite": {
-        "w": 32,
-        "h": 32,
+        "w": 64,
+        "h": 128,
         "anchor": {
           "x": 0.0,
-          "y": 0.0
+          "y": 1.0
         },
-        "asset": "assets/topdown/room/open_plan/tile.png",
+        "asset": "game/assets/topdown/room/open_plan/tile.png",
         "sourceRect": null
       },
       "sortBias": -10,
@@ -1886,13 +1886,13 @@
         "shop"
       ],
       "visibility": 1,
-      "reads": "A tileable floor surface that says 'Open Plan Office' without a label; top edge carries a 1px wall",
-      "candidateSource": "Office Interior floor tiles",
+      "reads": "The room itself at 2x3 tiles: floor, and fittings along the back row that say 'Open Plan Office' without a label. Every tile stays walkable — people stand here",
+      "candidateSource": "tools/dev/rooms/open_plan.room",
       "verify": false,
       "releaseGate": true,
       "overhang": {
         "left": 0,
-        "top": 0,
+        "top": 32,
         "right": 0,
         "bottom": 0
       }
@@ -1901,19 +1901,19 @@
       "id": "room.server_room.tile",
       "kind": "tile",
       "category": "operations",
-      "label": "Server Room floor tile",
+      "label": "Server Room floor plan",
       "footprint": {
-        "w": 1,
-        "h": 1
+        "w": 2,
+        "h": 2
       },
       "sprite": {
-        "w": 32,
-        "h": 32,
+        "w": 64,
+        "h": 96,
         "anchor": {
           "x": 0.0,
-          "y": 0.0
+          "y": 1.0
         },
-        "asset": "assets/topdown/room/server_room/tile.png",
+        "asset": "game/assets/topdown/room/server_room/tile.png",
         "sourceRect": null
       },
       "sortBias": -10,
@@ -1924,13 +1924,13 @@
         "shop"
       ],
       "visibility": 1,
-      "reads": "A tileable floor surface that says 'Server Room' without a label; top edge carries a 1px wall",
-      "candidateSource": "Office Interior floor tiles",
+      "reads": "The room itself at 2x2 tiles: floor, and fittings along the back row that say 'Server Room' without a label. Every tile stays walkable — people stand here",
+      "candidateSource": "tools/dev/rooms/server_room.room",
       "verify": false,
       "releaseGate": true,
       "overhang": {
         "left": 0,
-        "top": 0,
+        "top": 32,
         "right": 0,
         "bottom": 0
       }
@@ -1939,19 +1939,19 @@
       "id": "room.legal_dept.tile",
       "kind": "tile",
       "category": "operations",
-      "label": "Legal Department floor tile",
+      "label": "Legal Department floor plan",
       "footprint": {
-        "w": 1,
-        "h": 1
+        "w": 2,
+        "h": 2
       },
       "sprite": {
-        "w": 32,
-        "h": 32,
+        "w": 64,
+        "h": 96,
         "anchor": {
           "x": 0.0,
-          "y": 0.0
+          "y": 1.0
         },
-        "asset": "assets/topdown/room/legal_dept/tile.png",
+        "asset": "game/assets/topdown/room/legal_dept/tile.png",
         "sourceRect": null
       },
       "sortBias": -10,
@@ -1962,13 +1962,13 @@
         "shop"
       ],
       "visibility": 1,
-      "reads": "A tileable floor surface that says 'Legal Department' without a label; top edge carries a 1px wall",
-      "candidateSource": "Office Interior floor tiles",
+      "reads": "The room itself at 2x2 tiles: floor, and fittings along the back row that say 'Legal Department' without a label. Every tile stays walkable — people stand here",
+      "candidateSource": "tools/dev/rooms/legal_dept.room",
       "verify": false,
       "releaseGate": true,
       "overhang": {
         "left": 0,
-        "top": 0,
+        "top": 32,
         "right": 0,
         "bottom": 0
       }
@@ -1977,19 +1977,19 @@
       "id": "room.sales_floor.tile",
       "kind": "tile",
       "category": "operations",
-      "label": "Sales Floor floor tile",
+      "label": "Sales Floor floor plan",
       "footprint": {
-        "w": 1,
-        "h": 1
+        "w": 2,
+        "h": 2
       },
       "sprite": {
-        "w": 32,
-        "h": 32,
+        "w": 64,
+        "h": 96,
         "anchor": {
           "x": 0.0,
-          "y": 0.0
+          "y": 1.0
         },
-        "asset": "assets/topdown/room/sales_floor/tile.png",
+        "asset": "game/assets/topdown/room/sales_floor/tile.png",
         "sourceRect": null
       },
       "sortBias": -10,
@@ -2000,13 +2000,13 @@
         "shop"
       ],
       "visibility": 1,
-      "reads": "A tileable floor surface that says 'Sales Floor' without a label; top edge carries a 1px wall",
-      "candidateSource": "Office Interior floor tiles",
+      "reads": "The room itself at 2x2 tiles: floor, and fittings along the back row that say 'Sales Floor' without a label. Every tile stays walkable — people stand here",
+      "candidateSource": "tools/dev/rooms/sales_floor.room",
       "verify": false,
       "releaseGate": true,
       "overhang": {
         "left": 0,
-        "top": 0,
+        "top": 32,
         "right": 0,
         "bottom": 0
       }
@@ -2015,19 +2015,19 @@
       "id": "room.break_room.tile",
       "kind": "tile",
       "category": "operations",
-      "label": "Break Room floor tile",
+      "label": "Break Room floor plan",
       "footprint": {
         "w": 1,
-        "h": 1
+        "h": 2
       },
       "sprite": {
         "w": 32,
-        "h": 32,
+        "h": 96,
         "anchor": {
           "x": 0.0,
-          "y": 0.0
+          "y": 1.0
         },
-        "asset": "assets/topdown/room/break_room/tile.png",
+        "asset": "game/assets/topdown/room/break_room/tile.png",
         "sourceRect": null
       },
       "sortBias": -10,
@@ -2038,13 +2038,13 @@
         "shop"
       ],
       "visibility": 1,
-      "reads": "A tileable floor surface that says 'Break Room' without a label; top edge carries a 1px wall",
-      "candidateSource": "Office Interior floor tiles",
+      "reads": "The room itself at 1x2 tiles: floor, and fittings along the back row that say 'Break Room' without a label. Every tile stays walkable — people stand here",
+      "candidateSource": "tools/dev/rooms/break_room.room",
       "verify": false,
       "releaseGate": true,
       "overhang": {
         "left": 0,
-        "top": 0,
+        "top": 32,
         "right": 0,
         "bottom": 0
       }
@@ -2053,19 +2053,19 @@
       "id": "room.security_desk.tile",
       "kind": "tile",
       "category": "operations",
-      "label": "Security Desk floor tile",
+      "label": "Security Desk floor plan",
       "footprint": {
         "w": 1,
-        "h": 1
+        "h": 2
       },
       "sprite": {
         "w": 32,
-        "h": 32,
+        "h": 96,
         "anchor": {
           "x": 0.0,
-          "y": 0.0
+          "y": 1.0
         },
-        "asset": "assets/topdown/room/security_desk/tile.png",
+        "asset": "game/assets/topdown/room/security_desk/tile.png",
         "sourceRect": null
       },
       "sortBias": -10,
@@ -2076,13 +2076,13 @@
         "shop"
       ],
       "visibility": 2,
-      "reads": "A tileable floor surface that says 'Security Desk' without a label; top edge carries a 1px wall",
-      "candidateSource": "Office Interior floor tiles",
+      "reads": "The room itself at 1x2 tiles: floor, and fittings along the back row that say 'Security Desk' without a label. Every tile stays walkable — people stand here",
+      "candidateSource": "tools/dev/rooms/security_desk.room",
       "verify": false,
       "releaseGate": true,
       "overhang": {
         "left": 0,
-        "top": 0,
+        "top": 32,
         "right": 0,
         "bottom": 0
       }
@@ -2091,19 +2091,19 @@
       "id": "room.boardroom.tile",
       "kind": "tile",
       "category": "operations",
-      "label": "Boardroom floor tile",
+      "label": "Boardroom floor plan",
       "footprint": {
-        "w": 1,
-        "h": 1
+        "w": 2,
+        "h": 2
       },
       "sprite": {
-        "w": 32,
-        "h": 32,
+        "w": 64,
+        "h": 96,
         "anchor": {
           "x": 0.0,
-          "y": 0.0
+          "y": 1.0
         },
-        "asset": "assets/topdown/room/boardroom/tile.png",
+        "asset": "game/assets/topdown/room/boardroom/tile.png",
         "sourceRect": null
       },
       "sortBias": -10,
@@ -2114,13 +2114,13 @@
         "shop"
       ],
       "visibility": 2,
-      "reads": "A tileable floor surface that says 'Boardroom' without a label; top edge carries a 1px wall",
-      "candidateSource": "Office Interior floor tiles",
+      "reads": "The room itself at 2x2 tiles: floor, and fittings along the back row that say 'Boardroom' without a label. Every tile stays walkable — people stand here",
+      "candidateSource": "tools/dev/rooms/boardroom.room",
       "verify": false,
       "releaseGate": true,
       "overhang": {
         "left": 0,
-        "top": 0,
+        "top": 32,
         "right": 0,
         "bottom": 0
       }
@@ -2129,19 +2129,19 @@
       "id": "room.corner_office.tile",
       "kind": "tile",
       "category": "operations",
-      "label": "Corner Office floor tile",
+      "label": "Corner Office floor plan",
       "footprint": {
         "w": 1,
-        "h": 1
+        "h": 2
       },
       "sprite": {
         "w": 32,
-        "h": 32,
+        "h": 96,
         "anchor": {
           "x": 0.0,
-          "y": 0.0
+          "y": 1.0
         },
-        "asset": "assets/topdown/room/corner_office/tile.png",
+        "asset": "game/assets/topdown/room/corner_office/tile.png",
         "sourceRect": null
       },
       "sortBias": -10,
@@ -2152,13 +2152,13 @@
         "shop"
       ],
       "visibility": 2,
-      "reads": "A tileable floor surface that says 'Corner Office' without a label; top edge carries a 1px wall",
-      "candidateSource": "Office Interior floor tiles",
+      "reads": "The room itself at 1x2 tiles: floor, and fittings along the back row that say 'Corner Office' without a label. Every tile stays walkable — people stand here",
+      "candidateSource": "tools/dev/rooms/corner_office.room",
       "verify": false,
       "releaseGate": true,
       "overhang": {
         "left": 0,
-        "top": 0,
+        "top": 32,
         "right": 0,
         "bottom": 0
       }
@@ -2167,19 +2167,19 @@
       "id": "room.summoning_circle.tile",
       "kind": "tile",
       "category": "anomalous",
-      "label": "Summoning Circle floor tile",
+      "label": "Summoning Circle floor plan",
       "footprint": {
-        "w": 1,
-        "h": 1
+        "w": 2,
+        "h": 2
       },
       "sprite": {
-        "w": 32,
-        "h": 32,
+        "w": 64,
+        "h": 96,
         "anchor": {
           "x": 0.0,
-          "y": 0.0
+          "y": 1.0
         },
-        "asset": "assets/topdown/room/summoning_circle/tile.png",
+        "asset": "game/assets/topdown/room/summoning_circle/tile.png",
         "sourceRect": null
       },
       "sortBias": -10,
@@ -2190,13 +2190,13 @@
         "shop"
       ],
       "visibility": 4,
-      "reads": "A tileable floor surface that says 'Summoning Circle' without a label; top edge carries a 1px wall",
-      "candidateSource": "Horror Interiors floor tiles",
+      "reads": "The room itself at 2x2 tiles: floor, and fittings along the back row that say 'Summoning Circle' without a label. Every tile stays walkable — people stand here",
+      "candidateSource": "tools/dev/rooms/summoning_circle.room",
       "verify": false,
       "releaseGate": true,
       "overhang": {
         "left": 0,
-        "top": 0,
+        "top": 32,
         "right": 0,
         "bottom": 0
       }
@@ -2205,19 +2205,19 @@
       "id": "room.meeting_room.tile",
       "kind": "tile",
       "category": "operations",
-      "label": "Meeting Room floor tile",
+      "label": "Meeting Room floor plan",
       "footprint": {
-        "w": 1,
-        "h": 1
+        "w": 2,
+        "h": 2
       },
       "sprite": {
-        "w": 32,
-        "h": 32,
+        "w": 64,
+        "h": 96,
         "anchor": {
           "x": 0.0,
-          "y": 0.0
+          "y": 1.0
         },
-        "asset": "assets/topdown/room/meeting_room/tile.png",
+        "asset": "game/assets/topdown/room/meeting_room/tile.png",
         "sourceRect": null
       },
       "sortBias": -10,
@@ -2228,13 +2228,13 @@
         "shop"
       ],
       "visibility": 2,
-      "reads": "A tileable floor surface that says 'Meeting Room' without a label; top edge carries a 1px wall",
-      "candidateSource": "Office Interior floor tiles",
+      "reads": "The room itself at 2x2 tiles: floor, and fittings along the back row that say 'Meeting Room' without a label. Every tile stays walkable — people stand here",
+      "candidateSource": "tools/dev/rooms/meeting_room.room",
       "verify": false,
       "releaseGate": true,
       "overhang": {
         "left": 0,
-        "top": 0,
+        "top": 32,
         "right": 0,
         "bottom": 0
       }
@@ -2243,19 +2243,19 @@
       "id": "room.mail_room.tile",
       "kind": "tile",
       "category": "operations",
-      "label": "Mail Room floor tile",
+      "label": "Mail Room floor plan",
       "footprint": {
         "w": 1,
-        "h": 1
+        "h": 2
       },
       "sprite": {
         "w": 32,
-        "h": 32,
+        "h": 96,
         "anchor": {
           "x": 0.0,
-          "y": 0.0
+          "y": 1.0
         },
-        "asset": "assets/topdown/room/mail_room/tile.png",
+        "asset": "game/assets/topdown/room/mail_room/tile.png",
         "sourceRect": null
       },
       "sortBias": -10,
@@ -2266,13 +2266,13 @@
         "shop"
       ],
       "visibility": 2,
-      "reads": "A tileable floor surface that says 'Mail Room' without a label; top edge carries a 1px wall",
-      "candidateSource": "Office Interior floor tiles",
+      "reads": "The room itself at 1x2 tiles: floor, and fittings along the back row that say 'Mail Room' without a label. Every tile stays walkable — people stand here",
+      "candidateSource": "tools/dev/rooms/mail_room.room",
       "verify": false,
       "releaseGate": true,
       "overhang": {
         "left": 0,
-        "top": 0,
+        "top": 32,
         "right": 0,
         "bottom": 0
       }
@@ -2281,19 +2281,19 @@
       "id": "room.kitchenette.tile",
       "kind": "tile",
       "category": "operations",
-      "label": "Kitchenette floor tile",
+      "label": "Kitchenette floor plan",
       "footprint": {
         "w": 1,
-        "h": 1
+        "h": 2
       },
       "sprite": {
         "w": 32,
-        "h": 32,
+        "h": 96,
         "anchor": {
           "x": 0.0,
-          "y": 0.0
+          "y": 1.0
         },
-        "asset": "assets/topdown/room/kitchenette/tile.png",
+        "asset": "game/assets/topdown/room/kitchenette/tile.png",
         "sourceRect": null
       },
       "sortBias": -10,
@@ -2304,13 +2304,13 @@
         "shop"
       ],
       "visibility": 2,
-      "reads": "A tileable floor surface that says 'Kitchenette' without a label; top edge carries a 1px wall",
-      "candidateSource": "Office Interior floor tiles",
+      "reads": "The room itself at 1x2 tiles: floor, and fittings along the back row that say 'Kitchenette' without a label. Every tile stays walkable — people stand here",
+      "candidateSource": "tools/dev/rooms/kitchenette.room",
       "verify": false,
       "releaseGate": true,
       "overhang": {
         "left": 0,
-        "top": 0,
+        "top": 32,
         "right": 0,
         "bottom": 0
       }
@@ -2319,19 +2319,19 @@
       "id": "room.training_room.tile",
       "kind": "tile",
       "category": "operations",
-      "label": "Training Room floor tile",
+      "label": "Training Room floor plan",
       "footprint": {
-        "w": 1,
-        "h": 1
+        "w": 2,
+        "h": 2
       },
       "sprite": {
-        "w": 32,
-        "h": 32,
+        "w": 64,
+        "h": 96,
         "anchor": {
           "x": 0.0,
-          "y": 0.0
+          "y": 1.0
         },
-        "asset": "assets/topdown/room/training_room/tile.png",
+        "asset": "game/assets/topdown/room/training_room/tile.png",
         "sourceRect": null
       },
       "sortBias": -10,
@@ -2342,13 +2342,13 @@
         "shop"
       ],
       "visibility": 2,
-      "reads": "A tileable floor surface that says 'Training Room' without a label; top edge carries a 1px wall",
-      "candidateSource": "Office Interior floor tiles",
+      "reads": "The room itself at 2x2 tiles: floor, and fittings along the back row that say 'Training Room' without a label. Every tile stays walkable — people stand here",
+      "candidateSource": "tools/dev/rooms/training_room.room",
       "verify": false,
       "releaseGate": true,
       "overhang": {
         "left": 0,
-        "top": 0,
+        "top": 32,
         "right": 0,
         "bottom": 0
       }
@@ -2357,19 +2357,19 @@
       "id": "room.executive_lounge.tile",
       "kind": "tile",
       "category": "operations",
-      "label": "Executive Lounge floor tile",
+      "label": "Executive Lounge floor plan",
       "footprint": {
-        "w": 1,
-        "h": 1
+        "w": 2,
+        "h": 2
       },
       "sprite": {
-        "w": 32,
-        "h": 32,
+        "w": 64,
+        "h": 96,
         "anchor": {
           "x": 0.0,
-          "y": 0.0
+          "y": 1.0
         },
-        "asset": "assets/topdown/room/executive_lounge/tile.png",
+        "asset": "game/assets/topdown/room/executive_lounge/tile.png",
         "sourceRect": null
       },
       "sortBias": -10,
@@ -2380,13 +2380,13 @@
         "shop"
       ],
       "visibility": 2,
-      "reads": "A tileable floor surface that says 'Executive Lounge' without a label; top edge carries a 1px wall",
-      "candidateSource": "Office Interior floor tiles",
+      "reads": "The room itself at 2x2 tiles: floor, and fittings along the back row that say 'Executive Lounge' without a label. Every tile stays walkable — people stand here",
+      "candidateSource": "tools/dev/rooms/executive_lounge.room",
       "verify": false,
       "releaseGate": true,
       "overhang": {
         "left": 0,
-        "top": 0,
+        "top": 32,
         "right": 0,
         "bottom": 0
       }
@@ -2395,19 +2395,19 @@
       "id": "room.archive.tile",
       "kind": "tile",
       "category": "anomalous",
-      "label": "Archive floor tile",
+      "label": "Archive floor plan",
       "footprint": {
         "w": 1,
-        "h": 1
+        "h": 2
       },
       "sprite": {
         "w": 32,
-        "h": 32,
+        "h": 96,
         "anchor": {
           "x": 0.0,
-          "y": 0.0
+          "y": 1.0
         },
-        "asset": "assets/topdown/room/archive/tile.png",
+        "asset": "game/assets/topdown/room/archive/tile.png",
         "sourceRect": null
       },
       "sortBias": -10,
@@ -2418,13 +2418,13 @@
         "shop"
       ],
       "visibility": 4,
-      "reads": "A tileable floor surface that says 'Archive' without a label; top edge carries a 1px wall",
-      "candidateSource": "Horror Interiors floor tiles",
+      "reads": "The room itself at 1x2 tiles: floor, and fittings along the back row that say 'Archive' without a label. Every tile stays walkable — people stand here",
+      "candidateSource": "tools/dev/rooms/archive.room",
       "verify": false,
       "releaseGate": true,
       "overhang": {
         "left": 0,
-        "top": 0,
+        "top": 32,
         "right": 0,
         "bottom": 0
       }
@@ -2442,7 +2442,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/room_sign.png",
+        "asset": "game/assets/ui/ui/room_sign.png",
         "sourceRect": null
       },
       "sortBias": -9,
@@ -2473,7 +2473,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/furn/whiteboard.png",
+        "asset": "game/assets/topdown/furn/whiteboard.png",
         "sourceRect": null
       },
       "sortBias": -5,
@@ -2512,7 +2512,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/furn/pc_90s.png",
+        "asset": "game/assets/topdown/furn/pc_90s.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -2550,7 +2550,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/furn/filing_cabinet.png",
+        "asset": "game/assets/topdown/furn/filing_cabinet.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -2588,7 +2588,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/furn/fax_machine.png",
+        "asset": "game/assets/topdown/furn/fax_machine.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -2626,7 +2626,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/furn/water_cooler.png",
+        "asset": "game/assets/topdown/furn/water_cooler.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -2664,7 +2664,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/furn/yakult_cart.png",
+        "asset": "game/assets/topdown/furn/yakult_cart.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -2702,7 +2702,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/furn/monitoring_station.png",
+        "asset": "game/assets/topdown/furn/monitoring_station.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -2740,7 +2740,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/furn/executive_desk.png",
+        "asset": "game/assets/topdown/furn/executive_desk.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -2778,7 +2778,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/furn/ofuda.png",
+        "asset": "game/assets/topdown/furn/ofuda.png",
         "sourceRect": null
       },
       "sortBias": -5,
@@ -2817,7 +2817,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/furn/desk_phone.png",
+        "asset": "game/assets/topdown/furn/desk_phone.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -2855,7 +2855,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/furn/shredder.png",
+        "asset": "game/assets/topdown/furn/shredder.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -2893,7 +2893,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/furn/potted_plant.png",
+        "asset": "game/assets/topdown/furn/potted_plant.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -2931,7 +2931,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/furn/copier.png",
+        "asset": "game/assets/topdown/furn/copier.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -2969,7 +2969,7 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/topdown/furn/vending_machine.png",
+        "asset": "game/assets/topdown/furn/vending_machine.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -2998,13 +2998,13 @@
       "label": "Sato Kenji portrait",
       "footprint": null,
       "sprite": {
-        "w": 64,
-        "h": 64,
+        "w": 96,
+        "h": 96,
         "anchor": {
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/founder/sato/portrait.png",
+        "asset": "game/assets/ui/founder/sato/portrait.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3017,8 +3017,8 @@
       ],
       "visibility": 1,
       "reads": "A face with a title: Sato Kenji, The Lifer. Reads as a person you would follow or would not",
-      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
-      "verify": true,
+      "candidateSource": "portraits/Portraits/transparent_bg/oldbusinessman1_transparent.png",
+      "verify": false,
       "releaseGate": true,
       "overhang": null
     },
@@ -3035,7 +3035,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/founder/sato/badge.png",
+        "asset": "game/assets/ui/founder/sato/badge.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3046,7 +3046,35 @@
       ],
       "visibility": 2,
       "reads": "The same person at 32px; recognisable beside the Goodwill bar",
-      "candidateSource": "JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleBusinessManOld/Idle frame 1 (facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.sato.thumb",
+      "kind": "ui",
+      "category": "people",
+      "label": "Sato Kenji thumbnail",
+      "footprint": null,
+      "sprite": {
+        "w": 48,
+        "h": 48,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "game/assets/ui/founder/sato/thumb.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder"
+      ],
+      "visibility": 3,
+      "reads": "The same face at 48px, for the select grid; legible at a glance in a column of eight",
+      "candidateSource": "portraits/Portraits/transparent_bg/oldbusinessman1_transparent.png, halved 2:1",
       "verify": false,
       "releaseGate": true,
       "overhang": null
@@ -3058,13 +3086,13 @@
       "label": "Hoshino Mari portrait",
       "footprint": null,
       "sprite": {
-        "w": 64,
-        "h": 64,
+        "w": 96,
+        "h": 96,
         "anchor": {
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/founder/hoshino/portrait.png",
+        "asset": "game/assets/ui/founder/hoshino/portrait.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3077,8 +3105,8 @@
       ],
       "visibility": 1,
       "reads": "A face with a title: Hoshino Mari, The Closer. Reads as a person you would follow or would not",
-      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
-      "verify": true,
+      "candidateSource": "portraits/Portraits/transparent_bg/femaletrendy1_transparent.png",
+      "verify": false,
       "releaseGate": true,
       "overhang": null
     },
@@ -3095,7 +3123,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/founder/hoshino/badge.png",
+        "asset": "game/assets/ui/founder/hoshino/badge.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3106,7 +3134,35 @@
       ],
       "visibility": 2,
       "reads": "The same person at 32px; recognisable beside the Goodwill bar",
-      "candidateSource": "JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleTrendy/Idle frame 1 (facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.hoshino.thumb",
+      "kind": "ui",
+      "category": "people",
+      "label": "Hoshino Mari thumbnail",
+      "footprint": null,
+      "sprite": {
+        "w": 48,
+        "h": 48,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "game/assets/ui/founder/hoshino/thumb.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder"
+      ],
+      "visibility": 3,
+      "reads": "The same face at 48px, for the select grid; legible at a glance in a column of eight",
+      "candidateSource": "portraits/Portraits/transparent_bg/femaletrendy1_transparent.png, halved 2:1",
       "verify": false,
       "releaseGate": true,
       "overhang": null
@@ -3118,13 +3174,13 @@
       "label": "Okada Tetsuo portrait",
       "footprint": null,
       "sprite": {
-        "w": 64,
-        "h": 64,
+        "w": 96,
+        "h": 96,
         "anchor": {
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/founder/okada/portrait.png",
+        "asset": "game/assets/ui/founder/okada/portrait.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3137,8 +3193,8 @@
       ],
       "visibility": 1,
       "reads": "A face with a title: Okada Tetsuo, The Fixer. Reads as a person you would follow or would not",
-      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
-      "verify": true,
+      "candidateSource": "portraits/Portraits/transparent_bg/malepunk1_transparent.png",
+      "verify": false,
       "releaseGate": true,
       "overhang": null
     },
@@ -3155,7 +3211,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/founder/okada/badge.png",
+        "asset": "game/assets/ui/founder/okada/badge.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3166,7 +3222,35 @@
       ],
       "visibility": 2,
       "reads": "The same person at 32px; recognisable beside the Goodwill bar",
-      "candidateSource": "JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MalePunk/Idle frame 1 (facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.okada.thumb",
+      "kind": "ui",
+      "category": "people",
+      "label": "Okada Tetsuo thumbnail",
+      "footprint": null,
+      "sprite": {
+        "w": 48,
+        "h": 48,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "game/assets/ui/founder/okada/thumb.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder"
+      ],
+      "visibility": 3,
+      "reads": "The same face at 48px, for the select grid; legible at a glance in a column of eight",
+      "candidateSource": "portraits/Portraits/transparent_bg/malepunk1_transparent.png, halved 2:1",
       "verify": false,
       "releaseGate": true,
       "overhang": null
@@ -3178,13 +3262,13 @@
       "label": "Nakagawa Yui portrait",
       "footprint": null,
       "sprite": {
-        "w": 64,
-        "h": 64,
+        "w": 96,
+        "h": 96,
         "anchor": {
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/founder/nakagawa/portrait.png",
+        "asset": "game/assets/ui/founder/nakagawa/portrait.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3197,8 +3281,8 @@
       ],
       "visibility": 1,
       "reads": "A face with a title: Nakagawa Yui, The Wunderkind. Reads as a person you would follow or would not",
-      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
-      "verify": true,
+      "candidateSource": "portraits/Portraits/transparent_bg/femalestudent1_transparent.png",
+      "verify": false,
       "releaseGate": true,
       "overhang": null
     },
@@ -3215,7 +3299,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/founder/nakagawa/badge.png",
+        "asset": "game/assets/ui/founder/nakagawa/badge.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3226,7 +3310,35 @@
       ],
       "visibility": 2,
       "reads": "The same person at 32px; recognisable beside the Goodwill bar",
-      "candidateSource": "JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleStudent/Idle frame 1 (facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.nakagawa.thumb",
+      "kind": "ui",
+      "category": "people",
+      "label": "Nakagawa Yui thumbnail",
+      "footprint": null,
+      "sprite": {
+        "w": 48,
+        "h": 48,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "game/assets/ui/founder/nakagawa/thumb.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder"
+      ],
+      "visibility": 3,
+      "reads": "The same face at 48px, for the select grid; legible at a glance in a column of eight",
+      "candidateSource": "portraits/Portraits/transparent_bg/femalestudent1_transparent.png, halved 2:1",
       "verify": false,
       "releaseGate": true,
       "overhang": null
@@ -3238,13 +3350,13 @@
       "label": "Moriyama Hiro portrait",
       "footprint": null,
       "sprite": {
-        "w": 64,
-        "h": 64,
+        "w": 96,
+        "h": 96,
         "anchor": {
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/founder/moriyama/portrait.png",
+        "asset": "game/assets/ui/founder/moriyama/portrait.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3257,8 +3369,8 @@
       ],
       "visibility": 1,
       "reads": "A face with a title: Moriyama Hiro, The Manager. Reads as a person you would follow or would not",
-      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
-      "verify": true,
+      "candidateSource": "portraits/Portraits/transparent_bg/youngbusinessman1_transparent.png",
+      "verify": false,
       "releaseGate": true,
       "overhang": null
     },
@@ -3275,7 +3387,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/founder/moriyama/badge.png",
+        "asset": "game/assets/ui/founder/moriyama/badge.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3286,7 +3398,35 @@
       ],
       "visibility": 2,
       "reads": "The same person at 32px; recognisable beside the Goodwill bar",
-      "candidateSource": "JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleBusinessMan/Idle frame 1 (facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.moriyama.thumb",
+      "kind": "ui",
+      "category": "people",
+      "label": "Moriyama Hiro thumbnail",
+      "footprint": null,
+      "sprite": {
+        "w": 48,
+        "h": 48,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "game/assets/ui/founder/moriyama/thumb.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder"
+      ],
+      "visibility": 3,
+      "reads": "The same face at 48px, for the select grid; legible at a glance in a column of eight",
+      "candidateSource": "portraits/Portraits/transparent_bg/youngbusinessman1_transparent.png, halved 2:1",
       "verify": false,
       "releaseGate": true,
       "overhang": null
@@ -3298,13 +3438,13 @@
       "label": "Ueda Kaori portrait",
       "footprint": null,
       "sprite": {
-        "w": 64,
-        "h": 64,
+        "w": 96,
+        "h": 96,
         "anchor": {
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/founder/ueda/portrait.png",
+        "asset": "game/assets/ui/founder/ueda/portrait.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3317,8 +3457,8 @@
       ],
       "visibility": 1,
       "reads": "A face with a title: Ueda Kaori, The Nurturer. Reads as a person you would follow or would not",
-      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
-      "verify": true,
+      "candidateSource": "portraits/Portraits/transparent_bg/femalebaker1_transparent.png",
+      "verify": false,
       "releaseGate": true,
       "overhang": null
     },
@@ -3335,7 +3475,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/founder/ueda/badge.png",
+        "asset": "game/assets/ui/founder/ueda/badge.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3346,7 +3486,35 @@
       ],
       "visibility": 2,
       "reads": "The same person at 32px; recognisable beside the Goodwill bar",
-      "candidateSource": "JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleBaker/Idle frame 1 (facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.ueda.thumb",
+      "kind": "ui",
+      "category": "people",
+      "label": "Ueda Kaori thumbnail",
+      "footprint": null,
+      "sprite": {
+        "w": 48,
+        "h": 48,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "game/assets/ui/founder/ueda/thumb.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder"
+      ],
+      "visibility": 3,
+      "reads": "The same face at 48px, for the select grid; legible at a glance in a column of eight",
+      "candidateSource": "portraits/Portraits/transparent_bg/femalebaker1_transparent.png, halved 2:1",
       "verify": false,
       "releaseGate": true,
       "overhang": null
@@ -3358,13 +3526,13 @@
       "label": "The Founder portrait",
       "footprint": null,
       "sprite": {
-        "w": 64,
-        "h": 64,
+        "w": 96,
+        "h": 96,
         "anchor": {
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/founder/the_founder/portrait.png",
+        "asset": "game/assets/ui/founder/the_founder/portrait.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3377,8 +3545,8 @@
       ],
       "visibility": 1,
       "reads": "A face with a title: The Founder, Deceased, 1987. Reads as a person you would follow or would not",
-      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
-      "verify": true,
+      "candidateSource": "portraits/Portraits/transparent_bg/femaleelder1_transparent.png",
+      "verify": false,
       "releaseGate": true,
       "overhang": null
     },
@@ -3395,7 +3563,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/founder/the_founder/badge.png",
+        "asset": "game/assets/ui/founder/the_founder/badge.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3406,7 +3574,35 @@
       ],
       "visibility": 2,
       "reads": "The same person at 32px; recognisable beside the Goodwill bar",
-      "candidateSource": "JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait",
+      "candidateSource": "characterpack/Blackoutlinecharacters/FemaleElder/Idle frame 1 (facing down)",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "founder.the_founder.thumb",
+      "kind": "ui",
+      "category": "people",
+      "label": "The Founder thumbnail",
+      "footprint": null,
+      "sprite": {
+        "w": 48,
+        "h": 48,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "game/assets/ui/founder/the_founder/thumb.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder"
+      ],
+      "visibility": 3,
+      "reads": "The same face at 48px, for the select grid; legible at a glance in a column of eight",
+      "candidateSource": "portraits/Portraits/transparent_bg/femaleelder1_transparent.png, halved 2:1",
       "verify": false,
       "releaseGate": true,
       "overhang": null
@@ -3418,13 +3614,13 @@
       "label": "Kitamura Sho portrait",
       "footprint": null,
       "sprite": {
-        "w": 64,
-        "h": 64,
+        "w": 96,
+        "h": 96,
         "anchor": {
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/founder/kitamura/portrait.png",
+        "asset": "game/assets/ui/founder/kitamura/portrait.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3437,8 +3633,8 @@
       ],
       "visibility": 1,
       "reads": "A face with a title: Kitamura Sho, The Salaryman. Reads as a person you would follow or would not",
-      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
-      "verify": true,
+      "candidateSource": "portraits/Portraits/transparent_bg/maletraditional1_transparent.png",
+      "verify": false,
       "releaseGate": true,
       "overhang": null
     },
@@ -3455,7 +3651,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/founder/kitamura/badge.png",
+        "asset": "game/assets/ui/founder/kitamura/badge.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3466,57 +3662,25 @@
       ],
       "visibility": 2,
       "reads": "The same person at 32px; recognisable beside the Goodwill bar",
-      "candidateSource": "JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait",
+      "candidateSource": "characterpack/Blackoutlinecharacters/MaleTraditional/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
       "overhang": null
     },
     {
-      "id": "ui.founder.header",
-      "kind": "ui",
-      "category": "interface",
-      "label": "Founder select header",
-      "footprint": null,
-      "sprite": {
-        "w": 640,
-        "h": 24,
-        "anchor": {
-          "x": 0.0,
-          "y": 0.0
-        },
-        "asset": "assets/ui/ui/founder/header.png",
-        "sourceRect": null
-      },
-      "sortBias": 0,
-      "perspective": "ui",
-      "screens": [
-        "founder"
-      ],
-      "visibility": 3,
-      "reads": "'CHOOSE A FOUNDER' and the firm name field",
-      "candidateSource": null,
-      "verify": false,
-      "releaseGate": true,
-      "layout": {
-        "x": 0,
-        "y": 0
-      },
-      "overhang": null
-    },
-    {
-      "id": "ui.founder.card",
+      "id": "founder.kitamura.thumb",
       "kind": "ui",
       "category": "people",
-      "label": "Founder card",
+      "label": "Kitamura Sho thumbnail",
       "footprint": null,
       "sprite": {
-        "w": 72,
-        "h": 96,
+        "w": 48,
+        "h": 48,
         "anchor": {
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/founder/card.png",
+        "asset": "game/assets/ui/founder/kitamura/thumb.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3525,7 +3689,35 @@
         "founder"
       ],
       "visibility": 3,
-      "reads": "Portrait slot (4,4,64,64); name (4,72,64,8); title (4,82,64,8); selected state distinct; a reserved trait line stays empty in v1",
+      "reads": "The same face at 48px, for the select grid; legible at a glance in a column of eight",
+      "candidateSource": "portraits/Portraits/transparent_bg/maletraditional1_transparent.png, halved 2:1",
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.founder.tile",
+      "kind": "ui",
+      "category": "people",
+      "label": "Founder grid tile",
+      "footprint": null,
+      "sprite": {
+        "w": 64,
+        "h": 64,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "game/assets/ui/ui/founder/tile.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder"
+      ],
+      "visibility": 3,
+      "reads": "A 48x48 thumbnail inset at (8,8); selected state is a distinct border, unmissable at a glance (D-72)",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
@@ -3538,13 +3730,13 @@
       "label": "Founder grid",
       "footprint": null,
       "sprite": {
-        "w": 608,
-        "h": 208,
+        "w": 152,
+        "h": 312,
         "anchor": {
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/founder/grid.png",
+        "asset": "game/assets/ui/ui/founder/grid.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3553,30 +3745,30 @@
         "founder"
       ],
       "visibility": 3,
-      "reads": "Four columns at x = 16 + col × 152, two rows at y = 40 + row × 104; cards centred in 152 × 104 cells",
+      "reads": "The roster column: two columns at x = 16 + col × 72 and four rows at y = 40 + row × 72, of 64 × 64 tiles",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
       "layout": {
-        "x": 16,
-        "y": 40
+        "x": 8,
+        "y": 32
       },
       "overhang": null
     },
     {
-      "id": "ui.founder.bio",
+      "id": "ui.founder.detail",
       "kind": "ui",
       "category": "interface",
-      "label": "Founder bio panel",
+      "label": "Founder detail panel",
       "footprint": null,
       "sprite": {
-        "w": 608,
-        "h": 40,
+        "w": 464,
+        "h": 312,
         "anchor": {
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/founder/bio.png",
+        "asset": "game/assets/ui/ui/founder/detail.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3585,45 +3777,13 @@
         "founder"
       ],
       "visibility": 3,
-      "reads": "The selected founder's bio, up to four lines of font.ui.8",
+      "reads": "The selected founder in full: portrait, name and title, battle badge, bio, what the run starts with, and the commit row",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
       "layout": {
-        "x": 16,
-        "y": 256
-      },
-      "overhang": null
-    },
-    {
-      "id": "ui.founder.firm_name",
-      "kind": "ui",
-      "category": "interface",
-      "label": "Firm name field",
-      "footprint": null,
-      "sprite": {
-        "w": 240,
-        "h": 16,
-        "anchor": {
-          "x": 0.0,
-          "y": 0.0
-        },
-        "asset": "assets/ui/ui/founder/firm_name.png",
-        "sourceRect": null
-      },
-      "sortBias": 0,
-      "perspective": "ui",
-      "screens": [
-        "founder"
-      ],
-      "visibility": 3,
-      "reads": "Text field, default from the founder's surname + ' Holdings'",
-      "candidateSource": null,
-      "verify": false,
-      "releaseGate": true,
-      "layout": {
-        "x": 16,
-        "y": 304
+        "x": 168,
+        "y": 32
       },
       "overhang": null
     },
@@ -3634,13 +3794,13 @@
       "label": "FOUND THE FIRM button",
       "footprint": null,
       "sprite": {
-        "w": 120,
-        "h": 16,
+        "w": 160,
+        "h": 24,
         "anchor": {
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/founder/confirm.png",
+        "asset": "game/assets/ui/ui/founder/confirm.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3649,13 +3809,13 @@
         "founder"
       ],
       "visibility": 3,
-      "reads": "The commit button",
+      "reads": "The screen's one commit: 160x24, the label centred in font.ui.16 with 15px clear of the 9px corners, filled in the operations tone's dark end so it carries against the panel. Its centre line matches the firm-name field beside it",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
       "layout": {
-        "x": 504,
-        "y": 304
+        "x": 456,
+        "y": 306
       },
       "overhang": null
     },
@@ -3672,7 +3832,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/battle/founder.png",
+        "asset": "game/assets/ui/ui/battle/founder.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3704,7 +3864,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/map/dossier_badge.png",
+        "asset": "game/assets/ui/ui/map/dossier_badge.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3732,7 +3892,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/build/firm_panel.png",
+        "asset": "game/assets/ui/ui/build/firm_panel.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3741,7 +3901,7 @@
         "build"
       ],
       "visibility": 1,
-      "reads": "Shown when nothing is selected: founder portrait 64x64 at (440,40); firm name at (512,40); founder name and title at (512,50) and (512,60); run stats from y=112: round, strikes, fights won, Goodwill cap, floors leased, staff count",
+      "reads": "Shown when nothing is selected: founder portrait 96x96 at (440,40); firm name at (544,44); founder name and title at (544,54) and (544,64); run stats from y=144: round, strikes, fights won, Goodwill cap, floors leased, staff count",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
@@ -3764,7 +3924,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/build/topbar.png",
+        "asset": "game/assets/ui/ui/build/topbar.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3796,7 +3956,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/build/tower.png",
+        "asset": "game/assets/ui/ui/build/tower.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3828,7 +3988,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/build/shaft.png",
+        "asset": "game/assets/ui/ui/build/shaft.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3860,7 +4020,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/build/floor_frame.png",
+        "asset": "game/assets/ui/ui/build/floor_frame.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3888,7 +4048,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/build/floor_void.png",
+        "asset": "game/assets/ui/ui/build/floor_void.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3916,7 +4076,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/build/landing_highlight.png",
+        "asset": "game/assets/ui/ui/build/landing_highlight.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3944,7 +4104,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/build/shop.png",
+        "asset": "game/assets/ui/ui/build/shop.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -3976,7 +4136,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/build/tab.png",
+        "asset": "game/assets/ui/ui/build/tab.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4004,7 +4164,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/build/lease_button.png",
+        "asset": "game/assets/ui/ui/build/lease_button.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4032,7 +4192,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/build/inspector.png",
+        "asset": "game/assets/ui/ui/build/inspector.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4064,7 +4224,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/build/action_button.png",
+        "asset": "game/assets/ui/ui/build/action_button.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4092,7 +4252,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/build/room_compare.png",
+        "asset": "game/assets/ui/ui/build/room_compare.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4120,7 +4280,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/build/ready.png",
+        "asset": "game/assets/ui/ui/build/ready.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4152,7 +4312,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/build/ready_shop.png",
+        "asset": "game/assets/ui/ui/build/ready_shop.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4184,7 +4344,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/build/hint.png",
+        "asset": "game/assets/ui/ui/build/hint.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4216,7 +4376,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "asset": "assets/ui/ui/build/promote_glyph.png",
+        "asset": "game/assets/ui/ui/build/promote_glyph.png",
         "sourceRect": null
       },
       "sortBias": 9,
@@ -4244,7 +4404,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "asset": "assets/ui/ui/build/nearmiss_glyph.png",
+        "asset": "game/assets/ui/ui/build/nearmiss_glyph.png",
         "sourceRect": null
       },
       "sortBias": 9,
@@ -4272,7 +4432,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/card/applicant.png",
+        "asset": "game/assets/ui/ui/card/applicant.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4302,7 +4462,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/card/room.png",
+        "asset": "game/assets/ui/ui/card/room.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4331,7 +4491,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/card/furniture.png",
+        "asset": "game/assets/ui/ui/card/furniture.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4360,7 +4520,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/card/otherworld.png",
+        "asset": "game/assets/ui/ui/card/otherworld.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4389,7 +4549,7 @@
           "x": 1.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/aura_badge.png",
+        "asset": "game/assets/ui/ui/aura_badge.png",
         "sourceRect": null
       },
       "sortBias": 8,
@@ -4417,7 +4577,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/link_line.png",
+        "asset": "game/assets/ui/ui/link_line.png",
         "sourceRect": null
       },
       "sortBias": 7,
@@ -4445,7 +4605,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/tenure_pip.png",
+        "asset": "game/assets/ui/ui/tenure_pip.png",
         "sourceRect": null
       },
       "sortBias": -9,
@@ -4467,13 +4627,13 @@
       "label": "Inspector portrait",
       "footprint": null,
       "sprite": {
-        "w": 64,
-        "h": 64,
+        "w": 96,
+        "h": 96,
         "anchor": {
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/portrait.png",
+        "asset": "game/assets/ui/ui/portrait.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4483,8 +4643,8 @@
       ],
       "visibility": 1,
       "reads": "A face. Larger than the sprite, same character",
-      "candidateSource": "Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)",
-      "verify": true,
+      "candidateSource": "Portraits pack, transparent_bg (96x96, D-71)",
+      "verify": false,
       "releaseGate": true,
       "overhang": null
     },
@@ -4501,7 +4661,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/dept/engineering.png",
+        "asset": "game/assets/ui/ui/dept/engineering.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4531,7 +4691,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/dept/legal.png",
+        "asset": "game/assets/ui/ui/dept/legal.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4561,7 +4721,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/dept/hr.png",
+        "asset": "game/assets/ui/ui/dept/hr.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4591,7 +4751,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/dept/sales.png",
+        "asset": "game/assets/ui/ui/dept/sales.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4621,7 +4781,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/dept/management.png",
+        "asset": "game/assets/ui/ui/dept/management.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4651,7 +4811,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/dept/extraplanar.png",
+        "asset": "game/assets/ui/ui/dept/extraplanar.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4681,7 +4841,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/tier_pip.png",
+        "asset": "game/assets/ui/ui/tier_pip.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4710,7 +4870,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/status/burnout.png",
+        "asset": "game/assets/ui/ui/status/burnout.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4740,7 +4900,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/status/overtime.png",
+        "asset": "game/assets/ui/ui/status/overtime.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4770,7 +4930,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/status/bureaucracy.png",
+        "asset": "game/assets/ui/ui/status/bureaucracy.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4800,7 +4960,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/status/frozen.png",
+        "asset": "game/assets/ui/ui/status/frozen.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4830,17 +4990,17 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/iso/bg/battle/street.png",
+        "asset": "game/assets/exterior/bg/battle/street.png",
         "sourceRect": null
       },
       "sortBias": 0,
-      "perspective": "iso",
+      "perspective": "exterior",
       "screens": [
         "battle"
       ],
       "visibility": 2,
-      "reads": "A Japanese city street at dusk, isometric, two lots facing each other",
-      "candidateSource": "Japanese City / Osaka / Dotonbori (isometric)",
+      "reads": "A Japanese city street at dusk seen front-on, two lots facing each other across it",
+      "candidateSource": "Osaka / Dotonbori / Dark Tokyo street tiles",
       "verify": false,
       "releaseGate": true,
       "layout": {
@@ -4862,7 +5022,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/battle/bar.png",
+        "asset": "game/assets/ui/ui/battle/bar.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4894,7 +5054,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/battle/goodwill_bar.png",
+        "asset": "game/assets/ui/ui/battle/goodwill_bar.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4926,7 +5086,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/battle/banner.png",
+        "asset": "game/assets/ui/ui/battle/banner.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4958,7 +5118,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/battle/ledger.png",
+        "asset": "game/assets/ui/ui/battle/ledger.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -4990,7 +5150,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/battle/ledger_rollup.png",
+        "asset": "game/assets/ui/ui/battle/ledger_rollup.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5018,7 +5178,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/battle/floor_inset.png",
+        "asset": "game/assets/ui/ui/battle/floor_inset.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5046,7 +5206,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/battle/controls.png",
+        "asset": "game/assets/ui/ui/battle/controls.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5078,7 +5238,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/battle/result.png",
+        "asset": "game/assets/ui/ui/battle/result.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5110,18 +5270,18 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/iso/fx/tower/floor_segment.png",
+        "asset": "game/assets/exterior/fx/tower/floor_segment.png",
         "sourceRect": null
       },
       "sortBias": 0,
-      "perspective": "iso",
+      "perspective": "exterior",
       "screens": [
         "battle"
       ],
       "visibility": 2,
-      "reads": "One storey of an isometric office block with windows that can light; tiles vertically",
-      "candidateSource": "Japanese City (isometric building tiles) — VERIFY a 96x32 slice reads (Q-GBX-5)",
-      "verify": true,
+      "reads": "One storey of an office-block facade, three 32px tiles wide, carrying a 5x3 grid of unlit windows; tiles vertically",
+      "candidateSource": "Osaka Tilemap.png facade band at (352, 32) 96x32, windows authored over it (D-69)",
+      "verify": false,
       "releaseGate": true,
       "layout": {
         "x": 200,
@@ -5142,18 +5302,18 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/iso/fx/tower/floor_segment_empty.png",
+        "asset": "game/assets/exterior/fx/tower/floor_segment_empty.png",
         "sourceRect": null
       },
       "sortBias": 0,
-      "perspective": "iso",
+      "perspective": "exterior",
       "screens": [
         "battle"
       ],
       "visibility": 2,
-      "reads": "The same storey with no windows, in the structure tone",
-      "candidateSource": null,
-      "verify": true,
+      "reads": "The same storey as bare wall, no windows, in the structure tone",
+      "candidateSource": "Osaka Tilemap.png wall band at (352, 32) 96x32",
+      "verify": false,
       "releaseGate": true,
       "overhang": null
     },
@@ -5170,18 +5330,18 @@
           "x": 0.5,
           "y": 1.0
         },
-        "asset": "assets/iso/fx/tower/roof.png",
+        "asset": "game/assets/exterior/fx/tower/roof.png",
         "sourceRect": null
       },
       "sortBias": 0,
-      "perspective": "iso",
+      "perspective": "exterior",
       "screens": [
         "battle"
       ],
       "visibility": 2,
-      "reads": "Roof cap with a water tank or signage",
-      "candidateSource": "Japanese City — VERIFY (Q-GBX-5)",
-      "verify": true,
+      "reads": "Parapet cap seen front-on, with a water tank or signage",
+      "candidateSource": "Osaka Tilemap.png building cap at (256, 0) 96x16",
+      "verify": false,
       "releaseGate": true,
       "overhang": null
     },
@@ -5198,18 +5358,18 @@
           "x": 0.5,
           "y": 0.0
         },
-        "asset": "assets/iso/fx/tower/basement.png",
+        "asset": "game/assets/exterior/fx/tower/basement.png",
         "sourceRect": null
       },
       "sortBias": 0,
-      "perspective": "iso",
+      "perspective": "exterior",
       "screens": [
         "battle"
       ],
       "visibility": 4,
       "reads": "A below-street storey, darker, one lit window",
-      "candidateSource": "Japanese City + Horror Interiors tint — VERIFY (Q-GBX-5)",
-      "verify": true,
+      "candidateSource": "Osaka wall band at (352, 32) 96x24, darkened with a Horror Interiors tint",
+      "verify": false,
       "releaseGate": true,
       "overhang": null
     },
@@ -5226,16 +5386,16 @@
           "x": 0.5,
           "y": 0.5
         },
-        "asset": "assets/iso/fx/tower/window_occupant.png",
+        "asset": "game/assets/exterior/fx/tower/window_occupant.png",
         "sourceRect": null
       },
       "sortBias": 0,
-      "perspective": "iso",
+      "perspective": "exterior",
       "screens": [
         "battle"
       ],
       "visibility": 2,
-      "reads": "One per employee in the facade, at its tile's column and row; tone by department (D-68)",
+      "reads": "One per employee, filling its window in the facade's 5x3 grid; tone by department (D-68)",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
@@ -5254,7 +5414,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "asset": "assets/iso/fx/window_burst.png",
+        "asset": "game/assets/exterior/fx/window_burst.png",
         "sourceRect": null,
         "frames": {
           "burst": [
@@ -5265,7 +5425,7 @@
         }
       },
       "sortBias": 0,
-      "perspective": "iso",
+      "perspective": "exterior",
       "screens": [
         "battle"
       ],
@@ -5289,7 +5449,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "asset": "assets/ui/fx/floating_number.png",
+        "asset": "game/assets/ui/fx/floating_number.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5317,7 +5477,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/autopsy/banner.png",
+        "asset": "game/assets/ui/ui/autopsy/banner.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5349,7 +5509,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/autopsy/timeline.png",
+        "asset": "game/assets/ui/ui/autopsy/timeline.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5381,7 +5541,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/autopsy/floors.png",
+        "asset": "game/assets/ui/ui/autopsy/floors.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5413,7 +5573,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/autopsy/findings.png",
+        "asset": "game/assets/ui/ui/autopsy/findings.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5445,7 +5605,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/autopsy/filters.png",
+        "asset": "game/assets/ui/ui/autopsy/filters.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5477,7 +5637,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/autopsy/ledger.png",
+        "asset": "game/assets/ui/ui/autopsy/ledger.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5509,7 +5669,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/autopsy/continue.png",
+        "asset": "game/assets/ui/ui/autopsy/continue.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5541,17 +5701,17 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/iso/bg/map.png",
+        "asset": "game/assets/exterior/bg/map.png",
         "sourceRect": null
       },
       "sortBias": 0,
-      "perspective": "iso",
+      "perspective": "exterior",
       "screens": [
         "map"
       ],
       "visibility": 3,
       "reads": "A city district seen from above, muted, paths readable over it",
-      "candidateSource": "Japanese City / Osaka (isometric)",
+      "candidateSource": "Osaka / Kanagawa street and roof tiles",
       "verify": false,
       "releaseGate": true,
       "layout": {
@@ -5573,7 +5733,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/map/header.png",
+        "asset": "game/assets/ui/ui/map/header.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5605,7 +5765,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "asset": "assets/ui/ui/map/node/takeover.png",
+        "asset": "game/assets/ui/ui/map/node/takeover.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5633,7 +5793,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "asset": "assets/ui/ui/map/node/audit.png",
+        "asset": "game/assets/ui/ui/map/node/audit.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5661,7 +5821,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "asset": "assets/ui/ui/map/node/recruiter.png",
+        "asset": "game/assets/ui/ui/map/node/recruiter.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5689,7 +5849,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "asset": "assets/ui/ui/map/node/board.png",
+        "asset": "game/assets/ui/ui/map/node/board.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5717,7 +5877,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "asset": "assets/ui/ui/map/node/consultant.png",
+        "asset": "game/assets/ui/ui/map/node/consultant.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5745,7 +5905,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "asset": "assets/ui/ui/map/node/boss.png",
+        "asset": "game/assets/ui/ui/map/node/boss.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5773,7 +5933,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/map/path.png",
+        "asset": "game/assets/ui/ui/map/path.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5801,7 +5961,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "asset": "assets/ui/ui/map/marker.png",
+        "asset": "game/assets/ui/ui/map/marker.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5829,7 +5989,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/map/dossier.png",
+        "asset": "game/assets/ui/ui/map/dossier.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5857,7 +6017,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/map/legend.png",
+        "asset": "game/assets/ui/ui/map/legend.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5889,7 +6049,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/map/floor_cell.png",
+        "asset": "game/assets/ui/ui/map/floor_cell.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5917,7 +6077,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/codex/header.png",
+        "asset": "game/assets/ui/ui/codex/header.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5949,7 +6109,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/codex/recipe.png",
+        "asset": "game/assets/ui/ui/codex/recipe.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5977,7 +6137,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/codex/slot_outline.png",
+        "asset": "game/assets/ui/ui/codex/slot_outline.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -6005,7 +6165,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/codex/arrow.png",
+        "asset": "game/assets/ui/ui/codex/arrow.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -6033,7 +6193,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/codex/class/promotion.png",
+        "asset": "game/assets/ui/ui/codex/class/promotion.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -6061,7 +6221,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/codex/class/renovation.png",
+        "asset": "game/assets/ui/ui/codex/class/renovation.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -6089,7 +6249,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/codex/class/ritual.png",
+        "asset": "game/assets/ui/ui/codex/class/ritual.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -6117,7 +6277,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/font/ui/8.png",
+        "asset": "game/assets/ui/font/ui/8.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -6151,7 +6311,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/font/ui/16.png",
+        "asset": "game/assets/ui/font/ui/16.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -6161,6 +6321,34 @@
       ],
       "visibility": 2,
       "reads": "font.ui.8 at exactly 2x, integer-scaled",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "font.ui.32",
+      "kind": "font",
+      "category": "interface",
+      "label": "Screen title face, 32px line",
+      "footprint": null,
+      "sprite": {
+        "w": 0,
+        "h": 32,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "game/assets/ui/font/ui/32.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "founder"
+      ],
+      "visibility": 3,
+      "reads": "Honeyblot Caps at a 32px line for a screen's own title, set on the background with no plate behind it (D-75)",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
@@ -6179,11 +6367,11 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/iso/bg/menu.png",
+        "asset": "game/assets/exterior/bg/menu.png",
         "sourceRect": null
       },
       "sortBias": 0,
-      "perspective": "iso",
+      "perspective": "exterior",
       "screens": [
         "menu"
       ],
@@ -6211,7 +6399,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/menu/button.png",
+        "asset": "game/assets/ui/ui/menu/button.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -6239,7 +6427,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/strike.png",
+        "asset": "game/assets/ui/ui/strike.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -6268,7 +6456,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/budget_glyph.png",
+        "asset": "game/assets/ui/ui/budget_glyph.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -6297,7 +6485,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/invalid_tile.png",
+        "asset": "game/assets/ui/ui/invalid_tile.png",
         "sourceRect": null
       },
       "sortBias": 9,
@@ -6326,7 +6514,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/debug/sortkey.png",
+        "asset": "game/assets/ui/ui/debug/sortkey.png",
         "sourceRect": null
       },
       "sortBias": 10,
@@ -6355,7 +6543,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "assets/ui/ui/debug/coverage.png",
+        "asset": "game/assets/ui/ui/debug/coverage.png",
         "sourceRect": null
       },
       "sortBias": 0,

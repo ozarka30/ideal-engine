@@ -16,6 +16,7 @@ namespace CompanyWars.Game;
 /// </summary>
 public partial class BattleScreen : Node2D
 {
+    private SceneLayout _at = null!;
     private const long ScreenshotTick = 400;
 
     private MatchView _view = null!;
@@ -31,6 +32,7 @@ public partial class BattleScreen : Node2D
 
     public override void _Ready()
     {
+        _at = new SceneLayout(this);
         _r = ScreenRouter.Instance;
         _view = _r.Fight();
         _clock = new PlaybackClock(_view.Rules.TicksPerSecond, _view.Result.EndTick);
@@ -70,7 +72,7 @@ public partial class BattleScreen : Node2D
 
     private Rect2I SegmentRect(string side, int floor)
     {
-        Rect2I baseRect = _r.Layout.Side("fx.tower.floor_segment", side);
+        Rect2I baseRect = side == "A" ? _at.Rect("floor_segment") : _r.Layout.Mirror(_at.Rect("floor_segment"));
         int cx = baseRect.Position.X + baseRect.Size.X / 2;
         int baseY = baseRect.Position.Y + baseRect.Size.Y; // the anchor: bottom-centre of G
         if (floor < 0) return _r.Layout.At("fx.tower.basement", cx, baseY);
@@ -96,7 +98,7 @@ public partial class BattleScreen : Node2D
         ManifestLayout L = _r.Layout;
         PixelFont font = _r.Font;
 
-        DrawTextureRect(_r.Textures.For(L.Entry("bg.battle.street")), new Rect2(L.Rect("bg.battle.street").Position, L.Rect("bg.battle.street").Size), false);
+        DrawTextureRect(_r.Textures.For(L.Entry("bg.battle.street")), new Rect2(_at.Rect("street").Position, _at.Rect("street").Size), false);
 
         DrawTower("A", _view.SnapshotA, tick);
         DrawTower("B", _view.SnapshotB, tick);
@@ -209,7 +211,7 @@ public partial class BattleScreen : Node2D
 
     private void DrawShareBar(long tick)
     {
-        Rect2I r = _r.Layout.Rect("ui.battle.bar");
+        Rect2I r = _at.Rect("bar");
         long share = _view.Share(tick);
         long total = _view.Rules.ShareTotal;
         DrawRect(new Rect2(r.Position, r.Size), Tones.Fill("interface"));
@@ -250,7 +252,7 @@ public partial class BattleScreen : Node2D
 
     private void DrawGoodwill(string side, FirmFrame f, long capAtStart, long tick)
     {
-        Rect2I r = _r.Layout.Side("ui.battle.goodwill_bar", side);
+        Rect2I r = side == "A" ? _at.Rect("goodwill_bar") : _r.Layout.Mirror(_at.Rect("goodwill_bar"));
         int frameW = (int)(r.Size.X * f.Cap / Math.Max(1, capAtStart));
         int fillW = (int)(r.Size.X * f.Goodwill / Math.Max(1, capAtStart));
         Color fill = Tones.Fill("operations");
@@ -283,7 +285,7 @@ public partial class BattleScreen : Node2D
 
     private void DrawBanner(long tick)
     {
-        Rect2I r = _r.Layout.Rect("ui.battle.banner");
+        Rect2I r = _at.Rect("banner");
         long lead = _view.Rules.TicksPerSecond; // telegraphed one second early
         for (int m = 0; m < _view.Rules.MonthStart.Length; m++)
         {
@@ -301,7 +303,8 @@ public partial class BattleScreen : Node2D
     private void DrawFounder(string side, string founderId, string firmName)
     {
         ManifestLayout L = _r.Layout;
-        Rect2I frame = L.Side("ui.battle.founder", side);
+        // Side A sits where the scene puts it; side B is its mirror, computed, never typed.
+        Rect2I frame = side == "A" ? _at.Rect("founder") : L.Mirror(_at.Rect("founder"));
         DrawTextureRect(_r.Textures.For(L.Entry("ui.battle.founder")), new Rect2(frame.Position, frame.Size), false);
         string badgeId = founderId + ".badge";
         Vector2I badge = L.Size(badgeId);
@@ -314,7 +317,7 @@ public partial class BattleScreen : Node2D
 
     private void DrawLedger(string side, long tick)
     {
-        Rect2I r = _r.Layout.Side("ui.battle.ledger", side);
+        Rect2I r = side == "A" ? _at.Rect("ledger") : _r.Layout.Mirror(_at.Rect("ledger"));
         int lineH = _r.Layout.Size("font.ui.8").Y;
         DrawRect(new Rect2(r.Position, r.Size), Tones.Fill("interface"));
         DrawRect(new Rect2(r.Position, r.Size), Tones.Border("interface"), false);
@@ -335,7 +338,7 @@ public partial class BattleScreen : Node2D
 
     private void DrawControls()
     {
-        Rect2I r = _r.Layout.Rect("ui.battle.controls");
+        Rect2I r = _at.Rect("controls");
         string[] labels = { "1×", "2×", "4×", "▸▸" };
         int cell = r.Size.X / labels.Length;
         for (int i = 0; i < labels.Length; i++)
@@ -389,7 +392,7 @@ public partial class BattleScreen : Node2D
 
     private void DrawResult()
     {
-        Rect2I r = _r.Layout.Rect("ui.battle.result");
+        Rect2I r = _at.Rect("result");
         DrawRect(new Rect2(r.Position, r.Size), Tones.Fill("interface"));
         string text = Autopsy.ResultBanner(_view, _r.FightRound, "A") + $" · {Autopsy.Seconds(_view.Result.EndTick)} · click for the autopsy";
         _r.Font.Draw(this, r.Position.X, r.Position.Y + 4, text, _r.Font.Large, Tones.Text("interface"), HorizontalAlignment.Center, r.Size.X);

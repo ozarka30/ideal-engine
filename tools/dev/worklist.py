@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """The ranked art worklist (ART_PIPELINE.md §7.3) and the folder tree the art goes into.
 
-    python3 tools/dev/worklist.py            # writes assets/WORKLIST.md and creates every asset folder
+    python3 tools/dev/worklist.py            # writes docs/ART_WORKLIST.md and creates every asset folder
     python3 tools/dev/worklist.py --tier 1   # only the most visible tier in the sheet (folders are always all made)
 
 For every manifest entry without art it prints one row: rank, id, the exact file to create (path and
@@ -71,11 +71,11 @@ def main():
             i, e["id"], s["asset"], s["w"], s["h"], anchor_name(s["anchor"]),
             f"{fp['w']}x{fp['h']}" if fp else "—", frame_text, ", ".join(e["screens"]),
             e.get("reads", "").replace("|", "/"), (e.get("candidateSource") or e.get("candidate") or "").replace("|", "/")))
-    out = os.path.join(ROOT, "assets", "WORKLIST.md")
+    out = os.path.join(ROOT, "docs", "ART_WORKLIST.md")
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
-    print(f"wrote assets/WORKLIST.md: {len(todo)} slots without art; {len(folders)} folders under assets/")
+    print(f"wrote docs/ART_WORKLIST.md: {len(todo)} slots without art; {len(folders)} folders under game/assets/")
 
 
 if __name__ == "__main__":

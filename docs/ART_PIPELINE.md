@@ -62,7 +62,7 @@ version it was generated against; the body is one entry per visual slot.
       "x": 0.5,
       "y": 1.0
     },
-    "asset": "assets/topdown/furn/whiteboard.png",
+    "asset": "game/assets/topdown/furn/whiteboard.png",
     "sourceRect": null
   },
   "sortBias": -5,
@@ -102,12 +102,12 @@ version it was generated against; the body is one entry per visual slot.
 | `sprite.sourceRect` | yes | `null` in the source manifest; filled by the atlas step in the derived manifest (§10) |
 | `sprite.frames` | no | Named frame ranges into a strip: `[col, row]` or `[col, row, count]` |
 | `sortBias` | yes | −10..10. Default 0 |
-| `perspective` | yes | `topdown`, `iso`, `ui`. The schema forbids `topdown` entries on isometric screens and vice versa |
+| `perspective` | yes | `topdown`, `exterior`, `ui`. The schema forbids `topdown` entries on exterior screens and vice versa (§12) |
 | `screens` | yes | Where it appears; feeds the worklist and the perspective check |
 | `visibility` | yes | 1–4, feeds the worklist ranking (§7.3) |
 | `reads` | yes | What the asset must read as at a glance. This is the brief to whoever makes it |
 | `candidateSource` | yes | Which pack to slice from, where known; `null` otherwise |
-| `verify` | yes | `true` on the 13 entries whose dimensions were decided rather than derived (§15) |
+| `verify` | yes | `true` on the entries whose dimensions were decided rather than derived and are not yet checked against a pack (§15) |
 | `releaseGate` | yes | `false` only on debug overlays and the invalid flash, which never get art |
 | `layout` | no | `{ x, y }` on the logical canvas, for fixed-position UI regions |
 | `overhang` | yes | **Derived** (§2). The generator writes it; the loader recomputes it and fails on disagreement |
@@ -254,9 +254,10 @@ start-up. It fails the build on any of:
 2. **Derived fields.** A recomputed `overhang` differs from the stored one.
 3. **References.** A `sprite`, `tile` or `icon` id in `content/` has no manifest entry.
 4. **Uniqueness.** Two entries share an `id` or an `asset` path.
-5. **Perspective.** A `topdown` entry lists an isometric screen or vice versa (§12).
+5. **Perspective.** A `topdown` entry lists an exterior screen or vice versa (§12).
 6. **Dimensions.** For every entry whose `sprite.asset` file **is present**: the
-   image's pixel size must equal `sprite.w × sprite.h`, or, when `sourceRect` is set,
+   image's pixel size must equal `sprite.w × sprite.h` — except a `ui` entry, whose file
+   may be any *integer multiple* of it, the same multiple in both axes (D-76) — or, when `sourceRect` is set,
    the rect must lie within the image and match `w × h`. For entries with `frames`,
    the image must be at least `(maxCol + count) × w` wide and `(maxRow + 1) × h` tall.
 
@@ -339,7 +340,7 @@ visible placeholders. The README badge reads `withArt / gated`.
 
 ### 7.3 The ranked art worklist
 
-`python3 tools/dev/worklist.py [--tier N]` — writes `assets/WORKLIST.md` and creates every asset folder (the `--screen` and per-slot sheet options are not built yet)
+`python3 tools/dev/worklist.py [--tier N]` — writes `docs/ART_WORKLIST.md` and creates every asset folder (the `--screen` and per-slot sheet options are not built yet)
 
 The most important tool in this workflow, because replacement is developer-paced and
 unordered, and a coverage number is not a plan. For every gated entry without art, it
@@ -358,7 +359,7 @@ Tier 1 · screens: build, shop, reward · kind: ui · tone: people
 
 Dimensions   52 x 80 px at 1x        Anchor  top-left (0.0, 0.0)
 Footprint    —                        Sort    0
-Target file  assets/ui/ui/card/applicant.png
+Target file  game/assets/ui/ui/card/applicant.png
 Source rect  null (single image)
 
 Must read as
@@ -386,7 +387,13 @@ licence record (§14, Q-RISK-1) is present. Used by the slicer and by the workli
 ### 7.5 Screenshot fixtures
 
 Because draw order is total (§3) and placeholders are deterministic, a greybox screen
-renders identically on every run. `tools/screenshot <screen> <fixture>` renders a named
+renders identically on every run **on one platform**. It does not render identically
+across platforms: since D-67 made text a vector face, the two rasterisers round a
+glyph's ascent differently and a line of text can sit one pixel apart on Linux and
+Windows. The committed fixtures are therefore whatever CI renders — Ubuntu, Mesa
+llvmpipe, under xvfb — and a capture from any other machine will differ. Regenerate by
+taking CI's `screenshots` artifact, not by rendering locally; a local render is for
+looking at, not for committing. `tools/screenshot <screen> <fixture>` renders a named
 screen from a fixture state (a save file or a snapshot) to a PNG; CI compares against
 the committed one and fails on a pixel diff. When art lands, the fixture is regenerated
 in the same commit — the diff *is* the review.
@@ -431,7 +438,7 @@ Fixed globally, in the manifest header, and asserted by the renderer at start-up
 | Scale factors | integers only: 2, 3, 4, 6. Never fractional. Letterbox otherwise |
 | Filtering | nearest-neighbour for every texture. Text is the exception (D-67): the faces are vector fonts, antialiased at the window's resolution |
 | Positions | integer logical pixels. The renderer rounds any computed position before draw and asserts in debug builds that nothing fractional reached it |
-| Fonts | `font.ui.8` is **Honey Pigeon** at an 8 px line; `font.ui.16` is **Honeyblot Caps** at a 16 px line for headers, banners, tall buttons and the Goodwill numbers (D-66, D-67); no other sizes. Both by Steven Colling under his Font License 1.0, shipped as the TrueType files in `game/fonts/` and rendered as antialiased vectors at the window's resolution, not as pixel art. Digits are proportional; columns that need alignment right-align on the number, not the glyph |
+| Fonts | `font.ui.8` is **Honey Pigeon** at an 8 px line; `font.ui.16` is **Honeyblot Caps** at a 16 px line for headers, banners, tall buttons and the Goodwill numbers (D-66, D-67); `font.ui.32` is Honeyblot Caps at a 32 px line, exactly 2× the 16, for a screen's own title (D-75). No other sizes — the ladder is 8, 16, 32, each an integer double of the last. Both by Steven Colling under his Font License 1.0, shipped as the TrueType files in `game/fonts/` and rendered as antialiased vectors at the window's resolution, not as pixel art. Digits are proportional; columns that need alignment right-align on the number, not the glyph |
 | Camera | integer logical offsets; the build viewport scrolls by whole floors |
 
 A greybox authored at a fractional scale would not match the art that replaces it;
@@ -446,7 +453,7 @@ merely discouraged.
 
 1. Reads the source manifest and every present asset.
 2. Packs present assets into per-screen-group atlases: `topdown` (build, inset,
-   shop, codex), `iso` (battle, map, menu), `ui`. A maximum of 2048 × 2048 per atlas,
+   shop, codex), `exterior` (battle, map, menu), `ui`. A maximum of 2048 × 2048 per atlas,
    1 px padding, no rotation.
 3. Emits `dist/atlas/<group>.png` and a **derived manifest** `dist/manifest.json` in
    which `sprite.asset` points at the atlas and `sourceRect` is filled.
@@ -464,7 +471,7 @@ through the same loader, and the validator runs on both.
 | Thing | Convention | Example |
 | --- | --- | --- |
 | Manifest id | `<kind-ish>.<name>[.<part>]`, lowercase, underscores | `room.server_room.tile`, `ui.map.node.audit` |
-| Asset path | `assets/<perspective>/<id with dots as slashes>.png` | `assets/topdown/room/server_room/tile.png` |
+| Asset path | `game/assets/<perspective>/<id with dots as slashes>.png` | `game/assets/topdown/room/server_room/tile.png` — under `game/` since D-77 so `res://` can reach it |
 | Stub | `manifest/stubs/<sheet>.json` | `manifest/stubs/office_interior_01.json` |
 | Atlas | `dist/atlas/<group>.png` | `dist/atlas/topdown.png` |
 | Fixture screenshot | `fixtures/screens/<screen>_<fixture>.png` | `fixtures/screens/build_round8_turtle.png` |
@@ -478,24 +485,30 @@ path in the same commit, with the validator asserting no orphaned file remains.
 
 ## 12. The perspective rule
 
-Top-down interiors and characters own the build view and the battle inset. The
-isometric city packs own the exterior battle view, the map, and the menu. They never
-share a pixel.
+Top-down interiors and characters own the build view and the battle inset. The city
+packs' exteriors — street level, building facades, roofs seen from above — own the
+battle view, the map, and the menu. They never share a pixel.
+
+Both are the same projection: GuttyKreum draws top-down floors and front-on walls in
+one tileset, and no pack in the collection is isometric (D-69). The rule survives the
+correction because it was never about projection — it is about not mixing an interior
+floor grid with an exterior elevation on one screen.
 
 Enforced three ways:
 
 1. **Schema.** A `topdown` entry may only list `build`, `shop`, `battle.inset`,
-   `autopsy`, `reward`, `codex`; an `iso` entry only `battle`, `map`, `menu`. An entry
-   that lists both is a schema error.
+   `autopsy`, `reward`, `codex`; an `exterior` entry only `battle`, `map`, `menu`. An
+   entry that lists both is a schema error.
 2. **Validator.** After loading, the set of perspectives per screen is computed; any
-   screen holding both `topdown` and `iso` fails. `battle.inset` is a distinct screen
-   id precisely so that the inset (top-down) and the battle (iso) are checked apart.
+   screen holding both `topdown` and `exterior` fails. `battle.inset` is a distinct
+   screen id precisely so that the inset (interior) and the battle (exterior) are
+   checked apart.
 3. **Renderer.** Each screen declares its perspective, and the asset loader refuses
    to hand a screen an entry of the wrong one, in debug builds with an assertion.
 
 The inset is the one place the two views touch: a top-down floorplan drawn inside a
-frame over the isometric street. The frame is a `ui` entry; the floorplan inside it is
-`topdown`; the street behind is `iso`. Three entries, three perspectives, one
+frame over the street. The frame is a `ui` entry; the floorplan inside it is
+`topdown`; the street behind is `exterior`. Three entries, three perspectives, one
 composed screen — and the rule holds because the inset has its own screen id.
 
 ---
@@ -507,13 +520,15 @@ art concern, developer-paced like everything else.
 
 | Element | Rule |
 | --- | --- |
-| Panels | 1 px border in the `interface` border tone, fill in the `interface` fill tone, 4 px inner padding |
+| Panels | A 9-sliced rounded panel from the Isle of Lore 2 UI Pack, recoloured to the `interface` tone, 5 px corners, 4 px inner padding (D-74) |
 | Text | `font.ui.8`, left-aligned, 8 px line pitch; numbers tabular, right-aligned in columns |
 | Emphasis | The `interface` text tone for normal, the category tone for the thing named (a Push amount in `operations`, a Morale amount in `anomalous`) |
-| Buttons | 16 px tall, label centred, 1 px border; hover inverts fill and text; pressed offsets label 1 px down |
+| Buttons | 16 px tall from the pack's `box`, 20 px and taller from `button_square`; label centred; hover inverts fill and text; pressed offsets label 1 px down (D-74) |
+| Resolution | Chrome ships at 2× its declared size and is drawn down into its manifest-sized rect with a smooth filter (D-76). Pixel art keeps nearest and integer scale; chrome and text do not |
+| Primary action | One per screen, and it is the darkest element on the panel, not the palest: 24 px tall, `font.ui.16`, the tone's `dark` ramp in `tools/dev/ui/slots.txt`, and wide enough to leave the label 12 px clear of the 9 px corners. A commit that reads as quieter than the field next to it is the bug this rule exists to prevent |
 | Chips | 8 px tall, 2 px padding, selected state inverts |
 | Bars | 1 px frame, fill inset by 1 px; the Goodwill bar's frame end moves with the cap (D-35) |
-| Cards | 52 × 80, category tone, 2 px padding, portrait slot top-centre |
+| Cards | 52 × 80, a panel recoloured to the *category* tone rather than `interface`, 2 px padding, portrait slot top-centre |
 | Icons | 8 × 8 for departments, statuses, strikes, budget; 24 × 24 for map nodes; drawn, not text |
 | Motion | Ledger scroll 1 line per 4 ticks; banners slide 12 px over 10 ticks; floating numbers rise 16 px over 20 ticks; nothing eases — linear, integer steps |
 | Tone of voice | Corporate-flat. Labels are nouns. The satire is in the mechanics, not the copy |
@@ -530,11 +545,15 @@ arrives as an in-fiction foreign body rather than an inconsistency. The process:
    verdict on commercial use and in-game redistribution. `tools/packs --index` lists
    packs missing this file; the release gate (Q-RISK-1) requires none be missing.
 2. **Slice into stubs.** `tools/slice` as §7.1.
-3. **Categorise as `anomalous`.** Every entry from a non-GuttyKreum pack takes the
-   `anomalous` category and, if it is an employee, the `extraplanar` department. Its
-   placeholder tone and its fiction agree: this is from somewhere else.
-4. **Respect the perspective rule.** A foreign pack in a third perspective (say,
-   side-on) cannot be used in the interior or exterior views at all. It may only
+3. **Categorise as `anomalous` — world art only.** Every *world* entry from a
+   non-GuttyKreum pack, meaning anything with the `topdown` or `exterior` perspective,
+   takes the `anomalous` category and, if it is an employee, the `extraplanar`
+   department. Its placeholder tone and its fiction agree: this is from somewhere else.
+   **`ui` entries are exempt** (D-74). Chrome is not in the fiction — a panel border is
+   not a thing a character could meet — so a foreign UI pack is a style decision, not a
+   diegetic one, and the perspective rule (§12) already keeps it off the world layers.
+4. **Respect the perspective rule.** A foreign *world* pack in a third perspective
+   (say, side-on) cannot be used in the interior or exterior views at all. It may only
    appear on its own screen — a portal event, a codex page — with its own screen id.
    The schema enum is extended in the same commit, which makes the addition
    reviewable.
@@ -549,24 +568,28 @@ from a different plane, which is what the design already says it is.
 
 ## 15. Pack-fit verification
 
-Q-GBX-5. Thirteen entries carry `verify: true` because their dimensions were decided
-to fit the canvas rather than derived from the packs — the four tower pieces, the
-inspector portrait, and the eight founder portraits, which share the inspector
-portrait's size and therefore its verification:
+Q-GBX-5. Thirteen entries carried `verify: true` because their dimensions were decided
+to fit the canvas rather than derived from the packs. All thirteen are now checked and
+`verify` is clear across the manifest:
 
-| Entry | Decided | Pack to check |
+| Entry | Decided | Outcome |
 | --- | --- | --- |
-| `fx.tower.floor_segment` | 96 × 32, bottom-centre | Japanese City / Osaka / Dotonbori |
-| `fx.tower.floor_segment_empty` | 96 × 32 | same |
-| `fx.tower.roof` | 96 × 16 | same |
-| `fx.tower.basement` | 96 × 24, top-centre | same, with a Horror Interiors tint |
-| `ui.portrait` | 64 × 64 | Portraits |
-| `founder.*.portrait` (8) | 64 × 64 | Portraits — one verification covers all nine portrait entries |
+| `fx.tower.floor_segment` | 96 × 32, bottom-centre | **Passed.** Osaka `Tilemap.png` (352, 32); three 32 px wall tiles wide, one storey tall (D-69) |
+| `fx.tower.floor_segment_empty` | 96 × 32 | **Passed.** The same band, bare |
+| `fx.tower.roof` | 96 × 16 | **Passed.** Osaka `Tilemap.png` (256, 0), the parapet cap |
+| `fx.tower.basement` | 96 × 24, top-centre | **Passed.** The wall band darkened, one lit window |
+| `ui.portrait` | 64 × 64 | **Failed, entry changed to 96 × 96.** The pack is 96 × 96; 96 is not an integer downscale of 64, and a 64 crop cuts through the face (D-71) |
+| `founder.*.portrait` (8) | 64 × 64 | Same, and the same fix — one verification covers all nine portrait entries |
 
-**Procedure**, first task of implementation, before any of these is greyboxed (the
-eight founder portraits and the inspector portrait are one check, not nine):
+The tower check also settled the perspective question: no GuttyKreum pack is
+isometric, and the battle towers are built from front-on facade bands instead (D-69).
+The portrait failure took the other branch of step 4 below: the nine entries and the
+two `GAME_DESIGN.md` §19 layouts that place them moved to 96 × 96 (D-71).
 
-1. Open each pack. Find the isometric building tiles and the portrait sheet.
+**Procedure**, kept for the next pack that needs it, before any entry carrying `verify`
+is greyboxed:
+
+1. Open each pack. Find the tiles and the portrait sheet.
 2. For each entry, slice a candidate at the declared size and place it in a 640 × 360
    mock of the battle screen (or the inspector) at the declared position.
 3. If it reads: clear `verify`, record the `candidateSource` cell, commit.

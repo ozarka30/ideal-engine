@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/packs/office.png" id="1"]
+
+[sub_resource type="AtlasTexture" id="office_31_22"]
+atlas = ExtResource("1")
+region = Rect2(992, 704, 32, 32)
+
+[sub_resource type="AtlasTexture" id="office_50_3"]
+atlas = ExtResource("1")
+region = Rect2(1600, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="office_51_3"]
+atlas = ExtResource("1")
+region = Rect2(1632, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="office_50_4"]
+atlas = ExtResource("1")
+region = Rect2(1600, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="office_51_4"]
+atlas = ExtResource("1")
+region = Rect2(1632, 128, 32, 32)
+
+; room.boardroom.tile -- 64x96, the top 32px overhangs the footprint (D-73)
+[node name="Room" type="Node2D"]
+
+[node name="floor_0_0" type="Sprite2D" parent="."]
+position = Vector2(0, 32)
+centered = false
+texture = SubResource("office_31_22")
+
+[node name="floor_1_0" type="Sprite2D" parent="."]
+position = Vector2(32, 32)
+centered = false
+texture = SubResource("office_31_22")
+
+[node name="floor_0_1" type="Sprite2D" parent="."]
+position = Vector2(0, 64)
+centered = false
+texture = SubResource("office_31_22")
+
+[node name="floor_1_1" type="Sprite2D" parent="."]
+position = Vector2(32, 64)
+centered = false
+texture = SubResource("office_31_22")
+
+[node name="fitting_0" type="Sprite2D" parent="."]
+position = Vector2(0, 0)
+centered = false
+texture = SubResource("office_50_3")
+
+[node name="fitting_1" type="Sprite2D" parent="."]
+position = Vector2(32, 0)
+centered = false
+texture = SubResource("office_51_3")
+
+[node name="fitting_2" type="Sprite2D" parent="."]
+position = Vector2(0, 32)
+centered = false
+texture = SubResource("office_50_4")
+
+[node name="fitting_3" type="Sprite2D" parent="."]
+position = Vector2(32, 32)
+centered = false
+texture = SubResource("office_51_4")

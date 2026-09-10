@@ -11,7 +11,7 @@ find the document that governs whatever you are about to change.
 - `tools/planning/` — generators that produced `content/`, `schema/`, `manifest/` and `docs/CONTENT_SCHEMA.md`. Running all four on a clean checkout produces no diff.
 - **Stack (D-60):** Godot 4 with C# on .NET 8; the simulation is `src/CompanyWars.Sim`, a class library that references no Godot assembly; Compatibility renderer; X11 on Linux; GodotSteam. `docs/ARCHITECTURE.md` has the project layout. The client assembly alone targets `net9.0` (Godot 4.7's Android template requires it); the repository's `global.json` rolls forward to any newer SDK.
 - `src/` — the .NET libraries and tools (`Sim`, `Content`, `Manifest`, `Playback`, `Build`, `Harness`, `Tools`); `tests/` — xunit, one project per library; `fixtures/sim/` — the ten recorded conformance fixtures; `game/` — the Godot 4 project: the picker, battle and autopsy screens, screenshot fixtures under `game/__screenshots__/`. `src/CompanyWars.Sim/README.md` lists the readings the spec left open.
-- **Positions come from the manifest too.** A `layout` point is where the entry's anchor sits; side B's placement is the mirror of side A's across the canvas, computed, never typed.
+- **Positions come from the screen's scene (D-77).** Each `game/scenes/<Screen>.tscn` has a `Layout` node whose children are the slots; drag them in Godot's 2D editor and the game follows, with nothing to convert. `SceneLayout` reads them and hides the guides at runtime. The manifest keeps sizes, anchors, footprints and draw order and no longer owns position — its `layout` field is now unread by anything and should be deleted. `python3 tools/dev/scenes.py` scaffolds a screen's Layout from the manifest once; after that the scene is the truth and it refuses to overwrite. Side B's placement is still the mirror of side A's across the canvas, computed, never typed.
 
 ## Commands
 ```
@@ -28,8 +28,13 @@ dotnet build game/CompanyWars.Game.csproj                            # needs onl
 xvfb-run -s "-screen 0 1920x1080x24" godot --path game --resolution 1280x720 -- --screenshots   # 2x fixtures; run again at 1920x1080 for 3x
 xvfb-run godot --path game -- --drive tools/dev/drive/first_round.json   # plays taps/keys/shots; writes game/__screenshots__/drive/
 tools/dev/godot.sh [--templates]                  # prints the Godot 4.7.2 mono path, downloading it into ~/.cache/companywars if absent
+python3 tools/dev/scenes.py                       # scaffolds a screen's Layout node from the manifest once (D-77); refuses to overwrite an existing one
 python3 tools/dev/gallery.py                      # build/gallery.html: every screen, the last drive run, and any reference shots under game/__screenshots__/references/
-python3 tools/dev/worklist.py                     # assets/WORKLIST.md: every slot without art, ranked, with its exact path and size; creates the folders
+python3 tools/dev/worklist.py                     # docs/ART_WORKLIST.md: every slot without art, ranked, with its exact path and size; creates the folders
+python3 tools/dev/packs.py                        # docs/pack_index.csv: every PNG in packs/ with its size; docs/PACKS.md maps candidateSource to pack
+python3 tools/dev/cut_sprites.py                  # re-cuts every sprite whose candidateSource names a pack file (D-70, D-71)
+python3 tools/dev/rooms.py                        # bakes game/scenes/rooms/*.tscn into the room plan PNGs (D-78); --scaffold mirrors the pack tilemaps under res://
+python3 tools/dev/ui.py                           # builds the UI chrome from tools/dev/ui/slots.txt (D-74)
 ```
 
 ## Driving the game from an agent
@@ -55,7 +60,7 @@ python3 tools/dev/worklist.py                     # assets/WORKLIST.md: every sl
 - **One knob per commit** when tuning numbers. The Quarter Close curve, the bar scale, tick rate, grid sizes, Tenure tiers and retrigger depth are not knobs (`docs/BALANCE_PLAN.md` §9).
 - **Decisions are appended, never edited.** A reversal is a new entry in `docs/DECISION_LOG.md` naming what it supersedes. Before changing a rule, grep the log for it.
 - **Never gate a CI step on an art file existing.** Absent assets are valid; a dimension mismatch on a present one is not.
-- **Art goes at the manifest's path.** A PNG at `sprite.asset` (relative to the repository root) at exactly `sprite.w × sprite.h` replaces the placeholder; `assets/WORKLIST.md` lists every slot. Source packs stay under `packs/` and out of git; commit only the cut sprites.
+- **Art goes at the manifest's path.** A PNG at `sprite.asset` (relative to the repository root, now under `game/assets/` so `res://` can reach it — D-77) at exactly `sprite.w × sprite.h` replaces the placeholder, except a `ui` entry, which may be any integer multiple of it (D-76); `docs/ART_WORKLIST.md` lists every slot. Source packs stay under `packs/` and out of git; commit only the cut sprites.
 - **Never require text input on any screen** (D-55).
 
 ## Gotchas

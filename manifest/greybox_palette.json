@@ -1,56 +1,60 @@
 {
   "id": "greybox.palette",
-  "note": "Six hues intended to be sampled from the GuttyKreum Office Interior palette at ~35% saturation, ~55% value. The hex values here are placeholders at those targets; Phase 4's first task replaces them with sampled values (Q-GBX-3, Q-GBX-5) without changing the structure. 'invalid' is deliberately outside the palette.",
+  "note": "Sanzo Wada combination 321: Light Brown Drab #b59392, Sulpher Yellow #f5ecc2, Deep Slate Olive #253122, Salvia Blue #97acc8. Each tone's fill is one of those four or a mix of them; border walks 55% toward the olive, hatch 40% toward the yellow, and text is whichever end contrasts. Applied but not yet logged as a decision: Q-GBX-3's plan to sample from Office Interior still stands in the docs. 'invalid' is deliberately outside the scheme.",
   "tones": {
     "structure": {
-      "fill": "#6f6a62",
-      "border": "#4f4b45",
-      "hatch": "#8a847b",
-      "text": "#1c1a17",
-      "source": "wall/floor neutrals"
+      "fill": "#74665f",
+      "border": "#48483d",
+      "hatch": "#a79b86",
+      "text": "#f5ecc2",
+      "source": "Light Brown Drab toward Deep Slate Olive — wall and floor neutrals"
     },
     "operations": {
-      "fill": "#5f8a86",
-      "border": "#43625f",
-      "hatch": "#7aa39f",
-      "text": "#14201f",
-      "source": "desk teal"
+      "fill": "#82856a",
+      "border": "#4e5642",
+      "hatch": "#b0ae8d",
+      "text": "#f5ecc2",
+      "source": "Sulpher Yellow toward Deep Slate Olive — the olive-green of desks and commit buttons; deliberately off the Salvia axis so a button reads against interface chrome"
     },
     "people": {
-      "fill": "#9a6f78",
-      "border": "#6e4f56",
-      "hatch": "#b28a92",
-      "text": "#23181b",
-      "source": "uniform rose"
+      "fill": "#b59392",
+      "border": "#655d54",
+      "hatch": "#ceb6a5",
+      "text": "#253122",
+      "source": "Light Brown Drab, unmixed"
     },
     "support": {
-      "fill": "#9a8a5c",
-      "border": "#6e6242",
-      "hatch": "#b3a578",
-      "text": "#221f14",
-      "source": "cabinet ochre"
+      "fill": "#d8c3ac",
+      "border": "#757260",
+      "hatch": "#e3d3b4",
+      "text": "#253122",
+      "source": "Sulpher Yellow toward Light Brown Drab — cabinet ochre"
     },
     "interface": {
-      "fill": "#5f6a7a",
-      "border": "#434b57",
-      "hatch": "#7a8595",
-      "text": "#e8e6e1",
-      "source": "terminal slate"
+      "fill": "#97acc8",
+      "border": "#58686c",
+      "hatch": "#bcc5c5",
+      "text": "#253122",
+      "source": "Salvia Blue, unmixed"
     },
     "anomalous": {
-      "fill": "#7a5f8a",
-      "border": "#574362",
-      "hatch": "#957aa3",
-      "text": "#1c1420",
-      "source": "horror-pack violet"
+      "fill": "#a69fad",
+      "border": "#5f6260",
+      "hatch": "#c5bdb5",
+      "text": "#253122",
+      "source": "Salvia Blue and Light Brown Drab — the extraplanar violet"
     },
     "invalid": {
       "fill": "#e0202a",
       "border": "#8a0e15",
       "hatch": "#ff5c64",
       "text": "#ffffff",
-      "source": "none — deliberately outside the palette"
+      "source": "none — deliberately outside the scheme"
     }
+  },
+  "ground": {
+    "backdrop": "#253122",
+    "source": "Deep Slate Olive — what every screen sits on"
   },
   "rendering": {
     "footprintAlpha": 850,

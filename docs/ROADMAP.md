@@ -121,7 +121,7 @@ battle screen, scrub the autopsy.
 
 **Systems**
 
-- The battle screen as specified in `GAME_DESIGN.md` §19.2: the isometric towers as
+- The battle screen as specified in `GAME_DESIGN.md` §19.2: the facade towers as
   greybox segments, window bursts, floating numbers, the Market Share bar, both
   Goodwill bars with eroding frames (D-35), the month banners, the founder badges,
   playback at 1× / 2× / 4× / skip.

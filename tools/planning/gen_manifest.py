@@ -18,10 +18,11 @@ BC = OD([("x", 0.5), ("y", 1.0)])   # bottom-centre
 TL = OD([("x", 0.0), ("y", 0.0)])   # top-left
 CC = OD([("x", 0.5), ("y", 0.5)])   # centre
 TC = OD([("x", 0.5), ("y", 0.0)])   # top-centre
+BL = OD([("x", 0.0), ("y", 1.0)])   # bottom-left
 
 entries = []
 def path_for(id_, perspective):
-    return "assets/%s/%s.png" % (perspective, id_.replace(".", "/"))
+    return "game/assets/%s/%s.png" % (perspective, id_.replace(".", "/"))
 
 def entry(id_, kind, category, label, w, h, anchor, footprint=None, sortBias=0, screens=(), visibility=3,
           perspective="ui", reads="", candidate=None, verify=False, releaseGate=True, rect=None, frames=None, note=None):
@@ -44,22 +45,57 @@ def entry(id_, kind, category, label, w, h, anchor, footprint=None, sortBias=0, 
     return d
 
 # ---------------------------------------------------------------- employees
+# Which Character Pack body each employee wears. Age and formality carry the tier
+# (students and youths at T1, working adults at T2, elders and traditional dress at T3);
+# no two employees in the same department share a body. `tools/dev/cut_employees.py`
+# reads these names back out of the manifest to cut the sprites (D-70).
+EMP_BASE = {
+    "emp.intern": "MaleYouth", "emp.junior_dev": "MaleStudent1", "emp.qa_tester": "FemaleStudent",
+    "emp.senior_dev": "MaleBusinessMan", "emp.devops": "MalePunk", "emp.sysadmin": "MaleCasual",
+    "emp.architect": "MaleBusinessManOld", "emp.cto": "MaleTraditional",
+    "emp.paralegal": "FemaleTrendy", "emp.compliance_officer": "MaleStudent",
+    "emp.counsel": "FemaleOfficeWorker", "emp.patent_attorney": "MaleTrafficCop",
+    "emp.general_counsel": "FemaleElder",
+    "emp.recruiter": "FemaleYouth", "emp.office_manager": "FemaleBaker",
+    "emp.hr_manager": "FemaleCafeMaid", "emp.trainer": "MaleCasual",
+    "emp.head_of_people": "MaleBusinessManOld",
+    "emp.telemarketer": "MaleStudent1", "emp.sales_rep": "FemaleTrendy",
+    "emp.account_manager": "MaleBusinessMan", "emp.headhunter": "MalePunk",
+    "emp.sales_director": "FemaleElder", "emp.key_account_manager": "MaleTraditional",
+    "emp.team_lead": "MaleYouth", "emp.project_manager": "FemaleStudent",
+    "emp.middle_manager": "MaleTrafficCop", "emp.consultant": "FemaleOfficeWorker",
+    "emp.director": "MaleBusinessManOld", "emp.vp_operations": "MaleTraditional",
+    "emp.x_salaryman_ghost": "MaleBusinessMan", "emp.x_office_lady": "FemaleOfficeWorker",
+    "emp.x_auditor": "MaleTrafficCop", "emp.x_fax_spirit": "Gutty-Chan",
+    "emp.x_kappa_intern": "MaleYouth", "emp.x_salaryman_who_never_left": "MaleBusinessManOld",
+    "emp.x_the_chairman": "MaleTraditional", "emp.x_the_partner": "FemaleElder",
+    "emp.x_efficiency_wraith": "Witch", "emp.x_recruiting_oni": "MalePunk",
+}
+# Extraplanar bodies are recoloured; the hue names the tone the recolour lands on.
+EMP_TINT = {"emp.x_kappa_intern": "green", "emp.x_recruiting_oni": "red"}
 for e in employees:
     xp = e["extraplanar"]
     vis = 1 if (e["tier"] == 1 and e["inShop"]) else (2 if e["inShop"] and not xp else (3 if xp and e["inShop"] else 4))
+    base = EMP_BASE[e["sprite"]]
+    src = "characterpack/Blackoutlinecharacters/%s/Idle frame 1 (facing down)" % base
+    if xp: src += ", %s spectral recolour" % EMP_TINT.get(e["sprite"], "violet")
     entry(e["sprite"], "employee", "anomalous" if xp else "people", e["name"], 32, 32, BC, footprint=(1, 1),
           screens=["build", "shop", "battle.inset", "autopsy"], visibility=vis, perspective="topdown",
           reads="A %s%s at a glance; department must be readable from silhouette or uniform colour" % ("spectral " if xp else "", e["dept"]),
-          candidate="JRPG Characters Vol. 1 (4-dir, 8-frame walk; use frame 0 facing down)" if not xp else "Horror Interiors / JRPG Characters (recolour)",
+          candidate=src,
           frames=OD([("idleDown", [0, 0])]))
 # ---------------------------------------------------------------- rooms
 for r in rooms:
     vis = 1 if r["id"] in ("room.reception", "room.open_plan", "room.server_room", "room.sales_floor", "room.legal_dept", "room.break_room") else (4 if r["kind"] == "extraplanar" else 2)
+    fw, fh = r["footprint"]["w"], r["footprint"]["h"]
+    # One composed plan per room type, at the footprint's size plus a 32px band of
+    # overhang above it for the back-row fittings (D-73); anchored bottom-left, so
+    # §2.1 derives that band rather than anyone typing it.
     entry(r["tile"], "tile", "anomalous" if r["kind"] == "extraplanar" else ("structure" if r["kind"] == "reception" else "operations"),
-          r["name"] + " floor tile", 32, 32, TL, footprint=(1, 1), sortBias=-10,
+          r["name"] + " floor plan", fw * 32, fh * 32 + 32, BL, footprint=(fw, fh), sortBias=-10,
           screens=["build", "battle.inset", "shop"], visibility=vis, perspective="topdown",
-          reads="A tileable floor surface that says '%s' without a label; top edge carries a 1px wall" % r["name"],
-          candidate="Office Interior floor tiles" if r["kind"] != "extraplanar" else "Horror Interiors floor tiles")
+          reads="The room itself at %dx%d tiles: floor, and fittings along the back row that say '%s' without a label. Every tile stays walkable — people stand here" % (fw, fh, r["name"]),
+          candidate="tools/dev/rooms/%s.room" % r["id"].split(".", 1)[1])
 entry("ui.room_sign", "ui", "interface", "Room sign strip", 32, 8, TL, sortBias=-9, screens=["build"], visibility=1,
       reads="A label strip: room name in font.ui.8 with up to three Tenure pips at the right")
 # ---------------------------------------------------------------- furniture
@@ -76,24 +112,41 @@ for f in furniture:
           candidate="Office Interior" if f.get("floors") != ["floor.b1"] else "Horror Interiors",
           note="wall-mounted: 32x40 sprite over a 1x1 footprint; the top 8px is overhang" if f["wallMounted"] else None)
 # ---------------------------------------------------------------- founders
+FS = FS_SCREEN = ["founder"]
+# Which Portraits-pack face each founder wears (D-71). `tools/dev/cut_founders.py` reads
+# these names back out of the manifest; the badges take the same face's Character Pack body.
+FOUNDER_FACE = {
+    "founder.sato": "oldbusinessman1", "founder.hoshino": "femaletrendy1",
+    "founder.okada": "malepunk1", "founder.nakagawa": "femalestudent1",
+    "founder.moriyama": "youngbusinessman1", "founder.ueda": "femalebaker1",
+    "founder.the_founder": "femaleelder1", "founder.kitamura": "maletraditional1",
+}
+FOUNDER_BODY = {
+    "founder.sato": "MaleBusinessManOld", "founder.hoshino": "FemaleTrendy",
+    "founder.okada": "MalePunk", "founder.nakagawa": "FemaleStudent",
+    "founder.moriyama": "MaleBusinessMan", "founder.ueda": "FemaleBaker",
+    "founder.the_founder": "FemaleElder", "founder.kitamura": "MaleTraditional",
+}
 for fo in founders:
-    entry(fo["portrait"], "ui", "people", fo["name"] + " portrait", 64, 64, TL, screens=["founder", "build", "map", "codex"], visibility=1, verify=True,
+    entry(fo["portrait"], "ui", "people", fo["name"] + " portrait", 96, 96, TL, screens=["founder", "build", "map", "codex"], visibility=1,
           reads="A face with a title: %s, %s. Reads as a person you would follow or would not" % (fo["name"], fo["title"]),
-          candidate="Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)")
+          candidate="portraits/Portraits/transparent_bg/%s_transparent.png" % FOUNDER_FACE[fo["id"]])
     entry(fo["badge"], "ui", "people", fo["name"] + " badge", 32, 32, TL, screens=["battle", "map"], visibility=2,
-          reads="The same person at 32px; recognisable beside the Goodwill bar", candidate="JRPG Characters Vol. 1 (idle frame) or a 32px crop of the portrait")
-FS = ["founder"]
-entry("ui.founder.header", "ui", "interface", "Founder select header", 640, 24, TL, screens=FS, visibility=3, rect=(0, 0), reads="'CHOOSE A FOUNDER' and the firm name field")
-entry("ui.founder.card", "ui", "people", "Founder card", 72, 96, TL, screens=FS, visibility=3,
-      reads="Portrait slot (4,4,64,64); name (4,72,64,8); title (4,82,64,8); selected state distinct; a reserved trait line stays empty in v1")
-entry("ui.founder.grid", "ui", "interface", "Founder grid", 608, 208, TL, screens=FS, visibility=3, rect=(16, 40), reads="Four columns at x = 16 + col × 152, two rows at y = 40 + row × 104; cards centred in 152 × 104 cells")
-entry("ui.founder.bio", "ui", "interface", "Founder bio panel", 608, 40, TL, screens=FS, visibility=3, rect=(16, 256), reads="The selected founder's bio, up to four lines of font.ui.8")
-entry("ui.founder.firm_name", "ui", "interface", "Firm name field", 240, 16, TL, screens=FS, visibility=3, rect=(16, 304), reads="Text field, default from the founder's surname + ' Holdings'")
-entry("ui.founder.confirm", "ui", "interface", "FOUND THE FIRM button", 120, 16, TL, screens=FS, visibility=3, rect=(504, 304), reads="The commit button")
+          reads="The same person at 32px; recognisable beside the Goodwill bar",
+          candidate="characterpack/Blackoutlinecharacters/%s/Idle frame 1 (facing down)" % FOUNDER_BODY[fo["id"]])
+    entry(fo["id"] + ".thumb", "ui", "people", fo["name"] + " thumbnail", 48, 48, TL, screens=FS_SCREEN, visibility=3,
+          reads="The same face at 48px, for the select grid; legible at a glance in a column of eight",
+          candidate="portraits/Portraits/transparent_bg/%s_transparent.png, halved 2:1" % FOUNDER_FACE[fo["id"]])
+entry("ui.founder.tile", "ui", "people", "Founder grid tile", 64, 64, TL, screens=FS, visibility=3,
+      reads="A 48x48 thumbnail inset at (8,8); selected state is a distinct border, unmissable at a glance (D-72)")
+entry("ui.founder.grid", "ui", "interface", "Founder grid", 152, 312, TL, screens=FS, visibility=3, rect=(8, 32), reads="The roster column: two columns at x = 16 + col × 72 and four rows at y = 40 + row × 72, of 64 × 64 tiles")
+entry("ui.founder.detail", "ui", "interface", "Founder detail panel", 464, 312, TL, screens=FS, visibility=3, rect=(168, 32), reads="The selected founder in full: portrait, name and title, battle badge, bio, what the run starts with, and the commit row")
+entry("ui.founder.confirm", "ui", "interface", "FOUND THE FIRM button", 160, 24, TL, screens=FS, visibility=3, rect=(456, 306),
+      reads="The screen's one commit: 160x24, the label centred in font.ui.16 with 15px clear of the 9px corners, filled in the operations tone's dark end so it carries against the panel. Its centre line matches the firm-name field beside it")
 entry("ui.battle.founder", "ui", "people", "Battle founder badge frame", 36, 36, TL, screens=["battle"], visibility=2, rect=(8, 48), reads="A 2px frame around a 32x32 badge; A at (8,48), B mirrored at (596,48)")
 entry("ui.map.dossier_badge", "ui", "people", "Dossier founder badge frame", 36, 36, TL, screens=["map"], visibility=3, reads="A 2px frame around the rival founder's 32x32 badge at (160,4) inside the dossier")
 entry("ui.build.firm_panel", "ui", "interface", "Inspector default: the firm", 200, 304, TL, screens=["build"], visibility=1, rect=(432, 32),
-      reads="Shown when nothing is selected: founder portrait 64x64 at (440,40); firm name at (512,40); founder name and title at (512,50) and (512,60); run stats from y=112: round, strikes, fights won, Goodwill cap, floors leased, staff count")
+      reads="Shown when nothing is selected: founder portrait 96x96 at (440,40); firm name at (544,44); founder name and title at (544,54) and (544,64); run stats from y=144: round, strikes, fights won, Goodwill cap, floors leased, staff count")
 
 # ---------------------------------------------------------------- build screen
 B = ["build"]
@@ -124,8 +177,8 @@ entry("ui.card.otherworld", "ui", "anomalous", "Otherworld Temp Agency card", 52
 entry("ui.aura_badge", "ui", "interface", "Aura badge", 12, 8, OD([("x", 1.0), ("y", 0.0)]), sortBias=8, screens=B, visibility=1, reads="'x1.2' in font.ui.8 on a tag, top-right of the tile")
 entry("ui.link_line", "ui", "interface", "Furniture link line", 1, 1, TL, sortBias=7, screens=B, visibility=1, reads="1px line from furniture to each triggered employee; tiles the length")
 entry("ui.tenure_pip", "ui", "interface", "Tenure pip", 4, 4, TL, sortBias=-9, screens=B, visibility=1, reads="A filled 4x4 pip; up to three in the sign")
-entry("ui.portrait", "ui", "people", "Inspector portrait", 64, 64, TL, screens=["build"], visibility=1, verify=True,
-      reads="A face. Larger than the sprite, same character", candidate="Portraits pack — VERIFY size against the pack before greyboxing (Q-GBX-5)")
+entry("ui.portrait", "ui", "people", "Inspector portrait", 96, 96, TL, screens=["build"], visibility=1,
+      reads="A face. Larger than the sprite, same character", candidate="Portraits pack, transparent_bg (96x96, D-71)")
 for d in ["engineering", "legal", "hr", "sales", "management", "extraplanar"]:
     entry("ui.dept." + d, "icon", "interface", "Department icon: " + d, 8, 8, TL, screens=["build", "shop", "battle.inset"], visibility=1, reads="Department at 8px: a glyph, not a letter")
 entry("ui.tier_pip", "icon", "interface", "Tier pip", 4, 4, TL, screens=["build", "shop"], visibility=1, reads="Filled pip; one to three")
@@ -133,8 +186,8 @@ for s in statuses:
     entry("ui.status." + s["id"].split(".")[1], "icon", s["tone"], "Status icon: " + s["name"], 8, 8, TL, screens=["battle.inset", "autopsy", "build"], visibility=2, reads="The status at 8px, with a stack count beside it")
 # ---------------------------------------------------------------- battle screen
 BT = ["battle"]
-entry("bg.battle.street", "background", "structure", "Battle street backdrop", 640, 360, TL, screens=BT, visibility=2, perspective="iso", rect=(0, 0),
-      reads="A Japanese city street at dusk, isometric, two lots facing each other", candidate="Japanese City / Osaka / Dotonbori (isometric)")
+entry("bg.battle.street", "background", "structure", "Battle street backdrop", 640, 360, TL, screens=BT, visibility=2, perspective="exterior", rect=(0, 0),
+      reads="A Japanese city street at dusk seen front-on, two lots facing each other across it", candidate="Osaka / Dotonbori / Dark Tokyo street tiles")
 entry("ui.battle.bar", "ui", "interface", "Market Share bar", 320, 12, TL, screens=BT, visibility=2, rect=(160, 8), reads="Two-colour fill from 50/50, 10% ticks, percent labels at both ends")
 entry("ui.battle.goodwill_bar", "ui", "interface", "Goodwill bar", 200, 16, TL, screens=BT, visibility=2, rect=(8, 28),
       reads="A frame whose right (or left, mirrored) end marks the live cap; fill inside it; number in font.ui.16 overlaid; dims when suppressed; flashes on break")
@@ -144,13 +197,13 @@ entry("ui.battle.ledger_rollup", "ui", "interface", "Ledger roll-up line", 308, 
 entry("ui.battle.floor_inset", "ui", "interface", "Floor inset", 168, 104, TL, screens=BT, visibility=2, reads="A 4px frame around a 160x96 top-down floor; most recent firer highlighted")
 entry("ui.battle.controls", "ui", "interface", "Playback controls", 72, 16, TL, screens=BT, visibility=2, rect=(520, 48), reads="1x 2x 4x and skip; left of founder B's badge, which starts at x=596")
 entry("ui.battle.result", "ui", "interface", "Result banner", 640, 24, TL, screens=BT, visibility=2, rect=(0, 0), reads="'Q7 · WON · 71.2% MARKET SHARE'")
-entry("fx.tower.floor_segment", "fx", "structure", "Tower floor segment", 96, 32, BC, screens=BT, visibility=2, perspective="iso", verify=True, rect=(200, 280),
-      reads="One storey of an isometric office block with windows that can light; tiles vertically", candidate="Japanese City (isometric building tiles) — VERIFY a 96x32 slice reads (Q-GBX-5)")
-entry("fx.tower.floor_segment_empty", "fx", "structure", "Unleased floor segment", 96, 32, BC, screens=BT, visibility=2, perspective="iso", verify=True, reads="The same storey with no windows, in the structure tone")
-entry("fx.tower.roof", "fx", "structure", "Tower roof", 96, 16, BC, screens=BT, visibility=2, perspective="iso", verify=True, reads="Roof cap with a water tank or signage", candidate="Japanese City — VERIFY (Q-GBX-5)")
-entry("fx.tower.basement", "fx", "anomalous", "B1 basement segment", 96, 24, TC, screens=BT, visibility=4, perspective="iso", verify=True, reads="A below-street storey, darker, one lit window", candidate="Japanese City + Horror Interiors tint — VERIFY (Q-GBX-5)")
-entry("fx.tower.window_occupant", "fx", "people", "Window occupant", 8, 8, CC, screens=BT, visibility=2, perspective="iso", reads="One per employee in the facade, at its tile's column and row; tone by department (D-68)")
-entry("fx.window_burst", "fx", "interface", "Window burst", 16, 16, CC, screens=BT, visibility=2, perspective="iso", reads="A 4-frame burst at the firer's window; tone by damage kind", frames=OD([("burst", [0, 0, 4])]))
+entry("fx.tower.floor_segment", "fx", "structure", "Tower floor segment", 96, 32, BC, screens=BT, visibility=2, perspective="exterior", rect=(200, 280),
+      reads="One storey of an office-block facade, three 32px tiles wide, carrying a 5x3 grid of unlit windows; tiles vertically", candidate="Osaka Tilemap.png facade band at (352, 32) 96x32, windows authored over it (D-69)")
+entry("fx.tower.floor_segment_empty", "fx", "structure", "Unleased floor segment", 96, 32, BC, screens=BT, visibility=2, perspective="exterior", reads="The same storey as bare wall, no windows, in the structure tone", candidate="Osaka Tilemap.png wall band at (352, 32) 96x32")
+entry("fx.tower.roof", "fx", "structure", "Tower roof", 96, 16, BC, screens=BT, visibility=2, perspective="exterior", reads="Parapet cap seen front-on, with a water tank or signage", candidate="Osaka Tilemap.png building cap at (256, 0) 96x16")
+entry("fx.tower.basement", "fx", "anomalous", "B1 basement segment", 96, 24, TC, screens=BT, visibility=4, perspective="exterior", reads="A below-street storey, darker, one lit window", candidate="Osaka wall band at (352, 32) 96x24, darkened with a Horror Interiors tint")
+entry("fx.tower.window_occupant", "fx", "people", "Window occupant", 8, 8, CC, screens=BT, visibility=2, perspective="exterior", reads="One per employee, filling its window in the facade's 5x3 grid; tone by department (D-68)")
+entry("fx.window_burst", "fx", "interface", "Window burst", 16, 16, CC, screens=BT, visibility=2, perspective="exterior", reads="A 4-frame burst at the firer's window; tone by damage kind", frames=OD([("burst", [0, 0, 4])]))
 entry("fx.floating_number", "fx", "interface", "Floating number", 40, 8, CC, screens=BT, visibility=2, reads="font.ui.8 digits rising 16px over 20 ticks")
 # ---------------------------------------------------------------- autopsy
 AU = ["autopsy"]
@@ -163,7 +216,7 @@ entry("ui.autopsy.ledger", "ui", "interface", "Full ledger", 416, 228, TL, scree
 entry("ui.autopsy.continue", "ui", "interface", "CONTINUE button", 80, 16, TL, screens=AU, visibility=2, rect=(552, 340), reads="CONTINUE")
 # ---------------------------------------------------------------- map
 MP = ["map"]
-entry("bg.map", "background", "structure", "Campaign map backdrop", 640, 360, TL, screens=MP, visibility=3, perspective="iso", rect=(0, 0), reads="A city district seen from above, muted, paths readable over it", candidate="Japanese City / Osaka (isometric)")
+entry("bg.map", "background", "structure", "Campaign map backdrop", 640, 360, TL, screens=MP, visibility=3, perspective="exterior", rect=(0, 0), reads="A city district seen from above, muted, paths readable over it", candidate="Osaka / Kanagawa street and roof tiles")
 entry("ui.map.header", "ui", "interface", "Map header", 640, 24, TL, screens=MP, visibility=3, rect=(0, 0), reads="Act name and strikes")
 for k in ["takeover", "audit", "recruiter", "board", "consultant", "boss"]:
     entry("ui.map.node." + k, "icon", "interface", "Map node: " + k, 24, 24, CC, screens=MP, visibility=3, reads="The node kind at 24px, distinct from the other five at a glance")
@@ -184,7 +237,9 @@ for c in ["promotion", "renovation", "ritual"]:
 entry("font.ui.8", "font", "interface", "UI pixel font, 8px line", 0, 8, TL, screens=["build", "battle", "autopsy", "map", "codex", "menu"], visibility=1,
       reads="Variable-width pixel font, ~5px average glyph, tabular digits; 8px line height at 1x", note="Width 0: a font entry declares line height only; glyph metrics live in the font file")
 entry("font.ui.16", "font", "interface", "UI pixel font at 2x", 0, 16, TL, screens=["battle"], visibility=2, reads="font.ui.8 at exactly 2x, integer-scaled")
-entry("bg.menu", "background", "structure", "Main menu backdrop", 640, 360, TL, screens=["menu"], visibility=3, perspective="iso", rect=(0, 0), reads="The tower at night from the street", candidate="Backgrounds pack")
+entry("font.ui.32", "font", "interface", "Screen title face, 32px line", 0, 32, TL, screens=["founder"], visibility=3,
+      reads="Honeyblot Caps at a 32px line for a screen's own title, set on the background with no plate behind it (D-75)")
+entry("bg.menu", "background", "structure", "Main menu backdrop", 640, 360, TL, screens=["menu"], visibility=3, perspective="exterior", rect=(0, 0), reads="The tower at night from the street", candidate="Backgrounds pack")
 entry("ui.menu.button", "ui", "interface", "Menu button", 160, 16, TL, screens=["menu"], visibility=3, reads="A labelled button with hover state")
 entry("ui.strike", "icon", "interface", "Strike icon", 8, 8, TL, screens=["build", "map"], visibility=1, reads="A strike: filled when spent")
 entry("ui.budget_glyph", "icon", "interface", "Budget glyph", 8, 8, TL, screens=["build", "shop"], visibility=1, reads="A yen mark at 8px")
@@ -209,18 +264,36 @@ for e in entries:
     e["overhang"] = overhang(e)   # derived at generation; the loader recomputes and asserts equality
 
 # ---------------------------------------------------------------- palette
+# Sanzo Wada's "A Dictionary of Color Combinations" no. 321. Four colours; the seven
+# tones are mixed from them so the whole palette stays inside one 1930s scheme.
+DRAB, SULPHER, OLIVE, SALVIA = "#b59392", "#f5ecc2", "#253122", "#97acc8"
+
+def _rgb(h): return tuple(int(h.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4))
+def _hex(t): return "#%02x%02x%02x" % t
+def mix(a, b, k):
+    """k of the way from a to b, in permille, because the sim's habits are catching."""
+    ra, rb = _rgb(a), _rgb(b)
+    return _hex(tuple((ra[i] * (1000 - k) + rb[i] * k) // 1000 for i in range(3)))
+
+def tone(base, source):
+    """fill, and a border and hatch that walk it toward the scheme's dark and light ends."""
+    light = sum(_rgb(base)) > 384
+    return OD([("fill", base), ("border", mix(base, OLIVE, 550)), ("hatch", mix(base, SULPHER, 400)),
+               ("text", OLIVE if light else SULPHER), ("source", source)])
+
 palette = OD([
     ("id", "greybox.palette"),
-    ("note", "Six hues intended to be sampled from the GuttyKreum Office Interior palette at ~35% saturation, ~55% value. The hex values here are placeholders at those targets; Phase 4's first task replaces them with sampled values (Q-GBX-3, Q-GBX-5) without changing the structure. 'invalid' is deliberately outside the palette.",),
+    ("note", "Sanzo Wada combination 321: Light Brown Drab #b59392, Sulpher Yellow #f5ecc2, Deep Slate Olive #253122, Salvia Blue #97acc8. Each tone's fill is one of those four or a mix of them; border walks 55% toward the olive, hatch 40% toward the yellow, and text is whichever end contrasts. Applied but not yet logged as a decision: Q-GBX-3's plan to sample from Office Interior still stands in the docs. 'invalid' is deliberately outside the scheme.",),
     ("tones", OD([
-        ("structure", OD([("fill", "#6f6a62"), ("border", "#4f4b45"), ("hatch", "#8a847b"), ("text", "#1c1a17"), ("source", "wall/floor neutrals")])),
-        ("operations", OD([("fill", "#5f8a86"), ("border", "#43625f"), ("hatch", "#7aa39f"), ("text", "#14201f"), ("source", "desk teal")])),
-        ("people", OD([("fill", "#9a6f78"), ("border", "#6e4f56"), ("hatch", "#b28a92"), ("text", "#23181b"), ("source", "uniform rose")])),
-        ("support", OD([("fill", "#9a8a5c"), ("border", "#6e6242"), ("hatch", "#b3a578"), ("text", "#221f14"), ("source", "cabinet ochre")])),
-        ("interface", OD([("fill", "#5f6a7a"), ("border", "#434b57"), ("hatch", "#7a8595"), ("text", "#e8e6e1"), ("source", "terminal slate")])),
-        ("anomalous", OD([("fill", "#7a5f8a"), ("border", "#574362"), ("hatch", "#957aa3"), ("text", "#1c1420"), ("source", "horror-pack violet")])),
-        ("invalid", OD([("fill", "#e0202a"), ("border", "#8a0e15"), ("hatch", "#ff5c64"), ("text", "#ffffff"), ("source", "none — deliberately outside the palette")])),
+        ("structure", tone(mix(DRAB, OLIVE, 450), "Light Brown Drab toward Deep Slate Olive — wall and floor neutrals")),
+        ("operations", tone(mix(SULPHER, OLIVE, 550), "Sulpher Yellow toward Deep Slate Olive — the olive-green of desks and commit buttons; deliberately off the Salvia axis so a button reads against interface chrome")),
+        ("people", tone(DRAB, "Light Brown Drab, unmixed")),
+        ("support", tone(mix(SULPHER, DRAB, 450), "Sulpher Yellow toward Light Brown Drab — cabinet ochre")),
+        ("interface", tone(SALVIA, "Salvia Blue, unmixed")),
+        ("anomalous", tone(mix(SALVIA, DRAB, 500), "Salvia Blue and Light Brown Drab — the extraplanar violet")),
+        ("invalid", OD([("fill", "#e0202a"), ("border", "#8a0e15"), ("hatch", "#ff5c64"), ("text", "#ffffff"), ("source", "none — deliberately outside the scheme")])),
     ])),
+    ("ground", OD([("backdrop", OLIVE), ("source", "Deep Slate Olive — what every screen sits on")])),
     ("rendering", OD([("footprintAlpha", 850), ("overhangAlpha", 450), ("borderPx", 1), ("hatchPitchPx", 4), ("labelFont", "font.ui.8"),
                       ("labelFallback", ["id+footprint+dims", "id", "dot"]), ("dotSize", 4)])),
 ])
@@ -231,7 +304,7 @@ manifest = OD([
     ("tileSize", 32),
     ("canvas", OD([("w", 640), ("h", 360)])),
     ("scales", [2, 3, 4, 6]),
-    ("assetRoot", "assets/"),
+    ("assetRoot", "game/assets/"),
     ("palette", "manifest/greybox_palette.json"),
     ("visibilityTiers", OD([("1", "on the build screen every round"), ("2", "on the battle or autopsy screen every fight"), ("3", "seen most runs: map, codex, rarer content"), ("4", "seen rarely: B1, rituals, bosses, debug")])),
     ("entries", entries),
@@ -265,12 +338,12 @@ schema = OD([
                 ("footprint", {"oneOf": [{"type": "null"}, {"type": "object", "properties": {"w": {"type": "integer", "minimum": 1}, "h": {"type": "integer", "minimum": 1}}, "required": ["w", "h"], "additionalProperties": False}]}),
                 ("sprite", OD([("type", "object"), ("properties", OD([
                     ("w", {"type": "integer", "minimum": 0}), ("h", {"type": "integer", "minimum": 1}), ("anchor", ANCHOR),
-                    ("asset", {"type": "string", "pattern": r"^assets/(topdown|iso|ui)/.+\.png$"}),
+                    ("asset", {"type": "string", "pattern": r"^game/assets/(topdown|exterior|ui)/.+\.png$"}),
                     ("sourceRect", {"oneOf": [{"type": "null"}, {"type": "array", "items": {"type": "integer", "minimum": 0}, "minItems": 4, "maxItems": 4}]}),
                     ("frames", {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "integer", "minimum": 0}, "minItems": 2, "maxItems": 3}}),
                 ])), ("required", ["w", "h", "anchor", "asset", "sourceRect"]), ("additionalProperties", False)])),
                 ("sortBias", {"type": "integer", "minimum": -10, "maximum": 10}),
-                ("perspective", {"enum": ["topdown", "iso", "ui"]}),
+                ("perspective", {"enum": ["topdown", "exterior", "ui"]}),
                 ("screens", {"type": "array", "items": {"enum": ["build", "shop", "battle", "battle.inset", "autopsy", "map", "codex", "menu", "reward", "founder"]}, "minItems": 1}),
                 ("visibility", {"type": "integer", "minimum": 1, "maximum": 4}),
                 ("reads", {"type": "string", "minLength": 1}),
@@ -286,7 +359,7 @@ schema = OD([
             ("allOf", [
                 {"if": {"properties": {"kind": {"enum": ["employee", "furniture", "tile"]}}}, "then": {"properties": {"footprint": {"type": "object"}}}},
                 {"if": {"properties": {"kind": {"enum": ["employee", "furniture", "tile"]}}}, "then": {"properties": {"perspective": {"const": "topdown"}}}},
-                {"if": {"properties": {"perspective": {"const": "iso"}}}, "then": {"properties": {"screens": {"items": {"enum": ["battle", "map", "menu"]}}}}},
+                {"if": {"properties": {"perspective": {"const": "exterior"}}}, "then": {"properties": {"screens": {"items": {"enum": ["battle", "map", "menu"]}}}}},
                 {"if": {"properties": {"perspective": {"const": "topdown"}}}, "then": {"properties": {"screens": {"items": {"enum": ["build", "shop", "battle.inset", "autopsy", "reward", "codex"]}}}}},
             ]),
         ])),
@@ -309,11 +382,11 @@ def main():
     refs = [e["sprite"] for e in employees] + [r["tile"] for r in rooms] + [f["sprite"] for f in furniture]
     missing = [r for r in refs if r not in ids]
     if missing: print("MISSING", missing)
-    # perspective rule: no screen mixes topdown and iso except via the inset
+    # perspective rule: no screen mixes interior top-down and exterior facade art except via the inset
     by_screen = {}
     for e in entries:
         for s in e["screens"]: by_screen.setdefault(s, set()).add(e["perspective"])
-    mixed = {s: p for s, p in by_screen.items() if "topdown" in p and "iso" in p}
+    mixed = {s: p for s, p in by_screen.items() if "topdown" in p and "exterior" in p}
     print("entries:", len(entries), "| schema errors:", len(errs), "| dup ids:", len(dups), "| missing refs:", len(missing), "| mixed-perspective screens:", mixed or "none")
     tiers = {t: sum(1 for e in entries if e["visibility"] == t) for t in (1, 2, 3, 4)}
     print("by tier:", tiers, "| verify:", sum(1 for e in entries if e["verify"]), "| exempt:", sum(1 for e in entries if not e["releaseGate"]))

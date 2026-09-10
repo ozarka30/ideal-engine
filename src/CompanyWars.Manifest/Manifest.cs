@@ -48,7 +48,10 @@ public sealed record Layout(long X, long Y);
 
 public sealed record Overhang(long Left, long Top, long Right, long Bottom);
 
-public sealed record GreyboxPalette(string Id, string Note, Dictionary<string, Tone> Tones, PaletteRendering Rendering);
+public sealed record GreyboxPalette(string Id, string Note, Dictionary<string, Tone> Tones, PaletteGround Ground, PaletteRendering Rendering);
+
+/// <summary>What every screen sits on, outside the seven tones: Deep Slate Olive from the scheme.</summary>
+public sealed record PaletteGround(string Backdrop, string Source);
 
 public sealed record Tone(string Fill, string Border, string Hatch, string Text, string Source);
 

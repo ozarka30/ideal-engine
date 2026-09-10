@@ -969,8 +969,8 @@ Fonts: `font.ui.8` is an 8-pixel-line pixel font with variable-width glyphs aver
 | `ui.build.ready_shop` | (192, 312, 232, 20) | A second **READY** under the shop's lease row in `font.ui.16`, where the thumb already is on touch (D-68); the top-right one stays for keyboard and mouse |
 | `ui.build.tower` | (8, 32, 176, 304) | Elevator shaft (8, 32, 16, 304) with floor labels drawn inside it; three floor viewports stacked: above at y=32, **selected** at y=136, below at y=240, each 160 × 96 at x=24. Unselected floors dimmed 50%, still interactive. Scrolls by whole floors |
 | `ui.build.shop` | (192, 32, 232, 304) | Tab bar (192, 32, 232, 16); four cards 52 × 80 at x = 192, 248, 304, 360, y = 56; Otherworld row label (192, 140, 232, 8) and two cards at x = 192, 248, y = 152; Lease section (192, 240, 232, 64) with three buttons 72 × 24 at x = 192, 272, 352, y = 260 |
-| `ui.build.inspector` | (432, 32, 200, 304) | Portrait slot 64 × 64 at (440, 40); name `font.ui.8` at (512, 40); dept and tier at (512, 50); from y = 112 (D-65): the aura and floor multiplier where it stands, then *WHAT IT DOES* — the ability as a sentence, its passives, a one-line glossary of the kind it deals — and *WHERE TO PUT IT* — the rooms that boost its department, the furniture it likes beside it, its reach, the floor multipliers; while a shop card is carried the inspector shows the same block for the card; for a room, the comparison block (440, 276, 184, 24) — *here ×1.40 · Tier II* / *on 2F ×1.38 now, ×1.61 by round 14* / *relocate: −3 Tenure rounds, ¥13*; action buttons at y = 308: **LAY OFF · ¥1** (440, 308, 184, 20) for staff, or **RELOCATE · ¥13** (440, 308, 90, 20) and **DEMOLISH · ¥13** (534, 308, 90, 20) for rooms |
-| `ui.build.firm_panel` | (432, 32, 200, 304) | The inspector's default state when nothing is selected: founder portrait 64 × 64 at (440, 40); firm name at (512, 40); founder name and title at (512, 50) and (512, 60); run stats from y = 112 — round, strikes, fights won, Goodwill cap, floors leased, staff count; below them *HOW A FIGHT WORKS*, the six-sentence primer (D-65) |
+| `ui.build.inspector` | (432, 32, 200, 304) | Portrait slot 96 × 96 at (440, 40) (D-71); name `font.ui.8` at (544, 44); dept and tier at (544, 54); from y = 144 (D-65): the aura and floor multiplier where it stands, then *WHAT IT DOES* — the ability as a sentence, its passives, a one-line glossary of the kind it deals — and *WHERE TO PUT IT* — the rooms that boost its department, the furniture it likes beside it, its reach, the floor multipliers; while a shop card is carried the inspector shows the same block for the card; for a room, the comparison block (440, 276, 184, 24) — *here ×1.40 · Tier II* / *on 2F ×1.38 now, ×1.61 by round 14* / *relocate: −3 Tenure rounds, ¥13*; action buttons at y = 308: **LAY OFF · ¥1** (440, 308, 184, 20) for staff, or **RELOCATE · ¥13** (440, 308, 90, 20) and **DEMOLISH · ¥13** (534, 308, 90, 20) for rooms |
+| `ui.build.firm_panel` | (432, 32, 200, 304) | The inspector's default state when nothing is selected: founder portrait 96 × 96 at (440, 40) (D-71); firm name at (544, 44); founder name and title at (544, 54) and (544, 64); run stats from y = 144 — round, strikes, fights won, Goodwill cap, floors leased, staff count; below them *HOW A FIGHT WORKS*, the six-sentence primer (D-65) |
 | `ui.build.hint` | (0, 344, 640, 16) | One line of hint text, first run only; otherwise the hovered element's one-line summary |
 
 Floor viewport internals: tiles 32 × 32 at `(24 + col × 32, floorY + row × 32)`.
@@ -987,7 +987,7 @@ y = 160 until the portal is open. Ready has no confirmation.
 
 | Region | Rect | Contents |
 | --- | --- | --- |
-| `bg.battle.street` | (0, 0, 640, 360) | Isometric street backdrop |
+| `bg.battle.street` | (0, 0, 640, 360) | Street backdrop, seen front-on |
 | `ui.battle.bar` | (160, 8, 320, 12) | Market Share bar; A fills from the left; ticks every 10%; percent labels at each end in `font.ui.8` |
 | `ui.battle.goodwill.a` | (8, 28, 200, 16) | Goodwill **bar**: frame 200 × 16; fill from the left, width = `goodwill / capAtStart × 200`; the frame's right end sits at `cap / capAtStart × 200` so Morale erosion visibly shortens what can be refilled; the number `4,200` in `font.ui.16` overlaid left-aligned at (12, 28). Dims 50% while regen is suppressed; flashes on break |
 | `ui.battle.goodwill.b` | (432, 28, 200, 16) | Mirror: fill from the right, frame erodes from the left, number right-aligned |
@@ -996,21 +996,24 @@ y = 160 until the portal is open. Ready has no confirmation.
 | `fx.tower.floor_segment` | 96 × 32, anchor bottom-centre | One per above-ground floor. Tower A stacks upward from (200, 280); Tower B from (440, 280). Four segments: G at the base, 3F at the top, y = 280, 248, 216, 184 |
 | `fx.tower.roof` | 96 × 16, anchor bottom-centre | Above the top segment |
 | `fx.tower.basement` | 96 × 24, anchor top-centre | B1, drawn below street level at y = 280, darker tone |
-| `fx.tower.window_occupant` | 8 × 8, anchor centre | One per employee, at its tile's column and row mapped onto the segment (side B's columns run from the right so the towers face each other); tone by department; lights in the burst tone for a second after the employee fires (D-68) |
+| `fx.tower.window_occupant` | 8 × 8, anchor centre | One per employee, filling its window in the segment's 5 × 3 grid. The window at floor tile (c, r) has its top-left at (8 + 18c, 4 + 9r) within the segment, so its 8 × 8 centre is (12 + 18c, 8 + 9r); side B mirrors the column, c′ = 4 − c, so the towers face each other. Tone by department; lights in the burst tone for a second after the employee fires (D-68) |
 | `fx.window_burst` | 16 × 16, anchor centre | Spawned at the firer's window when an ability resolves (D-68; was the segment's centre); tone by kind; a floating `font.ui.8` number rises 16 px over 20 ticks |
 | `ui.battle.ledger.a` | (8, 304, 308, 56) | Header line, then six lines at 8 px |
 | `ui.battle.ledger.b` | (324, 304, 308, 56) | Same |
 | `ui.battle.floor_inset` | 168 × 104, anchored at the hovered segment, clamped to screen | The hovered floor's top-down grid at 1×, employees drawn, the most recent firer highlighted |
 | `ui.battle.controls` | (520, 48, 72, 16) | `1× 2× 4× ▸▸`; left of founder B's badge frame, which starts at x = 596 (D-64) |
 
-Empty floor slots (unleased) draw as a segment in the `structure` tone with no
-windows. The two towers use the isometric city packs; the inset uses the top-down
-interior packs. They never share a pixel.
+A leased floor's segment carries all fifteen windows unlit; the occupant sprite lights
+the ones with an employee in them. Empty floor slots (unleased) draw as
+`fx.tower.floor_segment_empty` — the same wall band with no windows cut into it at all,
+so an unleased floor reads as blank masonry from across the street. The two towers use
+the city packs' facades; the inset uses the top-down interior packs. They never share a
+pixel.
 
-The 96 × 32 floor segment and 96 × 16 roof are **decided dimensions**: the isometric
-packs will be sliced to fit them in Phase 4, and if a pack cannot produce a 96 × 32
-segment, the manifest entry changes *before* any greybox is built against it, never
-after.
+The 96 × 32 floor segment and 96 × 16 roof were **decided dimensions**, and the packs
+were checked against them (Q-GBX-5, D-69): three 32 px wall tiles wide by one storey
+tall is exactly 96 × 32, and the parapet cap is 96 × 16, so the numbers stand and the
+`verify` flags are cleared.
 
 ### 19.3 Autopsy screen
 
@@ -1058,15 +1061,18 @@ the player has held. Discovered ones draw the sprites.
 
 | Region | Rect | Contents |
 | --- | --- | --- |
-| `ui.founder.header` | (0, 0, 640, 24) | `CHOOSE A FOUNDER` |
-| `ui.founder.grid` | (16, 40, 608, 208) | Eight founder cards in four columns at x = 16 + col × 152 and two rows at y = 40 + row × 104, each card centred in its 152 × 104 cell |
-| `ui.founder.card` | 72 × 96 | Portrait slot (4, 4, 64, 64); name (4, 72, 64, 8); title (4, 82, 64, 8). Selected state distinct. A reserved trait line below the title stays empty in v1 |
-| `ui.founder.bio` | (16, 256, 608, 40) | The selected founder's bio, up to three lines, then the stakes line in the hatch tone: starting budget, roster and floor, and the founder passive or "no founder passive in this build" (D-68, D-46) |
-| `ui.founder.firm_name` | (16, 304, 240, 16) | Text field; default is the founder's surname plus *Holdings*. Typing is optional and never required — no screen in the game requires text input (D-55), because the Steam Deck's on-screen keyboard is drawn by an overlay the stack may not have |
-| `ui.founder.confirm` | (504, 304, 120, 16) | **FOUND THE FIRM** |
+| Screen title | (16, 0) | `CHOOSE A FOUNDER` in `font.ui.32`, set straight on the backdrop with no plate behind it (D-75). It is text, not a slot — there is no `ui.founder.header` entry |
+| `ui.founder.grid` | (8, 32, 152, 312) | The roster column: eight `ui.founder.tile`s in two columns at x = 16 + col × 72 and four rows at y = 40 + row × 72 (D-72) |
+| `ui.founder.tile` | 64 × 64 | A `founder.*.thumb` inset at (8, 8); the selected tile's border is distinct and unmissable — it is the only thing telling the player which of the eight the panel is describing |
+| `ui.founder.detail` | (168, 32, 464, 312) | The selected founder in full. Portrait 96 × 96 at (184, 48) in a frame; name in `font.ui.16` at (296, 50); title at (296, 72); the founder's battle badge 32 × 32 at (296, 96) with *in the fight* beside it at (334, 106); bio up to three lines from y = 164 at a 12 px pitch; a rule at y = 204; *YOU START WITH* at (184, 214) and the starting roster drawn as sprites from (184, 228) at a 40 px pitch, with the roster and the starting budget spelled out at (272, 236) and (272, 248); the founder passive or "no founder passive in this build" at (184, 276) (D-68, D-46) |
+| Firm name | (424, 56) | The firm's name in `font.ui.16`, under a *FIRM NAME* caption in `font.ui.8` at (424, 44). It is text, not a slot — a name the game filled in is a readout, and a plate around it only claims to be a control. Default is the founder's surname plus *Holdings*. The name itself is the target for the optional rename; typing is never required (D-55), because the Steam Deck's on-screen keyboard is drawn by an overlay the stack may not have |
+| `ui.founder.confirm` | (456, 306, 160, 24) | **FOUND THE FIRM**, the screen's one commit. Label centred in `font.ui.16` — 130 px wide, leaving 15 px clear of the 9 px corners — on the `operations` tone's dark end, so the primary action is the darkest thing on a light panel rather than the palest. Its centre line matches the firm-name field beside it |
 
-Shown once at run start in both modes. The profile remembers the last choice and
-pre-selects it. Founders are content (`content/founders.json`, eight in v1) with a
+Shown once at run start in both modes, as a roster column and a detail panel rather
+than a wall of equal cards (D-72): eight faces are a menu, and the one you are reading
+about deserves the rest of the screen. The profile remembers the last choice and
+pre-selects it. Every founder starts the same run — the starting block says so in the
+same words on all eight panels, which is D-46 made visible rather than hidden. Founders are content (`content/founders.json`, eight in v1) with a
 portrait, a badge and an empty effects list; when a founder gains a mechanic, it is an
 effect in that list, applied like a modifier, and the sim already reads it.
 
@@ -1078,7 +1084,7 @@ effect in that list, applied like a modifier, and the sim already reads it.
 | `ui.card.room` | 52 × 80 | top-left | — | 0 | Footprint diagram 32 × 32 at (10, 4), 8 px per cell; name; aura line; legal floors as up to five 6 × 6 glyphs at (2, 60); cost tag |
 | `ui.card.furniture` | 52 × 80 | top-left | — | 0 | Sprite at (10, 4); name; effect line; cost |
 | `emp.*` | 32 × 32 | bottom-centre | 1 × 1 | 0 | Down-facing idle frame in build view |
-| `room.*` floor tile | 32 × 32 | top-left | per tile | −10 | One tileable variant per room type; top edge carries a 1 px wall |
+| `room.*` floor plan | 32 fw × (32 fh + 32) | bottom-left | per room | −10 | One composed plan per room type: floor across the footprint, fittings along the back row, the top 32 px overhanging into the wall band above (D-73). Every tile stays walkable |
 | `room.*.sign` | 32 × 8 | top-left | — | −9 | Name + Tenure pips, at the room's top-left tile |
 | `furn.*` floor-standing | 32 × 32 | bottom-centre | 1 × 1 | 0 | |
 | `furn.*` wall-mounted | 32 × 40 | bottom-centre | 1 × 1 | −5 | 8 px overhang above the tile |
@@ -1086,8 +1092,9 @@ effect in that list, applied like a modifier, and the sim already reads it.
 | `ui.aura_badge` | 12 × 8 | top-right of the employee's tile | — | +8 | `×1.2`, `×1.5` etc. |
 | `ui.link_line` | 1 px | — | — | +7 | Furniture → triggered employee |
 | `ui.tenure_pip` | 4 × 4 | in the sign | — | −9 | 0–3 pips |
-| `ui.portrait` | 64 × 64 | top-left | — | 0 | Inspector portrait. **To verify** against the Portraits pack in Phase 4; if the pack's portraits are another size, this entry changes before any greybox is built |
-| `founder.*.portrait` | 64 × 64 | top-left | — | 0 | One per founder. Same verification as `ui.portrait` |
+| `ui.portrait` | 96 × 96 | top-left | — | 0 | Inspector portrait, at the Portraits pack's own size (D-71) |
+| `founder.*.portrait` | 96 × 96 | top-left | — | 0 | One per founder, from `portraits/Portraits/transparent_bg` (D-71) |
+| `founder.*.thumb` | 48 × 48 | top-left | — | 0 | The same face halved 2:1 at author time, for the select grid (D-72) |
 | `founder.*.badge` | 32 × 32 | top-left | — | 0 | One per founder; battle screen and dossier |
 
 Every one of these is a greybox on day one: a rectangle in its category tone with its
