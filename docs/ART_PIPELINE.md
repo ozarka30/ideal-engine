@@ -387,7 +387,13 @@ licence record (§14, Q-RISK-1) is present. Used by the slicer and by the workli
 ### 7.5 Screenshot fixtures
 
 Because draw order is total (§3) and placeholders are deterministic, a greybox screen
-renders identically on every run. `tools/screenshot <screen> <fixture>` renders a named
+renders identically on every run **on one platform**. It does not render identically
+across platforms: since D-67 made text a vector face, the two rasterisers round a
+glyph's ascent differently and a line of text can sit one pixel apart on Linux and
+Windows. The committed fixtures are therefore whatever CI renders — Ubuntu, Mesa
+llvmpipe, under xvfb — and a capture from any other machine will differ. Regenerate by
+taking CI's `screenshots` artifact, not by rendering locally; a local render is for
+looking at, not for committing. `tools/screenshot <screen> <fixture>` renders a named
 screen from a fixture state (a save file or a snapshot) to a PNG; CI compares against
 the committed one and fails on a pixel diff. When art lands, the fixture is regenerated
 in the same commit — the diff *is* the review.
