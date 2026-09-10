@@ -2,9 +2,9 @@
 
 [ext_resource type="Texture2D" path="res://assets/packs/japanese_office_interior.png" id="1"]
 
-[sub_resource type="AtlasTexture" id="office_31_22"]
+[sub_resource type="AtlasTexture" id="japanese_office_interior_27_23"]
 atlas = ExtResource("1")
-region = Rect2(992, 704, 32, 32)
+region = Rect2(864, 736, 32, 32)
 
 [sub_resource type="AtlasTexture" id="office_53_5"]
 atlas = ExtResource("1")
@@ -20,12 +20,12 @@ region = Rect2(1696, 192, 32, 32)
 [node name="floor_0_0" type="Sprite2D" parent="."]
 position = Vector2(0, 32)
 centered = false
-texture = SubResource("office_31_22")
+texture = SubResource("japanese_office_interior_27_23")
 
 [node name="floor_0_1" type="Sprite2D" parent="."]
 position = Vector2(0, 64)
 centered = false
-texture = SubResource("office_31_22")
+texture = SubResource("japanese_office_interior_27_23")
 
 [node name="fitting_0" type="Sprite2D" parent="."]
 position = Vector2(0, 0)

@@ -33,7 +33,7 @@ Because `Tiles/` is already cut at 32×32, most slots are a copy to the manifest
 
 | Slug | Use for | Cells |
 | --- | --- | --- |
-| `japanese_office_interior` | **the game's core**: floors, desks, cabinets, PCs, plants, whiteboards | 869 × 32×32 |
+| `japanese_office_interior` | **the game's core**: floors, desks, cabinets, PCs, plants, whiteboards. **v3** — adds five floor autotile blocks (parquet, plank, slat, brick, checker) and relocates the existing ones, so a cell reference from v2 will point at the wrong tile | 877 × 32×32 |
 | `characterpack` | employees — 19 bodies, `Idle/` (four facings, **not** a loop) + `Walking{N,S,E,W}/` (8 frames) | 684 × 32×32 |
 | `portraits` | founder and inspector portraits — `colored_bg`, `transparent_bg`, `illustration_bg`, `windowed` | 96×96, 96×112 |
 | `horror_interiors` | B1, rituals, the extraplanar tint | 842 × 32×32 |
