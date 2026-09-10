@@ -107,6 +107,8 @@ history of a reversal is the most useful thing in a document like this.
 | [D-76](#d-76) | UI chrome is not pixel art either: it ships at an integer multiple of its declared size and is drawn down with a smooth filter, as D-67 already does for text | Craft | UI review |
 | [D-77](#d-77) | A screen's scene owns position; the manifest keeps sizes, anchors, footprints and draw order. Art moves to `game/assets/` so the editor can see it | Human | UI workflow |
 | [D-78](#d-78) | Room plans are authored as Godot scenes and baked to their PNG; the build screen's floor rows and shaft become nodes too. The `.room` recipe format is retired | Human | UI workflow |
+| [D-79](#d-79) | A room renders live from its scene through a SubViewport at 2x, not from a baked PNG: baking at half scale threw away the resolution that painting at half scale bought | Human | UI workflow |
+| [D-80](#d-80) | The GuttyKreum licence is recorded and clear for release; the sheets a room draws from are committed, the rest stay a local palette | Human | [Q-RISK-1](OPEN_QUESTIONS.md#q-risk-1--is-the-guttykreum-licence-clear-for-a-commercial-steam-release) |
 
 Forty-nine craft decisions and nineteen human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
@@ -1740,3 +1742,51 @@ all twelve screenshot fixtures are byte-identical across it, including the build
 caught being 32 px off the first time by exactly that comparison.
 
 Authority: Human · `ART_PIPELINE.md` §7.1 · extends [D-73](#d-73) and [D-77](#d-77)
+
+---
+
+## D-79
+
+**A room renders live from its scene. `BuildScreen` instantiates `res://scenes/rooms/<room>.tscn` into a
+`SubViewport` sized at 2× the plan and draws that texture where the baked PNG used to go. The bake still
+exists for coverage and for anything that reads the manifest, but the screen no longer uses it.**
+
+*Why:* a room is painted with half-scaled tiles, which is how a 2 × 2 room fits a conference table. Baking
+that to the plan's own size resolves each 32 px tile down to 16 px **permanently**, and the canvas then
+scales it back up — so painting at half scale bought resolution that baking immediately threw away. Drawn
+live at 2×, the same tile covers 32 viewport pixels and lands 1:1 on a 2× window. The difference is
+visible: fine detail inside a tile survives one path and dissolves in the other.
+
+*Consequence:* a `SubViewport` and not a child node, because the build screen is immediate-mode: a room has
+to sit above the floor void and below the people standing on it, and child nodes cannot be interleaved into
+a `_Draw`. Update mode is `Always`, not `Once` — the documentation is explicit that `UPDATE_ONCE` renders a
+single frame and then sets itself to `UPDATE_DISABLED`, so a viewport that ticks before its child scene is
+ready would stay blank for good, and no build error would ever say so. The scenes reference a pack sheet at
+runtime, so that sheet now ships (D-80). The battle screen's floor inset still draws the baked texture and
+should follow.
+
+Authority: Human · `GAME_DESIGN.md` §19.1 · extends [D-78](#d-78)
+
+---
+
+## D-80
+
+**The GuttyKreum licence is recorded and clear for a commercial release. It grants derivative works and
+use in any number of monetised projects, with distribution as part of the product. It forbids three
+things: use in a logo or trademark; redistributing the assets other than as part of the product; and
+letting a player extract the assets and use them elsewhere. Q-RISK-1 closes. Only the pack sheets a room
+scene actually draws from are committed — currently `japanese_office_interior` — and the rest of the
+mirrored palette stays gitignored.**
+
+*Why:* the second restriction is the one with teeth for a repository. Shipping a sheet inside the game is
+permitted; publishing it on its own is not. That is the same reasoning D-67 applied to the two fonts, and
+it has the same consequence: **the repository must stay private**. Committing only the sheets a scene
+draws from keeps the exposure to what the product actually contains rather than the whole 1 GB collection.
+
+*Consequence:* Q-RISK-1 is answered for GuttyKreum and was already answered for Isle of Lore, so the
+licence half of the release gate is closed. The third restriction is not yet satisfied: loose PNGs under
+`res://` are extractable from an exported build, so the export step needs to pack them rather than ship
+them as files. That is a packaging task, not an art one, and it is open. Both `.gitignore` rules that
+hid art this session — a bare `build/` and a bare `packs/` — are now anchored to the repository root.
+
+Authority: Human · `ART_PIPELINE.md` §14 · Question: [Q-RISK-1](OPEN_QUESTIONS.md#q-risk-1--is-the-guttykreum-licence-clear-for-a-commercial-steam-release)

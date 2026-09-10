@@ -66,7 +66,15 @@ large illustrations, and the walk cycles the worklist wants are in `characterpac
 
 ## Open against these packs
 
-1. **No licence record for the GuttyKreum packs.** ART_PIPELINE.md §14 wants
+1. ~~No licence record for the GuttyKreum packs.~~ **Recorded, and clear** (D-80). The licence grants
+   derivative works and commercial use in any number of projects, with distribution as part of the
+   product. It forbids three things that shape how we hold the art: no use in a logo or trademark; no
+   redistributing the assets other than as part of the product, which is why this repository is private
+   and why only the sheets a room scene actually draws are committed; and the player must not be able to
+   extract the assets and use them elsewhere, which is a packaging question for the export step.
+   Superseded note below, kept for the record:
+
+   **No licence record for the GuttyKreum packs.** ART_PIPELINE.md §14 wants
    `packs/<vendor>/<pack>/LICENSE.md` with the licence text, the purchase record and a verdict on
    commercial use; the GuttyKreum packs' own `Readme.txt` files are patron shoutouts, nothing more.
    Q-RISK-1 gates release on this. Needs the itch.io receipts — not something to write from the files.

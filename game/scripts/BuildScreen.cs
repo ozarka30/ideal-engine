@@ -38,6 +38,14 @@ public partial class BuildScreen : Node2D
     private (long Floor, long Col, long Row) _flashTile;
     private readonly Hits _hits = new();
 
+    /// <summary>
+    /// Spawned room plans (D-79). A room is its scene, instantiated, not a baked texture: a half-scaled
+    /// TileMapLayer inside it draws its 32px tiles across 32 device pixels at a 2x window, where a bake
+    /// would have thrown half of them away first. The container sits behind the screen's own drawing,
+    /// which is where sortBias -10 puts a room floor anyway.
+    /// </summary>
+    private readonly Dictionary<string, SubViewport?> _roomViews = new();
+
     private BuildState State => _r.Building!;
     private RunState Run => State.Current;
 
@@ -183,6 +191,57 @@ public partial class BuildScreen : Node2D
         return new[] { (0, _selectedFloor + 1), (1, _selectedFloor), (2, _selectedFloor - 1) };
     }
 
+
+    // ---------------------------------------------------------------- spawned rooms (D-79)
+
+    /// <summary>
+    /// A room is its scene, live, not a baked PNG. The scene renders into a SubViewport at 2x its plan
+    /// size and the screen draws that texture where the old bake went, which keeps the immediate-mode
+    /// draw order intact -- a room has to sit above the floor void and below the people standing on it,
+    /// and child nodes cannot be interleaved into a _Draw.
+    ///
+    /// 2x is what buys the resolution: a half-scaled TileMapLayer inside the scene puts its 32px tiles
+    /// across 32 viewport pixels, where baking to the plan's own size would have thrown half of them
+    /// away. At a 2x window the texture lands 1:1 on the display.
+    /// </summary>
+    private const int RoomOversample = 2;
+
+    private SubViewport? RoomView(RoomDef rdef)
+    {
+        if (_roomViews.TryGetValue(rdef.Id, out SubViewport? found)) return found;
+        string path = $"res://scenes/rooms/{rdef.Id.Split('.')[1]}.tscn";
+        if (!ResourceLoader.Exists(path)) { _roomViews[rdef.Id] = null; return null; }
+
+        Vector2I plan = L.Size(rdef.Tile);
+        var vp = new SubViewport
+        {
+            Size = plan * RoomOversample,
+            TransparentBg = true,
+            Disable3D = true,
+            // Always, not Once: the docs are explicit that UPDATE_ONCE renders a single frame and then
+            // switches itself to UPDATE_DISABLED, so a viewport that ticks before its child scene is ready
+            // would stay blank for good. The content is a few hundred pixels; redrawing it is free.
+            RenderTargetUpdateMode = SubViewport.UpdateMode.Always,
+            CanvasItemDefaultTextureFilter = Viewport.DefaultCanvasItemTextureFilter.Nearest,
+        };
+        var room = GD.Load<PackedScene>(path).Instantiate<Node2D>();
+        room.Scale = new Vector2(RoomOversample, RoomOversample);
+        vp.AddChild(room);
+        AddChild(vp);
+        _roomViews[rdef.Id] = vp;
+        return vp;
+    }
+
+    /// <summary>The plan's origin sits `overhang.top` above the footprint, where its back-row fittings draw.</summary>
+    private void DrawRoom(RoomDef rdef, Rect2I tile, Color dim)
+    {
+        SubViewport? vp = RoomView(rdef);
+        if (vp == null) return;
+        Vector2I plan = L.Size(rdef.Tile);
+        Overhang o = L.Entry(rdef.Tile).Overhang ?? new Overhang(0, 0, 0, 0);
+        DrawTextureRect(vp.GetTexture(), new Rect2(tile.Position.X, tile.Position.Y - o.Top, plan.X, plan.Y), false, dim);
+    }
+
     // ---------------------------------------------------------------- drawing
 
     public override void _Draw()
@@ -275,7 +334,7 @@ public partial class BuildScreen : Node2D
                 RoomDef rdef = _db.Rooms.First(r => r.Id == room.DefId);
                 Rect2I tl = TileRect(slot, room.Rect[0], room.Rect[1]);
                 var rr = new Rect2(tl.Position.X, tl.Position.Y, room.Rect[2] * L.Tile, room.Rect[3] * L.Tile);
-                DrawTextureRect(_r.Textures.For(L.Entry(rdef.Tile)), rr, true, dim);
+                DrawRoom(rdef, tl, dim);
                 if (room.RoomId == _selectedRoom && selected) DrawRect(rr, Tones.Fill("operations"), false, 1);
                 Vector2I sign = L.Size("ui.room_sign");
                 DrawTextureRect(_r.Textures.For(L.Entry("ui.room_sign")), new Rect2(tl.Position.X, tl.Position.Y, sign.X, sign.Y), false, dim);
