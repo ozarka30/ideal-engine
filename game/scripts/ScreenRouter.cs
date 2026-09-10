@@ -457,6 +457,14 @@ public static class Tones
     /// <summary>The backdrop every screen sits on, outside the seven tones.</summary>
     public static Color Ground() => Color.FromHtml(ScreenRouter.Instance.Manifest.Palette.Ground.Backdrop);
 
+    /// <summary>
+    /// Secondary text on a panel of the same tone. It is the border colour, not the hatch: hatch is the
+    /// lighter shade the greybox draws overhang with, and on a light fill it is invisible -- under the
+    /// current palette `interface` hatch is luminance 194 against a fill of 169, a difference nobody can
+    /// read. Border is 100, which they can.
+    /// </summary>
+    public static Color Muted(string tone) => Border(tone);
+
     public static string ForKind(string kind) => kind switch
     {
         "push" => "operations",

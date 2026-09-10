@@ -319,7 +319,7 @@ public partial class BuildScreen : Node2D
             {
                 DrawTextureRect(_r.Textures.For(L.Entry("ui.build.floor_void")), new Rect2(frame.Position, frame.Size), true, dim);
                 FloorDef fd = _db.FloorByIndex(index);
-                _font.Draw(this, frame.Position.X + 4, y + 4, $"{fd.Name} · tap to lease ¥{fd.Lease}", _font.Small, Tones.Hatch("structure"));
+                _font.Draw(this, frame.Position.X + 4, y + 4, $"{fd.Name} · tap to lease ¥{fd.Lease}", _font.Small, Tones.Muted("structure"));
                 string floorId = fd.Id;
                 _hits.Add(hit, () => { _selectedFloor = captured; Do(new Lease(floorId)); }, $"Lease {fd.Name} for ¥{fd.Lease}; then −¥{fd.UpkeepBudget} upkeep per round{(fd.RequiresPortal ? "; needs the portal" : string.Empty)}");
                 continue;
@@ -622,7 +622,10 @@ public partial class BuildScreen : Node2D
     {
         Rect2I panel = _at.Rect("inspector");
         DrawTextureRect(_r.Textures.For(L.Entry("ui.build.inspector")), new Rect2(panel.Position, panel.Size), false);
-        int x = panel.Position.X + 8, y = panel.Position.Y + 8;
+        // The inspector's insides are slots now (D-81); D-71 made the preview 96x96 and this
+        // screen was still drawing every one of them at 64.
+        Rect2I preview = _at.Rect("insp_preview");
+        int x = preview.Position.X, y = preview.Position.Y;
         SnapshotOccupant? occ = null;
         SnapshotFloor? occFloor = null;
         foreach (SnapshotFloor f in Run.Tower.Floors)
@@ -632,7 +635,7 @@ public partial class BuildScreen : Node2D
         }
         SnapshotRoom? room = Run.Tower.Floors.SelectMany(f => f.Rooms).FirstOrDefault(r => r.RoomId == _selectedRoom);
         Vector2I action = L.Size("ui.build.action_button");
-        int actionY = panel.Position.Y + panel.Size.Y - action.Y - 8; // §19.1: action buttons at y = 308
+        int actionY = _at.Y("insp_actions");
         int limitY = actionY - 10;
         if (_carry is CarryKind.StaffCard or CarryKind.RoomCard or CarryKind.FurnitureCard)
         {
@@ -643,13 +646,13 @@ public partial class BuildScreen : Node2D
             if (occ.Kind == "employee")
             {
                 EmployeeDef d = _db.Employees.First(e => e.Id == occ.DefId);
-                DrawTextureRect(_r.Textures.For(L.Entry("ui.portrait")), new Rect2(x, y, 64, 64), false);
-                DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(x + 16, y + 16, 32, 32), false);
-                _font.Draw(this, x + 72, y, d.Name, _font.Small, Tones.Text("interface"));
-                _font.Draw(this, x + 72, y + 10, $"{d.Dept} · tier {d.Tier}", _font.Small, Tones.Hatch("interface"));
-                int ry = panel.Position.Y + 80;
+                DrawTextureRect(_r.Textures.For(L.Entry("ui.portrait")), new Rect2(preview.Position, preview.Size), false);
+                DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(_at.Rect("insp_sprite").Position, L.Size(d.Sprite)), false);
+                _font.Draw(this, _at.X("insp_name"), _at.Y("insp_name"), d.Name, _font.Small, Tones.Text("interface"));
+                _font.Draw(this, _at.X("insp_sub"), _at.Y("insp_sub"), $"{d.Dept} · tier {d.Tier}", _font.Small, Tones.Muted("interface"));
+                int ry = _at.Y("insp_context");
                 long aura = Overlays.AuraPermille(_db, Run.Tower, occFloor, occ);
-                _font.Draw(this, x, ry, $"here: room {Overlays.AuraBadge(aura)} · floor ×{_db.FloorByIndex(occFloor.Index).OutputPermille / 1000}.{_db.FloorByIndex(occFloor.Index).OutputPermille % 1000 / 100}", _font.Small, Tones.Hatch("interface"));
+                _font.Draw(this, x, ry, $"here: room {Overlays.AuraBadge(aura)} · floor ×{_db.FloorByIndex(occFloor.Index).OutputPermille / 1000}.{_db.FloorByIndex(occFloor.Index).OutputPermille % 1000 / 100}", _font.Small, Tones.Muted("interface"));
                 ry += 14;
                 DrawEmployeeExplanation(d, x, ref ry, limitY);
                 long fee = Economy.Severance(_db, Run.Tower, d);
@@ -666,8 +669,8 @@ public partial class BuildScreen : Node2D
             {
                 FurnitureDef d = _db.Furniture.First(e => e.Id == occ.DefId);
                 DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(x, y, 32, 32), false);
-                _font.Draw(this, x + 72, y, d.Name, _font.Small, Tones.Text("interface"));
-                int ry = panel.Position.Y + 80;
+                _font.Draw(this, _at.X("insp_name"), _at.Y("insp_name"), d.Name, _font.Small, Tones.Text("interface"));
+                int ry = _at.Y("insp_context");
                 DrawLines(Explain.Passives(_db, d.Effects), x, ref ry, limitY, Tones.Text("interface"));
                 ry += 4;
                 DrawLines(new[] { d.Flavor ?? string.Empty }, x, ref ry, limitY, Tones.Hatch("interface"));
@@ -683,10 +686,10 @@ public partial class BuildScreen : Node2D
         else if (room != null)
         {
             RoomDef d = _db.Rooms.First(r => r.Id == room.DefId);
-            DrawTextureRect(_r.Textures.For(L.Entry(d.Tile)), new Rect2(x, y, 64, 64), true);
-            _font.Draw(this, x + 72, y, d.Name, _font.Small, Tones.Text("interface"));
-            _font.Draw(this, x + 72, y + 10, $"Tenure {room.TenureRounds} · Tier {Overlays.Tier(_db, room)}", _font.Small, Tones.Hatch("interface"));
-            int ry = panel.Position.Y + 80;
+            DrawTextureRect(_r.Textures.For(L.Entry(d.Tile)), new Rect2(preview.Position, L.Size(d.Tile)), false);
+            _font.Draw(this, _at.X("insp_name"), _at.Y("insp_name"), d.Name, _font.Small, Tones.Text("interface"));
+            _font.Draw(this, _at.X("insp_sub"), _at.Y("insp_sub"), $"Tenure {room.TenureRounds} · Tier {Overlays.Tier(_db, room)}", _font.Small, Tones.Muted("interface"));
+            int ry = _at.Y("insp_context");
             DrawLines(Explain.Passives(_db, d.Effects), x, ref ry, Math.Min(limitY, panel.Position.Y + 236), Tones.Text("interface"));
             long fee = Economy.RenovationFee(_db, Run.Round);
             if (!d.Fixed)
@@ -704,11 +707,11 @@ public partial class BuildScreen : Node2D
         else
         {
             FounderDef founder = _db.Founders.First(f => f.Id == Run.Tower.Globals.FounderId);
-            DrawTextureRect(_r.Textures.For(L.Entry(founder.Portrait)), new Rect2(x, y, 64, 64), false);
-            _font.Draw(this, x + 72, y, Run.FirmName, _font.Small, Tones.Text("interface"));
-            _font.Draw(this, x + 72, y + 10, founder.Name, _font.Small, Tones.Hatch("interface"));
-            _font.Draw(this, x + 72, y + 20, founder.Title, _font.Small, Tones.Hatch("interface"));
-            int ry = panel.Position.Y + 80;
+            DrawTextureRect(_r.Textures.For(L.Entry(founder.Portrait)), new Rect2(preview.Position, L.Size(founder.Portrait)), false);
+            _font.Draw(this, _at.X("insp_name"), _at.Y("insp_name"), Run.FirmName, _font.Small, Tones.Text("interface"));
+            _font.Draw(this, _at.X("insp_sub"), _at.Y("insp_sub"), founder.Name, _font.Small, Tones.Muted("interface"));
+            _font.Draw(this, _at.X("insp_sub2"), _at.Y("insp_sub2"), founder.Title, _font.Small, Tones.Muted("interface"));
+            int ry = _at.Y("insp_context");
             long staff = Run.Tower.Floors.Sum(f => f.Occupants.Count(o => o.Kind == "employee"));
             foreach (string line in new[]
             {
@@ -726,39 +729,39 @@ public partial class BuildScreen : Node2D
             ry += 6;
             string[] primer = Explain.Primer();
             int firmLimit = panel.Position.Y + panel.Size.Y - 22; // no action buttons on the firm panel: the primer may use their row
-            _font.Draw(this, x, ry, primer[0], _font.Small, Tones.Hatch("interface"));
+            _font.Draw(this, x, ry, primer[0], _font.Small, Tones.Muted("interface"));
             ry += 10;
             DrawLines(primer.Skip(1), x, ref ry, firmLimit, Tones.Text("interface"));
-            _font.Draw(this, x, Math.Min(ry + 4, firmLimit + 10), "Tap a card or a person to read what it does", _font.Small, Tones.Hatch("interface"));
+            _font.Draw(this, x, Math.Min(ry + 4, firmLimit + 10), "Tap a card or a person to read what it does", _font.Small, Tones.Muted("interface"));
         }
     }
 
     /// <summary>The card being carried, explained before it is placed: what it does, and where it wants to stand.</summary>
     private void DrawCardInspector(Rect2I panel, int x, int y, int limitY)
     {
-        int ry = panel.Position.Y + 80;
+        int ry = _at.Y("insp_context");
         if (_carry == CarryKind.StaffCard)
         {
             EmployeeDef d = _db.Employees.First(e => e.Id == Run.Shop.StaffCards[_carryIndex]);
-            DrawTextureRect(_r.Textures.For(L.Entry("ui.portrait")), new Rect2(x, y, 64, 64), false);
-            DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(x + 16, y + 16, 32, 32), false);
-            _font.Draw(this, x + 72, y, d.Name, _font.Small, Tones.Text("interface"));
-            _font.Draw(this, x + 72, y + 10, $"{d.Dept} · tier {d.Tier} · ¥{Economy.EmployeePrice(_db, d)}", _font.Small, Tones.Hatch("interface"));
-            _font.Draw(this, x + 72, y + 20, "tap a tile to hire", _font.Small, Tones.Hatch("interface"));
+            DrawTextureRect(_r.Textures.For(L.Entry("ui.portrait")), new Rect2(_at.Rect("insp_preview").Position, _at.Rect("insp_preview").Size), false);
+            DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(_at.Rect("insp_sprite").Position, L.Size(d.Sprite)), false);
+            _font.Draw(this, _at.X("insp_name"), _at.Y("insp_name"), d.Name, _font.Small, Tones.Text("interface"));
+            _font.Draw(this, _at.X("insp_sub"), _at.Y("insp_sub"), $"{d.Dept} · tier {d.Tier} · ¥{Economy.EmployeePrice(_db, d)}", _font.Small, Tones.Muted("interface"));
+            _font.Draw(this, _at.X("insp_sub2"), _at.Y("insp_sub2"), "tap a tile to hire", _font.Small, Tones.Muted("interface"));
             DrawEmployeeExplanation(d, x, ref ry, limitY);
         }
         else if (_carry == CarryKind.RoomCard)
         {
             RoomDef d = _db.Rooms.First(r => r.Id == Run.Shop.RoomCards[_carryIndex]);
-            DrawTextureRect(_r.Textures.For(L.Entry(d.Tile)), new Rect2(x, y, 64, 64), true);
-            _font.Draw(this, x + 72, y, d.Name, _font.Small, Tones.Text("interface"));
-            _font.Draw(this, x + 72, y + 10, $"{d.Footprint.W}x{d.Footprint.H} · ¥{d.Cost}", _font.Small, Tones.Hatch("interface"));
-            _font.Draw(this, x + 72, y + 20, "tap its top-left tile", _font.Small, Tones.Hatch("interface"));
-            _font.Draw(this, x, ry, "WHAT IT DOES", _font.Small, Tones.Hatch("interface"));
+            DrawTextureRect(_r.Textures.For(L.Entry(d.Tile)), new Rect2(_at.Rect("insp_preview").Position, L.Size(d.Tile)), false);
+            _font.Draw(this, _at.X("insp_name"), _at.Y("insp_name"), d.Name, _font.Small, Tones.Text("interface"));
+            _font.Draw(this, _at.X("insp_sub"), _at.Y("insp_sub"), $"{d.Footprint.W}x{d.Footprint.H} · ¥{d.Cost}", _font.Small, Tones.Muted("interface"));
+            _font.Draw(this, _at.X("insp_sub2"), _at.Y("insp_sub2"), "tap its top-left tile", _font.Small, Tones.Muted("interface"));
+            _font.Draw(this, x, ry, "WHAT IT DOES", _font.Small, Tones.Muted("interface"));
             ry += 10;
             DrawLines(Explain.Passives(_db, d.Effects), x, ref ry, limitY, Tones.Text("interface"));
             ry += 4;
-            _font.Draw(this, x, ry, "WHERE TO PUT IT", _font.Small, Tones.Hatch("interface"));
+            _font.Draw(this, x, ry, "WHERE TO PUT IT", _font.Small, Tones.Muted("interface"));
             ry += 10;
             DrawLines(new[]
             {
@@ -770,14 +773,14 @@ public partial class BuildScreen : Node2D
         {
             FurnitureDef d = _db.Furniture.First(f => f.Id == Run.Shop.FurnitureCards[_carryIndex]);
             DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(x + 16, y + 16, 32, 32), false);
-            _font.Draw(this, x + 72, y, d.Name, _font.Small, Tones.Text("interface"));
-            _font.Draw(this, x + 72, y + 10, $"{d.Rarity} · ¥{d.Cost}", _font.Small, Tones.Hatch("interface"));
-            _font.Draw(this, x + 72, y + 20, "tap an empty tile", _font.Small, Tones.Hatch("interface"));
-            _font.Draw(this, x, ry, "WHAT IT DOES", _font.Small, Tones.Hatch("interface"));
+            _font.Draw(this, _at.X("insp_name"), _at.Y("insp_name"), d.Name, _font.Small, Tones.Text("interface"));
+            _font.Draw(this, _at.X("insp_sub"), _at.Y("insp_sub"), $"{d.Rarity} · ¥{d.Cost}", _font.Small, Tones.Muted("interface"));
+            _font.Draw(this, _at.X("insp_sub2"), _at.Y("insp_sub2"), "tap an empty tile", _font.Small, Tones.Muted("interface"));
+            _font.Draw(this, x, ry, "WHAT IT DOES", _font.Small, Tones.Muted("interface"));
             ry += 10;
             DrawLines(Explain.Passives(_db, d.Effects), x, ref ry, limitY, Tones.Text("interface"));
             ry += 4;
-            _font.Draw(this, x, ry, "WHERE TO PUT IT", _font.Small, Tones.Hatch("interface"));
+            _font.Draw(this, x, ry, "WHERE TO PUT IT", _font.Small, Tones.Muted("interface"));
             ry += 10;
             DrawLines(new[] { "Furniture takes a tile and helps the four tiles around it. Put it beside the people it names." }, x, ref ry, limitY, Tones.Text("interface"));
         }
@@ -787,14 +790,14 @@ public partial class BuildScreen : Node2D
     private void DrawEmployeeExplanation(EmployeeDef d, int x, ref int ry, int limitY)
     {
         Effect ab = d.Effects.First(e => e.On == "ability");
-        _font.Draw(this, x, ry, "WHAT IT DOES", _font.Small, Tones.Hatch("interface"));
+        _font.Draw(this, x, ry, "WHAT IT DOES", _font.Small, Tones.Muted("interface"));
         ry += 10;
         DrawLines(new[] { Explain.Ability(_db, d) }, x, ref ry, limitY, Tones.Text("interface"));
         DrawLines(Explain.Passives(_db, d.Effects, d), x, ref ry, limitY, Tones.Text("interface"));
         DrawLines(new[] { Explain.Kind(ab.Do) }, x, ref ry, limitY, Tones.Hatch("interface"));
         if (ab.Do == "status" && ab.Status != null) DrawLines(new[] { Explain.Status(ab.Status) }, x, ref ry, limitY, Tones.Hatch("interface"));
         ry += 4;
-        _font.Draw(this, x, ry, "WHERE TO PUT IT", _font.Small, Tones.Hatch("interface"));
+        _font.Draw(this, x, ry, "WHERE TO PUT IT", _font.Small, Tones.Muted("interface"));
         ry += 10;
         DrawLines(Explain.Placement(_db, d), x, ref ry, limitY, Tones.Text("interface"));
     }
@@ -843,7 +846,7 @@ public partial class BuildScreen : Node2D
         }
         else
         {
-            _font.Draw(this, x + 2, y + 8, "no other leased floor takes this room", _font.Small, Tones.Hatch("interface"));
+            _font.Draw(this, x + 2, y + 8, "no other leased floor takes this room", _font.Small, Tones.Muted("interface"));
         }
         _font.Draw(this, x + 2, y + 16, $"relocate: −{_db.Economy.RelocationTenurePenaltyRounds} Tenure rounds, ¥{fee}", _font.Small, Tones.Text("interface"));
     }

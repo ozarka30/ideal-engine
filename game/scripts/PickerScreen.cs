@@ -25,7 +25,7 @@ public partial class PickerScreen : Node2D
         int y0 = 32;
         foreach ((string side, int x) in new[] { ("A", 8), ("B", 328) })
         {
-            font.Draw(this, x, y0 - 12, side == "A" ? "SIDE A (you)" : "SIDE B (rival)", font.Small, Tones.Hatch("interface"));
+            font.Draw(this, x, y0 - 12, side == "A" ? "SIDE A (you)" : "SIDE B (rival)", font.Small, Tones.Muted("interface"));
             int y = y0;
             foreach (ScriptedRival rival in r.Content.ScriptedRivals)
             {
@@ -47,7 +47,7 @@ public partial class PickerScreen : Node2D
         _menuButton = new Rect2I(136, 224, 120, 20);
         DrawRect(new Rect2(_menuButton.Position, _menuButton.Size), Tones.Fill("interface"));
         font.Draw(this, 140, 228, "MENU", font.Small, Tones.Text("interface"));
-        font.Draw(this, 8, 340, "keys in battle: 1 2 4 speed · space pause · S skip · esc autopsy · hover a floor for the inset", font.Small, Tones.Hatch("interface"));
+        font.Draw(this, 8, 340, "keys in battle: 1 2 4 speed · space pause · S skip · esc autopsy · hover a floor for the inset", font.Small, Tones.Muted("interface"));
     }
 
     public override void _UnhandledInput(InputEvent @event)

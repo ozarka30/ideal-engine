@@ -522,6 +522,7 @@ art concern, developer-paced like everything else.
 | --- | --- |
 | Panels | A 9-sliced rounded panel from the Isle of Lore 2 UI Pack, recoloured to the `interface` tone, 5 px corners, 4 px inner padding (D-74) |
 | Text | `font.ui.8`, left-aligned, 8 px line pitch; numbers tabular, right-aligned in columns |
+| Secondary text | The tone's **border**, never its hatch. Hatch is the lighter shade the greybox draws overhang with; on a light fill it is invisible — `interface` hatch is luminance 194 against a fill of 169. `Tones.Muted()` is the call |
 | Emphasis | The `interface` text tone for normal, the category tone for the thing named (a Push amount in `operations`, a Morale amount in `anomalous`) |
 | Buttons | 16 px tall from the pack's `box`, 20 px and taller from `button_square`; label centred; hover inverts fill and text; pressed offsets label 1 px down (D-74) |
 | Resolution | Chrome ships at 2× its declared size and is drawn down into its manifest-sized rect with a smooth filter (D-76). Pixel art keeps nearest and integer scale; chrome and text do not |

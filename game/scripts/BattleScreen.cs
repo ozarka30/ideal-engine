@@ -323,7 +323,7 @@ public partial class BattleScreen : Node2D
         DrawRect(new Rect2(r.Position, r.Size), Tones.Border("interface"), false);
         FirmFrame f = side == "A" ? _view.FrameA(tick) : _view.FrameB(tick);
         string header = $"{side} · {(side == "A" ? _r.NameA : _r.NameB)} · GW {f.Goodwill}/{f.Cap}{(f.Broken ? " — GOODWILL BROKEN —" : string.Empty)}";
-        _r.Font.Draw(this, r.Position.X + 2, r.Position.Y, header, _r.Font.Small, Tones.Hatch("interface"));
+        _r.Font.Draw(this, r.Position.X + 2, r.Position.Y, header, _r.Font.Small, Tones.Muted("interface"));
         // Newest at the bottom, like a console: the eye reads time top to bottom, the same direction as the autopsy.
         IReadOnlyList<LedgerLine> lines = LiveLedger.Visible(_view, side, tick);
         int y = r.Position.Y + lineH;

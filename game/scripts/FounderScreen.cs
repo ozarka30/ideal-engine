@@ -44,7 +44,7 @@ public partial class FounderScreen : Node2D
 
         DrawRect(new Rect2(0, 0, L.CanvasW, L.CanvasH), Tones.Ground());
         Vector2I title = _at.At("title");
-        font.Draw(this, title.X, title.Y, "CHOOSE A FOUNDER", font.Title, Tones.Hatch("support"));
+        font.Draw(this, title.X, title.Y, "CHOOSE A FOUNDER", font.Title, Tones.Muted("support"));
 
         DrawEntry(L, "ui.founder.grid", _at.Rect("grid"));
         Vector2I tile = L.Size("ui.founder.tile");

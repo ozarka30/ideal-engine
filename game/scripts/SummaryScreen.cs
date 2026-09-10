@@ -24,7 +24,7 @@ public partial class SummaryScreen : Node2D
         int y = _at.Y("headings");
         int[] cols = { 8, 48, 96, 160, 216 };
         string[] heads = { "ROUND", "RESULT", "SHARE", "TIME", "RIVAL" };
-        for (int i = 0; i < heads.Length; i++) font.Draw(this, cols[i], y, heads[i], font.Small, Tones.Hatch("interface"));
+        for (int i = 0; i < heads.Length; i++) font.Draw(this, cols[i], y, heads[i], font.Small, Tones.Muted("interface"));
         y += 10;
         foreach (FightRecord f in run.History)
         {

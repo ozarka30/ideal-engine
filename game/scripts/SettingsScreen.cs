@@ -29,12 +29,12 @@ public partial class SettingsScreen : Node2D
         Vector2I size = L.Size("ui.menu.button");
         int x = _at.X("fullscreen");
 
-        r.Font.Draw(this, x, 120, "Display", r.Font.Small, Tones.Hatch("interface"));
+        r.Font.Draw(this, x, 120, "Display", r.Font.Small, Tones.Muted("interface"));
         var full = new Rect2I(x, _at.Y("fullscreen"), size.X, size.Y);
         Ui.Button(this, full, _settings.Fullscreen ? "FULLSCREEN · ON" : "FULLSCREEN · OFF", _settings.Fullscreen ? "operations" : "interface");
         _hits.Add(full, () => Change(s => s.Fullscreen = !s.Fullscreen), "Toggle fullscreen");
 
-        r.Font.Draw(this, x, 164, "Window scale", r.Font.Small, Tones.Hatch("interface"));
+        r.Font.Draw(this, x, 164, "Window scale", r.Font.Small, Tones.Muted("interface"));
         int chipW = (size.X - 8) / 3;
         for (int i = 0; i < 3; i++)
         {
@@ -43,13 +43,13 @@ public partial class SettingsScreen : Node2D
             Ui.Button(this, chip, $"{scale}×", _settings.Scale == scale ? "operations" : "interface", !_settings.Fullscreen);
             _hits.Add(chip, () => Change(s => s.Scale = scale), $"Window at {scale}× the 640×360 canvas");
         }
-        r.Font.Draw(this, x, 200, _settings.Fullscreen ? "Scale applies when windowed" : $"{L.CanvasW * _settings.Scale} × {L.CanvasH * _settings.Scale} window", r.Font.Small, Tones.Hatch("interface"));
+        r.Font.Draw(this, x, 200, _settings.Fullscreen ? "Scale applies when windowed" : $"{L.CanvasW * _settings.Scale} × {L.CanvasH * _settings.Scale} window", r.Font.Small, Tones.Muted("interface"));
 
         var back = new Rect2I(_at.X("back"), _at.Y("back"), size.X, size.Y);
         Ui.Button(this, back, "BACK", "support");
         _hits.Add(back, () => r.Go("res://scenes/Menu.tscn"), "Back to the menu");
         Rect2I tag = _at.Rect("build_tag");
-        r.Font.Draw(this, tag.Position.X, tag.Position.Y, $"build {r.BuildTag}", r.Font.Small, Tones.Hatch("interface"), HorizontalAlignment.Right, tag.Size.X);
+        r.Font.Draw(this, tag.Position.X, tag.Position.Y, $"build {r.BuildTag}", r.Font.Small, Tones.Muted("interface"), HorizontalAlignment.Right, tag.Size.X);
     }
 
     private void Change(Action<DisplaySettings> edit)

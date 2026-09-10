@@ -73,7 +73,7 @@ public partial class AutopsyScreen : Node2D
         Rect2I banner = _at.Rect("banner");
         DrawRect(new Rect2(banner.Position, banner.Size), Tones.Fill("interface"));
         font.Draw(this, _at.X("banner_result"), _at.Y("banner_result"), Autopsy.ResultBanner(_view, _r.FightRound, "A"), font.Large, Tones.Text("interface"));
-        font.Draw(this, _at.X("banner_context"), _at.Y("banner_context"), $"{_r.NameA} vs {_r.NameB} · at {Autopsy.Seconds(_playhead)} share {_view.Share(_playhead) / 100}.{_view.Share(_playhead) % 100 / 10}%", font.Small, Tones.Hatch("interface"), HorizontalAlignment.Right, _at.Rect("banner_context").Size.X);
+        font.Draw(this, _at.X("banner_context"), _at.Y("banner_context"), $"{_r.NameA} vs {_r.NameB} · at {Autopsy.Seconds(_playhead)} share {_view.Share(_playhead) / 100}.{_view.Share(_playhead) % 100 / 10}%", font.Small, Tones.Muted("interface"), HorizontalAlignment.Right, _at.Rect("banner_context").Size.X);
 
         // Timeline
         Rect2I tl = _at.Rect("timeline");
@@ -124,7 +124,7 @@ public partial class AutopsyScreen : Node2D
                 DrawRect(new Rect2(barX, y + 11, (int)(barW * u.Total / smax), 6), Tones.Fill(Ui.SideTone("A")));
                 font.Draw(this, barX, y + 1, u.Total.ToString(), font.Small, Tones.Text("interface"), HorizontalAlignment.Right, barW);
             }
-            if (_staff.Length == 0) font.Draw(this, fl.Position.X + 2, fl.Position.Y + tabH + 2, "nobody dealt anything", font.Small, Tones.Hatch("interface"));
+            if (_staff.Length == 0) font.Draw(this, fl.Position.X + 2, fl.Position.Y + tabH + 2, "nobody dealt anything", font.Small, Tones.Muted("interface"));
         }
         long max = 1;
         foreach (FloorTotals b in _bars) max = Math.Max(max, Math.Max(b.A, b.B));
@@ -197,7 +197,7 @@ public partial class AutopsyScreen : Node2D
             DrawRect(new Rect2(lg.Position.X + lg.Size.X - 2, thumbY, 2, thumbH), Tones.Hatch("interface"));
         }
         // Footer in the free strip beside CONTINUE, never over a row.
-        font.Draw(this, 216, 340, $"{_filtered.Count} entries · drag or wheel to scroll · drag the timeline", font.Small, Tones.Hatch("interface"), HorizontalAlignment.Left, 332);
+        font.Draw(this, 216, 340, $"{_filtered.Count} entries · drag or wheel to scroll · drag the timeline", font.Small, Tones.Muted("interface"), HorizontalAlignment.Left, 332);
 
         // Continue
         Rect2I ct = _at.Rect("continue");

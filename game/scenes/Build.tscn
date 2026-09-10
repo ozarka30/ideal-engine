@@ -161,3 +161,59 @@ offset_top = 260.0
 offset_right = 424.0
 offset_bottom = 284.0
 color = Color(0.85, 0.8, 0.65, 0.15)
+
+[node name="insp_preview" type="ColorRect" parent="Layout"]
+offset_left = 440.0
+offset_top = 40.0
+offset_right = 536.0
+offset_bottom = 136.0
+color = Color(0.85, 0.8, 0.65, 0.15)
+
+[node name="insp_sprite" type="ColorRect" parent="Layout"]
+offset_left = 472.0
+offset_top = 72.0
+offset_right = 504.0
+offset_bottom = 104.0
+color = Color(0.85, 0.8, 0.65, 0.15)
+
+[node name="insp_name" type="ColorRect" parent="Layout"]
+offset_left = 544.0
+offset_top = 44.0
+offset_right = 632.0
+offset_bottom = 52.0
+color = Color(0.85, 0.8, 0.65, 0.15)
+
+[node name="insp_sub" type="ColorRect" parent="Layout"]
+offset_left = 544.0
+offset_top = 54.0
+offset_right = 632.0
+offset_bottom = 62.0
+color = Color(0.85, 0.8, 0.65, 0.15)
+
+[node name="insp_sub2" type="ColorRect" parent="Layout"]
+offset_left = 544.0
+offset_top = 64.0
+offset_right = 632.0
+offset_bottom = 72.0
+color = Color(0.85, 0.8, 0.65, 0.15)
+
+[node name="insp_context" type="ColorRect" parent="Layout"]
+offset_left = 440.0
+offset_top = 144.0
+offset_right = 624.0
+offset_bottom = 152.0
+color = Color(0.85, 0.8, 0.65, 0.15)
+
+[node name="insp_body" type="ColorRect" parent="Layout"]
+offset_left = 440.0
+offset_top = 158.0
+offset_right = 624.0
+offset_bottom = 298.0
+color = Color(0.85, 0.8, 0.65, 0.15)
+
+[node name="insp_actions" type="ColorRect" parent="Layout"]
+offset_left = 440.0
+offset_top = 308.0
+offset_right = 624.0
+offset_bottom = 328.0
+color = Color(0.85, 0.8, 0.65, 0.15)
