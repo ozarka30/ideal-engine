@@ -7,8 +7,8 @@ rem a user one, so if that install is runtime-only, `dotnet --list-sdks` comes b
 rem every .cs script fails to resolve -- opening a scene then reports its script as a missing
 rem dependency. Prepending the user SDK here fixes it for the process we start, with no admin.
 rem
-rem   tools\dev\godot.cmd              open the editor
-rem   tools\dev\godot.cmd --headless --import      or pass any Godot arguments
+rem   tools\dev\godot.cmd                          opens the editor
+rem   tools\dev\godot.cmd --headless --import       or pass any Godot arguments through
 rem
 rem Set GODOT_PATH to use a different binary. Install the SDK with:
 rem   powershell -c "& ([scriptblock]::Create((irm https://dot.net/v1/dotnet-install.ps1))) -Channel 9.0"
@@ -44,4 +44,10 @@ if errorlevel 1 (
   exit /b 1
 )
 
-"%GODOT%" --path "%PROJECT%\game" %*
+rem `--path` on its own RUNS the project; the editor needs -e (--editor). With no arguments
+rem that is what you want, so default to it and pass anything given through untouched.
+if "%~1"=="" (
+  "%GODOT%" --editor --path "%PROJECT%\game"
+) else (
+  "%GODOT%" --path "%PROJECT%\game" %*
+)
