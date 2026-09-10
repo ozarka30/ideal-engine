@@ -7,7 +7,7 @@ game/.godot/
 game/.mono/
 game/__screenshots__/actual/
 harness_smoke.json
-build/
+/build/
 game/data/
 game/__screenshots__/drive/
 tools/dev/drive/current.json
