@@ -690,11 +690,11 @@ public partial class BuildScreen : Node2D
             _font.Draw(this, _at.X("insp_name"), _at.Y("insp_name"), d.Name, _font.Small, Tones.Text("interface"));
             _font.Draw(this, _at.X("insp_sub"), _at.Y("insp_sub"), $"Tenure {room.TenureRounds} · Tier {Overlays.Tier(_db, room)}", _font.Small, Tones.Muted("interface"));
             int ry = _at.Y("insp_context");
-            DrawLines(Explain.Passives(_db, d.Effects), x, ref ry, Math.Min(limitY, panel.Position.Y + 236), Tones.Text("interface"));
+            DrawLines(Explain.Passives(_db, d.Effects), x, ref ry, Math.Min(limitY, _at.Y("insp_compare") - 8), Tones.Text("interface"));
             long fee = Economy.RenovationFee(_db, Run.Round);
             if (!d.Fixed)
             {
-                DrawCompare(room, d, x, panel.Position.Y + 244, panel.Size.X - 16, fee);
+                DrawCompare(room, d, _at.X("insp_compare"), _at.Y("insp_compare"), _at.Rect("insp_compare").Size.X, fee);
                 var rel = new Rect2I(x, actionY, action.X, action.Y);
                 var dem = new Rect2I(x + action.X + 4, actionY, action.X, action.Y);
                 Ui.Button(this, rel, $"RELOCATE ¥{fee}", "support", Run.Budget >= fee);
@@ -772,7 +772,7 @@ public partial class BuildScreen : Node2D
         else
         {
             FurnitureDef d = _db.Furniture.First(f => f.Id == Run.Shop.FurnitureCards[_carryIndex]);
-            DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(x + 16, y + 16, 32, 32), false);
+            DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(_at.Rect("insp_sprite").Position, L.Size(d.Sprite)), false);
             _font.Draw(this, _at.X("insp_name"), _at.Y("insp_name"), d.Name, _font.Small, Tones.Text("interface"));
             _font.Draw(this, _at.X("insp_sub"), _at.Y("insp_sub"), $"{d.Rarity} · ¥{d.Cost}", _font.Small, Tones.Muted("interface"));
             _font.Draw(this, _at.X("insp_sub2"), _at.Y("insp_sub2"), "tap an empty tile", _font.Small, Tones.Muted("interface"));

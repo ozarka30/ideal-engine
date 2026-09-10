@@ -197,7 +197,7 @@ public partial class AutopsyScreen : Node2D
             DrawRect(new Rect2(lg.Position.X + lg.Size.X - 2, thumbY, 2, thumbH), Tones.Hatch("interface"));
         }
         // Footer in the free strip beside CONTINUE, never over a row.
-        font.Draw(this, 216, 340, $"{_filtered.Count} entries · drag or wheel to scroll · drag the timeline", font.Small, Tones.Muted("interface"), HorizontalAlignment.Left, 332);
+        font.Draw(this, _at.X("ledger_footer"), _at.Y("ledger_footer"), $"{_filtered.Count} entries · drag or wheel to scroll · drag the timeline", font.Small, Tones.Muted("interface"), HorizontalAlignment.Left, 332);
 
         // Continue
         Rect2I ct = _at.Rect("continue");
