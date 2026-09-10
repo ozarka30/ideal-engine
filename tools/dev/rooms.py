@@ -11,8 +11,8 @@ so the PNG is what the 2D editor shows:
                   writes -- paint with the whole pack rather than placing tiles by hand
 
 A layer or sprite may carry a `scale`; a half-scaled layer bakes at 16px per tile,
-which is how a small room fits more detail than its footprint has cells. Scaling is a
-box resample at author time, the same integer-factor rule §9 allows elsewhere.
+which is how a small room fits more detail than its footprint has cells. Scaling is
+nearest, matching the project's texture filter, so the bake is what the editor showed.
 
 Sheets live under res:// because tools/dev/tilesets.py mirrors them there; run that
 first on a fresh checkout. They are licensed pack art, so that folder is gitignored.
@@ -89,7 +89,9 @@ def cells(data):
 def stamp(canvas, tile, x, y, scale):
     if scale != 1:
         w, h = max(1, round(tile.width * scale)), max(1, round(tile.height * scale))
-        tile = tile.resize((w, h), Image.BOX)
+        # Nearest, not an average: project.godot sets default_texture_filter=0, so this is
+        # what Godot shows. A box filter would soften every edge and stop it being pixel art.
+        tile = tile.resize((w, h), Image.NEAREST)
     layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
     layer.paste(tile, (round(x), round(y)))
     canvas.alpha_composite(layer)
