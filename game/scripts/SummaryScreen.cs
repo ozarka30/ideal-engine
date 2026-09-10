@@ -8,6 +8,8 @@ public partial class SummaryScreen : Node2D
 {
     public override void _Ready() => QueueRedraw();
 
+    private SceneLayout? _at;
+
     public override void _Draw()
     {
         ScreenRouter r = ScreenRouter.Instance;
@@ -16,9 +18,10 @@ public partial class SummaryScreen : Node2D
         DrawRect(new Rect2(0, 0, L.CanvasW, L.CanvasH), Tones.Fill("structure"));
         RunState? run = r.Run;
         if (run == null) return;
-        DrawRect(new Rect2(0, 0, L.CanvasW, 24), Tones.Fill("interface"));
-        font.Draw(this, 8, 4, Run.Summary(r.Content, run), font.Large, Tones.Text("interface"));
-        int y = 40;
+        _at ??= new SceneLayout(this);
+        DrawRect(new Rect2(_at.Rect("banner").Position, _at.Rect("banner").Size), Tones.Fill("interface"));
+        font.Draw(this, _at.X("title"), _at.Y("title"), Run.Summary(r.Content, run), font.Large, Tones.Text("interface"));
+        int y = _at.Y("headings");
         int[] cols = { 8, 48, 96, 160, 216 };
         string[] heads = { "ROUND", "RESULT", "SHARE", "TIME", "RIVAL" };
         for (int i = 0; i < heads.Length; i++) font.Draw(this, cols[i], y, heads[i], font.Small, Tones.Hatch("interface"));

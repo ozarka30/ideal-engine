@@ -1811,7 +1811,10 @@ behind an assembly that cannot reference Godot, and D-77 moved position into the
 now `Layout` nodes rather than offsets from the shop panel, and the change is pixel-neutral — the same
 window renders byte-identically before and after. What remains in code is genuinely internal to a widget:
 where a card's price sits inside the card. Those become editable when a card is its own scene, which is
-the next step this rule implies. Screens with no manifest layout at all — menu, picker, summary, settings,
-greybox — have not been converted and should be.
+the next step this rule implies. The autopsy's banner lines, its FLOORS/STAFF tab row, its bar rows and its findings column follow, and so
+do the menu, settings and summary screens, which had no `Layout` at all. Picker and Greybox are developer
+tools and stay as they are: a debug rival list does not need a draggable layout. What is left in code is
+either derived from a node — a bar that stretches with its panel — or a widget's own insides, which
+become editable when that widget is a scene, as the shop card now is.
 
 Authority: Human · `ARCHITECTURE.md` §1, §7 · extends [D-60](#d-60) and [D-77](#d-77)

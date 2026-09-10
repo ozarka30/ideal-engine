@@ -11,23 +11,33 @@ public partial class MenuScreen : Node2D
 
     public override void _Ready() => QueueRedraw();
 
+    private SceneLayout? _at;
+
+    /// <summary>Text across a slot's width, so centring and right-alignment follow the node (D-81).</summary>
+    private void Band(string slot, string text, int size, Color color, HorizontalAlignment align = HorizontalAlignment.Center)
+    {
+        Rect2I r = _at!.Rect(slot);
+        ScreenRouter.Instance.Font.Draw(this, r.Position.X, r.Position.Y, text, size, color, align, r.Size.X);
+    }
+
     public override void _Draw()
     {
         ScreenRouter r = ScreenRouter.Instance;
         ManifestLayout L = r.Layout;
+        _at ??= new SceneLayout(this);
         DrawRect(new Rect2(0, 0, L.CanvasW, L.CanvasH), Tones.Fill("structure"));
-        r.Font.Draw(this, 0, 96, "COMPANY WARS", r.Font.Large, Tones.Text("interface").Inverted(), HorizontalAlignment.Center, L.CanvasW);
-        r.Font.Draw(this, 0, 116, "greybox · M2 vertical slice", r.Font.Small, Tones.Hatch("interface"), HorizontalAlignment.Center, L.CanvasW);
+        Band("title", "COMPANY WARS", r.Font.Large, Tones.Text("interface").Inverted());
+        Band("subtitle", "greybox · M2 vertical slice", r.Font.Small, Tones.Hatch("interface"));
         Vector2I size = L.Size("ui.menu.button");
-        _newRun = new Rect2I((L.CanvasW - size.X) / 2, 160, size.X, size.Y);
-        _settings = new Rect2I((L.CanvasW - size.X) / 2, 184, size.X, size.Y);
-        _debug = new Rect2I((L.CanvasW - size.X) / 2, 208, size.X, size.Y);
+        _newRun = new Rect2I(_at.X("new_run"), _at.Y("new_run"), size.X, size.Y);
+        _settings = new Rect2I(_at.X("settings"), _at.Y("settings"), size.X, size.Y);
+        _debug = new Rect2I(_at.X("debug"), _at.Y("debug"), size.X, size.Y);
         Ui.Button(this, _newRun, "NEW RUN", "operations");
         Ui.Button(this, _settings, "SETTINGS", "interface");
         Ui.Button(this, _debug, "DEBUG FIGHT", "interface");
-        r.Font.Draw(this, 0, 244, "Enter starts a run", r.Font.Small, Tones.Hatch("interface"), HorizontalAlignment.Center, L.CanvasW);
+        Band("prompt", "Enter starts a run", r.Font.Small, Tones.Hatch("interface"));
         // The build tag (D-68): a tester's report names a commit, not a weekday.
-        r.Font.Draw(this, 0, L.CanvasH - 12, $"build {r.BuildTag}", r.Font.Small, Tones.Hatch("interface"), HorizontalAlignment.Right, L.CanvasW - 8);
+        Band("build_tag", $"build {r.BuildTag}", r.Font.Small, Tones.Hatch("interface"), HorizontalAlignment.Right);
     }
 
     public override void _UnhandledInput(InputEvent @event)

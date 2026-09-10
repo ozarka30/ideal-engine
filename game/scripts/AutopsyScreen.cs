@@ -72,8 +72,8 @@ public partial class AutopsyScreen : Node2D
         // Banner
         Rect2I banner = _at.Rect("banner");
         DrawRect(new Rect2(banner.Position, banner.Size), Tones.Fill("interface"));
-        font.Draw(this, banner.Position.X + 8, banner.Position.Y + 4, Autopsy.ResultBanner(_view, _r.FightRound, "A"), font.Large, Tones.Text("interface"));
-        font.Draw(this, banner.Position.X, banner.Position.Y + 8, $"{_r.NameA} vs {_r.NameB} · at {Autopsy.Seconds(_playhead)} share {_view.Share(_playhead) / 100}.{_view.Share(_playhead) % 100 / 10}%", font.Small, Tones.Hatch("interface"), HorizontalAlignment.Right, banner.Size.X - 8);
+        font.Draw(this, _at.X("banner_result"), _at.Y("banner_result"), Autopsy.ResultBanner(_view, _r.FightRound, "A"), font.Large, Tones.Text("interface"));
+        font.Draw(this, _at.X("banner_context"), _at.Y("banner_context"), $"{_r.NameA} vs {_r.NameB} · at {Autopsy.Seconds(_playhead)} share {_view.Share(_playhead) / 100}.{_view.Share(_playhead) % 100 / 10}%", font.Small, Tones.Hatch("interface"), HorizontalAlignment.Right, _at.Rect("banner_context").Size.X);
 
         // Timeline
         Rect2I tl = _at.Rect("timeline");
@@ -100,21 +100,23 @@ public partial class AutopsyScreen : Node2D
         Rect2I fl = _at.Rect("floors");
         DrawRect(new Rect2(fl.Position, fl.Size), Tones.Fill("interface"));
         _hits.Clear();
-        int tabH = 16;
-        var floorsTab = new Rect2I(fl.Position.X, fl.Position.Y, fl.Size.X / 2, tabH);
-        var staffTab = new Rect2I(fl.Position.X + fl.Size.X / 2, fl.Position.Y, fl.Size.X - fl.Size.X / 2, tabH);
+        Rect2I tabs = _at.Rect("floors_tabs");
+        int tabH = tabs.Size.Y;
+        var floorsTab = new Rect2I(tabs.Position.X, tabs.Position.Y, tabs.Size.X / 2, tabH);
+        var staffTab = new Rect2I(tabs.Position.X + tabs.Size.X / 2, tabs.Position.Y, tabs.Size.X - tabs.Size.X / 2, tabH);
         Ui.Button(this, floorsTab, "FLOORS", _staffView ? "structure" : "operations");
         Ui.Button(this, staffTab, "STAFF", _staffView ? "operations" : "structure");
         _hits.Add(floorsTab, () => { _staffView = false; QueueRedraw(); }, "Output by floor, both sides");
         _hits.Add(staffTab, () => { _staffView = true; QueueRedraw(); }, "Your five employees with the most output");
-        int rowH = (fl.Size.Y - tabH) / 5;
+        Rect2I rowsArea = _at.Rect("floors_rows");
+        int rowH = rowsArea.Size.Y / 5;
         if (_staffView)
         {
             long smax = 1;
             foreach (UnitTotals u in _staff) smax = Math.Max(smax, u.Total);
             for (int i = 0; i < 5; i++)
             {
-                int y = fl.Position.Y + tabH + i * rowH;
+                int y = rowsArea.Position.Y + i * rowH;
                 if (i >= _staff.Length) break;
                 UnitTotals u = _staff[i];
                 int barX = fl.Position.X + 2, barW = fl.Size.X - 4;
@@ -129,7 +131,7 @@ public partial class AutopsyScreen : Node2D
         for (int i = 4; i >= 0 && !_staffView; i--)
         {
             FloorTotals b = _bars[i];
-            int y = fl.Position.Y + tabH + (4 - i) * rowH;
+            int y = rowsArea.Position.Y + (4 - i) * rowH;
             font.Draw(this, fl.Position.X + 2, y + 2, LiveLedger.FloorName(b.FloorIndex), font.Small, Tones.Text("interface"));
             int barX = fl.Position.X + 24;
             int barW = fl.Size.X - 28;
@@ -143,12 +145,12 @@ public partial class AutopsyScreen : Node2D
         // Findings
         Rect2I fd = _at.Rect("findings");
         DrawRect(new Rect2(fd.Position, fd.Size), Tones.Fill("interface"));
-        int fy = fd.Position.Y + 2;
+        int fy = _at.Y("findings_text");
         for (int i = 0; i < _findings.Length; i++)
         {
             foreach (string line in Ui.Wrap(font, font.Small, _findings[i], fd.Size.X - 4, 3))
             {
-                font.Draw(this, fd.Position.X + 2, fy, line, font.Small, Tones.Text("interface"));
+                font.Draw(this, _at.X("findings_text"), fy, line, font.Small, Tones.Text("interface"));
                 fy += LineH;
             }
             fy += LineH / 2;
