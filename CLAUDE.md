@@ -28,6 +28,7 @@ dotnet build game/CompanyWars.Game.csproj                            # needs onl
 xvfb-run -s "-screen 0 1920x1080x24" godot --path game --resolution 1280x720 -- --screenshots   # 2x fixtures; run again at 1920x1080 for 3x
 xvfb-run godot --path game -- --drive tools/dev/drive/first_round.json   # plays taps/keys/shots; writes game/__screenshots__/drive/
 tools/dev/godot.sh [--templates]                  # prints the Godot 4.7.2 mono path, downloading it into ~/.cache/companywars if absent
+tools\dev\godot.cmd [godot args]                   # Windows: builds the C# project, then opens the editor with the mono binary and a .NET SDK on PATH
 python3 tools/dev/scenes.py                       # scaffolds a screen's Layout node from the manifest once (D-77); refuses to overwrite an existing one
 python3 tools/dev/gallery.py                      # build/gallery.html: every screen, the last drive run, and any reference shots under game/__screenshots__/references/
 python3 tools/dev/worklist.py                     # docs/ART_WORKLIST.md: every slot without art, ranked, with its exact path and size; creates the folders
