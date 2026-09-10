@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CompanyWars.Build;
 using CompanyWars.Sim;
 using Godot;
 
@@ -66,11 +67,18 @@ public partial class FounderScreen : Node2D
         if (selected != null)
         {
             int by = bio.Position.Y + 4;
-            foreach (string line in Ui.Wrap(font, font.Small, selected.Bio, bio.Size.X - 8, 4))
+            foreach (string line in Ui.Wrap(font, font.Small, selected.Bio, bio.Size.X - 8, 3))
             {
                 font.Draw(this, bio.Position.X + 4, by, line, font.Small, Tones.Text("interface"));
                 by += 8;
             }
+            // The stakes (D-68): what the choice starts you with, and the passive or its absence (D-46).
+            FloorDef start = r.Content.Floors.First(f => f.Id == r.Content.Economy.StartingRosterFloor);
+            string passive = selected.Effects.Length == 0
+                ? "no founder passive in this build"
+                : string.Join(" ", Explain.Passives(r.Content, selected.Effects));
+            string stakes = $"Starts with ¥{r.Content.Economy.StartingBudget} and {r.Content.Economy.StartingRoster.Length} staff on {Legality.FloorName(start.Index)} · {passive}";
+            font.Draw(this, bio.Position.X + 4, bio.Position.Y + bio.Size.Y - 10, stakes, font.Small, Tones.Hatch("interface"));
         }
 
         Rect2I name = L.Rect("ui.founder.firm_name");

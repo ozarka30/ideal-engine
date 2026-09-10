@@ -96,8 +96,9 @@ history of a reversal is the most useful thing in a document like this.
 | [D-65](#d-65) | Cards and the inspector explain every entity in plain language generated from its content; the firm panel carries a primer on how a fight works | Craft | Playtest |
 | [D-66](#d-66) | The shipped faces are Honey Pigeon (body, 8 px line) and Honeyblot Caps (headers, 16 px line), baked to bitmaps; the font files stay out of the repository | Human | `ART_PIPELINE.md` §9 |
 | [D-67](#d-67) | Text is not pixel art: the faces render as antialiased vectors at the window's resolution under the `canvas_items` stretch; the font files ship in the project. Supersedes D-66's baking | Human | `ART_PIPELINE.md` §9 |
+| [D-68](#d-68) | Reference-driven screen changes: employees visible in the battle facades and bursts from their windows; price first and tier as a colour on cards; a READY under the shop; founder stakes line; settings screen and build tag; lead-change cue; staff bars on the autopsy | Craft | UI review |
 
-Forty-eight craft decisions and nineteen human calls taken. Eight items remain open in
+Forty-nine craft decisions and nineteen human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -1423,3 +1424,30 @@ word wrap measures with the face rather than counting characters. The licence pe
 product but not making them available to others: the repository must be private.
 
 Authority: Human · `ART_PIPELINE.md` §9, `ARCHITECTURE.md` §7
+
+---
+
+## D-68
+
+**Nine changes from the comparison of the five screens against the auto battlers and tower games they
+will be judged beside. (1) Every employee is visible in its battle facade as an 8 × 8 window marker at its
+tile's column and row, in its department's tone, and a burst leaves the firer's window rather than the
+segment's centre; the floor inset remains the detailed view. (2) Shop cards lead with the price in
+`font.ui.16` and carry a tier band along the top edge in a tier tone. (3) A second READY sits under the
+shop's lease row, where the thumb already is on touch. (4) The founder bio ends with a stakes line: the
+starting budget, roster and floor, and the passive or its absence. (5) A settings screen with fullscreen
+and window scale, every control a button, saved to `user://settings.cfg` and never applied in screenshot
+or drive mode. (6) A build tag on the title and settings screens, written by the builds workflow into the
+data pack. (7) The share bar brightens the new leader's half for a second when the lead changes. (8) The
+autopsy's floor panel gains a FLOORS / STAFF toggle; STAFF lists the player's five employees by output.
+(9) The menu gains SETTINGS.**
+
+*Why:* The reference games all show the fighters, lead with cost in the shop, keep the commit action by
+the shop on touch, state a character's stakes before the run, and chart damage by unit after a fight.
+Ours did none of those, and each is a small change against slots that already exist.
+
+*Consequence:* `GAME_DESIGN.md` §19.1, §19.2, §19.3 and §19.7 rows are amended; two manifest slots are
+added (`fx.tower.window_occupant`, `ui.build.ready_shop`); every screenshot fixture is re-recorded. §19.2's
+"bursts at the segment's centre" is superseded. Founder passives stay empty (D-46); the stakes line says so.
+
+Authority: Craft · `GAME_DESIGN.md` §19, `ARCHITECTURE.md` §7

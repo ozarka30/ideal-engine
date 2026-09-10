@@ -111,6 +111,7 @@ entry("ui.build.action_button", "ui", "interface", "Inspector action button", 90
 entry("ui.build.room_compare", "ui", "interface", "Room relocation comparison", 184, 24, TL, screens=B, visibility=1,
       reads="Three lines of font.ui.8 for a selected room: 'here x1.40 · Tier II'; 'on 2F x1.38 now, x1.61 by round 14'; 'relocate: -3 Tenure rounds, ¥13'")
 entry("ui.build.ready", "ui", "interface", "READY button", 80, 16, TL, screens=B, visibility=1, rect=(552, 4), reads="The commit. No confirmation")
+entry("ui.build.ready_shop", "ui", "interface", "READY button under the shop", 232, 20, TL, screens=B, visibility=1, rect=(192, 312), reads="The same commit where the thumb already is on touch (D-68); font.ui.16")
 entry("ui.build.hint", "ui", "interface", "Hint line", 640, 16, TL, screens=B, visibility=1, rect=(0, 344), reads="One line of font.ui.8")
 entry("ui.build.promote_glyph", "ui", "interface", "Promote glyph", 16, 16, CC, sortBias=9, screens=B, visibility=1, reads="An unmistakable 'combine available' mark, pulsing")
 entry("ui.build.nearmiss_glyph", "ui", "interface", "Near-miss glyph", 8, 8, CC, sortBias=9, screens=B, visibility=1, reads="A small '?' that flickers once")
@@ -148,7 +149,8 @@ entry("fx.tower.floor_segment", "fx", "structure", "Tower floor segment", 96, 32
 entry("fx.tower.floor_segment_empty", "fx", "structure", "Unleased floor segment", 96, 32, BC, screens=BT, visibility=2, perspective="iso", verify=True, reads="The same storey with no windows, in the structure tone")
 entry("fx.tower.roof", "fx", "structure", "Tower roof", 96, 16, BC, screens=BT, visibility=2, perspective="iso", verify=True, reads="Roof cap with a water tank or signage", candidate="Japanese City — VERIFY (Q-GBX-5)")
 entry("fx.tower.basement", "fx", "anomalous", "B1 basement segment", 96, 24, TC, screens=BT, visibility=4, perspective="iso", verify=True, reads="A below-street storey, darker, one lit window", candidate="Japanese City + Horror Interiors tint — VERIFY (Q-GBX-5)")
-entry("fx.window_burst", "fx", "interface", "Window burst", 16, 16, CC, screens=BT, visibility=2, perspective="iso", reads="A 4-frame burst; tone by damage kind", frames=OD([("burst", [0, 0, 4])]))
+entry("fx.tower.window_occupant", "fx", "people", "Window occupant", 8, 8, CC, screens=BT, visibility=2, perspective="iso", reads="One per employee in the facade, at its tile's column and row; tone by department (D-68)")
+entry("fx.window_burst", "fx", "interface", "Window burst", 16, 16, CC, screens=BT, visibility=2, perspective="iso", reads="A 4-frame burst at the firer's window; tone by damage kind", frames=OD([("burst", [0, 0, 4])]))
 entry("fx.floating_number", "fx", "interface", "Floating number", 40, 8, CC, screens=BT, visibility=2, reads="font.ui.8 digits rising 16px over 20 ticks")
 # ---------------------------------------------------------------- autopsy
 AU = ["autopsy"]

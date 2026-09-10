@@ -414,6 +414,13 @@ public partial class BuildScreen : Node2D
             bool owned = Legality.HasFloor(Run.Tower, fd.Index);
             bool can = !owned && Run.Budget >= fd.Lease && (!fd.RequiresPortal || Run.PortalOpen);
             Ui.Button(this, rect, owned ? $"{Legality.FloorName(fd.Index)} leased · −¥{fd.UpkeepBudget}/q" : $"{Legality.FloorName(fd.Index)} ¥{fd.Lease} · −¥{fd.UpkeepBudget}/q", "interface", can);
+            if (k == 0)
+            {
+                // The commit where the thumb already is on touch (D-68); the top-right READY stays for keyboard and mouse.
+                Rect2I readyShop = L.Rect("ui.build.ready_shop");
+                Ui.Button(this, readyShop, "READY", "operations");
+                _hits.Add(readyShop, () => _r.ReadyUp(), "Commit the tower and fight. No confirmation; UNDO is always one press away.");
+            }
             if (!owned) _hits.Add(rect, () => Do(new Lease(floorId)), $"Lease {fd.Name} for ¥{fd.Lease}; upkeep ¥{fd.UpkeepBudget} per round{(fd.RequiresPortal ? "; needs the portal" : string.Empty)}");
             k++;
         }
@@ -425,16 +432,18 @@ public partial class BuildScreen : Node2D
         bool carried = _carryIndex == index && (_carry is CarryKind.StaffCard or CarryKind.RoomCard or CarryKind.FurnitureCard);
         DrawTextureRect(_r.Textures.For(L.Entry(kindEntry)), new Rect2(rect.Position, rect.Size), false, carried ? new Color(1, 1, 1, 0.5f) : Colors.White);
         string name, line1, line2, cost, hint;
+        long tier = 0;
         if (_tab == Shop.StaffTab)
         {
             EmployeeDef d = _db.Employees.First(e => e.Id == defId);
             Effect ab = d.Effects.First(e => e.On == "ability");
             name = d.Name;
+            tier = d.Tier;
             line1 = $"{(d.Dept.Length <= 3 ? d.Dept.ToUpperInvariant() : char.ToUpperInvariant(d.Dept[0]) + d.Dept[1..3])} T{d.Tier} {Explain.Seconds(d.CooldownTicks)}";
             line2 = ShortAction(ab, d);
             cost = $"¥{Economy.EmployeePrice(_db, d)}";
             hint = $"{d.Name} · {Explain.Ability(_db, d)}";
-            DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(rect.Position.X + 10, rect.Position.Y + 4, 32, 32), false);
+            DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(rect.Position.X + 18, rect.Position.Y + 4, 32, 32), false);
         }
         else if (_tab == Shop.RoomsTab)
         {
@@ -445,7 +454,7 @@ public partial class BuildScreen : Node2D
             line2 = aura != null ? $"×{aura.Permille / 1000}.{aura.Permille % 1000 / 100} {Explain.StatWord(aura.Stat)}" : string.Empty;
             cost = $"¥{d.Cost}";
             hint = $"{d.Name} · {Explain.Passives(_db, d.Effects).FirstOrDefault() ?? d.Flavor}";
-            DrawTextureRect(_r.Textures.For(L.Entry(d.Tile)), new Rect2(rect.Position.X + 10, rect.Position.Y + 4, 32, 32), true);
+            DrawTextureRect(_r.Textures.For(L.Entry(d.Tile)), new Rect2(rect.Position.X + 18, rect.Position.Y + 4, 32, 32), true);
         }
         else
         {
@@ -456,12 +465,14 @@ public partial class BuildScreen : Node2D
             line2 = e0.Do == "stat" ? $"{(e0.Amount.HasValue ? "+" + e0.Amount : "×" + e0.Permille / 1000 + "." + e0.Permille % 1000 / 100)} {Explain.StatWord(e0.Stat)}" : ShortAction(e0, null);
             cost = $"¥{d.Cost}";
             hint = $"{d.Name} · {Explain.Passives(_db, d.Effects).FirstOrDefault() ?? d.Flavor}";
-            DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(rect.Position.X + 10, rect.Position.Y + 4, 32, 32), false);
+            DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(rect.Position.X + 18, rect.Position.Y + 4, 32, 32), false);
         }
+        // Price first and large (D-68): the cost is the decision the shop asks; a tier band along the top edge for staff.
+        _font.Draw(this, rect.Position.X + 2, rect.Position.Y + 2, cost, _font.Large, Tones.Text("interface"));
+        if (tier > 0) DrawRect(new Rect2(rect.Position.X, rect.Position.Y, rect.Size.X, 2), Tones.Fill(Ui.TierTone(tier)));
         _font.Draw(this, rect.Position.X + 2, rect.Position.Y + 40, name.Length > 10 ? name[..10] : name, _font.Small, Tones.Text("interface"));
         _font.Draw(this, rect.Position.X + 2, rect.Position.Y + 50, line1, _font.Small, Tones.Text("interface"));
         _font.Draw(this, rect.Position.X + 2, rect.Position.Y + 60, line2, _font.Small, Tones.Text("interface"));
-        _font.Draw(this, rect.Position.X + 2, rect.Position.Y + 72, cost, _font.Small, Tones.Text("interface"));
         int i = index;
         _hits.Add(rect, () => PickCard(i), hint + " · tap the card to read more, then a tile to place");
     }

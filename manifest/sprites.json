@@ -4140,6 +4140,38 @@
       "overhang": null
     },
     {
+      "id": "ui.build.ready_shop",
+      "kind": "ui",
+      "category": "interface",
+      "label": "READY button under the shop",
+      "footprint": null,
+      "sprite": {
+        "w": 232,
+        "h": 20,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "assets/ui/ui/build/ready_shop.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build"
+      ],
+      "visibility": 1,
+      "reads": "The same commit where the thumb already is on touch (D-68); font.ui.16",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "layout": {
+        "x": 192,
+        "y": 312
+      },
+      "overhang": null
+    },
+    {
       "id": "ui.build.hint",
       "kind": "ui",
       "category": "interface",
@@ -5182,6 +5214,34 @@
       "overhang": null
     },
     {
+      "id": "fx.tower.window_occupant",
+      "kind": "fx",
+      "category": "people",
+      "label": "Window occupant",
+      "footprint": null,
+      "sprite": {
+        "w": 8,
+        "h": 8,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "asset": "assets/iso/fx/tower/window_occupant.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "iso",
+      "screens": [
+        "battle"
+      ],
+      "visibility": 2,
+      "reads": "One per employee in the facade, at its tile's column and row; tone by department (D-68)",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
       "id": "fx.window_burst",
       "kind": "fx",
       "category": "interface",
@@ -5210,7 +5270,7 @@
         "battle"
       ],
       "visibility": 2,
-      "reads": "A 4-frame burst; tone by damage kind",
+      "reads": "A 4-frame burst at the firer's window; tone by damage kind",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,

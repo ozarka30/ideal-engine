@@ -109,4 +109,23 @@ public class PlaybackTests
         Assert.Equal(v.Result.Entries.Length, Autopsy.Filter(v, new HashSet<string>(), new HashSet<string>(), new HashSet<long>()).Count);
         Assert.All(Autopsy.Filter(v, new HashSet<string> { "push" }, new HashSet<string>(), new HashSet<long>()), e => Assert.Equal("push", e.Kind));
     }
+
+    [Fact]
+    public void UnitBarsAreOrderedAndNeverExceedTheFloorTotals()
+    {
+        MatchView v = Fight("rival.boss_parent_company", "rival.boss_compliance_office");
+        foreach (string side in new[] { "A", "B" })
+        {
+            UnitTotals[] staff = Autopsy.UnitBars(v, side, 100);
+            Assert.NotEmpty(staff);
+            for (int i = 1; i < staff.Length; i++) Assert.True(staff[i - 1].Total >= staff[i].Total);
+            long floors = 0;
+            foreach (FloorTotals f in Autopsy.FloorBars(v)) floors += side == "A" ? f.A : f.B;
+            long units = 0;
+            foreach (UnitTotals u in staff) units += u.Total;
+            Assert.True(units <= floors, $"{side}: units {units} > floors {floors}");
+            Assert.True(units > 0);
+        }
+        Assert.Equal(3, Autopsy.UnitBars(v, "A", 3).Length);
+    }
 }

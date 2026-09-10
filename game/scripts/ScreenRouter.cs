@@ -42,6 +42,9 @@ public partial class ScreenRouter : Node
 
     public bool ScreenshotMode { get; private set; }
     public bool DriveMode { get; private set; }
+
+    /// <summary>The commit the build was made from (builds.yml writes build.txt into the data pack), or "dev".</summary>
+    public string BuildTag { get; private set; } = "dev";
     private readonly Queue<(string Name, string Scene)> _shots = new();
     private readonly Queue<JsonElement> _drive = new();
     private int _driveWait;
@@ -71,6 +74,9 @@ public partial class ScreenRouter : Node
             // The MCP server's run_project passes no arguments: a script parked at this path drives the run instead.
             LoadDrive(Path.Combine("tools", "dev", "drive", "current.json"));
         }
+        string tagFile = Path.Combine(RepoRoot, "build.txt");
+        if (File.Exists(tagFile)) BuildTag = File.ReadAllText(tagFile).Trim();
+        if (!ScreenshotMode && !DriveMode) DisplaySettings.Load().Apply(this);
         if (ScreenshotMode)
         {
             _shots.Enqueue(("greybox", "res://scenes/Greybox.tscn"));

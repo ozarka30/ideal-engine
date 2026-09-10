@@ -14,8 +14,8 @@ public class ManifestTests
     {
         ManifestReport report = ManifestValidator.Validate(Root, ContentLoader.Load(Root));
         Assert.Empty(report.Errors);
-        Assert.Equal(182, report.Coverage.Total);
-        Assert.Equal(179, report.Coverage.Gated);
+        Assert.Equal(184, report.Coverage.Total);
+        Assert.Equal(181, report.Coverage.Gated);
         Assert.Equal(13, report.Coverage.VerifyPending);
     }
 

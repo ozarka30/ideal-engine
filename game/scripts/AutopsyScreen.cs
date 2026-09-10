@@ -28,6 +28,8 @@ public partial class AutopsyScreen : Node2D
     private List<LedgerEntry> _filtered = new();
     private string[] _findings = Array.Empty<string>();
     private FloorTotals[] _bars = Array.Empty<FloorTotals>();
+    private UnitTotals[] _staff = Array.Empty<UnitTotals>();
+    private bool _staffView;
     private long[] _timeline = Array.Empty<long>();
 
     public override void _Ready()
@@ -37,6 +39,7 @@ public partial class AutopsyScreen : Node2D
         _playhead = _view.Result.EndTick;
         _findings = Autopsy.Findings(_view, _r.NameA, _r.NameB);
         _bars = Autopsy.FloorBars(_view);
+        _staff = Autopsy.UnitBars(_view, "A", 5);
         _timeline = Autopsy.Timeline(_view, Columns);
         Refilter();
         if (_r.ScreenshotMode) _playhead = 400;
@@ -91,16 +94,40 @@ public partial class AutopsyScreen : Node2D
         int px = tl.Position.X + (int)(_playhead / span) * colW;
         DrawLine(new Vector2(px, tl.Position.Y), new Vector2(px, tl.Position.Y + tl.Size.Y), Tones.Fill("invalid"), 1);
 
-        // Floors
+        // Floors, or the side's staff by output (D-68): the chart players sell by.
         Rect2I fl = L.Rect("ui.autopsy.floors");
         DrawRect(new Rect2(fl.Position, fl.Size), Tones.Fill("interface"));
+        _hits.Clear();
+        int tabH = 16;
+        var floorsTab = new Rect2I(fl.Position.X, fl.Position.Y, fl.Size.X / 2, tabH);
+        var staffTab = new Rect2I(fl.Position.X + fl.Size.X / 2, fl.Position.Y, fl.Size.X - fl.Size.X / 2, tabH);
+        Ui.Button(this, floorsTab, "FLOORS", _staffView ? "structure" : "operations");
+        Ui.Button(this, staffTab, "STAFF", _staffView ? "operations" : "structure");
+        _hits.Add(floorsTab, () => { _staffView = false; QueueRedraw(); }, "Output by floor, both sides");
+        _hits.Add(staffTab, () => { _staffView = true; QueueRedraw(); }, "Your five employees with the most output");
+        int rowH = (fl.Size.Y - tabH) / 5;
+        if (_staffView)
+        {
+            long smax = 1;
+            foreach (UnitTotals u in _staff) smax = Math.Max(smax, u.Total);
+            for (int i = 0; i < 5; i++)
+            {
+                int y = fl.Position.Y + tabH + i * rowH;
+                if (i >= _staff.Length) break;
+                UnitTotals u = _staff[i];
+                int barX = fl.Position.X + 2, barW = fl.Size.X - 4;
+                font.Draw(this, barX, y + 1, $"{LiveLedger.FloorName(u.FloorIndex)} {Ui.Abbrev(u.Name, 18)}", font.Small, Tones.Text("interface"));
+                DrawRect(new Rect2(barX, y + 11, (int)(barW * u.Total / smax), 6), Tones.Fill(Ui.SideTone("A")));
+                font.Draw(this, barX, y + 1, u.Total.ToString(), font.Small, Tones.Text("interface"), HorizontalAlignment.Right, barW);
+            }
+            if (_staff.Length == 0) font.Draw(this, fl.Position.X + 2, fl.Position.Y + tabH + 2, "nobody dealt anything", font.Small, Tones.Hatch("interface"));
+        }
         long max = 1;
         foreach (FloorTotals b in _bars) max = Math.Max(max, Math.Max(b.A, b.B));
-        int rowH = fl.Size.Y / 5;
-        for (int i = 4; i >= 0; i--)
+        for (int i = 4; i >= 0 && !_staffView; i--)
         {
             FloorTotals b = _bars[i];
-            int y = fl.Position.Y + (4 - i) * rowH;
+            int y = fl.Position.Y + tabH + (4 - i) * rowH;
             font.Draw(this, fl.Position.X + 2, y + 2, LiveLedger.FloorName(b.FloorIndex), font.Small, Tones.Text("interface"));
             int barX = fl.Position.X + 24;
             int barW = fl.Size.X - 28;
@@ -128,7 +155,6 @@ public partial class AutopsyScreen : Node2D
         // Filters
         Rect2I ft = L.Rect("ui.autopsy.filters");
         DrawRect(new Rect2(ft.Position, ft.Size), Tones.Fill("interface"));
-        _hits.Clear();
         int cx = ft.Position.X;
         void Chip(string label, bool active, Action toggle)
         {

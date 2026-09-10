@@ -127,6 +127,7 @@ public partial class BattleScreen : Node2D
             DrawTextureRect(_r.Textures.For(L.Entry(id)), new Rect2(rect.Position, rect.Size), false, leased ? Colors.White : new Color(1, 1, 1, 0.5f));
             _r.Font.Draw(this, rect.Position.X + 2, rect.Position.Y + 2, LiveLedger.FloorName(f), _r.Font.Small, Tones.Text("structure"));
         }
+        DrawOccupants(side, snap, tick);
         Rect2I top = SegmentRect(side, 3);
         Rect2I roof = L.At("fx.tower.roof", top.Position.X + top.Size.X / 2, top.Position.Y);
         DrawTextureRect(_r.Textures.For(L.Entry("fx.tower.roof")), new Rect2(roof.Position, roof.Size), false);
@@ -136,6 +137,47 @@ public partial class BattleScreen : Node2D
             DrawTextureRect(_r.Textures.For(L.Entry("fx.tower.basement")), new Rect2(b1.Position, b1.Size), false);
         }
         _ = tick;
+    }
+
+    /// <summary>
+    /// Every employee is visible in its facade (D-68): a window marker at its tile's column and row, in its
+    /// department's tone; side B's columns run from the right so the towers face each other. A marker lights in
+    /// the burst tone for a second after its unit fires, which is what the references' hit animations tell.
+    /// </summary>
+    private void DrawOccupants(string side, TowerSnapshot snap, long tick)
+    {
+        long life = _view.Rules.TicksPerSecond;
+        foreach (UnitInfo u in _view.Units)
+        {
+            if (u.Unit.Side != side) continue;
+            Rect2I m = OccupantRect(side, u.Unit, snap);
+            // The hatch shade so every department, including the structure-toned ones, stands off the segment.
+            string tone = Ui.DeptTone(u.Dept);
+            Color fill = Tones.Hatch(tone);
+            foreach (LedgerEntry e in _view.EntriesBetween(tick - life + 1, tick))
+            {
+                if (e.SourceUnit != u.Unit.UnitIndex || e.Kind is not ("push" or "anomaly" or "restore" or "status" or "retrigger" or "morale")) continue;
+                fill = Tones.Text(Tones.ForKind(e.Kind)).Inverted();
+                break;
+            }
+            DrawRect(new Rect2(m.Position, m.Size), fill);
+            DrawRect(new Rect2(m.Position, m.Size), Tones.Border(tone), false);
+        }
+    }
+
+    /// <summary>The window an employee looks out of: its tile's column and row mapped onto the 96 × 32 segment.</summary>
+    private Rect2I OccupantRect(string side, OrderedUnit u, TowerSnapshot snap)
+    {
+        Rect2I seg = SegmentRect(side, (int)u.FloorIndex);
+        SnapshotFloor? floor = null;
+        foreach (SnapshotFloor f in snap.Floors) if (f.Index == u.FloorIndex) { floor = f; break; }
+        int cols = (int)Math.Max(1, floor?.Grid.W ?? 1), rows = (int)Math.Max(1, floor?.Grid.H ?? 1);
+        int pitchX = seg.Size.X / cols, pitchY = seg.Size.Y / rows;
+        int cx = side == "A"
+            ? seg.Position.X + pitchX * (int)u.Col + pitchX / 2
+            : seg.Position.X + seg.Size.X - pitchX * (int)u.Col - pitchX / 2;
+        int cy = seg.Position.Y + pitchY * (int)u.Row + pitchY / 2;
+        return _r.Layout.At("fx.tower.window_occupant", cx, cy);
     }
 
     private void DrawBursts(long tick)
@@ -148,9 +190,10 @@ public partial class BattleScreen : Node2D
             if (e.Kind is not ("push" or "anomaly" or "restore" or "status" or "retrigger" or "morale")) continue;
             if (Array.IndexOf(e.Tags, "self_cost") >= 0) continue;
             long age = tick - e.Tick;
-            Rect2I seg = SegmentRect(e.SourceSide, (int)u.Unit.FloorIndex);
-            int cx = seg.Position.X + seg.Size.X / 2;
-            int cy = seg.Position.Y + seg.Size.Y / 2;
+            // The burst leaves the firer's window (D-68), not the segment's centre.
+            Rect2I window = OccupantRect(e.SourceSide, u.Unit, e.SourceSide == "A" ? _view.SnapshotA : _view.SnapshotB);
+            int cx = window.Position.X + window.Size.X / 2;
+            int cy = window.Position.Y + window.Size.Y / 2;
             Rect2I burst = L.At("fx.window_burst", cx, cy);
             Color tone = Tones.Fill(Tones.ForKind(e.Kind));
             tone.A = 1f - (float)age / life;
@@ -173,6 +216,19 @@ public partial class BattleScreen : Node2D
         int aWidth = (int)(r.Size.X * share / total);
         DrawRect(new Rect2(r.Position.X, r.Position.Y, aWidth, r.Size.Y), Tones.Fill(Ui.SideTone("A")));
         DrawRect(new Rect2(r.Position.X + aWidth, r.Position.Y, r.Size.X - aWidth, r.Size.Y), Tones.Fill(Ui.SideTone("B")));
+        // Lead-change cue (D-68): the new leader's half brightens for a second after the bar crosses the middle.
+        long half = total / 2;
+        long life = _view.Rules.TicksPerSecond;
+        for (long t = tick; t > tick - life && t > 0; t--)
+        {
+            bool before = _view.Share(t - 1) > half, after = _view.Share(t) > half;
+            if (before == after) continue;
+            Color glow = Tones.Hatch(Ui.SideTone(after ? "A" : "B"));
+            glow.A = 1f - (float)(tick - t) / life;
+            if (after) DrawRect(new Rect2(r.Position.X, r.Position.Y, aWidth, r.Size.Y), glow);
+            else DrawRect(new Rect2(r.Position.X + aWidth, r.Position.Y, r.Size.X - aWidth, r.Size.Y), glow);
+            break;
+        }
         for (int i = 1; i < 10; i++)
         {
             int x = r.Position.X + r.Size.X * i / 10;

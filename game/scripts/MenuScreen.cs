@@ -6,6 +6,7 @@ namespace CompanyWars.Game;
 public partial class MenuScreen : Node2D
 {
     private Rect2I _newRun;
+    private Rect2I _settings;
     private Rect2I _debug;
 
     public override void _Ready() => QueueRedraw();
@@ -19,10 +20,14 @@ public partial class MenuScreen : Node2D
         r.Font.Draw(this, 0, 116, "greybox · M2 vertical slice", r.Font.Small, Tones.Hatch("interface"), HorizontalAlignment.Center, L.CanvasW);
         Vector2I size = L.Size("ui.menu.button");
         _newRun = new Rect2I((L.CanvasW - size.X) / 2, 160, size.X, size.Y);
-        _debug = new Rect2I((L.CanvasW - size.X) / 2, 184, size.X, size.Y);
+        _settings = new Rect2I((L.CanvasW - size.X) / 2, 184, size.X, size.Y);
+        _debug = new Rect2I((L.CanvasW - size.X) / 2, 208, size.X, size.Y);
         Ui.Button(this, _newRun, "NEW RUN", "operations");
+        Ui.Button(this, _settings, "SETTINGS", "interface");
         Ui.Button(this, _debug, "DEBUG FIGHT", "interface");
-        r.Font.Draw(this, 0, 220, "Enter starts a run", r.Font.Small, Tones.Hatch("interface"), HorizontalAlignment.Center, L.CanvasW);
+        r.Font.Draw(this, 0, 244, "Enter starts a run", r.Font.Small, Tones.Hatch("interface"), HorizontalAlignment.Center, L.CanvasW);
+        // The build tag (D-68): a tester's report names a commit, not a weekday.
+        r.Font.Draw(this, 0, L.CanvasH - 12, $"build {r.BuildTag}", r.Font.Small, Tones.Hatch("interface"), HorizontalAlignment.Right, L.CanvasW - 8);
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -32,6 +37,7 @@ public partial class MenuScreen : Node2D
         if (@event is not InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left } click) return;
         var p = new Vector2I((int)click.Position.X, (int)click.Position.Y);
         if (_newRun.Grow(Hits.TouchSlop).HasPoint(p)) ScreenRouter.Instance.Go("res://scenes/Founder.tscn");
+        else if (_settings.Grow(Hits.TouchSlop).HasPoint(p)) ScreenRouter.Instance.Go("res://scenes/Settings.tscn");
         else if (_debug.Grow(Hits.TouchSlop).HasPoint(p)) ScreenRouter.Instance.Go("res://scenes/Picker.tscn");
     }
 }

@@ -30,7 +30,7 @@ jobs:
       - name: build libraries
         run: dotnet build CompanyWars.sln --configuration Release
       - name: pack content, schema and manifest into the resource pack
-        run: mkdir -p game/data && cp -r content schema manifest game/data/
+        run: mkdir -p game/data && cp -r content schema manifest game/data/ && git rev-parse --short HEAD > game/data/build.txt
       - name: import
         run: godot --headless --path game --import
       - name: export

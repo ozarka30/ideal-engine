@@ -5,6 +5,9 @@ namespace CompanyWars.Playback;
 /// <summary>Totals a floor's units dealt, per side (GAME_DESIGN.md §19.3 per-floor bars).</summary>
 public sealed record FloorTotals(long FloorIndex, long A, long B);
 
+/// <summary>One employee's total Push + Morale + Anomaly dealt, for the STAFF view of the autopsy bars (D-68).</summary>
+public sealed record UnitTotals(long UnitIndex, string Name, long FloorIndex, long Total);
+
 /// <summary>The autopsy's derived views: the share timeline, the per-floor bars, the three findings, the filtered ledger.</summary>
 public static class Autopsy
 {
@@ -39,6 +42,22 @@ public static class Autopsy
         var rows = new FloorTotals[5];
         for (int i = 0; i < 5; i++) rows[i] = new FloorTotals(i - 1, a[i], b[i]);
         return rows;
+    }
+
+    /// <summary>The side's employees by output, most first, at most <paramref name="top"/>: the chart players sell by.</summary>
+    public static UnitTotals[] UnitBars(MatchView view, string side, int top)
+    {
+        var totals = new Dictionary<long, long>();
+        foreach (LedgerEntry e in view.Result.Entries)
+        {
+            if (e.Kind != "push" && e.Kind != "anomaly" && e.Kind != "morale") continue;
+            if (Array.IndexOf(e.Tags, "self_cost") >= 0) continue;
+            if (e.SourceSide != side || e.SourceUnit < 0) continue;
+            totals[e.SourceUnit] = totals.GetValueOrDefault(e.SourceUnit) + e.Raw;
+        }
+        return totals.OrderByDescending(kv => kv.Value).ThenBy(kv => kv.Key).Take(top)
+            .Select(kv => new UnitTotals(kv.Key, view.Unit(kv.Key)?.Name ?? $"unit {kv.Key}", view.Unit(kv.Key)?.Unit.FloorIndex ?? 0, kv.Value))
+            .ToArray();
     }
 
     /// <summary>Three findings, each a short sentence, in order of what most explains the result.</summary>

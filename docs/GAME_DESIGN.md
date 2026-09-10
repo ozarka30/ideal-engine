@@ -966,6 +966,7 @@ Fonts: `font.ui.8` is an 8-pixel-line pixel font with variable-width glyphs aver
 | Region | Rect | Contents |
 | --- | --- | --- |
 | `ui.build.topbar` | (0, 0, 640, 24) | Round `Q3 · FIGHT 7/16` at (8, 8); Budget `¥ 24` at (200, 8); upkeep `−¥4/qtr` at (280, 8); five strike icons 8×8 from (400, 8); **READY** button (552, 4, 80, 16) |
+| `ui.build.ready_shop` | (192, 312, 232, 20) | A second **READY** under the shop's lease row in `font.ui.16`, where the thumb already is on touch (D-68); the top-right one stays for keyboard and mouse |
 | `ui.build.tower` | (8, 32, 176, 304) | Elevator shaft (8, 32, 16, 304) with floor labels drawn inside it; three floor viewports stacked: above at y=32, **selected** at y=136, below at y=240, each 160 × 96 at x=24. Unselected floors dimmed 50%, still interactive. Scrolls by whole floors |
 | `ui.build.shop` | (192, 32, 232, 304) | Tab bar (192, 32, 232, 16); four cards 52 × 80 at x = 192, 248, 304, 360, y = 56; Otherworld row label (192, 140, 232, 8) and two cards at x = 192, 248, y = 152; Lease section (192, 240, 232, 64) with three buttons 72 × 24 at x = 192, 272, 352, y = 260 |
 | `ui.build.inspector` | (432, 32, 200, 304) | Portrait slot 64 × 64 at (440, 40); name `font.ui.8` at (512, 40); dept and tier at (512, 50); from y = 112 (D-65): the aura and floor multiplier where it stands, then *WHAT IT DOES* — the ability as a sentence, its passives, a one-line glossary of the kind it deals — and *WHERE TO PUT IT* — the rooms that boost its department, the furniture it likes beside it, its reach, the floor multipliers; while a shop card is carried the inspector shows the same block for the card; for a room, the comparison block (440, 276, 184, 24) — *here ×1.40 · Tier II* / *on 2F ×1.38 now, ×1.61 by round 14* / *relocate: −3 Tenure rounds, ¥13*; action buttons at y = 308: **LAY OFF · ¥1** (440, 308, 184, 20) for staff, or **RELOCATE · ¥13** (440, 308, 90, 20) and **DEMOLISH · ¥13** (534, 308, 90, 20) for rooms |
@@ -995,7 +996,8 @@ y = 160 until the portal is open. Ready has no confirmation.
 | `fx.tower.floor_segment` | 96 × 32, anchor bottom-centre | One per above-ground floor. Tower A stacks upward from (200, 280); Tower B from (440, 280). Four segments: G at the base, 3F at the top, y = 280, 248, 216, 184 |
 | `fx.tower.roof` | 96 × 16, anchor bottom-centre | Above the top segment |
 | `fx.tower.basement` | 96 × 24, anchor top-centre | B1, drawn below street level at y = 280, darker tone |
-| `fx.window_burst` | 16 × 16, anchor centre | Spawned at a floor segment's centre when an ability from that floor resolves; tone by kind; a floating `font.ui.8` number rises 16 px over 20 ticks |
+| `fx.tower.window_occupant` | 8 × 8, anchor centre | One per employee, at its tile's column and row mapped onto the segment (side B's columns run from the right so the towers face each other); tone by department; lights in the burst tone for a second after the employee fires (D-68) |
+| `fx.window_burst` | 16 × 16, anchor centre | Spawned at the firer's window when an ability resolves (D-68; was the segment's centre); tone by kind; a floating `font.ui.8` number rises 16 px over 20 ticks |
 | `ui.battle.ledger.a` | (8, 304, 308, 56) | Header line, then six lines at 8 px |
 | `ui.battle.ledger.b` | (324, 304, 308, 56) | Same |
 | `ui.battle.floor_inset` | 168 × 104, anchored at the hovered segment, clamped to screen | The hovered floor's top-down grid at 1×, employees drawn, the most recent firer highlighted |
@@ -1016,7 +1018,7 @@ after.
 | --- | --- | --- |
 | `ui.autopsy.banner` | (0, 0, 640, 24) | `Q7 · LOST · 38.1% MARKET SHARE` |
 | `ui.autopsy.timeline` | (8, 32, 624, 48) | Market Share over time: sixty columns of 10 px, month boundaries as 1-pixel lines, a draggable playhead |
-| `ui.autopsy.floors` | (8, 88, 200, 120) | Five rows, one per floor slot, each with two horizontal bars (A, B) of total Push + Morale + Anomaly dealt, labelled |
+| `ui.autopsy.floors` | (8, 88, 200, 120) | A FLOORS / STAFF toggle across the top (16 px). FLOORS: five rows, one per floor slot, each with two horizontal bars (A, B) of total Push + Morale + Anomaly dealt, labelled. STAFF: your five employees with the most output, one bar each with the floor and the number (D-68), the chart players sell by |
 | `ui.autopsy.findings` | (8, 216, 200, 120) | Three findings, `font.ui.8`, up to three lines each |
 | `ui.autopsy.filters` | (216, 88, 416, 16) | Chips: `ALL PUSH MORALE ANOMALY REGEN STATUS` and `A B` and `G 1 2 3 B1` |
 | `ui.autopsy.ledger` | (216, 108, 416, 228) | Full ledger, 8 px rows, scroll; the playhead selects the row |
@@ -1059,7 +1061,7 @@ the player has held. Discovered ones draw the sprites.
 | `ui.founder.header` | (0, 0, 640, 24) | `CHOOSE A FOUNDER` |
 | `ui.founder.grid` | (16, 40, 608, 208) | Eight founder cards in four columns at x = 16 + col × 152 and two rows at y = 40 + row × 104, each card centred in its 152 × 104 cell |
 | `ui.founder.card` | 72 × 96 | Portrait slot (4, 4, 64, 64); name (4, 72, 64, 8); title (4, 82, 64, 8). Selected state distinct. A reserved trait line below the title stays empty in v1 |
-| `ui.founder.bio` | (16, 256, 608, 40) | The selected founder's bio, up to four lines |
+| `ui.founder.bio` | (16, 256, 608, 40) | The selected founder's bio, up to three lines, then the stakes line in the hatch tone: starting budget, roster and floor, and the founder passive or "no founder passive in this build" (D-68, D-46) |
 | `ui.founder.firm_name` | (16, 304, 240, 16) | Text field; default is the founder's surname plus *Holdings*. Typing is optional and never required — no screen in the game requires text input (D-55), because the Steam Deck's on-screen keyboard is drawn by an overlay the stack may not have |
 | `ui.founder.confirm` | (504, 304, 120, 16) | **FOUND THE FIRM** |
 
@@ -1072,7 +1074,7 @@ effect in that list, applied like a modifier, and the sim already reads it.
 
 | Entity | Sprite | Anchor | Footprint | `sortBias` | Notes |
 | --- | --- | --- | --- | --- | --- |
-| `ui.card.applicant` | 52 × 80 | top-left | — | 0 | Portrait slot (10, 4, 32, 32) = idle sprite frame; name (2, 40, 48, 8); dept icon 8×8 at (2, 50) + tier pips; ability (2, 60, 48, 16), two lines; cost tag (2, 72, 20, 8); rider strip replaces ability line 2 for extraplanar |
+| `ui.card.applicant` | 52 × 80 | top-left | — | 0 | Cost first: `¥2` in `font.ui.16` at (2, 2), the card's largest mark (D-68); a 52 × 2 tier band along the top edge in the tier tone (T1 interface, T2 support, T3 operations); portrait slot (18, 4, 32, 32) = idle sprite frame; name (2, 40, 48, 8); dept, tier and cooldown (2, 50, 48, 8); the ability in two words (2, 60, 48, 8); rider strip replaces the ability line for extraplanar |
 | `ui.card.room` | 52 × 80 | top-left | — | 0 | Footprint diagram 32 × 32 at (10, 4), 8 px per cell; name; aura line; legal floors as up to five 6 × 6 glyphs at (2, 60); cost tag |
 | `ui.card.furniture` | 52 × 80 | top-left | — | 0 | Sprite at (10, 4); name; effect line; cost |
 | `emp.*` | 32 × 32 | bottom-centre | 1 × 1 | 0 | Down-facing idle frame in build view |
