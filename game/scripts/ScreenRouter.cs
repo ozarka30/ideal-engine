@@ -433,7 +433,8 @@ public sealed class PixelFont
     /// <summary>A screen's own title (D-75): Honeyblot Caps at a 32px line, exactly 2x Large.</summary>
     public int Title => 32;
 
-    private Font FaceFor(int size) => size >= Large ? _large : _small;
+    /// <summary>The body face is the 8 px line; anything larger is a header in caps, such as a card's price (D-82).</summary>
+    private Font FaceFor(int size) => size > Small ? _large : _small;
 
     /// <summary>Draws with (x, y) as the top-left of the line box: an 8 px line at size 8, exactly 16 at size 16.</summary>
     public void Draw(CanvasItem c, int x, int y, string text, int size, Color color, HorizontalAlignment align = HorizontalAlignment.Left, int width = -1)

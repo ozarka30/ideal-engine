@@ -28,6 +28,22 @@ public sealed class SceneLayout
     }
 
     private System.Collections.Generic.Dictionary<string, (Vector2 Position, Vector2 Size)>? _snapshot;
+    private System.Collections.Generic.Dictionary<string, Color>? _tints;
+
+    /// <summary>
+    /// A ColorRect slot's colour, for the rare slot whose colour is the design rather than a guide's -- a
+    /// lease screen's tint (D-83). Read like a box: from the snapshot for a widget, from the node for a screen.
+    /// </summary>
+    public Color Tint(string name)
+    {
+        if (_tints != null)
+        {
+            return _tints.TryGetValue(name, out Color c) ? c
+                : throw new InvalidOperationException($"{_screen}: Layout has no ColorRect named '{name}' (D-77)");
+        }
+        return (_root.GetNodeOrNull(name) as ColorRect)?.Color
+               ?? throw new InvalidOperationException($"{_screen}: Layout has no ColorRect named '{name}' (D-77)");
+    }
 
     private (Vector2 Position, Vector2 Size) Read(string name)
     {
@@ -87,9 +103,11 @@ public sealed class SceneLayout
         // Snapshot the offsets and free the scene. A widget is read, never shown: keeping the
         // instance alive would hold its textures open and leak them at exit.
         layout._snapshot = new System.Collections.Generic.Dictionary<string, (Vector2, Vector2)>();
+        layout._tints = new System.Collections.Generic.Dictionary<string, Color>();
         foreach (Node child in layout._root.GetChildren())
         {
             layout._snapshot[child.Name] = Box(child);
+            if (child is ColorRect rect) layout._tints[child.Name] = rect.Color;
         }
         scene.Free();
         _widgets[path] = layout;

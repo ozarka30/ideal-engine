@@ -5,7 +5,7 @@ without art, most visible first (ART_PIPELINE.md §7.3). Create the file at the 
 game uses it in place of the placeholder; `dotnet run --project src/CompanyWars.Tools -- validate-manifest`
 rejects a wrong size. Paths are relative to the repository root. Anchor is the point the layout places.
 
-92 slots without art of 191.
+91 slots without art of 193.
 
 | # | Slot | File | Size | Anchor | Footprint | Frames | Screens | Reads as | Candidate source |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -28,76 +28,75 @@ rejects a wrong size. Paths are relative to the repository root. Anchor is the p
 | 17 | `ui.aura_badge` | `game/assets/ui/ui/aura_badge.png` | 12×8 | (1.0, 0.0) | — | — | build | 'x1.2' in font.ui.8 on a tag, top-right of the tile |  |
 | 18 | `ui.build.hint` | `game/assets/ui/ui/build/hint.png` | 640×16 | top-left | — | — | build | One line of font.ui.8 |  |
 | 19 | `ui.build.landing_highlight` | `game/assets/ui/ui/build/landing_highlight.png` | 1×32 | top-left | — | — | build | A 1px vertical highlight on the left edge of landing tiles |  |
-| 20 | `ui.build.lease_button` | `game/assets/ui/ui/build/lease_button.png` | 72×24 | top-left | — | — | build | Floor name, price, projected upkeep |  |
-| 21 | `ui.build.nearmiss_glyph` | `game/assets/ui/ui/build/nearmiss_glyph.png` | 8×8 | centre | — | — | build | A small '?' that flickers once |  |
-| 22 | `ui.build.promote_glyph` | `game/assets/ui/ui/build/promote_glyph.png` | 16×16 | centre | — | — | build | An unmistakable 'combine available' mark, pulsing |  |
-| 23 | `ui.build.room_compare` | `game/assets/ui/ui/build/room_compare.png` | 184×24 | top-left | — | — | build | Three lines of font.ui.8 for a selected room: 'here x1.40 · Tier II'; 'on 2F x1.38 now, x1.61 by round 14'; 'relocate: -3 Tenure rounds, ¥13' |  |
-| 24 | `ui.build.shaft` | `game/assets/ui/ui/build/shaft.png` | 16×304 | top-left | — | — | build | A vertical shaft with floor labels; the landing column sits to its right | Office Interior (elevator doors) |
-| 25 | `ui.build.shop` | `game/assets/ui/ui/build/shop.png` | 232×304 | top-left | — | — | build | Panel with tab bar, card rows, Otherworld row, Lease section |  |
-| 26 | `ui.build.tab` | `game/assets/ui/ui/build/tab.png` | 76×16 | top-left | — | — | build | STAFF / ROOMS / FURNITURE tab, selected state distinct |  |
-| 27 | `ui.build.topbar` | `game/assets/ui/ui/build/topbar.png` | 640×24 | top-left | — | — | build | Round, budget, upkeep, strikes, READY |  |
-| 28 | `ui.build.tower` | `game/assets/ui/ui/build/tower.png` | 176×304 | top-left | — | — | build | Frame around the three-floor viewport |  |
-| 29 | `ui.invalid_tile` | `game/assets/ui/ui/invalid_tile.png` | 32×32 | top-left | — | — | build | Unmissable red over a tile for one flash |  |
-| 30 | `ui.link_line` | `game/assets/ui/ui/link_line.png` | 1×1 | top-left | — | — | build | 1px line from furniture to each triggered employee; tiles the length |  |
-| 31 | `ui.portrait` | `game/assets/ui/ui/portrait.png` | 96×96 | top-left | — | — | build | A face. Larger than the sprite, same character | Portraits pack, transparent_bg (96x96, D-71) |
-| 32 | `ui.room_sign` | `game/assets/ui/ui/room_sign.png` | 32×8 | top-left | — | — | build | A label strip: room name in font.ui.8 with up to three Tenure pips at the right |  |
-| 33 | `ui.tenure_pip` | `game/assets/ui/ui/tenure_pip.png` | 4×4 | top-left | — | — | build | A filled 4x4 pip; up to three in the sign |  |
-| 34 | `room.corner_office.tile` | `game/assets/topdown/room/corner_office/tile.png` | 32×96 | bottom-left | 1x2 | — | build, battle.inset, shop | The room itself at 1x2 tiles: floor, and fittings along the back row that say 'Corner Office' without a label. Every tile stays walkable — people stand here | tools/dev/rooms/corner_office.room |
-| 35 | `room.executive_lounge.tile` | `game/assets/topdown/room/executive_lounge/tile.png` | 64×96 | bottom-left | 2x2 | — | build, battle.inset, shop | The room itself at 2x2 tiles: floor, and fittings along the back row that say 'Executive Lounge' without a label. Every tile stays walkable — people stand here | tools/dev/rooms/executive_lounge.room |
-| 36 | `room.security_desk.tile` | `game/assets/topdown/room/security_desk/tile.png` | 32×96 | bottom-left | 1x2 | — | build, battle.inset, shop | The room itself at 1x2 tiles: floor, and fittings along the back row that say 'Security Desk' without a label. Every tile stays walkable — people stand here | tools/dev/rooms/security_desk.room |
-| 37 | `furn.copier` | `game/assets/topdown/furn/copier.png` | 32×32 | bottom-centre | 1x1 | — | build, shop, battle.inset | The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile | Office Interior |
-| 38 | `furn.executive_desk` | `game/assets/topdown/furn/executive_desk.png` | 32×64 | bottom-centre | 1x2 | — | build, shop, battle.inset | The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile | Office Interior |
-| 39 | `furn.fax_machine` | `game/assets/topdown/furn/fax_machine.png` | 32×32 | bottom-centre | 1x1 | — | build, shop, battle.inset | The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile | Office Interior |
-| 40 | `furn.monitoring_station` | `game/assets/topdown/furn/monitoring_station.png` | 32×64 | bottom-centre | 1x2 | — | build, shop, battle.inset | The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile | Office Interior |
-| 41 | `furn.shredder` | `game/assets/topdown/furn/shredder.png` | 32×32 | bottom-centre | 1x1 | — | build, shop, battle.inset | The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile | Office Interior |
-| 42 | `furn.yakult_cart` | `game/assets/topdown/furn/yakult_cart.png` | 32×32 | bottom-centre | 1x1 | — | build, shop, battle.inset | The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile | Office Interior |
-| 43 | `ui.status.bureaucracy` | `game/assets/ui/ui/status/bureaucracy.png` | 8×8 | top-left | — | — | battle.inset, autopsy, build | The status at 8px, with a stack count beside it |  |
-| 44 | `ui.status.burnout` | `game/assets/ui/ui/status/burnout.png` | 8×8 | top-left | — | — | battle.inset, autopsy, build | The status at 8px, with a stack count beside it |  |
-| 45 | `ui.status.frozen` | `game/assets/ui/ui/status/frozen.png` | 8×8 | top-left | — | — | battle.inset, autopsy, build | The status at 8px, with a stack count beside it |  |
-| 46 | `ui.status.overtime` | `game/assets/ui/ui/status/overtime.png` | 8×8 | top-left | — | — | battle.inset, autopsy, build | The status at 8px, with a stack count beside it |  |
-| 47 | `ui.autopsy.banner` | `game/assets/ui/ui/autopsy/banner.png` | 640×24 | top-left | — | — | autopsy | Result line |  |
-| 48 | `ui.autopsy.filters` | `game/assets/ui/ui/autopsy/filters.png` | 416×16 | top-left | — | — | autopsy | Kind, side and floor chips; selected state distinct |  |
-| 49 | `ui.autopsy.findings` | `game/assets/ui/ui/autopsy/findings.png` | 200×120 | top-left | — | — | autopsy | Three findings in font.ui.8 |  |
-| 50 | `ui.autopsy.floors` | `game/assets/ui/ui/autopsy/floors.png` | 200×120 | top-left | — | — | autopsy | Five rows, two bars each, labelled |  |
-| 51 | `ui.autopsy.timeline` | `game/assets/ui/ui/autopsy/timeline.png` | 624×48 | top-left | — | — | autopsy | 60 columns of 10px, month lines, draggable playhead |  |
-| 52 | `ui.battle.banner` | `game/assets/ui/ui/battle/banner.png` | 160×12 | top-left | — | — | battle | '— CRUNCH —' centred; slides in dimmed one second early |  |
-| 53 | `ui.battle.bar` | `game/assets/ui/ui/battle/bar.png` | 320×12 | top-left | — | — | battle | Two-colour fill from 50/50, 10% ticks, percent labels at both ends |  |
-| 54 | `ui.battle.controls` | `game/assets/ui/ui/battle/controls.png` | 72×16 | top-left | — | — | battle | 1x 2x 4x and skip; left of founder B's badge, which starts at x=596 |  |
-| 55 | `ui.battle.floor_inset` | `game/assets/ui/ui/battle/floor_inset.png` | 168×104 | top-left | — | — | battle | A 4px frame around a 160x96 top-down floor; most recent firer highlighted |  |
-| 56 | `ui.battle.goodwill_bar` | `game/assets/ui/ui/battle/goodwill_bar.png` | 200×16 | top-left | — | — | battle | A frame whose right (or left, mirrored) end marks the live cap; fill inside it; number in font.ui.16 overlaid; dims when suppressed; flashes on break |  |
-| 57 | `ui.battle.ledger_rollup` | `game/assets/ui/ui/battle/ledger_rollup.png` | 308×8 | top-left | — | — | battle | '+3 more · Fl.2' dimmed |  |
-| 58 | `ui.battle.result` | `game/assets/ui/ui/battle/result.png` | 640×24 | top-left | — | — | battle | 'Q7 · WON · 71.2% MARKET SHARE' |  |
-| 59 | `ui.build.floor_void` | `game/assets/ui/ui/build/floor_void.png` | 32×32 | top-left | — | — | build | Hatched tile filling the unused part of a 4x2 or 3x3 floor's 160x96 slot |  |
-| 60 | `fx.floating_number` | `game/assets/ui/fx/floating_number.png` | 40×8 | centre | — | — | battle | font.ui.8 digits rising 16px over 20 ticks |  |
-| 61 | `fx.tower.window_occupant` | `game/assets/exterior/fx/tower/window_occupant.png` | 8×8 | centre | — | — | battle | One per employee, filling its window in the facade's 5x3 grid; tone by department (D-68) |  |
-| 62 | `fx.window_burst` | `game/assets/exterior/fx/window_burst.png` | 16×16 | centre | — | burst ×4 | battle | A 4-frame burst at the firer's window; tone by damage kind |  |
-| 63 | `bg.battle.street` | `game/assets/exterior/bg/battle/street.png` | 640×360 | top-left | — | — | battle | A Japanese city street at dusk seen front-on, two lots facing each other across it | Osaka / Dotonbori / Dark Tokyo street tiles |
-| 64 | `ui.card.otherworld` | `game/assets/ui/ui/card/otherworld.png` | 52×80 | top-left | — | — | build, shop | As applicant card in the anomalous tone with a rider strip |  |
-| 65 | `ui.codex.header` | `game/assets/ui/ui/codex/header.png` | 640×24 | top-left | — | — | codex | 'CODEX · 14 / 40', class chips, page arrows |  |
-| 66 | `ui.codex.recipe` | `game/assets/ui/ui/codex/recipe.png` | 176×40 | top-left | — | — | codex | Three input slots 32x32 at x=4,40,76; arrow 16x8 at (112,12); result slot at (132,4); class glyph 8x8 at (168,4) |  |
-| 67 | `ui.codex.slot_outline` | `game/assets/ui/ui/codex/slot_outline.png` | 32×32 | top-left | — | — | codex | A dashed outline |  |
-| 68 | `ui.map.dossier` | `game/assets/ui/ui/map/dossier.png` | 200×88 | top-left | — | — | map | Name, archetype, floors, gimmick, a 5-cell floor strip at (4,64) of 16x8 cells |  |
-| 69 | `ui.map.dossier_badge` | `game/assets/ui/ui/map/dossier_badge.png` | 36×36 | top-left | — | — | map | A 2px frame around the rival founder's 32x32 badge at (160,4) inside the dossier |  |
-| 70 | `ui.map.floor_cell` | `game/assets/ui/ui/map/floor_cell.png` | 16×8 | top-left | — | — | map | Occupied / empty cell |  |
-| 71 | `ui.map.header` | `game/assets/ui/ui/map/header.png` | 640×24 | top-left | — | — | map | Act name and strikes |  |
-| 72 | `ui.map.legend` | `game/assets/ui/ui/map/legend.png` | 640×24 | top-left | — | — | map | Six node kinds with names |  |
-| 73 | `ui.map.marker` | `game/assets/ui/ui/map/marker.png` | 16×16 | centre | — | — | map | The player's position: a small building or crest |  |
-| 74 | `ui.map.path` | `game/assets/ui/ui/map/path.png` | 1×1 | top-left | — | — | map | 1px path; tiles the length |  |
-| 75 | `ui.menu.button` | `game/assets/ui/ui/menu/button.png` | 160×16 | top-left | — | — | menu | A labelled button with hover state |  |
-| 76 | `ui.codex.arrow` | `game/assets/ui/ui/codex/arrow.png` | 16×8 | top-left | — | — | codex | An arrow |  |
-| 77 | `ui.codex.class.promotion` | `game/assets/ui/ui/codex/class/promotion.png` | 8×8 | top-left | — | — | codex | The class at 8px |  |
-| 78 | `ui.codex.class.renovation` | `game/assets/ui/ui/codex/class/renovation.png` | 8×8 | top-left | — | — | codex | The class at 8px |  |
-| 79 | `ui.codex.class.ritual` | `game/assets/ui/ui/codex/class/ritual.png` | 8×8 | top-left | — | — | codex | The class at 8px |  |
-| 80 | `ui.map.node.audit` | `game/assets/ui/ui/map/node/audit.png` | 24×24 | centre | — | — | map | The node kind at 24px, distinct from the other five at a glance |  |
-| 81 | `ui.map.node.board` | `game/assets/ui/ui/map/node/board.png` | 24×24 | centre | — | — | map | The node kind at 24px, distinct from the other five at a glance |  |
-| 82 | `ui.map.node.boss` | `game/assets/ui/ui/map/node/boss.png` | 24×24 | centre | — | — | map | The node kind at 24px, distinct from the other five at a glance |  |
-| 83 | `ui.map.node.consultant` | `game/assets/ui/ui/map/node/consultant.png` | 24×24 | centre | — | — | map | The node kind at 24px, distinct from the other five at a glance |  |
-| 84 | `ui.map.node.recruiter` | `game/assets/ui/ui/map/node/recruiter.png` | 24×24 | centre | — | — | map | The node kind at 24px, distinct from the other five at a glance |  |
-| 85 | `ui.map.node.takeover` | `game/assets/ui/ui/map/node/takeover.png` | 24×24 | centre | — | — | map | The node kind at 24px, distinct from the other five at a glance |  |
-| 86 | `bg.map` | `game/assets/exterior/bg/map.png` | 640×360 | top-left | — | — | map | A city district seen from above, muted, paths readable over it | Osaka / Kanagawa street and roof tiles |
-| 87 | `bg.menu` | `game/assets/exterior/bg/menu.png` | 640×360 | top-left | — | — | menu | The tower at night from the street | Backgrounds pack |
-| 88 | `ui.debug.coverage` | `game/assets/ui/ui/debug/coverage.png` | 200×64 | top-left | — | — | build, battle, autopsy, map, codex, menu | Debug overlay; exempt |  |
-| 89 | `room.archive.tile` | `game/assets/topdown/room/archive/tile.png` | 32×96 | bottom-left | 1x2 | — | build, battle.inset, shop | The room itself at 1x2 tiles: floor, and fittings along the back row that say 'Archive' without a label. Every tile stays walkable — people stand here | tools/dev/rooms/archive.room |
-| 90 | `room.summoning_circle.tile` | `game/assets/topdown/room/summoning_circle/tile.png` | 64×96 | bottom-left | 2x2 | — | build, battle.inset, shop | The room itself at 2x2 tiles: floor, and fittings along the back row that say 'Summoning Circle' without a label. Every tile stays walkable — people stand here | tools/dev/rooms/summoning_circle.room |
-| 91 | `furn.ofuda` | `game/assets/topdown/furn/ofuda.png` | 32×40 | bottom-centre | 1x1 | — | build, shop, battle.inset | The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile | Horror Interiors |
-| 92 | `ui.debug.sortkey` | `game/assets/ui/ui/debug/sortkey.png` | 32×8 | top-left | — | — | build | Debug overlay only |  |
+| 20 | `ui.build.nearmiss_glyph` | `game/assets/ui/ui/build/nearmiss_glyph.png` | 8×8 | centre | — | — | build | A small '?' that flickers once |  |
+| 21 | `ui.build.promote_glyph` | `game/assets/ui/ui/build/promote_glyph.png` | 16×16 | centre | — | — | build | An unmistakable 'combine available' mark, pulsing |  |
+| 22 | `ui.build.room_compare` | `game/assets/ui/ui/build/room_compare.png` | 184×24 | top-left | — | — | build | Three lines of font.ui.8 for a selected room: 'here x1.40 · Tier II'; 'on 2F x1.38 now, x1.61 by round 14'; 'relocate: -3 Tenure rounds, ¥13' |  |
+| 23 | `ui.build.shaft` | `game/assets/ui/ui/build/shaft.png` | 16×304 | top-left | — | — | build | A vertical shaft with floor labels; the landing column sits to its right | Office Interior (elevator doors) |
+| 24 | `ui.build.shop` | `game/assets/ui/ui/build/shop.png` | 232×304 | top-left | — | — | build | Panel with tab bar, card rows, Otherworld row, Lease section |  |
+| 25 | `ui.build.tab` | `game/assets/ui/ui/build/tab.png` | 76×16 | top-left | — | — | build | STAFF / ROOMS / FURNITURE tab, selected state distinct |  |
+| 26 | `ui.build.topbar` | `game/assets/ui/ui/build/topbar.png` | 640×24 | top-left | — | — | build | Round, budget, upkeep, strikes, READY |  |
+| 27 | `ui.build.tower` | `game/assets/ui/ui/build/tower.png` | 176×304 | top-left | — | — | build | Frame around the three-floor viewport |  |
+| 28 | `ui.invalid_tile` | `game/assets/ui/ui/invalid_tile.png` | 32×32 | top-left | — | — | build | Unmissable red over a tile for one flash |  |
+| 29 | `ui.link_line` | `game/assets/ui/ui/link_line.png` | 1×1 | top-left | — | — | build | 1px line from furniture to each triggered employee; tiles the length |  |
+| 30 | `ui.portrait` | `game/assets/ui/ui/portrait.png` | 96×96 | top-left | — | — | build | A face. Larger than the sprite, same character | Portraits pack, transparent_bg (96x96, D-71) |
+| 31 | `ui.room_sign` | `game/assets/ui/ui/room_sign.png` | 32×8 | top-left | — | — | build | A label strip: room name in font.ui.8 with up to three Tenure pips at the right |  |
+| 32 | `ui.tenure_pip` | `game/assets/ui/ui/tenure_pip.png` | 4×4 | top-left | — | — | build | A filled 4x4 pip; up to three in the sign |  |
+| 33 | `room.corner_office.tile` | `game/assets/topdown/room/corner_office/tile.png` | 32×96 | bottom-left | 1x2 | — | build, battle.inset, shop | The room itself at 1x2 tiles: floor, and fittings along the back row that say 'Corner Office' without a label. Every tile stays walkable — people stand here | tools/dev/rooms/corner_office.room |
+| 34 | `room.executive_lounge.tile` | `game/assets/topdown/room/executive_lounge/tile.png` | 64×96 | bottom-left | 2x2 | — | build, battle.inset, shop | The room itself at 2x2 tiles: floor, and fittings along the back row that say 'Executive Lounge' without a label. Every tile stays walkable — people stand here | tools/dev/rooms/executive_lounge.room |
+| 35 | `room.security_desk.tile` | `game/assets/topdown/room/security_desk/tile.png` | 32×96 | bottom-left | 1x2 | — | build, battle.inset, shop | The room itself at 1x2 tiles: floor, and fittings along the back row that say 'Security Desk' without a label. Every tile stays walkable — people stand here | tools/dev/rooms/security_desk.room |
+| 36 | `furn.copier` | `game/assets/topdown/furn/copier.png` | 32×32 | bottom-centre | 1x1 | — | build, shop, battle.inset | The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile | Office Interior |
+| 37 | `furn.executive_desk` | `game/assets/topdown/furn/executive_desk.png` | 32×64 | bottom-centre | 1x2 | — | build, shop, battle.inset | The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile | Office Interior |
+| 38 | `furn.fax_machine` | `game/assets/topdown/furn/fax_machine.png` | 32×32 | bottom-centre | 1x1 | — | build, shop, battle.inset | The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile | Office Interior |
+| 39 | `furn.monitoring_station` | `game/assets/topdown/furn/monitoring_station.png` | 32×64 | bottom-centre | 1x2 | — | build, shop, battle.inset | The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile | Office Interior |
+| 40 | `furn.shredder` | `game/assets/topdown/furn/shredder.png` | 32×32 | bottom-centre | 1x1 | — | build, shop, battle.inset | The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile | Office Interior |
+| 41 | `furn.yakult_cart` | `game/assets/topdown/furn/yakult_cart.png` | 32×32 | bottom-centre | 1x1 | — | build, shop, battle.inset | The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile | Office Interior |
+| 42 | `ui.status.bureaucracy` | `game/assets/ui/ui/status/bureaucracy.png` | 8×8 | top-left | — | — | battle.inset, autopsy, build | The status at 8px, with a stack count beside it |  |
+| 43 | `ui.status.burnout` | `game/assets/ui/ui/status/burnout.png` | 8×8 | top-left | — | — | battle.inset, autopsy, build | The status at 8px, with a stack count beside it |  |
+| 44 | `ui.status.frozen` | `game/assets/ui/ui/status/frozen.png` | 8×8 | top-left | — | — | battle.inset, autopsy, build | The status at 8px, with a stack count beside it |  |
+| 45 | `ui.status.overtime` | `game/assets/ui/ui/status/overtime.png` | 8×8 | top-left | — | — | battle.inset, autopsy, build | The status at 8px, with a stack count beside it |  |
+| 46 | `ui.autopsy.banner` | `game/assets/ui/ui/autopsy/banner.png` | 640×24 | top-left | — | — | autopsy | Result line |  |
+| 47 | `ui.autopsy.filters` | `game/assets/ui/ui/autopsy/filters.png` | 416×16 | top-left | — | — | autopsy | Kind, side and floor chips; selected state distinct |  |
+| 48 | `ui.autopsy.findings` | `game/assets/ui/ui/autopsy/findings.png` | 200×120 | top-left | — | — | autopsy | Three findings in font.ui.8 |  |
+| 49 | `ui.autopsy.floors` | `game/assets/ui/ui/autopsy/floors.png` | 200×120 | top-left | — | — | autopsy | Five rows, two bars each, labelled |  |
+| 50 | `ui.autopsy.timeline` | `game/assets/ui/ui/autopsy/timeline.png` | 624×48 | top-left | — | — | autopsy | 60 columns of 10px, month lines, draggable playhead |  |
+| 51 | `ui.battle.banner` | `game/assets/ui/ui/battle/banner.png` | 160×12 | top-left | — | — | battle | '— CRUNCH —' centred; slides in dimmed one second early |  |
+| 52 | `ui.battle.bar` | `game/assets/ui/ui/battle/bar.png` | 320×12 | top-left | — | — | battle | Two-colour fill from 50/50, 10% ticks, percent labels at both ends |  |
+| 53 | `ui.battle.controls` | `game/assets/ui/ui/battle/controls.png` | 72×16 | top-left | — | — | battle | 1x 2x 4x and skip; left of founder B's badge, which starts at x=596 |  |
+| 54 | `ui.battle.floor_inset` | `game/assets/ui/ui/battle/floor_inset.png` | 168×104 | top-left | — | — | battle | A 4px frame around a 160x96 top-down floor; most recent firer highlighted |  |
+| 55 | `ui.battle.goodwill_bar` | `game/assets/ui/ui/battle/goodwill_bar.png` | 200×16 | top-left | — | — | battle | A frame whose right (or left, mirrored) end marks the live cap; fill inside it; number in font.ui.16 overlaid; dims when suppressed; flashes on break |  |
+| 56 | `ui.battle.ledger_rollup` | `game/assets/ui/ui/battle/ledger_rollup.png` | 308×8 | top-left | — | — | battle | '+3 more · Fl.2' dimmed |  |
+| 57 | `ui.battle.result` | `game/assets/ui/ui/battle/result.png` | 640×24 | top-left | — | — | battle | 'Q7 · WON · 71.2% MARKET SHARE' |  |
+| 58 | `ui.build.floor_void` | `game/assets/ui/ui/build/floor_void.png` | 32×32 | top-left | — | — | build | Hatched tile filling the unused part of a 4x2 or 3x3 floor's 160x96 slot |  |
+| 59 | `fx.floating_number` | `game/assets/ui/fx/floating_number.png` | 40×8 | centre | — | — | battle | font.ui.8 digits rising 16px over 20 ticks |  |
+| 60 | `fx.tower.window_occupant` | `game/assets/exterior/fx/tower/window_occupant.png` | 8×8 | centre | — | — | battle | One per employee, filling its window in the facade's 5x3 grid; tone by department (D-68) |  |
+| 61 | `fx.window_burst` | `game/assets/exterior/fx/window_burst.png` | 16×16 | centre | — | burst ×4 | battle | A 4-frame burst at the firer's window; tone by damage kind |  |
+| 62 | `bg.battle.street` | `game/assets/exterior/bg/battle/street.png` | 640×360 | top-left | — | — | battle | A Japanese city street at dusk seen front-on, two lots facing each other across it | Osaka / Dotonbori / Dark Tokyo street tiles |
+| 63 | `ui.card.otherworld` | `game/assets/ui/ui/card/otherworld.png` | 52×80 | top-left | — | — | build, shop | As applicant card in the anomalous tone; its rider is read in the inspector (D-82) |  |
+| 64 | `ui.codex.header` | `game/assets/ui/ui/codex/header.png` | 640×24 | top-left | — | — | codex | 'CODEX · 14 / 40', class chips, page arrows |  |
+| 65 | `ui.codex.recipe` | `game/assets/ui/ui/codex/recipe.png` | 176×40 | top-left | — | — | codex | Three input slots 32x32 at x=4,40,76; arrow 16x8 at (112,12); result slot at (132,4); class glyph 8x8 at (168,4) |  |
+| 66 | `ui.codex.slot_outline` | `game/assets/ui/ui/codex/slot_outline.png` | 32×32 | top-left | — | — | codex | A dashed outline |  |
+| 67 | `ui.map.dossier` | `game/assets/ui/ui/map/dossier.png` | 200×88 | top-left | — | — | map | Name, archetype, floors, gimmick, a 5-cell floor strip at (4,64) of 16x8 cells |  |
+| 68 | `ui.map.dossier_badge` | `game/assets/ui/ui/map/dossier_badge.png` | 36×36 | top-left | — | — | map | A 2px frame around the rival founder's 32x32 badge at (160,4) inside the dossier |  |
+| 69 | `ui.map.floor_cell` | `game/assets/ui/ui/map/floor_cell.png` | 16×8 | top-left | — | — | map | Occupied / empty cell |  |
+| 70 | `ui.map.header` | `game/assets/ui/ui/map/header.png` | 640×24 | top-left | — | — | map | Act name and strikes |  |
+| 71 | `ui.map.legend` | `game/assets/ui/ui/map/legend.png` | 640×24 | top-left | — | — | map | Six node kinds with names |  |
+| 72 | `ui.map.marker` | `game/assets/ui/ui/map/marker.png` | 16×16 | centre | — | — | map | The player's position: a small building or crest |  |
+| 73 | `ui.map.path` | `game/assets/ui/ui/map/path.png` | 1×1 | top-left | — | — | map | 1px path; tiles the length |  |
+| 74 | `ui.menu.button` | `game/assets/ui/ui/menu/button.png` | 160×16 | top-left | — | — | menu | A labelled button with hover state |  |
+| 75 | `ui.codex.arrow` | `game/assets/ui/ui/codex/arrow.png` | 16×8 | top-left | — | — | codex | An arrow |  |
+| 76 | `ui.codex.class.promotion` | `game/assets/ui/ui/codex/class/promotion.png` | 8×8 | top-left | — | — | codex | The class at 8px |  |
+| 77 | `ui.codex.class.renovation` | `game/assets/ui/ui/codex/class/renovation.png` | 8×8 | top-left | — | — | codex | The class at 8px |  |
+| 78 | `ui.codex.class.ritual` | `game/assets/ui/ui/codex/class/ritual.png` | 8×8 | top-left | — | — | codex | The class at 8px |  |
+| 79 | `ui.map.node.audit` | `game/assets/ui/ui/map/node/audit.png` | 24×24 | centre | — | — | map | The node kind at 24px, distinct from the other five at a glance |  |
+| 80 | `ui.map.node.board` | `game/assets/ui/ui/map/node/board.png` | 24×24 | centre | — | — | map | The node kind at 24px, distinct from the other five at a glance |  |
+| 81 | `ui.map.node.boss` | `game/assets/ui/ui/map/node/boss.png` | 24×24 | centre | — | — | map | The node kind at 24px, distinct from the other five at a glance |  |
+| 82 | `ui.map.node.consultant` | `game/assets/ui/ui/map/node/consultant.png` | 24×24 | centre | — | — | map | The node kind at 24px, distinct from the other five at a glance |  |
+| 83 | `ui.map.node.recruiter` | `game/assets/ui/ui/map/node/recruiter.png` | 24×24 | centre | — | — | map | The node kind at 24px, distinct from the other five at a glance |  |
+| 84 | `ui.map.node.takeover` | `game/assets/ui/ui/map/node/takeover.png` | 24×24 | centre | — | — | map | The node kind at 24px, distinct from the other five at a glance |  |
+| 85 | `bg.map` | `game/assets/exterior/bg/map.png` | 640×360 | top-left | — | — | map | A city district seen from above, muted, paths readable over it | Osaka / Kanagawa street and roof tiles |
+| 86 | `bg.menu` | `game/assets/exterior/bg/menu.png` | 640×360 | top-left | — | — | menu | The tower at night from the street | Backgrounds pack |
+| 87 | `ui.debug.coverage` | `game/assets/ui/ui/debug/coverage.png` | 200×64 | top-left | — | — | build, battle, autopsy, map, codex, menu | Debug overlay; exempt |  |
+| 88 | `room.archive.tile` | `game/assets/topdown/room/archive/tile.png` | 32×96 | bottom-left | 1x2 | — | build, battle.inset, shop | The room itself at 1x2 tiles: floor, and fittings along the back row that say 'Archive' without a label. Every tile stays walkable — people stand here | tools/dev/rooms/archive.room |
+| 89 | `room.summoning_circle.tile` | `game/assets/topdown/room/summoning_circle/tile.png` | 64×96 | bottom-left | 2x2 | — | build, battle.inset, shop | The room itself at 2x2 tiles: floor, and fittings along the back row that say 'Summoning Circle' without a label. Every tile stays walkable — people stand here | tools/dev/rooms/summoning_circle.room |
+| 90 | `furn.ofuda` | `game/assets/topdown/furn/ofuda.png` | 32×40 | bottom-centre | 1x1 | — | build, shop, battle.inset | The object itself, readable at 32px; wall-mounted pieces overhang 8px above their tile | Horror Interiors |
+| 91 | `ui.debug.sortkey` | `game/assets/ui/ui/debug/sortkey.png` | 32×8 | top-left | — | — | build | Debug overlay only |  |

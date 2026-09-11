@@ -14,13 +14,16 @@ greybox tone and 9-sliced at the pack's own resolution to SCALE x the manifest's
 chrome is not pixel art, so it keeps its corners and is drawn down into its
 manifest-sized rect with a smooth filter, the way D-67 treats text (D-76).
 
+A `unit` of 0 marks an element that ships as one top-left corner -- the pack's
+selection frames -- which is placed at all four corners, mirrored, instead.
+
     python3 tools/dev/ui.py [--check]
 """
 import json
 import pathlib
 import sys
 
-from PIL import Image
+from PIL import Image, ImageOps
 
 SCALE = 2   # the pack's 18px corner is exactly 2x our 9px one, so 2x is lossless
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -85,6 +88,18 @@ def nine(src, w, h, u):
     return out
 
 
+def corners(src, w, h):
+    """Place a top-left corner piece at all four corners of w x h, mirrored; the middle stays empty."""
+    if w < src.width or h < src.height:
+        sys.exit(f"cannot place {src.width}x{src.height} corners in {w}x{h}")
+    out = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    out.alpha_composite(src, (0, 0))
+    out.alpha_composite(ImageOps.mirror(src), (w - src.width, 0))
+    out.alpha_composite(ImageOps.flip(src), (0, h - src.height))
+    out.alpha_composite(ImageOps.flip(ImageOps.mirror(src)), (w - src.width, h - src.height))
+    return out
+
+
 def main():
     check = "--check" in sys.argv
     entries = {e["id"]: e for e in json.loads((ROOT / "manifest/sprites.json").read_text(encoding="utf-8"))["entries"]}
@@ -110,8 +125,9 @@ def main():
             sys.exit(f"slots.txt:{n}: no element {element!r} in the pack")
         src = Image.open(sorted(folder.glob("*.png"))[0]).convert("RGBA")
         e = entries[slot]
-        art = nine(recolour(src, ramp(tones[tone], shade == "dark")),
-                   e["sprite"]["w"] * SCALE, e["sprite"]["h"] * SCALE, int(unit))
+        piece = recolour(src, ramp(tones[tone], shade == "dark"))
+        w, h = e["sprite"]["w"] * SCALE, e["sprite"]["h"] * SCALE
+        art = corners(piece, w, h) if int(unit) == 0 else nine(piece, w, h, int(unit))
         dest = ROOT / e["sprite"]["asset"]
         if check:
             if not dest.exists():

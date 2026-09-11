@@ -158,7 +158,7 @@ entry("ui.build.floor_void", "ui", "structure", "Hatched void for undersized flo
 entry("ui.build.landing_highlight", "ui", "interface", "Landing column highlight", 1, 32, TL, screens=B, visibility=1, reads="A 1px vertical highlight on the left edge of landing tiles")
 entry("ui.build.shop", "ui", "interface", "Shop panel", 232, 304, TL, screens=B, visibility=1, rect=(192, 32), reads="Panel with tab bar, card rows, Otherworld row, Lease section")
 entry("ui.build.tab", "ui", "interface", "Shop tab", 76, 16, TL, screens=B, visibility=1, reads="STAFF / ROOMS / FURNITURE tab, selected state distinct")
-entry("ui.build.lease_button", "ui", "interface", "Lease button", 72, 24, TL, screens=B, visibility=1, reads="Floor name, price, projected upkeep")
+entry("ui.build.lease_button", "ui", "structure", "Lease tag", 72, 24, TL, screens=B, visibility=1, reads="Tag over an unleased floor: the lease price over the upkeep it adds; the whole floor is the button (D-83)")
 entry("ui.build.inspector", "ui", "interface", "Inspector panel", 200, 304, TL, screens=B, visibility=1, rect=(432, 32), reads="Portrait, name, department, detail rows, action button")
 entry("ui.build.action_button", "ui", "interface", "Inspector action button", 90, 20, TL, screens=B, visibility=1, reads="LAY OFF · ¥1; for rooms, RELOCATE · ¥13 and DEMOLISH · ¥13 side by side at x=440 and x=534")
 entry("ui.build.room_compare", "ui", "interface", "Room relocation comparison", 184, 24, TL, screens=B, visibility=1,
@@ -169,11 +169,13 @@ entry("ui.build.hint", "ui", "interface", "Hint line", 640, 16, TL, screens=B, v
 entry("ui.build.promote_glyph", "ui", "interface", "Promote glyph", 16, 16, CC, sortBias=9, screens=B, visibility=1, reads="An unmistakable 'combine available' mark, pulsing")
 entry("ui.build.nearmiss_glyph", "ui", "interface", "Near-miss glyph", 8, 8, CC, sortBias=9, screens=B, visibility=1, reads="A small '?' that flickers once")
 entry("ui.card.applicant", "ui", "people", "Applicant card", 52, 80, TL, screens=["build", "shop", "reward"], visibility=1,
-      reads="Portrait slot (10,4,32,32); name (2,40,48,8); dept icon 8x8 at (2,50) + tier pips; ability two lines (2,60,48,16); cost tag (2,72,20,8); rider strip replaces ability line 2 for extraplanar")
+      reads="Name and price only (D-82): idle sprite frame on a lighter stage; name; price tag along the bottom. What it does is read in the inspector")
 entry("ui.card.room", "ui", "operations", "Room card", 52, 80, TL, screens=["build", "shop"], visibility=1,
-      reads="Footprint diagram 32x32 at (10,4) at 8px per cell; name; aura line; legal-floor glyphs 6x6 at (2,60); cost tag")
-entry("ui.card.furniture", "ui", "support", "Furniture card", 52, 80, TL, screens=["build", "shop"], visibility=1, reads="Sprite at (10,4); name; effect line; cost")
-entry("ui.card.otherworld", "ui", "anomalous", "Otherworld Temp Agency card", 52, 80, TL, screens=["build", "shop"], visibility=3, reads="As applicant card in the anomalous tone with a rider strip")
+      reads="As applicant card: room tile on the stage; name; price tag (D-82)")
+entry("ui.card.furniture", "ui", "support", "Furniture card", 52, 80, TL, screens=["build", "shop"], visibility=1, reads="As applicant card: sprite on the stage; name; price tag (D-82)")
+entry("ui.card.otherworld", "ui", "anomalous", "Otherworld Temp Agency card", 52, 80, TL, screens=["build", "shop"], visibility=3, reads="As applicant card in the anomalous tone; its rider is read in the inspector (D-82)")
+entry("ui.card.selector", "ui", "support", "Card selector", 64, 92, TL, screens=["build", "shop"], visibility=1, reads="The picked card's frame: four rounded corner brackets 6px outside the card, drawn over it")
+entry("ui.card.price", "ui", "structure", "Card price tag", 46, 13, TL, screens=["build", "shop"], visibility=1, reads="Rounded tag along the card's bottom edge; the price in Honeyblot Caps at the height of the card's price_text slot (D-82)")
 entry("ui.aura_badge", "ui", "interface", "Aura badge", 12, 8, OD([("x", 1.0), ("y", 0.0)]), sortBias=8, screens=B, visibility=1, reads="'x1.2' in font.ui.8 on a tag, top-right of the tile")
 entry("ui.link_line", "ui", "interface", "Furniture link line", 1, 1, TL, sortBias=7, screens=B, visibility=1, reads="1px line from furniture to each triggered employee; tiles the length")
 entry("ui.tenure_pip", "ui", "interface", "Tenure pip", 4, 4, TL, sortBias=-9, screens=B, visibility=1, reads="A filled 4x4 pip; up to three in the sign")

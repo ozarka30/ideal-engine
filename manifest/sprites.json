@@ -4154,8 +4154,8 @@
     {
       "id": "ui.build.lease_button",
       "kind": "ui",
-      "category": "interface",
-      "label": "Lease button",
+      "category": "structure",
+      "label": "Lease tag",
       "footprint": null,
       "sprite": {
         "w": 72,
@@ -4173,7 +4173,7 @@
         "build"
       ],
       "visibility": 1,
-      "reads": "Floor name, price, projected upkeep",
+      "reads": "Tag over an unleased floor: the lease price over the upkeep it adds; the whole floor is the button (D-83)",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
@@ -4443,7 +4443,7 @@
         "reward"
       ],
       "visibility": 1,
-      "reads": "Portrait slot (10,4,32,32); name (2,40,48,8); dept icon 8x8 at (2,50) + tier pips; ability two lines (2,60,48,16); cost tag (2,72,20,8); rider strip replaces ability line 2 for extraplanar",
+      "reads": "Name and price only (D-82): idle sprite frame on a lighter stage; name; price tag along the bottom. What it does is read in the inspector",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
@@ -4472,7 +4472,7 @@
         "shop"
       ],
       "visibility": 1,
-      "reads": "Footprint diagram 32x32 at (10,4) at 8px per cell; name; aura line; legal-floor glyphs 6x6 at (2,60); cost tag",
+      "reads": "As applicant card: room tile on the stage; name; price tag (D-82)",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
@@ -4501,7 +4501,7 @@
         "shop"
       ],
       "visibility": 1,
-      "reads": "Sprite at (10,4); name; effect line; cost",
+      "reads": "As applicant card: sprite on the stage; name; price tag (D-82)",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
@@ -4530,7 +4530,65 @@
         "shop"
       ],
       "visibility": 3,
-      "reads": "As applicant card in the anomalous tone with a rider strip",
+      "reads": "As applicant card in the anomalous tone; its rider is read in the inspector (D-82)",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.card.selector",
+      "kind": "ui",
+      "category": "support",
+      "label": "Card selector",
+      "footprint": null,
+      "sprite": {
+        "w": 64,
+        "h": 92,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "game/assets/ui/ui/card/selector.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "shop"
+      ],
+      "visibility": 1,
+      "reads": "The picked card's frame: four rounded corner brackets 6px outside the card, drawn over it",
+      "candidateSource": null,
+      "verify": false,
+      "releaseGate": true,
+      "overhang": null
+    },
+    {
+      "id": "ui.card.price",
+      "kind": "ui",
+      "category": "structure",
+      "label": "Card price tag",
+      "footprint": null,
+      "sprite": {
+        "w": 46,
+        "h": 13,
+        "anchor": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "asset": "game/assets/ui/ui/card/price.png",
+        "sourceRect": null
+      },
+      "sortBias": 0,
+      "perspective": "ui",
+      "screens": [
+        "build",
+        "shop"
+      ],
+      "visibility": 1,
+      "reads": "Rounded tag along the card's bottom edge; the price in Honeyblot Caps at the height of the card's price_text slot (D-82)",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,

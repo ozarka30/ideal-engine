@@ -1,6 +1,7 @@
 # manifest id            element              unit  tone         [dark]
 # `unit` is the pack documentation's 9-slice corner, at the pack's own scale;
-# tools/dev/ui.py halves both before slicing (D-74).
+# tools/dev/ui.py halves both before slicing (D-74). A `unit` of 0 is a corner
+# piece (the selection frames), mirrored into all four corners, not sliced.
 
 # founder select
 ui.founder.grid          panel                20    interface
@@ -15,11 +16,14 @@ ui.build.action_button   button_square        18    operations
 ui.build.floor_frame     panel                20    structure
 ui.build.ready           box                  10    operations
 ui.build.ready_shop      button_square        18    operations
+ui.build.lease_button    button_square        18    structure    dark
 
 # cards
 ui.card.applicant        panel                20    people
 ui.card.room             panel                20    structure
 ui.card.furniture        panel                20    support
+ui.card.selector         selection_frame_square 0   support
+ui.card.price            box                  10    structure    dark
 
 # battle and autopsy chrome
 ui.battle.founder        selection_frame_square 18  interface
