@@ -637,7 +637,7 @@ LAY = lambda fl, fill: OD([("floorPreference", fl), ("fillOrder", fill)])
 templates = [
     T("rival.t_generalist", "generalist", ["Kobayashi Holdings", "Sato & Sons", "Nakamura Trading", "Fujiwara Logistics"],
       shoplist(("room.open_plan", 3, 2), ("room.sales_floor", 2, 3), ("room.legal_dept", 1, 5), ("room.break_room", 1, 4)),
-      shoplist(("emp.junior_dev", 4, 1), ("emp.sales_rep", 3, 1), ("emp.paralegal", 2, 1), ("emp.qa_tester", 2, 1), ("emp.senior_dev", 3, 4), ("emp.counsel", 1, 6), ("emp.team_lead", 2, 3), ("emp.account_manager", 2, 5), ("emp.architect", 1, 9), ("emp.recruiter", 1, 3)),
+      shoplist(("emp.junior_dev", 4, 1), ("emp.sales_rep", 3, 1), ("emp.paralegal", 2, 1), ("emp.qa_tester", 2, 1), ("emp.senior_dev", 3, 4), ("emp.team_lead", 2, 3), ("emp.account_manager", 2, 5), ("emp.architect", 1, 9), ("emp.recruiter", 1, 3)),
       ["mod.g_zaibatsu", "mod.g_skeleton_crew"], LAY(["floor.f1", "floor.f2", "floor.g"], ["engineering", "sales", "legal", "management"])),
     T("rival.t_fortress", "fortress", ["Compliance Partners", "Harada Legal", "Mizuno Assurance", "Ishikawa & Ishikawa"],
       shoplist(("room.legal_dept", 4, 2), ("room.executive_lounge", 2, 7), ("room.kitchenette", 1, 3), ("room.security_desk", 1, 4)),

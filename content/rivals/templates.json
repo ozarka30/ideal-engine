@@ -81,11 +81,6 @@
           "minRound": 4
         },
         {
-          "defId": "emp.counsel",
-          "weight": 1,
-          "minRound": 6
-        },
-        {
           "defId": "emp.team_lead",
           "weight": 2,
           "minRound": 3
