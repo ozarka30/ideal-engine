@@ -118,8 +118,9 @@ history of a reversal is the most useful thing in a document like this.
 | [D-87](#d-87) | Sales earn in proportion to Client Loyalty (`v × loyalty / capAtStart`); the archetype band applies from round 4 | Human | Money rework |
 | [D-88](#d-88) | Sales scale by Loyalty over the current cap, not the starting cap, so a Scandal no longer cuts a firm's Sales for good | Human | Money rework |
 | [D-89](#d-89) | Legal bills its hours: the Paralegal, Compliance Officer and General Counsel earn Sales, then file, clear or freeze | Human | Money rework |
+| [D-90](#d-90) | An archetype may be weak early and strong late: the band judges its mean over the run; each round stays within 300–700‰ | Human | Money rework |
 
-Fifty-eight craft decisions and thirty-one human calls taken. Eight items remain open in
+Fifty-eight craft decisions and thirty-two human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -2021,3 +2022,19 @@ nightly pick-rate checks (`dead_content`, the optimizer) watch whether it takes 
 ability.
 
 Authority: Human · `GAME_DESIGN.md` §9, `BALANCE_PLAN.md` §5.1 · amends [D-85](#d-85)
+
+## D-90
+
+**An archetype may be weak early and strong late. `inv.archetype_band` judges each archetype's mean
+win rate over the measured rounds, from round 4, against the 420–580‰ band; in any single round it need
+only stay inside 300–700‰ (`archetypeRoundSpike`), so an archetype that is a write-off or a wall in one
+round still fails.**
+
+*Why:* the owner is content for archetypes to have a curve through the run rather than sit inside the
+band at every round. Judging each round separately failed exactly those curves.
+
+*Consequence:* the harness prints each round against the spike band and one line of means, and its
+failure count counts archetypes, not archetype-rounds. The owner set the principle; 300–700‰ is a first
+value, not a signed-off number.
+
+Authority: Human · `BALANCE_PLAN.md` §4, §6 · extends [D-87](#d-87)

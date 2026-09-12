@@ -131,7 +131,10 @@ public static class Program
         Invariant inv = db.Balance.Invariants.First(i => i.Id == "inv.archetype_band");
         long lo = inv.Threshold[0].GetInt64(), hi = inv.Threshold[1].GetInt64();
         long fromRound = db.Balance.Bands.TryGetValue("archetypeBandFromRound", out System.Text.Json.JsonElement fr) ? fr.GetInt64() : 1;
-        int failures = 0;
+        long spikeLo = lo, spikeHi = hi;
+        if (db.Balance.Bands.TryGetValue("archetypeRoundSpike", out System.Text.Json.JsonElement sp)) { spikeLo = sp[0].GetInt64(); spikeHi = sp[1].GetInt64(); }
+        string[] archs = db.Templates.Templates.Select(t => t.Archetype).ToArray();
+        var perArch = archs.ToDictionary(a => a, _ => new List<long>());
         foreach (IGrouping<long, MatchRow> g in rows.GroupBy(r => r.Round).OrderBy(g => g.Key))
         {
             if (g.Key < fromRound)
@@ -140,18 +143,28 @@ public static class Program
                 continue;
             }
             var parts = new List<string>();
-            foreach (string arch in db.Templates.Templates.Select(t => t.Archetype))
+            foreach (string arch in archs)
             {
                 var asA = g.Where(r => r.ArchA == arch && r.ArchB != arch).Select(r => r.Winner == "A" ? 1000L : r.Winner == "draw" ? 500L : 0L);
                 var asB = g.Where(r => r.ArchB == arch && r.ArchA != arch).Select(r => r.Winner == "B" ? 1000L : r.Winner == "draw" ? 500L : 0L);
                 long[] all = asA.Concat(asB).ToArray();
                 long rate = all.Length == 0 ? 500 : all.Sum() / all.Length;
-                bool ok = rate >= lo && rate <= hi;
-                if (!ok) failures++;
-                parts.Add($"{arch} {rate}‰{(ok ? string.Empty : "!")}");
+                perArch[arch].Add(rate);
+                parts.Add($"{arch} {rate}‰{(rate >= spikeLo && rate <= spikeHi ? string.Empty : "!")}");
             }
-            Console.WriteLine($"  inv.archetype_band r{g.Key,2} (want {lo}–{hi}): {string.Join(", ", parts)}");
+            Console.WriteLine($"  inv.archetype_band r{g.Key,2} (each round {spikeLo}–{spikeHi}): {string.Join(", ", parts)}");
         }
+        // An archetype may be weak early and strong late (D-90): the band judges its mean over the run.
+        int failures = 0;
+        var means = new List<string>();
+        foreach (string arch in archs.Where(a => perArch[a].Count > 0))
+        {
+            long mean = perArch[arch].Sum() / perArch[arch].Count;
+            bool ok = mean >= lo && mean <= hi && perArch[arch].All(x => x >= spikeLo && x <= spikeHi);
+            if (!ok) failures++;
+            means.Add($"{arch} {mean}‰{(ok ? string.Empty : "!")}");
+        }
+        if (means.Count > 0) Console.WriteLine($"  inv.archetype_band mean (want {lo}–{hi}): {string.Join(", ", means)}");
         return failures;
     }
 }

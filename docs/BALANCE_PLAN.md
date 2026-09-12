@@ -112,7 +112,8 @@ Permille throughout, matching the sim. From `content/balance.json`:
 
 | Band | Value | Meaning |
 | --- | --- | --- |
-| `archetypeVsField` | [420, 580] | Each archetype's win rate against the field, mirror excluded |
+| `archetypeVsField` | [420, 580] | Each archetype's win rate against the field, mirror excluded, averaged over the rounds measured (D-90) |
+| `archetypeRoundSpike` | [300, 700] | In any single round an archetype stays inside this wider band. It may be weak early and strong late, but it is never a write-off or a wall (D-90) |
 | `archetypeBandFromRound` | 4 | The archetype band applies from round 4, when tier-2 staff arrive. Rounds 1–3 have nothing that can hurt Sales, so a pure earner wins them whatever the numbers (D-87) |
 | `counterPair` | [580, 750] | A counter wins clearly and is not a wall |
 | `mirror` | [470, 530] | A template against itself is even; this is the fairness check on tick-parity initiative |
