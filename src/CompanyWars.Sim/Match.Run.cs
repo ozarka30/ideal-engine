@@ -280,9 +280,11 @@ internal sealed partial class Match
                     long v = caster != null && !firmLevelValue
                         ? Pipeline(firm, caster, Kind.Sales, e.Value, tick, retriggerBonus, viaRetrigger)
                         : Arith.Permille(BaseValue(firm, caster, e.Value), _rules.RushMult[month]);
-                    firm.Revenue += v;
-                    firm.TotalSales += v;
-                    Emit(tick, "sales", src, firm.Side.Name(), NoUnits, v, 0, 0, v, 0, 0, depth, NoTags);
+                    // Clients who are wavering buy less: Sales earn in proportion to Loyalty over the current cap (§9.3, D-87, D-88).
+                    long earned = v * firm.Loyalty / Math.Max(1, firm.Cap);
+                    firm.Revenue += earned;
+                    firm.TotalSales += earned;
+                    Emit(tick, "sales", src, firm.Side.Name(), NoUnits, v, 0, 0, earned, 0, 0, depth, NoTags);
                     break;
                 }
             case "poach":

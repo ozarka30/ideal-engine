@@ -16,6 +16,12 @@ renamed Client Loyalty; the effect kinds are `sales`, `poach`, `scandal`, `curse
 `pr`. The `MatchResult` `schemaVersion` is 2, and fixtures recorded under revision 1 are
 invalid until re-recorded (§18.8). The `TowerSnapshot` format is unchanged.
 
+**Revision 3 — Sales scale with Loyalty (D-87, D-88).** A `sales` effect earns
+`floor(v × loyalty / cap)` (§9.3): wavering clients buy less. The entry's `raw` is
+`v` and its `revenueDelta` what was earned (§16.1). Fixtures recorded under revision 2 are
+invalid until re-recorded; the §20 trace is unchanged, because with no Poach Loyalty
+stays at its cap.
+
 ---
 
 ## Contents
@@ -127,7 +133,7 @@ All constants live in the `RuleSet` (§4.3). The values here are the initial one
 | `SUPPRESS_THRESHOLD_PERMILLE` | 40 | A Poach must be at least this permille of the target's cap to suppress |
 | `SCANDAL_INTERVAL` | 20 | Ticks between Burnout Scandal events |
 | `SCANDAL_PER_STACK` | 8 | Raw Scandal per Burnout stack per event |
-| `SCANDAL_TRANSFER_PERMILLE` | 500 | A Scandal moves this permille of its raw amount from the target's Revenue |
+| `SCANDAL_TRANSFER_PERMILLE` | 250 | A Scandal moves this permille of its raw amount from the target's Revenue |
 | `CURSE_SELF_COST_PERMILLE` | 250 | The curser's own Loyalty takes this permille of raw Curse, as a Poach |
 
 Revenue needs no constant. It is counted in the value pipeline's own units, and both
@@ -558,11 +564,15 @@ Scandal from Burnout skips the first six steps (§11.2).
 
 ### 9.3 Primary effects by kind
 
-**`sales`** — target: own firm. Making money: nothing blocks it.
+**`sales`** — target: own firm. Making money, in proportion to how firmly the firm's
+clients stay (D-87): Poaching that drains Loyalty cuts Sales. The measure is the current
+cap (D-88), so a Scandal, which lowers the cap, hurts through its transfer rather than by
+cutting the firm's Sales for the rest of the quarter.
 
 ```
-seller.revenue    += v
-seller.totalSales += v
+earned = floor(v * seller.loyalty / max(1, seller.cap))
+seller.revenue    += earned
+seller.totalSales += earned
 ```
 
 **`poach`** — target: opposing firm.
@@ -890,7 +900,7 @@ Per-kind conventions:
 
 | Kind | source | target | raw | loyaltyDelta | capDelta | revenueDelta |
 | --- | --- | --- | --- | --- | --- | --- |
-| sales | seller unit | seller firm | v | 0 | 0 | +v |
+| sales | seller unit | seller firm | v | 0 | 0 | +earned (§9.3) |
 | poach | attacker unit | defender firm | v | −absorbed | 0 | −taken (to the attacker) |
 | curse | attacker unit | defender firm | v | 0 | 0 | −taken (to the attacker) |
 | curse self-cost | attacker unit | attacker firm | self | −absorbed | 0 | −taken (to the opponent) — emitted as a second entry tagged `self_cost` |

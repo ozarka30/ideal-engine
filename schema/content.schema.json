@@ -2388,10 +2388,10 @@
           "type": "string",
           "enum": [
             "generalist",
-            "turtle",
-            "burst",
-            "economy",
-            "burnout",
+            "fortress",
+            "raider",
+            "earner",
+            "scandal",
             "management"
           ]
         },
@@ -2707,10 +2707,10 @@
           "type": "string",
           "enum": [
             "generalist",
-            "turtle",
-            "burst",
-            "economy",
-            "burnout",
+            "fortress",
+            "raider",
+            "earner",
+            "scandal",
             "management"
           ]
         },
@@ -2930,10 +2930,10 @@
                 "type": "string",
                 "enum": [
                   "generalist",
-                  "turtle",
-                  "burst",
-                  "economy",
-                  "burnout",
+                  "fortress",
+                  "raider",
+                  "earner",
+                  "scandal",
                   "management"
                 ]
               },
@@ -2941,10 +2941,10 @@
                 "type": "string",
                 "enum": [
                   "generalist",
-                  "turtle",
-                  "burst",
-                  "economy",
-                  "burnout",
+                  "fortress",
+                  "raider",
+                  "earner",
+                  "scandal",
                   "management",
                   "none"
                 ]
@@ -2975,10 +2975,10 @@
                 "type": "string",
                 "enum": [
                   "generalist",
-                  "turtle",
-                  "burst",
-                  "economy",
-                  "burnout",
+                  "fortress",
+                  "raider",
+                  "earner",
+                  "scandal",
                   "management"
                 ]
               },
@@ -2995,10 +2995,10 @@
                     "type": "string",
                     "enum": [
                       "generalist",
-                      "turtle",
-                      "burst",
-                      "economy",
-                      "burnout",
+                      "fortress",
+                      "raider",
+                      "earner",
+                      "scandal",
                       "management"
                     ]
                   }

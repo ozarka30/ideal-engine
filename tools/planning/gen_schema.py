@@ -41,7 +41,7 @@ FLAGS = ["untargetable", "bureaucracyImmune", "frozenImmune", "burnoutImmune", "
 OVERRIDES = ["floorSelector", "tenureTier"]
 ROOM_KINDS = ["general", "reception", "security", "executive", "extraplanar"]
 FLOOR_KINDS = ["portal", "reception", "operations", "executive"]
-ARCHETYPES = ["generalist", "turtle", "burst", "economy", "burnout", "management"]
+ARCHETYPES = ["generalist", "fortress", "raider", "earner", "scandal", "management"]
 
 defs = OD()
 defs["Id"] = ID

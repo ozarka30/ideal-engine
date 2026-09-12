@@ -2,7 +2,7 @@
   "id": "rival.tut_07_compliance_adjacent",
   "name": "Harada Legal (Regional Office)",
   "kind": "scripted",
-  "archetype": "turtle",
+  "archetype": "fortress",
   "round": 7,
   "gimmick": null,
   "exemptFromBudget": false,

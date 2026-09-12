@@ -120,7 +120,7 @@ underscores, exactly one dot. The prefix is the type and the loader asserts it:
 | `mod.` | modifier | `mod.lean`, `mod.g_deep_pockets` (gimmicks start `g_`) |
 | `floor.` | floor | `floor.f2` |
 | `founder.` | founder | `founder.sato` |
-| `rival.` | scripted rival or template | `rival.boss_compliance_office`, `rival.t_turtle` |
+| `rival.` | scripted rival or template | `rival.boss_compliance_office`, `rival.t_fortress` |
 
 Sprite, tile and icon references (`sprite`, `tile`, `icon`) point into the sprite
 manifest (Phase 4) and may have more than two segments — `room.server_room.tile`,

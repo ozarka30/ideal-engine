@@ -114,8 +114,11 @@ history of a reversal is the most useful thing in a document like this.
 | [D-83](#d-83) | Floors are leased from the tower: an unleased floor is greyed under a screen with its price, and tapping it leases it; the shop's lease row is removed | Human | UI review |
 | [D-84](#d-84) | A floor's look is a scene per business, rendered live like a room; what a floor is stays content. One business, `basic`, for now | Human | UI workflow |
 | [D-85](#d-85) | The fight is a revenue race: most ¥ at the Bell wins; Sales earn, Poach, Scandal and Curse take, Client Loyalty protects. Ids renamed to match; no early finish | Human | Money rework |
+| [D-86](#d-86) | The balance plan restated for the race: archetypes renamed fortress, raider, earner, scandal; `fight_length` becomes `late_swing` (100–250‰ of quarters won from behind after Crunch); `bellRateMax` retired | Craft | Money rework |
+| [D-87](#d-87) | Sales earn in proportion to Client Loyalty (`v × loyalty / capAtStart`); the archetype band applies from round 4 | Human | Money rework |
+| [D-88](#d-88) | Sales scale by Loyalty over the current cap, not the starting cap, so a Scandal no longer cuts a firm's Sales for good | Human | Money rework |
 
-Fifty-seven craft decisions and twenty-eight human calls taken. Eight items remain open in
+Fifty-eight craft decisions and thirty human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -1925,3 +1928,74 @@ restating the invariants that assume Goodwill; stage 4 changes the screens. Each
 before it starts.
 
 Authority: Human · `REVENUE_RACE.md`, `GAME_DESIGN.md` §2, §6.4, §11 · supersedes [D-30](#d-30), parts of [D-07](#d-07) and [D-35](#d-35)
+
+Superseded by: [D-87](#d-87), in part. Sales earn in proportion to Client Loyalty; something now blocks them.
+
+## D-86
+
+**The balance plan is restated for the revenue race. Four archetypes take the race's names — turtle
+becomes fortress, burst raider, economy earner, burnout scandal — in the template ids
+(`rival.t_fortress`, …), the schema's archetype enum and the counter web, which is redrawn as
+`REVENUE_RACE.md` §5. `inv.fight_length` is replaced by `inv.late_swing`: between 100‰ and 250‰ of
+decided field quarters must be won by a firm that was behind or level at some tick after Crunch began,
+and draws stay at most 20‰. `bellRateMax` is retired. `break_guaranteed`, `bar_moves_early`,
+`single_hit_cap`, `chip_cannot_suppress` and `ability_diversity` keep their purpose, restated in Loyalty
+and ¥. The Account Manager becomes Sales's Poacher (Steal the Account), and the Headhunter's Burnout
+ability, which was called Poach, becomes Job Offer, so that the word Poach means one thing.**
+
+*Why:* the old bands assumed an early finish. Every quarter now lasts sixty seconds, so a median end
+tick and a Bell rate measure nothing; what the length band protected was a fight still open late (D-21,
+D-23). The swing rate's floor is D-23 (comebacks exist) and its ceiling is the `GAME_DESIGN.md` §21 test
+(a lead lost late more than one fight in four feels like theft). A median "lead settles" tick was tried
+first and dropped: in a race the stronger engine usually leads from its first sale, so the median
+settles in Month 1 even when late swings are common.
+
+*Consequence:* the harness prints the swing rate per round. At the first measurement it is 96–141‰, and
+the archetype bands are far out: the earner wins 750–990‰ against the field and management 80–390‰.
+Stage 3 continues one knob per commit. `REVENUE_RACE.md` §4's department table is followed except for
+HR, which still has no Burnout on the rival.
+
+Authority: Craft · `BALANCE_PLAN.md` §4–§6, `REVENUE_RACE.md` §4–§5 · extends [D-85](#d-85)
+
+## D-87
+
+**Sales earn in proportion to the firm's Client Loyalty: an employee's Sales add
+`floor(v × loyalty / capAtStart)` to its firm's Revenue, so a firm whose clients are being poached, or
+whose cap a Scandal has cut, sells less. The ledger's `raw` keeps the full value and `revenueDelta` what
+was earned. The archetype band applies from round 4, when tier-2 staff arrive: rounds 1–3 have only
+tier-1 staff and no card that can hurt Sales, so a pure earner wins them whatever the numbers.**
+
+*Why:* stage 3's harness found the pure earner winning 795–990‰ against the field. In the race as D-85
+wrote it nothing blocked Sales, so every card that did not earn barely paid, and none of nine single
+knobs moved the earner below about 715‰. A prototype of this rule brought the earner to 330–520‰ from
+round 6 and turned the counter web the way `REVENUE_RACE.md` §5 draws it — the raider beats the earner,
+the fortress rises — and it gives Loyalty a job in a race: Poaching hurts from its first hit, and PR and
+Loyalty passives protect a firm's earnings.
+
+*Consequence:* amends D-85's "Sales add to your own Revenue; nothing blocks it". `SIMULATION_SPEC.md`
+revision 3 changes §9.3 and §16.1; the §20 worked trace is unchanged, because with no Poach Loyalty stays
+at its cap. Burnout now costs a firm its own Sales too, through the Scandal that cuts its cap, so Scandal
+and management are the next knobs. The ten fixtures need re-recording under `fixtures-approved`, as for
+stage 2.
+
+Authority: Human · `SIMULATION_SPEC.md` §9.3, §16.1, `BALANCE_PLAN.md` §4 · amends [D-85](#d-85)
+
+Superseded by: [D-88](#d-88), in part. Loyalty is measured against the current cap, not the starting one.
+
+## D-88
+
+**Sales earn in proportion to Loyalty over the firm's current cap, not its starting cap:
+`floor(v × loyalty / cap)`. A Scandal lowers the cap a firm's Loyalty is measured against, so it hurts
+through its transfer and by leaving Poaching less to chew through, not by cutting that firm's Sales for
+the rest of the quarter.**
+
+*Why:* measured against the starting cap, every point a Scandal shaved off a cap was a permanent cut to
+that firm's Sales. Management, whose Middle Managers' Overtime leaves Burnout on every expiry, ground its
+own cap to 1 by mid-quarter and earned 12–20% of what it sold, and the scandal archetype won 754–845‰
+against the field. Over the current cap the prototype held scandal at 314–470‰ and management at
+162–394‰ from round 6, and Poaching still cuts a rival's Sales as D-87 intended.
+
+*Consequence:* amends D-87's formula; `SIMULATION_SPEC.md` revision 3's §9.3 says `cap`. The raider and
+management remain outside the band and are the next knobs.
+
+Authority: Human · `SIMULATION_SPEC.md` §9.3 · amends [D-87](#d-87)

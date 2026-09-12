@@ -36,7 +36,7 @@
   "scandal": {
     "interval": 20,
     "perStack": 8,
-    "transferPermille": 500
+    "transferPermille": 250
   },
   "curse": {
     "selfCostPermille": 250

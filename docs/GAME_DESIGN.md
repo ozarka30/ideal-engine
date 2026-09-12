@@ -43,11 +43,11 @@ You run a small firm in a haunted office tower. Each round you spend Budget on s
 rooms and furniture, arrange them across the floors, and press Ready. Your tower then
 fights another tower for sixty seconds. Nothing moves. Your employees fire their
 abilities on cooldowns, their output is scaled by the room they stand in and the floor
-they stand on, and it lands on the rival's **Goodwill** — a defensive buffer with a
-visible bar and number. When Goodwill is empty, further damage moves the shared
-**Market Share** bar. Claim the whole bar, or lead it when the quarterly bell rings, and you win.
+they stand on. **Sales** add ¥ to your firm's **Revenue**; **Poach**, **Scandal** and
+**Curse** take it from the rival's; **Client Loyalty** — a visible bar and number — shields
+yours from Poaching. Have more Revenue when the quarterly bell rings, and you win.
 
-Beneath each Goodwill number scrolls a **ledger** of named entries. It is the fight's
+Beneath each firm's Revenue scrolls a **ledger** of named entries. It is the fight's
 running commentary while it happens and its complete post-mortem afterwards. A player
 who loses can always find out why.
 
@@ -67,10 +67,10 @@ every round. The game is the argument between those two facts.
 | **Quarter** | The fight. 60 seconds, 1,200 ticks, divided into Month 1, Month 2, Crunch and the Bell. It always runs to the Bell |
 | **Budget** | What a firm spends in the build phase. Displayed as `¥`. Set by income; a fight's Revenue does not carry into it |
 | **Revenue** | A firm's takings in a quarter, in `¥`. Starts at ¥0 and never goes below it. More Revenue at the Bell wins the fight (D-85) |
-| **Sales** | ¥ an employee adds straight to its own firm's Revenue. Nothing blocks it. Making money |
-| **Client Loyalty** | How firmly a firm's clients stay: a current value and a cap. Shields Revenue from Poaching. Once called Goodwill |
+| **Sales** | ¥ an employee adds to its own firm's Revenue, in proportion to the firm's Client Loyalty: wavering clients buy less (D-87). Making money |
+| **Client Loyalty** | How firmly a firm's clients stay: a current value and a cap. Shields Revenue from Poaching and keeps Sales flowing. Once called Goodwill |
 | **Poach** | Drains the rival's Loyalty; once it is empty, moves ¥ from the rival's Revenue to yours, never more than they hold |
-| **Scandal** | Shrinks the rival's Loyalty cap for the rest of the quarter and moves ¥ to you at half rate. Burnout makes a firm cause its own |
+| **Scandal** | Shrinks the rival's Loyalty cap for the rest of the quarter and moves ¥ to you at a quarter rate. Burnout makes a firm cause its own |
 | **Curse** | Moves ¥ from the rival to you straight through their Loyalty; a quarter of it rebounds on your own Loyalty. Extraplanar staff |
 | **PR** | Rebuilds your own Loyalty, from an active ability |
 | **Clients drift back** | Loyalty recovers every 2 seconds, unless the firm was Poached in the last second |
@@ -427,7 +427,7 @@ passive. Nothing is hidden: the inspector shows all of it the moment the card is
 | **Engineering** | pushes | The main Push source. Wants rooms and furniture |
 | **Legal** | resists | Raises Goodwill cap and regen; applies Bureaucracy and Frozen |
 | **HR** | restores | Active Goodwill restore; cleanses Burnout |
-| **Sales** | grows | Chip Push in the fight; Budget income between fights; the only enemy-side Burnout source outside Management |
+| **Sales** | grows | Sales in the fight, and the Account Manager's Poach; Budget income between fights; the only enemy-side Burnout source outside Management |
 | **Management** | retriggers | Makes other people fire. Never fires anything itself |
 | **Extraplanar** | pierces | Anomaly damage with a self-cost; always comes with a rider |
 
@@ -492,13 +492,13 @@ where Middle Management lives in the tower, and it is why the landing column mat
 
 - **Engineering** wants a room and furniture around it: an Architect in a Tier II
   Server Room next to a Whiteboard and a 90s PC is the game's Push ceiling.
-- **Legal** stacks cap and regen so that Push alone cannot get through in time —
-  and then loses to a Headhunter and a Consultant, because Morale does not care about
-  the cap.
+- **Legal** stacks Loyalty and regen so that Poaching cannot get through, and poaches
+  back with Cease & Desist — and then loses to a Headhunter and a Consultant, because
+  Scandal does not care about Loyalty.
 - **HR** keeps a Burnout-heavy own build alive: a Director's Reorg burns people out;
   an HR Manager on the same floor un-burns them.
-- **Sales** is the economy engine that also happens to be the counter-turtle piece.
-  A Sales Floor with three reps is `¥3`/round and enough chip to keep regen suppressed.
+- **Sales** is the earner that also happens to beat the fortress: Loyalty does not stop
+  Sales. A Sales Floor with three reps is `¥3`/round, and the Account Manager poaches.
 - **Management** is nothing on its own and multiplies everything around it. A Team Lead
   next to an Architect is a second Architect for `¥3`.
 
@@ -513,7 +513,7 @@ intended late tower fields twelve to sixteen of them.
 | `cooldownTicks` | Cooldown in ticks (seconds × 20) |
 | `initialProgressPermille` | Charge at Quarter Open; 0 by default |
 | `ability` | `{ kind, value, targeting, effects[] }` |
-| `passives[]` | Match-start contributions: `goodwillCap`, `regenPerEvent`, `income` |
+| `passives[]` | Match-start contributions: `loyaltyCap`, `regenPerEvent`, `income` |
 | `tags[]` | For recipes and rider filters |
 | `attachments[]` | Always empty in v1 (D-13) |
 
@@ -528,14 +528,14 @@ Four, all on employees. Firm-level state (cap, regen, suppression) is in the sim
 
 | Status | Stacks | Per stack | Expiry | Removed by |
 | --- | --- | --- | --- | --- |
-| **Burnout** | max 5 | Owner's firm takes `8 × stacks` Morale every second; owner's push × (1 − 0.05 × stacks) | Never, within a fight. Reset at round end | Water Cooler, HR abilities, Break Room Tier III |
+| **Burnout** | max 5 | Owner's firm causes itself an `8 × stacks` Scandal every second; owner's output × (1 − 0.05 × stacks) | Never, within a fight. Reset at round end | Water Cooler, HR abilities, Break Room Tier III |
 | **Overtime** | max 2 | Cooldown rate +50% | 3.0s per stack; on expiry the owner gains 1 Burnout | Expiry |
 | **Bureaucracy** | max 3 | Cooldown rate −20% | 5.0s per stack, each stack independently | Expiry |
 | **Frozen** | single | Cooldown does not advance | Duration; re-application extends | Expiry |
 
 Overtime is haste at a cost, and the cost is the game's satire in one rule: the sprint
 always ends, and the person who sprinted is worse afterwards. Bureaucracy is the Legal
-department's whole personality. Burnout is what a turtle cannot see coming, because the
+department's whole personality. Burnout is what a fortress cannot see coming, because the
 balance sheet does not have a line for it.
 
 ---
@@ -543,9 +543,8 @@ balance sheet does not have a line for it.
 ## 11. The fight
 
 What the player watches. The rules live in `SIMULATION_SPEC.md`; this section is what
-they feel like. This section describes the revenue race (D-85); until stage 2 of that change
-lands, the spec and the code still run the Goodwill fight it replaces, and
-`REVENUE_RACE.md` holds the race's rules.
+they feel like. This section describes the revenue race (D-85), which `SIMULATION_SPEC.md`
+revision 2 implements.
 
 ### 11.1 The quarter
 
@@ -564,13 +563,15 @@ lighting up on the tick. A build whose combo comes online at 39.9s should see it
 1. An employee's cooldown fills. It fires.
 2. Its base value is adjusted by furniture, then multiplied by its room's aura
    (including Tenure), its floor, its statuses, and the month. One integer comes out.
-3. **Sales** adds the value to the firm's own Revenue. Nothing blocks it: the answers are
-   to earn more, to slow the seller (Bureaucracy, Frozen), or to take the money afterwards.
+3. **Sales** adds the value to the firm's own Revenue, scaled by the firm's Loyalty as a
+   share of its cap: a firm at full Loyalty earns it all, a firm whose clients
+   are being poached earns less (D-87). The answers are to earn more, to slow the seller
+   (Bureaucracy, Frozen), to Poach its clients, or to take the money afterwards.
 4. **Poach** hits the rival's Client Loyalty. If it breaks Loyalty, the excess moves from
    the rival's Revenue to yours in full — never more than they hold. A Poach of at least
    4% of the rival's cap stops their clients drifting back for one second.
 5. **Scandal** skips Loyalty: it lowers the rival's Loyalty cap by the raw amount and moves
-   half of it from their Revenue to yours.
+   a quarter of it from their Revenue to yours.
 6. **Curse** skips Loyalty and moves the full amount from the rival's Revenue to yours; your
    own Loyalty takes a quarter of it, and if that breaks your Loyalty the excess goes to
    the rival.
@@ -579,7 +580,7 @@ lighting up on the tick. A build whose combo comes online at 39.9s should see it
 
 Every two seconds, each firm that has not been Poached in the last second writes a
 **clients drift back** entry to its ledger. Every second, each firm whose employees hold
-Burnout causes itself a **Scandal**: its Loyalty cap shrinks and the rival takes half.
+Burnout causes itself a **Scandal**: its Loyalty cap shrinks and the rival takes a quarter of it.
 
 ### 11.3 How it ends
 
@@ -859,7 +860,7 @@ but a tower built to teach or test something. Three kinds:
 | **Semi-scripted** | A **rival template** — an archetype, a round, and a seeded variation — expanded into a snapshot at run start and validated for constructibility | Every ordinary Hostile Takeover and Audit |
 | **Ghost** | A captured player snapshot | Ranked only |
 
-A rival template names an archetype (`turtle`, `burst`, `economy`, `burnout`,
+A rival template names an archetype (`fortress`, `raider`, `earner`, `scandal`,
 `management`, `generalist`), a round, a budget envelope, and a seed; the expander
 picks rooms and staff from the archetype's shopping list within the envelope, places
 them by the archetype's layout rules, and assigns Tenure consistent with the round.

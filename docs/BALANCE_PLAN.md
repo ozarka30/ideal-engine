@@ -36,10 +36,12 @@ right; it is that when they are wrong the harness will say so before a player do
 
 Three things, in priority order:
 
-1. **Every defence eventually breaks, and every fight ends.** Without this the game
-   has a degenerate strategy (turtle) and a degenerate outcome (the Bell, every time).
-   This is a *guarantee*, held by the pressure curve (D-05), and the harness proves it
-   rather than estimates it.
+1. **Every defence eventually breaks, and no quarter is settled early.** Every quarter
+   runs to the Bell (D-85). Without a breakable defence the game has a degenerate
+   strategy (a fortress nobody can Poach through); without a late swing it has a
+   degenerate outcome (the firm ahead at ten seconds, every time). The first is a
+   *guarantee*, held by the pressure curve (D-05), and the harness proves it rather
+   than estimates it.
 2. **No archetype is the answer.** Six ways to build a tower, each inside a win-rate
    band against the field, each beaten by something. Depth from combination, not from
    one correct build.
@@ -85,13 +87,13 @@ Every invariant names the population it runs over. From `content/balance.json`:
 | --- | --- |
 | `field` | Every archetype template expanded at the round, seeds x 6 archetypes, budget 1000 permille |
 | `median_attacker` | The generalist template at median budget; results averaged over seeds |
-| `strongest_defence` | A hill-climb over legal, constructible, gimmick-free builds at the round, maximising the tick at which Goodwill first reaches 0 against median_attacker; 200 iterations from the turtle template at 1200 permille |
+| `strongest_defence` | A hill-climb over legal, constructible, gimmick-free builds at the round, maximising the tick at which Loyalty first reaches 0 against median_attacker; 200 iterations from the fortress template at 1200 permille |
 | `mirror` | A template against itself, different seeds |
 | `agent_run` | A greedy builder plays 16 rounds against field rivals, buying the highest harness-scored option each round; 100 runs |
 | `optimizer` | A hill-climb over constructible builds maximising win rate against field at the round; 200 iterations; used for outlier detection and pick rates |
 
 Two of these are **searches**, not samples. `strongest_defence` climbs toward the
-build that holds Goodwill longest; `optimizer` climbs toward the build that wins most.
+build that holds Loyalty longest; `optimizer` climbs toward the build that wins most.
 The invariants on them are the ones that catch what a sample would miss — the brief's
 named risk that the pressure curve must beat the *strongest* defence, not the average
 one, is `inv.break_guaranteed` over `strongest_defence`, and it is a search precisely
@@ -111,18 +113,18 @@ Permille throughout, matching the sim. From `content/balance.json`:
 | Band | Value | Meaning |
 | --- | --- | --- |
 | `archetypeVsField` | [420, 580] | Each archetype's win rate against the field, mirror excluded |
+| `archetypeBandFromRound` | 4 | The archetype band applies from round 4, when tier-2 staff arrive. Rounds 1–3 have nothing that can hurt Sales, so a pure earner wins them whatever the numbers (D-87) |
 | `counterPair` | [580, 750] | A counter wins clearly and is not a wall |
 | `mirror` | [470, 530] | A template against itself is even; this is the fairness check on tick-parity initiative |
-| `fightMedianEndTick` | [700, 1000] | 35–50 seconds |
-| `bellRateMax` | 250 | At most a quarter of fights go to the Bell |
+| `lateSwingRate` | [100, 250] | Between one quarter in ten and one in four is won by a firm that was behind or level after Crunch began: comebacks exist (D-23) without making a lead meaningless (`GAME_DESIGN.md` §21) |
 | `drawRateMax` | 20 | Draws are rare |
-| `firstShareMoveMedianTick` / `P90` | 200 / 400 | The bar moves inside 10 s in the median fight, inside 20 s in nine of ten |
-| `singleHitShareMax` | 1500 | No single resolution moves the bar more than 15% |
+| `firstRevenueMoveMedianTick` / `P90` | 200 / 400 | Revenue moves inside 10 s in the median quarter, inside 20 s in nine of ten |
+| `singleHitRevenueMaxPermille` | 150 | No single resolution moves more than 15% of the quarter's combined Revenue |
 | `liveLedgerLinesPerSecondP95` / `Fail` | 4 / 6 | The D-08 budget; warn above four, fail above six |
 | `demolitionsPerRunMedianMax` | 1000 | One demolition per run, median — rooms are commitments |
 | `relocationsPerRunMedianMax` | 2000 | Two relocations per run, median — the valve is not a habit (warn) |
 | `selectorDensityMin` from round 8 | 500 | Half of late rivals carry a floor-selected status |
-| `abilityShareOfWinnerPushP50Max` | 500 | No one card is most of a win |
+| `abilityShareOfWinnerRevenueP50Max` | 500 | No one card is most of a win |
 | `deadContentPickRate` | 20 | Below 2% pick rate is a review flag |
 | `simulateMedianMs` | 5 | The ARCHITECTURE §11 budget |
 
@@ -137,28 +139,33 @@ after the first hundred nightly reports, not before.
 
 ### 5.1 The six
 
-| Archetype | Core | Wants | Fears |
-| --- | --- | --- | --- |
-| **generalist** | Open Plan Engineering, a Paralegal, a Sales Rep | Nothing in particular | Nothing in particular. The median |
-| **turtle** | Legal Departments, HR restore, Reception full of Paralegals | Time | Morale — it ignores the cap |
-| **burst** | Server Room Architects, DevOps Overtime, Team Leads | Overflow timing | Legal cap and regen; Bureaucracy on the Architect |
-| **economy** | Sales Floors, income, chip that never stops | Late rounds | Burst before the income matters |
-| **burnout** | Consultants, Headhunters, Training Rooms, HR to clean up | A stacked floor to Review | A retrigger core with cleanse |
-| **management** | Boardroom Directors, Middle Managers, a few strong pieces to retrigger | Adjacency | Economy's suppression and scaling |
+The race renamed four of them (D-86); the template ids follow (`rival.t_fortress`, …).
+
+| Archetype | Was | Core | Wants | Fears |
+| --- | --- | --- | --- | --- |
+| **generalist** | generalist | Open Plan Engineering, a Sales Rep, a Poacher, a Recruiter's PR | Nothing in particular | Nothing in particular. The median |
+| **earner** | economy | Engineering and Sales on Sales Floors, income | A quiet quarter | Raiders — its pile is the prize |
+| **fortress** | turtle | Legal Departments, HR PR, Reception full of Paralegals | Poachers | Scandal — it ignores Loyalty |
+| **raider** | burst | Account Managers, Patent Attorneys and Counsel, timed for the rush | A rival with Revenue and no Loyalty | Fortress Loyalty and regen |
+| **scandal** | burnout | Consultants, Headhunters, Training Rooms, HR to clean up | A rival that paid for Loyalty | Cleanse and tempo |
+| **management** | management | Boardroom Directors, Middle Managers, earners to retrigger | Adjacency | Raiders and scandal |
 
 ### 5.2 The web
 
 The brief's triangle — Legal turtles beat burst, burst beats economy, Burnout pierces
-turtles — is the starting point. Six archetypes need a web, not a triangle, and the
-harness asserts each edge inside the `counterPair` band:
+turtles — survives the race in its new words: a fortress beats a raider, a raider beats
+an earner, Scandal erodes a fortress. The race adds its own edge — Loyalty does not stop
+Sales — and six archetypes need a web, not a triangle. The harness asserts each edge
+inside the `counterPair` band (`REVENUE_RACE.md` §5):
 
 | Winner | Loser | Why |
 | --- | --- | --- |
-| turtle | burst | Legal cap and regen outlast a build whose damage arrives in bursts |
-| burst | economy | Economy scales into rounds it does not survive |
-| burnout | turtle | Morale ignores Goodwill and erodes the cap the turtle paid for |
-| management | burnout | Retriggers with HR cleanse out-tempo a slow Burnout stack |
-| economy | management | Chip that never stops suppressing regen, plus income that outgrows a retrigger core |
+| raider | earner | The earner has the Revenue and none of the Loyalty to keep it |
+| fortress | raider | Loyalty and regen soak Poaches that arrive in bursts |
+| earner | fortress | Loyalty does not stop Sales; the fortress makes too little |
+| scandal | fortress | Scandal erodes the cap the fortress paid for |
+| management | scandal | Retriggers and HR cleanse out-tempo a slow Burnout stack |
+| earner | management | Sales that never stop outgrow a retrigger core |
 | generalist | none | The generalist is the median, not a counter; it sits inside the band against everyone |
 
 The generalist has no edge in either direction: it is the archetype the band is
@@ -173,13 +180,14 @@ wrong answer, the archetype that should not:
 | Boss | Favoured | Punished |
 | --- | --- | --- |
 | `boss_regional_rival` | generalist ≥ 500‰ | — |
-| `boss_compliance_office` | burnout ≥ 600‰ | burst ≤ 300‰ |
-| `boss_parent_company` | burnout ≥ 450‰ | burst ≤ 300‰ |
+| `boss_compliance_office` | scandal ≥ 600‰ | raider ≤ 300‰ |
+| `boss_parent_company` | scandal ≥ 450‰ | raider ≤ 300‰ |
 
 The Regional Rival has no punished archetype because its lesson is that the ledger is
-readable, not that a build is wrong. The Compliance Office punishes burst because
-"more Push" is the intuitive wrong answer to a turtle. The Parent Company punishes
-burst because a concentrated tower is what its gimmick exists to hurt.
+readable, not that a build is wrong. The Compliance Office punishes the raider because
+"more Poach" is the intuitive wrong answer to a fortress whose Loyalty always comes back.
+The Parent Company punishes the raider because a concentrated tower is what its gimmick
+exists to hurt.
 
 ---
 
@@ -193,12 +201,12 @@ invariant is a content edit plus a measure implementation, never a spec change.
 | --- | --- | --- | --- | --- |
 | `break_guaranteed` | No defence survives to the Bell | strongest_defence vs median_attacker | smoke+nightly | fail |
 | `bar_moves_early` | Fights do not open flat | field vs field | smoke+nightly | fail |
-| `archetype_band` | No archetype dominates the field | each archetype vs field | smoke+nightly | fail |
+| `archetype_band` | No archetype dominates the field | each archetype vs field, from round 4 | smoke+nightly | fail |
 | `counter_pairs` | Counters exist and are not walls | counters | nightly | fail |
 | `mirror_parity` | Mirrors are fair | mirror | nightly | fail |
-| `fight_length` | Fights end in the window | field vs field | smoke+nightly | fail |
+| `late_swing` | Crunch is the swing | field vs field | smoke+nightly | fail |
 | `chip_cannot_suppress` | Chip cannot hold regen down alone | static: employees x rounds offered | commit | fail |
-| `single_hit_cap` | No one hit claims the bar | field vs field | smoke+nightly | fail |
+| `single_hit_cap` | No one hit claims the quarter | field vs field | smoke+nightly | fail |
 | `rider_net_negative` | The portal is a gamble, not an upgrade | field with substitution vs field | nightly | fail |
 | `demolition_rare` | Rooms are commitments | agent_run | nightly | fail |
 | `relocation_rare` | Relocation is a valve, not a habit | agent_run | nightly | warn |
@@ -217,14 +225,14 @@ One entry, verbatim, so the shape is clear:
 {
   "id": "inv.break_guaranteed",
   "name": "No defence survives to the Bell",
-  "statement": "Against median_attacker, the strongest_defence build's Goodwill reaches 0 before the Bell in every seed.",
+  "statement": "Against median_attacker, the strongest_defence build's Loyalty reaches 0 before the Bell in every seed.",
   "population": "strongest_defence vs median_attacker",
-  "measure": "max over seeds of first tick at which defender goodwill == 0",
+  "measure": "max over seeds of first tick at which defender loyalty == 0",
   "comparator": "<",
   "threshold": 1160,
   "cadence": "smoke+nightly",
   "severity": "fail",
-  "source": "DESIGN_BRIEF risk 3; D-05"
+  "source": "DESIGN_BRIEF risk 3; D-05; D-85"
 }
 ```
 
@@ -309,15 +317,15 @@ balance breaks that thing. They are listed so the tuning loop skips them:
 
 | Not a knob | Why |
 | --- | --- |
-| The Quarter Close curve — `pushMult`, `regenMult`, `monthStart` | D-05. The fixed frame every other number is tuned against; per-content or per-round tuning makes the space unsearchable |
-| `SHARE_TOTAL`, `SHARE_START` | The bar's scale is the display's scale |
+| The Quarter Close curve — `rushMult`, `regenMult`, `monthStart` | D-05. The fixed frame every other number is tuned against; per-content or per-round tuning makes the space unsearchable |
 | Tick rate and quarter length | D-21; every fixture and every screen assumes them |
 | Grid sizes | D-01; the manifest and every layout assumes them |
 | Tenure tier rounds | D-25; the run's shape is built on 3 / 6 / 10 |
 | Retrigger depth | D-10; a rules constant, not a balance one |
 
-`SP_PER_PUSH_PERMILLE` — the conversion table — *is* a knob, and the main one for
-fight length: it moves `fight_length` without touching any card.
+The Loyalty base — `LOYALTY_BASE` and its per-round step — *is* a knob, and the main
+one for when a quarter swings: it sets when Poaching starts to take Revenue, so it moves
+`late_swing` and `break_guaranteed` without touching any card.
 
 ---
 
@@ -350,8 +358,8 @@ the vertical slice and again at every nightly heatmap review:
 
 | Question | Signal it is wrong |
 | --- | --- |
-| Does a fight inside every band still *feel* flat? | The bar moves on schedule and nobody cares. Then the issue is presentation, not numbers, and the fix is in the battle screen |
-| Is the counter web *legible* from the build screen? | You beat a turtle with Burnout and cannot say why. Then the dossier or the card text is wrong |
+| Does a fight inside every band still *feel* flat? | Revenue moves on schedule and nobody cares. Then the issue is presentation, not numbers, and the fix is in the battle screen |
+| Is the counter web *legible* from the build screen? | You beat a fortress with Scandal and cannot say why. Then the dossier or the card text is wrong |
 | Does the 42–58 band hide a best archetype everyone plays? | Telemetry pick rates are lopsided while the harness bands are green. Then narrow the band, or the templates are not what players build |
 
 A green harness is necessary. It is not sufficient, and this plan does not pretend
