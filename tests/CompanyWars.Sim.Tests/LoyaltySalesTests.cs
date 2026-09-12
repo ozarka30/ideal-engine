@@ -2,7 +2,7 @@ using Xunit;
 
 namespace CompanyWars.Sim.Tests;
 
-/// <summary>SIMULATION_SPEC.md §9.3 (D-87): Sales earn in proportion to Loyalty over the starting cap.</summary>
+/// <summary>SIMULATION_SPEC.md §9.3 (D-87, D-88): Sales earn in proportion to Loyalty over the current cap.</summary>
 public class LoyaltySalesTests
 {
     [Fact]

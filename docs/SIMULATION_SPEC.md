@@ -16,8 +16,8 @@ renamed Client Loyalty; the effect kinds are `sales`, `poach`, `scandal`, `curse
 `pr`. The `MatchResult` `schemaVersion` is 2, and fixtures recorded under revision 1 are
 invalid until re-recorded (§18.8). The `TowerSnapshot` format is unchanged.
 
-**Revision 3 — Sales scale with Loyalty (D-87).** A `sales` effect earns
-`floor(v × loyalty / capAtStart)` (§9.3): wavering clients buy less. The entry's `raw` is
+**Revision 3 — Sales scale with Loyalty (D-87, D-88).** A `sales` effect earns
+`floor(v × loyalty / cap)` (§9.3): wavering clients buy less. The entry's `raw` is
 `v` and its `revenueDelta` what was earned (§16.1). Fixtures recorded under revision 2 are
 invalid until re-recorded; the §20 trace is unchanged, because with no Poach Loyalty
 stays at its cap.
@@ -565,11 +565,12 @@ Scandal from Burnout skips the first six steps (§11.2).
 ### 9.3 Primary effects by kind
 
 **`sales`** — target: own firm. Making money, in proportion to how firmly the firm's
-clients stay (D-87): Poaching that drains Loyalty, and Scandal that cuts the cap under it,
-both cut Sales.
+clients stay (D-87): Poaching that drains Loyalty cuts Sales. The measure is the current
+cap (D-88), so a Scandal, which lowers the cap, hurts through its transfer rather than by
+cutting the firm's Sales for the rest of the quarter.
 
 ```
-earned = floor(v * seller.loyalty / max(1, seller.capAtStart))
+earned = floor(v * seller.loyalty / max(1, seller.cap))
 seller.revenue    += earned
 seller.totalSales += earned
 ```

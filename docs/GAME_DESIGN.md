@@ -564,7 +564,7 @@ lighting up on the tick. A build whose combo comes online at 39.9s should see it
 2. Its base value is adjusted by furniture, then multiplied by its room's aura
    (including Tenure), its floor, its statuses, and the month. One integer comes out.
 3. **Sales** adds the value to the firm's own Revenue, scaled by the firm's Loyalty as a
-   share of its starting cap: a firm at full Loyalty earns it all, a firm whose clients
+   share of its cap: a firm at full Loyalty earns it all, a firm whose clients
    are being poached earns less (D-87). The answers are to earn more, to slow the seller
    (Bureaucracy, Frozen), to Poach its clients, or to take the money afterwards.
 4. **Poach** hits the rival's Client Loyalty. If it breaks Loyalty, the excess moves from

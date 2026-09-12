@@ -116,8 +116,9 @@ history of a reversal is the most useful thing in a document like this.
 | [D-85](#d-85) | The fight is a revenue race: most ¥ at the Bell wins; Sales earn, Poach, Scandal and Curse take, Client Loyalty protects. Ids renamed to match; no early finish | Human | Money rework |
 | [D-86](#d-86) | The balance plan restated for the race: archetypes renamed fortress, raider, earner, scandal; `fight_length` becomes `late_swing` (100–250‰ of quarters won from behind after Crunch); `bellRateMax` retired | Craft | Money rework |
 | [D-87](#d-87) | Sales earn in proportion to Client Loyalty (`v × loyalty / capAtStart`); the archetype band applies from round 4 | Human | Money rework |
+| [D-88](#d-88) | Sales scale by Loyalty over the current cap, not the starting cap, so a Scandal no longer cuts a firm's Sales for good | Human | Money rework |
 
-Fifty-eight craft decisions and twenty-nine human calls taken. Eight items remain open in
+Fifty-eight craft decisions and thirty human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -1978,3 +1979,23 @@ and management are the next knobs. The ten fixtures need re-recording under `fix
 stage 2.
 
 Authority: Human · `SIMULATION_SPEC.md` §9.3, §16.1, `BALANCE_PLAN.md` §4 · amends [D-85](#d-85)
+
+Superseded by: [D-88](#d-88), in part. Loyalty is measured against the current cap, not the starting one.
+
+## D-88
+
+**Sales earn in proportion to Loyalty over the firm's current cap, not its starting cap:
+`floor(v × loyalty / cap)`. A Scandal lowers the cap a firm's Loyalty is measured against, so it hurts
+through its transfer and by leaving Poaching less to chew through, not by cutting that firm's Sales for
+the rest of the quarter.**
+
+*Why:* measured against the starting cap, every point a Scandal shaved off a cap was a permanent cut to
+that firm's Sales. Management, whose Middle Managers' Overtime leaves Burnout on every expiry, ground its
+own cap to 1 by mid-quarter and earned 12–20% of what it sold, and the scandal archetype won 754–845‰
+against the field. Over the current cap the prototype held scandal at 314–470‰ and management at
+162–394‰ from round 6, and Poaching still cuts a rival's Sales as D-87 intended.
+
+*Consequence:* amends D-87's formula; `SIMULATION_SPEC.md` revision 3's §9.3 says `cap`. The raider and
+management remain outside the band and are the next knobs.
+
+Authority: Human · `SIMULATION_SPEC.md` §9.3 · amends [D-87](#d-87)
