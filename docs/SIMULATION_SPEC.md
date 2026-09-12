@@ -1043,8 +1043,8 @@ Minimum fixture set, all at round 1 unless stated:
 | Fixture | Exercises |
 | --- | --- |
 | `mirror_junior` | One Junior Developer each, corridor. Ends in a draw at the Bell. §20 |
-| `overflow` | A's single Architect at round 16 against an empty tower. Large Sales. *Needs a new input: the Architect earns Sales since revision 2, so nothing overflows; a Poach source is wanted* |
-| `regen_suppress` | QA Tester against a Recruiter. *Needs a new input: the QA Tester earns Sales since revision 2, so Loyalty is never chipped; a Poach below `SUPPRESS_THRESHOLD` is wanted* |
+| `overflow` | A Patent Attorney and an Account Manager against two Junior Developers. Poach breaks Loyalty, the overflow transfers Revenue until the defender has none, and the defender's Sales shrink with its Loyalty (§9.3, §10.2) |
+| `regen_suppress` | At round 16, an Account Manager's corridor Poach of 81 against a cap of 2200: below `SUPPRESS_THRESHOLD` (88) in Month 1, so regen still comes; above it once the rush multiplies it, so regen is suppressed |
 | `burnout_pierce` | Consultant against a Legal turtle. Scandal erosion; Bell ordering |
 | `retrigger_depth` | Team Lead adjacent to a Director adjacent to three units. Depth whiffs |
 | `tie_parity` | Two identical towers with identical cooldowns. Alternating initiative |

@@ -15,13 +15,13 @@ public static class FixtureCatalog
             Tower(v, 1, "founder.sato", Ground(), Corridor(1, Emp("emp.junior_dev", 2, 1, "e_a1"))),
             Tower(v, 1, "founder.sato", Ground(), Corridor(1, Emp("emp.junior_dev", 2, 1, "e_b1"))), null);
 
-        yield return new FixtureInput("overflow", "A's single Architect at round 16 against an empty tower. Large Sales; needs a Poach input to overflow again (revision 2).", 2, 16,
-            Tower(v, 16, "founder.nakagawa", Ground(), Corridor(1, Emp("emp.architect", 2, 1, "e_a1"))),
-            Tower(v, 16, "founder.sato", Ground(), Corridor(1)), null);
+        yield return new FixtureInput("overflow", "A Patent Attorney and an Account Manager against two Junior Developers. Poach breaks Loyalty, the overflow transfers Revenue, and B's Sales shrink with its Loyalty (D-87).", 2, 1,
+            Tower(v, 1, "founder.okada", Ground(), Corridor(1, Emp("emp.patent_attorney", 1, 1, "e_a1"), Emp("emp.account_manager", 3, 1, "e_a2"))),
+            Tower(v, 1, "founder.sato", Ground(), Corridor(1, Emp("emp.junior_dev", 1, 1, "e_b1"), Emp("emp.junior_dev", 3, 1, "e_b2"))), null);
 
-        yield return new FixtureInput("regen_suppress", "QA Tester against a Recruiter. Needs a Poach below the suppress threshold to test regen again (revision 2).", 3, 1,
-            Tower(v, 1, "founder.nakagawa", Ground(), Corridor(1, Emp("emp.qa_tester", 2, 1, "e_a1"))),
-            Tower(v, 1, "founder.ueda", Ground(), Corridor(1, Emp("emp.recruiter", 2, 1, "e_b1"))), null);
+        yield return new FixtureInput("regen_suppress", "An Account Manager's corridor Poach of 81 against a round-16 cap of 2200 (threshold 88): in Month 1 regen still comes 20 ticks later; at 113 and 162, once the rush multiplies it, regen is suppressed.", 3, 16,
+            Tower(v, 16, "founder.hoshino", Ground(), Corridor(1, Emp("emp.account_manager", 2, 1, "e_a1"))),
+            Tower(v, 16, "founder.ueda", Ground(), Corridor(1, Emp("emp.junior_dev", 2, 1, "e_b1"))), null);
 
         yield return new FixtureInput("burnout_pierce", "Consultant against a Legal turtle. Scandal erosion; Bell ordering.", 4, 6,
             Tower(v, 6, "founder.moriyama", Ground(), Corridor(1, Emp("emp.consultant", 2, 1, "e_a1"), Emp("emp.junior_dev", 3, 1, "e_a2"))),
