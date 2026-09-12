@@ -160,10 +160,11 @@ An effect has a **trigger** (`on`), an **action** (`do`), and depending on the a
 
 | `do` | Needs | Meaning |
 | --- | --- | --- |
-| `push` | `value`, `target` firm | Push damage — SIMULATION_SPEC §9.3 |
-| `anomaly` | `value`, `target` firm | Anomaly damage |
-| `morale` | `value`, `target` firm | Morale damage |
-| `restore` | `value`, `target` own firm | Direct Goodwill recovery |
+| `sales` | `value`, `target` own firm | ¥ added to your own Revenue — SIMULATION_SPEC §9.3 |
+| `poach` | `value`, `target` firm | Drains the rival's Loyalty, then moves ¥ from their Revenue to yours |
+| `scandal` | `value`, `target` firm | Shrinks a Loyalty cap and moves ¥ at half rate to the other firm |
+| `curse` | `value`, `target` firm | Moves ¥ from the rival straight through Loyalty; a quarter rebounds on your own |
+| `pr` | `value`, `target` own firm | Direct Loyalty recovery |
 | `status` | `status`, `stacks`, `target` | Apply stacks; `durationTicks` for Frozen |
 | `cleanse` | `status`, `stacks`, `target` | Remove stacks |
 | `retrigger` | `target` | Targets fire now, depth +1; optional `then` applies a status to each target after its resolution |
@@ -191,8 +192,8 @@ An effect has a **trigger** (`on`), an **action** (`do`), and depending on the a
 
 Enemy targets use the two-level selector vocabulary from `SIMULATION_SPEC.md` §6 —
 floor: {enum_of("FloorSelector")}; unit: {enum_of("UnitSelector")}. Own targets use a
-scope and an optional `pick`. Firm targets are for damage and restore, which have no
-unit target (D-32).
+scope and an optional `pick`. Firm targets are for Sales, Poach, Scandal, Curse and PR,
+which have no unit target (D-32).
 
 ### 3.4 Values
 
@@ -315,8 +316,8 @@ slot shows.
 
 Four, and their numbers are here rather than in `rules.json` because a status is
 content — a fifth could be added. `cooldownRatePermillePerStack` is the per-stack
-change to cooldown rate (§8.1 of the sim spec); `pushPenaltyPermillePerStack` and
-`moralePerStackPerEvent` are Burnout's; `onExpire` is Overtime's hangover.
+change to cooldown rate (§8.1 of the sim spec); `outputPenaltyPermillePerStack` and
+`scandalPerStackPerEvent` are Burnout's; `onExpire` is Overtime's hangover.
 
 {excerpt("statuses.json", "statuses", "status.overtime")}
 
@@ -347,7 +348,7 @@ The sim does not know which side is the player. The shop refuses to offer a
 A **founder** is the third modifier-shaped entity. Chosen at run start, it names a
 portrait and a badge in the manifest and carries an `effects` list the sim applies
 exactly as a modifier's, ordered first. In v1 every list is empty — the founder is the
-player's face on the firm panel and beside the Goodwill bar — and it is in the snapshot's
+player's face on the firm panel and beside the Loyalty bar — and it is in the snapshot's
 `globals.founderId` so that a founder gaining a mechanic later is a content edit rather
 than a format migration (D-46). Rival templates draw from a `founderPool`; scripted
 rivals name theirs.

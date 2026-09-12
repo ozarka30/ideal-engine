@@ -94,8 +94,8 @@ public static class LiveLedger
             case "banner":
                 return true;
             case "regen":
-                return e.TargetSide == side && e.GoodwillDelta != 0;
-            case "morale":
+                return e.TargetSide == side && e.LoyaltyDelta != 0;
+            case "scandal":
                 return e.TargetSide == side;
             default:
                 return e.SourceSide == side;
@@ -112,35 +112,42 @@ public static class LiveLedger
         string text;
         switch (first.Kind)
         {
-            case "push":
-            case "anomaly":
+            case "sales":
                 {
-                    long raw = 0, overflow = 0, share = 0;
-                    foreach (LedgerEntry e in entries) { raw += e.Raw; overflow += e.Overflow; share += Math.Abs(e.ShareDelta); }
-                    string what = first.Kind == "anomaly" ? (Array.IndexOf(first.Tags, "self_cost") >= 0 ? "self" : "anomaly") : "push";
-                    text = $"{Source(view, first)} {what} {raw}{(overflow > 0 ? $" ▸{overflow}" : string.Empty)}{(share > 0 ? $" +{share}sp" : string.Empty)}{Times(count)}";
+                    long earned = 0;
+                    foreach (LedgerEntry e in entries) earned += e.RevenueDelta;
+                    text = $"{Source(view, first)} sales +¥{earned}{Times(count)}";
                     break;
                 }
-            case "restore":
+            case "poach":
+            case "curse":
+                {
+                    long raw = 0, overflow = 0, taken = 0;
+                    foreach (LedgerEntry e in entries) { raw += e.Raw; overflow += e.Overflow; taken -= e.RevenueDelta; }
+                    string what = first.Kind == "curse" ? (Array.IndexOf(first.Tags, "self_cost") >= 0 ? "backlash" : "curse") : "poach";
+                    text = $"{Source(view, first)} {what} {raw}{(overflow > 0 ? $" ▸{overflow}" : string.Empty)}{(taken > 0 ? $" ¥{taken}" : string.Empty)}{Times(count)}";
+                    break;
+                }
+            case "pr":
                 {
                     long applied = 0;
-                    foreach (LedgerEntry e in entries) applied += e.GoodwillDelta;
-                    text = $"{Source(view, first)} restore +{applied}{Times(count)}";
+                    foreach (LedgerEntry e in entries) applied += e.LoyaltyDelta;
+                    text = $"{Source(view, first)} PR +{applied}{Times(count)}";
                     break;
                 }
             case "regen":
                 {
                     long applied = 0;
-                    foreach (LedgerEntry e in entries) applied += e.GoodwillDelta;
-                    text = $"regen +{applied}{Times(count)}";
+                    foreach (LedgerEntry e in entries) applied += e.LoyaltyDelta;
+                    text = $"clients back +{applied}{Times(count)}";
                     break;
                 }
-            case "morale":
+            case "scandal":
                 {
-                    long cap = 0;
-                    foreach (LedgerEntry e in entries) cap += e.CapDelta;
+                    long cap = 0, taken = 0;
+                    foreach (LedgerEntry e in entries) { cap += e.CapDelta; taken -= e.RevenueDelta; }
                     string why = Array.IndexOf(first.Tags, "burnout") >= 0 ? "burnout" : Ability(first);
-                    text = $"morale {why} cap {cap}{Times(count)}";
+                    text = $"scandal {why} cap {cap}{(taken > 0 ? $" ¥{taken}" : string.Empty)}{Times(count)}";
                     break;
                 }
             case "status":

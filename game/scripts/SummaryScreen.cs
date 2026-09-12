@@ -23,7 +23,7 @@ public partial class SummaryScreen : Node2D
         font.Draw(this, _at.X("title"), _at.Y("title"), Run.Summary(r.Content, run), font.Large, Tones.Text("interface"));
         int y = _at.Y("headings");
         int[] cols = { 8, 48, 96, 160, 216 };
-        string[] heads = { "ROUND", "RESULT", "SHARE", "TIME", "RIVAL" };
+        string[] heads = { "ROUND", "RESULT", "REVENUE", "TIME", "RIVAL" };
         for (int i = 0; i < heads.Length; i++) font.Draw(this, cols[i], y, heads[i], font.Small, Tones.Muted("interface"));
         y += 10;
         foreach (FightRecord f in run.History)
@@ -33,7 +33,7 @@ public partial class SummaryScreen : Node2D
             Color c = Tones.Fill(tone).Lightened(0.4f);
             font.Draw(this, cols[0], y, $"Q{f.Round}", font.Small, c);
             font.Draw(this, cols[1], y, res, font.Small, c);
-            font.Draw(this, cols[2], y, $"{f.FinalShare / 100}.{f.FinalShare % 100 / 10}%", font.Small, c, HorizontalAlignment.Right, 48);
+            font.Draw(this, cols[2], y, $"¥{f.FinalRevenue.A:N0}", font.Small, c, HorizontalAlignment.Right, 48);
             font.Draw(this, cols[3], y, CompanyWars.Playback.Autopsy.Seconds(f.EndTick), font.Small, c, HorizontalAlignment.Right, 40);
             font.Draw(this, cols[4], y, $"{f.RivalName} [{f.RivalArchetype}]", font.Small, c);
             y += 10;

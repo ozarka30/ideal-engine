@@ -13,6 +13,7 @@ find the document that governs whatever you are about to change.
 - `src/` — the .NET libraries and tools (`Sim`, `Content`, `Manifest`, `Playback`, `Build`, `Harness`, `Tools`); `tests/` — xunit, one project per library; `fixtures/sim/` — the ten recorded conformance fixtures; `game/` — the Godot 4 project: the picker, battle and autopsy screens, screenshot fixtures under `game/__screenshots__/`. `src/CompanyWars.Sim/README.md` lists the readings the spec left open.
 - **The sim is headless; anything visible is edited in Godot (D-81).** Sim, content and balance work never opens the editor — the harness, the ten fixtures and every test run without it, and `CompanyWars.Sim` cannot reference Godot at all. Everything a player can see goes the other way: it is a node in a scene, positioned and sized in the 2D editor, not a literal in a `_Draw`. When you find a visible number in code, the fix is to move it into the scene, not to tidy the constant.
 - **Positions come from the screen's scene (D-77).** Each `game/scenes/<Screen>.tscn` has a `Layout` node whose children are the slots; drag them in Godot's 2D editor and the game follows, with nothing to convert. `SceneLayout` reads them and hides the guides at runtime. The manifest keeps sizes, anchors, footprints and draw order and no longer owns position — its `layout` field is now unread by anything and should be deleted. `python3 tools/dev/scenes.py` scaffolds a screen's Layout from the manifest once; after that the scene is the truth and it refuses to overwrite. Side B's placement is still the mirror of side A's across the canvas, computed, never typed.
+- **A floor's look is its scene (D-84).** `game/scenes/floors/<business>/<floor>.tscn`, 160 × 96, rendered live like a room; only `basic` exists so far and every founder uses it. What a floor *is* (grid, output, fixed rooms, lease) stays in `tools/planning/gen_content.py`; each scene's `Guides` node is written from it by `tools/dev/floor_guides.py` and hidden in game.
 
 ## Commands
 ```
@@ -31,6 +32,7 @@ xvfb-run godot --path game -- --drive tools/dev/drive/first_round.json   # plays
 tools/dev/godot.sh [--templates]                  # prints the Godot 4.7.2 mono path, downloading it into ~/.cache/companywars if absent
 tools\dev\godot.cmd                               # Windows: builds the C# project, then OPENS THE EDITOR (mono binary, SDK on PATH); with arguments it passes them through instead
 python3 tools/dev/scenes.py                       # scaffolds a screen's Layout node from the manifest once (D-77); refuses to overwrite an existing one
+python3 tools/dev/floor_guides.py                 # rewrites each floor scene's Guides node (tile lines, no-place wash, fixed rooms) from content (D-84); --check lists stale ones
 python3 tools/dev/gallery.py                      # build/gallery.html: every screen, the last drive run, and any reference shots under game/__screenshots__/references/
 python3 tools/dev/worklist.py                     # docs/ART_WORKLIST.md: every slot without art, ranked, with its exact path and size; creates the folders
 python3 tools/dev/packs.py                        # docs/pack_index.csv: every PNG in packs/ with its size; docs/PACKS.md maps candidateSource to pack
@@ -69,6 +71,6 @@ python3 tools/dev/ui.py                           # builds the UI chrome from to
 ## Gotchas
 - Round = fight. Campaign interludes do not advance the round (D-31).
 - A room is a zone over tiles, not an object consuming them (D-12).
-- Push has no target; only status and retrigger effects have selectors (D-32).
+- Sales and Poach have no unit target (a firm, not a unit); only status and retrigger effects have selectors (D-32, D-85).
 - `globals.founderId` is in every snapshot; a founder's effects apply like a modifier's and are empty in v1 (D-46).
 - The sixteen-fight loop against templated rivals *is* ranked's loop (D-49). Do not build campaign-only shortcuts into it.

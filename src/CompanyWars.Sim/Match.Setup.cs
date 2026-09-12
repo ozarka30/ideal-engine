@@ -13,8 +13,6 @@ internal sealed partial class Match
     private readonly List<FurnitureState> _furniture = new();
     private readonly Mulberry32 _rng;
     private readonly List<LedgerEntry> _entries = new();
-    private long _share;
-    private bool _ended;
     private string _winner = "draw";
     private long _endTick;
 
@@ -23,7 +21,6 @@ internal sealed partial class Match
         _rules = rules;
         _content = content;
         _rng = new Mulberry32(seed);
-        _share = rules.ShareStart;
 
         if (a.ContentVersion != rules.ContentVersion || b.ContentVersion != rules.ContentVersion || content.ContentVersion != rules.ContentVersion)
         {
@@ -530,8 +527,8 @@ internal sealed partial class Match
                 {
                     switch (e.Stat)
                     {
-                        case "goodwillCap": firm.CapFlat += amount; break;
-                        case "goodwillCapMult": firm.CapMult = Arith.Permille(firm.CapMult, permille); break;
+                        case "loyaltyCap": firm.CapFlat += amount; break;
+                        case "loyaltyCapMult": firm.CapMult = Arith.Permille(firm.CapMult, permille); break;
                         case "regenPerEvent": firm.RegenFlat += amount; break;
                         case "floorOutput":
                             firm.FloorOutput.Add((e.Floor == "*" ? int.MinValue : _rules.FloorIndexOf(e.Floor ?? string.Empty), permille));
@@ -540,7 +537,7 @@ internal sealed partial class Match
                     }
                     continue;
                 }
-                if (src.Room != null && src.Room.Def.Kind == "reception" && firm.ReceptionDisabled && e.Stat == "goodwillCap") continue;
+                if (src.Room != null && src.Room.Def.Kind == "reception" && firm.ReceptionDisabled && e.Stat == "loyaltyCap") continue;
                 bool fromRoom = src.Kind == SourceKind.Room;
                 bool fromEmployee = src.Kind == SourceKind.Employee;
                 long tenureStep = fromRoom ? _rules.TenureStepPermille * src.Room!.Tier : 0;
@@ -548,12 +545,13 @@ internal sealed partial class Match
                 {
                     switch (e.Stat)
                     {
-                        case "push": u.Aura[Kind.Push] = Arith.Permille(u.Aura[Kind.Push], permille + tenureStep); break;
-                        case "anomaly": u.Aura[Kind.Anomaly] = Arith.Permille(u.Aura[Kind.Anomaly], permille + tenureStep); break;
-                        case "restore": u.Aura[Kind.Restore] = Arith.Permille(u.Aura[Kind.Restore], permille + tenureStep); break;
-                        case "flatPush": u.FlatPush += amount; break;
+                        case "sales": u.Aura[Kind.Sales] = Arith.Permille(u.Aura[Kind.Sales], permille + tenureStep); break;
+                        case "poach": u.Aura[Kind.Poach] = Arith.Permille(u.Aura[Kind.Poach], permille + tenureStep); break;
+                        case "curse": u.Aura[Kind.Curse] = Arith.Permille(u.Aura[Kind.Curse], permille + tenureStep); break;
+                        case "pr": u.Aura[Kind.Pr] = Arith.Permille(u.Aura[Kind.Pr], permille + tenureStep); break;
+                        case "flatSales": u.FlatSales += amount; break;
                         case "cooldown": u.CdMult = Arith.Permille(u.CdMult, permille); break;
-                        case "goodwillCap":
+                        case "loyaltyCap":
                             if (fromEmployee) u.OwnCap += amount; else u.GrantedCap += amount;
                             break;
                         case "regenPerEvent":
@@ -569,7 +567,7 @@ internal sealed partial class Match
                             break;
                         case "burnoutMaxOverride": u.BurnoutOverride = u.BurnoutOverride.HasValue ? Arith.Min(u.BurnoutOverride.Value, amount) : amount; break;
                         case "burnoutMaxDelta": u.BurnoutDelta += amount; break;
-                        case "anomalySelfCost": u.SelfCostDelta += e.Permille ?? amount; break;
+                        case "curseSelfCost": u.SelfCostDelta += e.Permille ?? amount; break;
                         case "retriggerBonus": u.RetriggerBonus = Arith.Permille(u.RetriggerBonus, permille); break;
                         case "floorOutput":
                             firm.FloorOutput.Add((e.Floor == "*" ? int.MinValue : _rules.FloorIndexOf(e.Floor ?? string.Empty), permille));
@@ -591,7 +589,7 @@ internal sealed partial class Match
             }
             if (u.Room == null)
             {
-                for (int k = 0; k < 3; k++) u.Aura[k] = Arith.Permille(u.Aura[k], _rules.CorridorMult);
+                for (int k = 0; k < Kind.Count; k++) u.Aura[k] = Arith.Permille(u.Aura[k], _rules.CorridorMult);
             }
             u.CdProgress = Arith.Permille(u.CdTotal(0), u.Def.InitialProgressPermille);
             u.BurnoutMax = u.BurnoutImmune ? 0 : Arith.Max(0, (u.BurnoutOverride ?? _rules.BurnoutMax) + u.BurnoutDelta);
@@ -601,7 +599,7 @@ internal sealed partial class Match
                 if (fl == int.MinValue || fl == u.FloorIndex) fm = Arith.Permille(fm, p);
             }
             u.FloorMult = fm;
-            u.SelfCostPermille = Arith.Max(0, _rules.AnomalySelfCostPermille + u.SelfCostDelta);
+            u.SelfCostPermille = Arith.Max(0, _rules.CurseSelfCostPermille + u.SelfCostDelta);
             u.CapContribution = Arith.Permille(u.OwnCap, u.PassiveMult) + u.GrantedCap;
             u.RegenContribution = Arith.Permille(u.OwnRegen, u.PassiveMult) + u.GrantedRegen;
             if (u.CapProtected) firm.ProtectedCap += u.CapContribution;
@@ -631,7 +629,7 @@ internal sealed partial class Match
 
     private void DeriveFirm(Firm firm)
     {
-        long cap = _rules.GoodwillBase(_rules.Round);
+        long cap = _rules.LoyaltyBase(_rules.Round);
         int extraplanar = 0;
         foreach (Unit u in firm.Units)
         {
@@ -651,10 +649,10 @@ internal sealed partial class Match
         regen += firm.RegenFlat;
         firm.RegenPerEvent = regen;
 
-        firm.Goodwill = cap;
+        firm.Loyalty = cap;
         firm.SuppressThreshold = Arith.Permille(cap, _rules.SuppressThresholdPermille);
         firm.LastSuppressTick = -1000;
-        firm.SpCarry = 0;
-        firm.TotalPush = 0;
+        firm.Revenue = 0;
+        firm.TotalSales = 0;
     }
 }

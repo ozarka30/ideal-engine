@@ -468,10 +468,11 @@ public static class Tones
 
     public static string ForKind(string kind) => kind switch
     {
-        "push" => "operations",
-        "anomaly" => "anomalous",
-        "morale" => "people",
-        "restore" => "support",
+        "sales" => "operations",
+        "poach" => "people",
+        "curse" => "anomalous",
+        "scandal" => "people",
+        "pr" => "support",
         "regen" => "support",
         "status" => "interface",
         "retrigger" => "support",

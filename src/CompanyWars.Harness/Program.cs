@@ -6,7 +6,7 @@ using CompanyWars.Tools;
 
 namespace CompanyWars.Harness;
 
-public sealed record MatchRow(long Round, string ArchA, string ArchB, uint Seed, string Winner, long EndTick, long FirstShareMoveTick, long MaxHitShare);
+public sealed record MatchRow(long Round, string ArchA, string ArchB, uint Seed, string Winner, long EndTick, long FirstMoneyTick, long MaxHitRevenue);
 
 public static class Program
 {
@@ -53,7 +53,8 @@ public static class Program
                     long first = -1, maxHit = 0;
                     foreach (LedgerEntry e in r.Entries)
                     {
-                        if (e.ShareDelta != 0) { if (first < 0) first = e.Tick; maxHit = Math.Max(maxHit, Math.Abs(e.ShareDelta)); }
+                        // ponytail: measured in ¥ now; the bands these feed are restated for the race in stage 3 (REVENUE_RACE.md §7).
+                        if (e.RevenueDelta != 0) { if (first < 0) first = e.Tick; maxHit = Math.Max(maxHit, Math.Abs(e.RevenueDelta)); }
                     }
                     rows.Add(new MatchRow(round, archA, archB, seed, r.Winner, r.EndTick, first, maxHit));
                 }
@@ -107,7 +108,7 @@ public static class Program
         int failures = 0;
         foreach (IGrouping<long, MatchRow> g in rows.GroupBy(r => r.Round).OrderBy(g => g.Key))
         {
-            var moved = g.Where(r => r.FirstShareMoveTick >= 0).Select(r => r.FirstShareMoveTick).ToList();
+            var moved = g.Where(r => r.FirstMoneyTick >= 0).Select(r => r.FirstMoneyTick).ToList();
             long median = moved.Count > 0 ? Median(moved) : 1200;
             long p90 = moved.Count > 0 ? P90(moved) : 1200;
             bool ok = median <= medMax && p90 <= p90Max;

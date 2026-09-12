@@ -37,17 +37,17 @@
     {
       "id": "mod.lean",
       "name": "Lean",
-      "text": "Goodwill cap −200; income +¥2 per round.",
+      "text": "Loyalty cap −200; income +¥2 per round.",
       "rivalOnly": false,
       "boardMeeting": {
-        "cost": "−200 Goodwill cap",
+        "cost": "−200 Loyalty cap",
         "benefit": "+¥2 income per round"
       },
       "effects": [
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "firm"
           },
@@ -127,11 +127,11 @@
     {
       "id": "mod.open_door",
       "name": "Open Door Policy",
-      "text": "Regen +40 per event; Goodwill cap −100.",
+      "text": "Loyalty regrowth +40 per event; Loyalty cap −100.",
       "rivalOnly": false,
       "boardMeeting": {
-        "cost": "−100 Goodwill cap",
-        "benefit": "+40 regen per event"
+        "cost": "−100 Loyalty cap",
+        "benefit": "+40 Loyalty regrowth per event"
       },
       "effects": [
         {
@@ -146,7 +146,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "firm"
           },
@@ -167,7 +167,16 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "push",
+          "stat": "sales",
+          "subject": {
+            "scope": "all"
+          },
+          "permille": 1100
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "poach",
           "subject": {
             "scope": "all"
           },
@@ -217,14 +226,14 @@
     {
       "id": "mod.g_deep_pockets",
       "name": "Deep Pockets",
-      "text": "Goodwill cap ×1.5.",
+      "text": "Loyalty cap ×1.5.",
       "rivalOnly": true,
-      "teaches": "Push alone is slow; bring Burnout.",
+      "teaches": "Poaching alone is slow; bring Burnout, or out-earn it.",
       "effects": [
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCapMult",
+          "stat": "loyaltyCapMult",
           "subject": {
             "scope": "firm"
           },
@@ -289,7 +298,7 @@
       "name": "Regulatory Capture",
       "text": "Regen is never suppressed.",
       "rivalOnly": true,
-      "teaches": "The Act 2 boss's signature. Unwinnable without Morale or Anomaly.",
+      "teaches": "The Act 2 boss's signature. Its Loyalty always comes back: answer it with Scandal, Curse, or more Sales.",
       "effects": [
         {
           "on": "static",
@@ -336,7 +345,16 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "push",
+          "stat": "sales",
+          "subject": {
+            "scope": "all"
+          },
+          "permille": 2000
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "poach",
           "subject": {
             "scope": "all"
           },
@@ -366,14 +384,14 @@
     {
       "id": "mod.g_ghost_floor",
       "name": "Ghost Floor",
-      "text": "B1 is leased at no Goodwill cost.",
+      "text": "B1 is leased at no Loyalty cost.",
       "rivalOnly": true,
       "teaches": "A portal build with the tax waived.",
       "effects": [
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "firm"
           },
@@ -384,13 +402,13 @@
     {
       "id": "mod.unpaid_upkeep",
       "name": "Unpaid Upkeep",
-      "text": "Goodwill cap −100 for this round; rent the firm could not pay.",
+      "text": "Loyalty cap −100 for this round; rent the firm could not pay.",
       "rivalOnly": false,
       "effects": [
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "firm"
           },

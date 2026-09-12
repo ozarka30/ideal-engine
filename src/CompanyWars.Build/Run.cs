@@ -6,7 +6,8 @@ namespace CompanyWars.Build;
 /// <summary>A run: sixteen rounds against templated rivals, five strikes (the ranked-shaped loop, D-49). Everything random derives from RunSeed (ARCHITECTURE.md §5.4).</summary>
 public static class Run
 {
-    public const long SchemaVersion = 1;
+    /// <summary>2 since the revenue race (D-85): a fight's record keeps both firms' Revenue, not the final share.</summary>
+    public const long SchemaVersion = 2;
 
     public static RunState New(ContentDb db, string modeId, uint runSeed, string founderId, string? firmName)
     {
@@ -78,7 +79,7 @@ public static class Run
         {
             strikes--;
         }
-        var record = new FightRecord(run.Round, rival.Name, rival.Archetype, FightSeed(run), result.Winner, result.EndTick, result.FinalShare, result.StateHash);
+        var record = new FightRecord(run.Round, rival.Name, rival.Archetype, FightSeed(run), result.Winner, result.EndTick, result.FinalRevenue, result.StateHash);
         var history = run.History.Append(record).ToArray();
         bool over = strikes <= 0 || run.Round >= mode.Rounds;
         // Unpaid-upkeep copies last one round; the persisted modifiers are the run's own.

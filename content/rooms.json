@@ -18,7 +18,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "occupants"
           },
@@ -27,7 +27,16 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "push",
+          "stat": "sales",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 800
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "poach",
           "subject": {
             "scope": "occupants"
           },
@@ -45,7 +54,7 @@
         }
       ],
       "tile": "room.reception.tile",
-      "flavor": "Where reputation lives. Every person at the desk is +100 Goodwill."
+      "flavor": "Where client loyalty lives. Every person at the desk is +100 Loyalty."
     },
     {
       "id": "room.open_plan",
@@ -66,7 +75,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "push",
+          "stat": "sales",
           "subject": {
             "scope": "occupants",
             "dept": [
@@ -108,7 +117,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "push",
+          "stat": "sales",
           "subject": {
             "scope": "occupants",
             "dept": [
@@ -198,7 +207,7 @@
         }
       ],
       "tile": "room.legal_dept.tile",
-      "flavor": "Legal passives ×1.5 and every Bureaucracy they apply gains a stack. Tier III: their Goodwill cannot be eroded."
+      "flavor": "Legal passives ×1.5 and every Bureaucracy they apply gains a stack. Tier III: their Loyalty cannot be eroded."
     },
     {
       "id": "room.sales_floor",
@@ -219,7 +228,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "push",
+          "stat": "sales",
           "subject": {
             "scope": "occupants",
             "dept": [
@@ -284,7 +293,19 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "push",
+          "stat": "sales",
+          "subject": {
+            "scope": "occupants",
+            "notDept": [
+              "hr"
+            ]
+          },
+          "permille": 500
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "poach",
           "subject": {
             "scope": "occupants",
             "notDept": [
@@ -307,7 +328,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "restore",
+          "stat": "pr",
           "subject": {
             "scope": "occupants",
             "dept": [
@@ -333,7 +354,7 @@
         }
       ],
       "tile": "room.break_room.tile",
-      "flavor": "Non-HR occupants do half the work and cannot burn out. HR restores half again as much."
+      "flavor": "Non-HR occupants do half the work and cannot burn out. HR's PR goes half again as far."
     },
     {
       "id": "room.security_desk",
@@ -389,7 +410,16 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "push",
+          "stat": "sales",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 1200
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "poach",
           "subject": {
             "scope": "occupants"
           },
@@ -447,7 +477,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "push",
+          "stat": "sales",
           "subject": {
             "scope": "occupants"
           },
@@ -456,7 +486,16 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "poach",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 1600
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "occupants"
           },
@@ -465,7 +504,7 @@
         }
       ],
       "tile": "room.corner_office.tile",
-      "flavor": "One person, ×1.6, and −100 Goodwill for the ego until Tier III."
+      "flavor": "One person, ×1.6, and −100 Loyalty for the ego until Tier III."
     },
     {
       "id": "room.summoning_circle",
@@ -485,7 +524,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "anomalySelfCost",
+          "stat": "curseSelfCost",
           "subject": {
             "scope": "occupants",
             "dept": [
@@ -515,7 +554,7 @@
         }
       ],
       "tile": "room.summoning_circle.tile",
-      "flavor": "Halves the Anomaly self-cost. Required by every Ritual."
+      "flavor": "Halves the Curse self-cost. Required by every Ritual."
     },
     {
       "id": "room.meeting_room",
@@ -536,7 +575,16 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "push",
+          "stat": "sales",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 1100
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "poach",
           "subject": {
             "scope": "occupants"
           },
@@ -596,7 +644,16 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "push",
+          "stat": "sales",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 900
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "poach",
           "subject": {
             "scope": "occupants"
           },
@@ -688,7 +745,16 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "push",
+          "stat": "sales",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 900
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "poach",
           "subject": {
             "scope": "occupants"
           },
@@ -745,7 +811,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "occupants"
           },
@@ -754,7 +820,16 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "push",
+          "stat": "sales",
+          "subject": {
+            "scope": "occupants"
+          },
+          "permille": 800
+        },
+        {
+          "on": "static",
+          "do": "stat",
+          "stat": "poach",
           "subject": {
             "scope": "occupants"
           },
@@ -772,7 +847,7 @@
         }
       ],
       "tile": "room.executive_lounge.tile",
-      "flavor": "The turtle's executive floor. +150 Goodwill per occupant, ×0.8 output."
+      "flavor": "The fortress's executive floor. +150 Loyalty per occupant, ×0.8 output."
     },
     {
       "id": "room.archive",
@@ -792,7 +867,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "occupants"
           },
@@ -801,7 +876,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "anomaly",
+          "stat": "curse",
           "subject": {
             "scope": "occupants"
           },

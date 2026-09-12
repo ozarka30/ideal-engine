@@ -10,6 +10,12 @@ Every number in §3 is an initial value owned by `BALANCE_PLAN.md`. Every *rule*
 owned here. Changing a number does not change this document's version; changing a
 rule does.
 
+**Revision 2 — the revenue race (D-85).** The fight is won by the firm with more Revenue
+at the Bell. Market Share, Share Points and the early finish are gone; Goodwill is
+renamed Client Loyalty; the effect kinds are `sales`, `poach`, `scandal`, `curse` and
+`pr`. The `MatchResult` `schemaVersion` is 2, and fixtures recorded under revision 1 are
+invalid until re-recorded (§18.8). The `TowerSnapshot` format is unchanged.
+
 ---
 
 ## Contents
@@ -23,7 +29,7 @@ rule does.
 7. [The tick loop](#7-the-tick-loop)
 8. [Cooldowns and initiative](#8-cooldowns-and-initiative)
 9. [Resolution](#9-resolution)
-10. [Goodwill, overflow and Market Share](#10-goodwill-overflow-and-market-share)
+10. [Loyalty, overflow and Revenue](#10-loyalty-overflow-and-revenue)
 11. [Periodic events](#11-periodic-events)
 12. [Status effects](#12-status-effects)
 13. [Retriggers](#13-retriggers)
@@ -55,9 +61,9 @@ Guarantees:
 
 - **Determinism.** Same inputs, same output, on any platform, in any implementation
   conforming to this document.
-- **Completeness.** Every change to Goodwill, Goodwill cap, Market Share, or an
-  employee's status is represented by exactly one ledger entry, in the order it
-  happened.
+- **Completeness.** Every change to Loyalty, Loyalty cap, Revenue, or an employee's
+  status is represented by exactly one ledger entry, in the order it happened. A
+  transfer of Revenue between firms is one entry.
 - **Integrality.** No value in the sim is ever a non-integer.
 
 Not in scope: the build phase, crafting, the economy, snapshot legality validation.
@@ -105,33 +111,28 @@ All constants live in the `RuleSet` (§4.3). The values here are the initial one
 | `TICKS_PER_SECOND` | 20 | |
 | `QUARTER_TICKS` | 1200 | Ticks 0..1199 inclusive |
 | `MONTH_START` | `[0, 400, 800, 1160]` | First tick of Month 1, Month 2, Crunch, Bell |
-| `PUSH_MULT` | `[1000, 1400, 2000, 3000]` | Per month, applied to Push, Morale and Anomaly |
+| `RUSH_MULT` | `[1000, 1400, 2000, 3000]` | Per month, applied to Sales, Poach, Scandal and Curse — the quarter-end rush |
 | `REGEN_MULT` | `[1000, 600, 200, 0]` | Per month, applied to regen |
 
 `month(tick)` is the largest index `i` such that `MONTH_START[i] <= tick`.
 
-### 3.2 Goodwill and Market Share
+### 3.2 Client Loyalty and Revenue
 
 | Name | Value | Meaning |
 | --- | --- | --- |
-| `GOODWILL_BASE(round)` | `600 + 100 * round` | Base cap for both firms |
-| `REGEN_BASE_PERMILLE` | 30 | Base regen per event as permille of cap |
+| `LOYALTY_BASE(round)` | `600 + 100 * round` | Base Loyalty cap for both firms |
+| `REGEN_BASE_PERMILLE` | 30 | Clients drifting back per regen event, as permille of cap |
 | `REGEN_INTERVAL` | 40 | Ticks between regen events |
-| `REGEN_SUPPRESS_WINDOW` | 20 | A suppressing hit within this many ticks blocks regen |
-| `SUPPRESS_THRESHOLD_PERMILLE` | 40 | A Push hit must be at least this permille of the target's cap to suppress |
-| `MORALE_INTERVAL` | 20 | Ticks between Burnout Morale events |
-| `MORALE_PER_STACK` | 8 | Raw Morale per Burnout stack per event |
-| `MORALE_RATE_PERMILLE` | 500 | Morale converts to Market Share at this permille of raw |
-| `ANOMALY_SELF_COST_PERMILLE` | 250 | Attacker's own Goodwill takes this permille of raw Anomaly |
-| `SHARE_TOTAL` | 10000 | Market Share resolution. Displayed as `share / 100` percent |
-| `SHARE_START` | 5000 | |
-| `SP_PER_PUSH_PERMILLE[round]` | see below | Share Points per point of Push, permille |
+| `REGEN_SUPPRESS_WINDOW` | 20 | A suppressing Poach within this many ticks blocks regen |
+| `SUPPRESS_THRESHOLD_PERMILLE` | 40 | A Poach must be at least this permille of the target's cap to suppress |
+| `SCANDAL_INTERVAL` | 20 | Ticks between Burnout Scandal events |
+| `SCANDAL_PER_STACK` | 8 | Raw Scandal per Burnout stack per event |
+| `SCANDAL_TRANSFER_PERMILLE` | 500 | A Scandal moves this permille of its raw amount from the target's Revenue |
+| `CURSE_SELF_COST_PERMILLE` | 250 | The curser's own Loyalty takes this permille of raw Curse, as a Poach |
 
-`SP_PER_PUSH_PERMILLE`, rounds 1–16:
-
-```
-[8000, 7000, 6000, 5200, 4500, 3900, 3400, 3000, 2600, 2300, 2000, 1750, 1500, 1300, 1150, 1000]
-```
+Revenue needs no constant. It is counted in the value pipeline's own units, and both
+firms fight in the same round, so the scale is always shared. Revision 1's Share Points
+and their per-round conversion table are gone (D-85 supersedes D-30).
 
 ### 3.3 Floors and rooms
 
@@ -151,7 +152,7 @@ All constants live in the `RuleSet` (§4.3). The values here are the initial one
 | Name | Value |
 | --- | --- |
 | `BURNOUT_MAX` | 5 |
-| `BURNOUT_PUSH_PENALTY_PERMILLE` | 50 per stack |
+| `BURNOUT_OUTPUT_PENALTY_PERMILLE` | 50 per stack |
 | `OVERTIME_MAX` | 2 |
 | `OVERTIME_DURATION` | 60 |
 | `OVERTIME_RATE_PERMILLE` | 500 per stack |
@@ -233,7 +234,7 @@ Every constant in §3, plus:
 
 | Field | Meaning |
 | --- | --- |
-| `round` | The match round, 1–16. Drives `GOODWILL_BASE` and `SP_PER_PUSH_PERMILLE` for **both** firms |
+| `round` | The match round, 1–16. Drives `LOYALTY_BASE` for **both** firms |
 | `contentVersion` | Must equal both snapshots' `contentVersion`, or `simulate` throws before setup |
 
 The `RuleSet` is hashed into the replay header. Two matches with different rules are
@@ -291,7 +292,7 @@ For each unit, from its definition and surroundings:
 | `cdTotal(month)` | `floor(cdBaseFor(month) * cdMultPermille / 1000)`, where `cdBaseFor` honours per-month overrides such as the Senior Developer's Crunch cooldown |
 | `cdProgress` | `floor(cdTotal(0) * definition.initialProgressPermille / 1000)`, default 0 |
 | `roomAura(kind)` | The enclosing room's permille for this unit's department and ability kind, plus `TENURE_STEP_PERMILLE * tier` where `tier` is the count of `TENURE_TIER_ROUNDS` entries ≤ `tenureRounds`. Corridor: `CORRIDOR_MULT`. Room with no matching aura: 1000 |
-| `flatBonus` | Sum of adjacent furniture flat bonuses matching this unit's department and ability kind (Whiteboard +15 for Engineering Push) |
+| `flatBonus` | Sum of adjacent furniture flat bonuses matching this unit's department and ability kind (Whiteboard +15 for Engineering Sales) |
 | `floorMult` | `FLOOR_MULT[floor]` |
 | `retriggerBonus` | 1250 if adjacent to an Executive Desk and Management, else 1000 |
 | `burnoutMax` | `BURNOUT_MAX`, or 3 if the unit's firm has a Head of People, or 0 if the unit is immune (Break Room occupant) |
@@ -308,8 +309,8 @@ so 0–2 → 0, 3–5 → 1, 6–9 → 2, 10+ → 3.
 For each firm, from `rules.round`, its snapshot and its units:
 
 ```
-cap  = GOODWILL_BASE(round)
-     + Σ unit passive goodwillCap (× 1500 if the unit is inside a Legal Department, permille)
+cap  = LOYALTY_BASE(round)
+     + Σ unit passive loyaltyCap (× 1500 if the unit is inside a Legal Department, permille)
      + Σ adjacent Filing Cabinet bonuses to Legal units
      + RECEPTION_CAP_PER_OCCUPANT × (employees inside Reception)     // unless rider Poor Reception
      - PORTAL_EMPLOYEE_CAP_TAX × (extraplanar employees)
@@ -322,21 +323,20 @@ regenPerEvent = floor(cap * REGEN_BASE_PERMILLE / 1000)
               + Σ unit passive regenPerEvent (× 1500 inside a Legal Department)
               + 30 × Reception occupants if Reception is Tier III
 
-goodwill        = cap
+loyalty         = cap
 suppressThreshold = floor(cap * SUPPRESS_THRESHOLD_PERMILLE / 1000)
 lastSuppressTick  = -1000
-spCarry         = 0
-totalPush       = 0
+revenue         = 0
+totalSales      = 0
 ```
 
 Sums are computed in canonical unit order. `cap` is captured once as `capAtStart` and
-never changes; the live `cap` is what Morale erodes.
+never changes; the live `cap` is what Scandal erodes.
 
 ### 5.6 Initial match state
 
 ```
 tick   = 0
-share  = SHARE_START          // side A's claim, 0..SHARE_TOTAL
 rng    = mulberry32(seed)
 seq    = 0
 entries = []
@@ -348,7 +348,7 @@ ended  = false
 ## 6. Targeting
 
 An ability that affects **employees** carries a two-level target: a floor selector and
-an employee selector. Abilities of kind `push`, `morale`, `anomaly` and `restore`
+an employee selector. Abilities of kind `sales`, `poach`, `scandal`, `curse` and `pr`
 affect **firms** and carry no target. Every selector is a pure function of the
 opponent's current state (or the caster's own, for self-side effects).
 
@@ -407,19 +407,20 @@ noted. Room-granted `permille` stats gain `TENURE_STEP_PERMILLE × tier`.
 
 | `stat` | Meaning | Applied |
 | --- | --- | --- |
-| `push` | Multiplier on the subject's Push value | §9.2 step 3 (`roomAura`) |
-| `anomaly` | Multiplier on the subject's Anomaly value | §9.2 step 3 |
-| `restore` | Multiplier on the subject's Restore value | §9.2 step 3 |
-| `flatPush` | Added to the subject's Push before multipliers | §9.2 step 2 (`flatBonus`) |
+| `sales` | Multiplier on the subject's Sales value | §9.2 step 3 (`roomAura`) |
+| `poach` | Multiplier on the subject's Poach value | §9.2 step 3 |
+| `curse` | Multiplier on the subject's Curse value | §9.2 step 3 |
+| `pr` | Multiplier on the subject's PR value | §9.2 step 3 |
+| `flatSales` | Added to the subject's Sales before multipliers | §9.2 step 2 (`flatBonus`) |
 | `cooldown` | Multiplier on the subject's `cdTotal` | §5.4 `cdMultPermille` |
-| `goodwillCap` | Added to the firm's cap, once per subject unit | §5.5 |
-| `goodwillCapMult` | Multiplier on the firm's cap after all additions | §5.5, final step |
+| `loyaltyCap` | Added to the firm's Loyalty cap, once per subject unit | §5.5 |
+| `loyaltyCapMult` | Multiplier on the firm's Loyalty cap after all additions | §5.5, final step |
 | `regenPerEvent` | Added to the firm's regen, once per subject unit | §5.5 |
-| `passiveMult` | Multiplier on the subject's own `goodwillCap` and `regenPerEvent` contributions | §5.5 |
+| `passiveMult` | Multiplier on the subject's own `loyaltyCap` and `regenPerEvent` contributions | §5.5 |
 | `statusStacksBonus` | Added to `stacks` whenever the subject applies the named `status` | §12.3 |
 | `burnoutMaxOverride` | Sets the subject's `burnoutMax`; lowest override wins | §5.4 |
 | `burnoutMaxDelta` | Added to the subject's `burnoutMax` after overrides, floor 0 | §5.4 |
-| `anomalySelfCost` | Added (negative) to the subject's Anomaly self-cost permille, floor 0 | §9.3 |
+| `curseSelfCost` | Added (negative) to the subject's Curse self-cost permille, floor 0 | §9.3 |
 | `retriggerBonus` | Multiplier applied to resolutions the subject retriggers | §9.2 step 6 |
 | `floorOutput` | Multiplier on `floorMult` for the named `floor`, or every floor for `*` | §5.4 |
 | `income`, `upkeep`, `rerollCost`, `severance`, `severanceMult` | Build-phase economy. The sim ignores them | — |
@@ -434,7 +435,7 @@ noted. Room-granted `permille` stats gain `TENURE_STEP_PERMILLE × tier`.
 | `overtimePermanent` | Counts as 2 Overtime stacks always; never expires, never applies Burnout | §8.1, §12.3–§12.4 |
 | `cannotBeRetriggered` | Retrigger whiffs with tag `retrigger_refused` | §13 |
 | `wholeFloorAdjacency` | The subject's `adjacent` own-targets are every unit on its floor | §5.3 |
-| `capProtected` | The subject's `goodwillCap` contribution is a floor under Morale erosion | §10.2 |
+| `capProtected` | The subject's `loyaltyCap` contribution is a floor under Scandal erosion | §10.3 |
 | `regenNeverSuppressed` | The firm's regen ignores `lastSuppressTick` | §11.1 |
 | `receptionDisabled` | Reception occupants grant no cap | §5.5 |
 | `everyFloorMostPopulated` | Against this firm, `most_populated_floor` returns every occupied floor in 0..3 | §6.1 |
@@ -459,7 +460,7 @@ for tick in 0 .. QUARTER_TICKS - 1:
   D. Ready & resolve    (§8.2, §9)   — judged on progress accumulated through the previous tick
   C. Cooldown advance   (§8.1)
   E. Periodic events    (§11)
-  F. End check          (§15)   — if ended, stop
+  F. (nothing)          (§15)   — the quarter never ends early (D-85)
 Bell resolution         (§15)
 ```
 
@@ -468,7 +469,7 @@ judged before the tick's advance, so a fresh 80-tick cooldown fires on tick 80, 
 Every phase runs to completion before the next begins. Phase D computes its ready list
 once, at its start; units that become ready during phase D (there are none, since
 progress only advances in C — but retriggers do not reset progress) are not added.
-Phase F is the only exit from the loop before tick 1199.
+Nothing exits the loop before tick 1199.
 
 ---
 
@@ -532,20 +533,20 @@ retriggered fire.
 
 ### 9.2 Value pipeline
 
-For kinds `push`, `anomaly`, `restore`, and for the Morale event in §11.2:
+For kinds `sales`, `poach`, `curse`, `pr`, and for the Scandal event in §11.2:
 
 ```
 v = baseValue(unit, ability)                                  // §9.2.1
 v = v + unit.flatBonus                                         // furniture flats for this dept and kind
 v = floor(v * unit.roomAura(kind) / 1000)                      // room aura incl. Tenure; corridor 900; none 1000
 v = floor(v * unit.floorMult / 1000)
-v = floor(v * (1000 - BURNOUT_PUSH_PENALTY_PERMILLE * unit.burnout) / 1000)
+v = floor(v * (1000 - BURNOUT_OUTPUT_PENALTY_PERMILLE * unit.burnout) / 1000)
 v = floor(v * (viaRetrigger ? retriggerer.retriggerBonus : 1000) / 1000)
-v = floor(v * (kind == restore ? 1000 : PUSH_MULT[month(tick)]) / 1000)
+v = floor(v * (kind == pr ? 1000 : RUSH_MULT[month(tick)]) / 1000)
 ```
 
-Seven steps, in that order, flooring after each. `restore` is not scaled by the month.
-Morale from Burnout skips the first six steps (§11.2).
+Seven steps, in that order, flooring after each. `pr` is not scaled by the month.
+Scandal from Burnout skips the first six steps (§11.2).
 
 #### 9.2.1 Base value forms
 
@@ -553,42 +554,49 @@ Morale from Burnout skips the first six steps (§11.2).
 | --- | --- | --- |
 | constant | `value: 60` | 60 |
 | per-tag | `value: { base: 300, perTag: "sales", each: 50 }` | `base + each × (own units with the tag)` |
-| percent of target cap | `value: { permilleOfTargetCap: 150 }` | `floor(opponent.cap * 150 / 1000)` using the live cap |
+| percent of target cap | `value: { permilleOfTargetCap: 150 }` | `floor(opponent.cap * 150 / 1000)` using the rival's live Loyalty cap |
 
 ### 9.3 Primary effects by kind
 
-**`push`** — target: opposing firm.
+**`sales`** — target: own firm. Making money: nothing blocks it.
 
 ```
-applyPush(attacker, defender, v, tick)         // §10.1
-attacker.totalPush += v
+seller.revenue    += v
+seller.totalSales += v
 ```
 
-**`morale`** — target: opposing firm. Used by abilities that deal Morale directly (none
-in the Phase 2 roster; the kind exists for the Contractual Obligation rider and for
+**`poach`** — target: opposing firm.
+
+```
+applyPoach(attacker, defender, v, tick)        // §10.2
+```
+
+**`scandal`** — target: opposing firm. Used by abilities that deal Scandal directly
+(none in the roster; the kind exists for the Contractual Obligation rider and for
 content).
 
 ```
-applyMorale(defender, v, creditTo = attacker)  // §10.2
+applyScandal(defender, v, creditTo = attacker) // §10.3
 ```
 
-**`anomaly`** — target: opposing firm.
+**`curse`** — target: opposing firm.
 
 ```
-sp = convertToShare(attacker, v)               // §10.3, full rate
-selfCostPermille = max(0, ANOMALY_SELF_COST_PERMILLE - circleReduction - ofudaReduction)
+transfer(from = defender, to = attacker, v)    // §10.1, straight through Loyalty
+selfCostPermille = max(0, CURSE_SELF_COST_PERMILLE - circleReduction - ofudaReduction)
                  // Summoning Circle occupant: 125; adjacent Ofuda: 125
 self = floor(v * selfCostPermille / 1000)
-if self > 0: applyPush(attacker, attacker, self, tick)   // it suppresses the attacker's own regen
-attacker.totalPush += v
+if self > 0: applyPoach(attacker, attacker, self, tick)  // it suppresses the curser's own regen
 ```
 
-**`restore`** — target: own firm.
+**`pr`** — target: own firm.
 
 ```
-applied = min(v, attacker.cap - attacker.goodwill)
-attacker.goodwill += applied
+applied = min(v, attacker.cap - attacker.loyalty)
+attacker.loyalty += applied
 ```
+
+Only `sales` counts toward `totalSales`.
 
 **`status`** — targets from §6. For each target in order, apply the listed stacks
 (§12.3). Status abilities have no value.
@@ -600,9 +608,9 @@ attacker.goodwill += applied
 
 An ability may list `extraEffects`, each `{ kind: status | retrigger, targeting,
 stacks }`. They resolve after the primary effect, in listed order, with the same
-`depth`. Examples: Counsel's Cease & Desist is `push 90` with an extra
+`depth`. Examples: Counsel's Cease & Desist is `poach 90` with an extra
 `status bureaucracy 2 → highest_occupied / highest_base_value`; DevOps's Deploy is
-`push 90` with an extra `status overtime 1 → adjacent, dept engineering`.
+`sales 90` with an extra `status overtime 1 → adjacent, dept engineering`.
 
 Room Tier III clauses that add effects (Sales Floor, Summoning Circle) are appended to
 the occupant's `extraEffects` at setup, after the definition's own.
@@ -610,65 +618,63 @@ the occupant's `extraEffects` at setup, after the definition's own.
 ### 9.5 Whiff
 
 If a targeted effect selects no unit or no floor, the effect does nothing and emits a
-`whiff` entry. A `push` never whiffs. A whiffed primary effect still runs its extra
+`whiff` entry. A `sales` or `poach` never whiffs. A whiffed primary effect still runs its extra
 effects, which may whiff independently. A whiff still resets cooldown.
 
 ---
 
-## 10. Goodwill, overflow and Market Share
+## 10. Loyalty, overflow and Revenue
 
-### 10.1 applyPush
+### 10.1 transfer
 
 ```
-applyPush(attacker, defender, v, tick):
+transfer(from, to, amount):
+  taken = min(amount, from.revenue)
+  from.revenue -= taken
+  to.revenue   += taken
+  return taken
+```
+
+A transfer never makes Revenue negative. What it could not take is lost, not owed
+(`REVENUE_RACE.md` O-4); the entry still carries the amount that was attempted (§16.1),
+so the ledger shows the shortfall.
+
+### 10.2 applyPoach
+
+```
+applyPoach(attacker, defender, v, tick):
   if v >= defender.suppressThreshold:
     defender.lastSuppressTick = tick
-  absorbed = min(v, defender.goodwill)
-  defender.goodwill -= absorbed
+  absorbed = min(v, defender.loyalty)
+  defender.loyalty -= absorbed
   overflow = v - absorbed
-  sp = 0
+  taken = 0
   if overflow > 0:
-    sp = convertToShare(creditTo = the firm opposing defender, overflow)
-  return (absorbed, overflow, sp)
+    taken = transfer(from = defender, to = the firm opposing defender, overflow)
+  return (absorbed, overflow, taken)
 ```
 
-Note that in the Anomaly self-cost case `attacker == defender`, and the overflow
-credits the *opponent*: overflowing your own Goodwill with self-inflicted damage gives
-the rival share. That is intentional.
+Note that in the Curse self-cost case `attacker == defender`, and the overflow goes to
+the *opponent*: breaking your own Loyalty with self-inflicted Poach hands the rival your
+Revenue. That is intentional.
 
-### 10.2 applyMorale
+### 10.3 applyScandal
 
 ```
-applyMorale(defender, raw, creditTo):
+applyScandal(defender, raw, creditTo):
   defender.cap = max(1, defender.cap - raw)
-  defender.goodwill = min(defender.goodwill, defender.cap)
-  sp = convertToShare(creditTo, floor(raw * MORALE_RATE_PERMILLE / 1000))
-  return sp
+  defender.loyalty = min(defender.loyalty, defender.cap)
+  taken = transfer(from = defender, to = creditTo, floor(raw * SCANDAL_TRANSFER_PERMILLE / 1000))
+  return taken
 ```
 
-Morale never touches `lastSuppressTick`. The cap floor of 1 keeps `suppressThreshold`
+Scandal never touches `lastSuppressTick`. The cap floor of 1 keeps `suppressThreshold`
 and regen arithmetic defined; `suppressThreshold` is computed from `capAtStart` and
 does not shrink with the cap.
 
 Legal Department Tier III: the cap contributions of its occupants are protected —
 `defender.cap` may not fall below `Σ protected contributions`. Apply as a second floor
 in the `max`.
-
-### 10.3 convertToShare
-
-```
-convertToShare(creditTo, push):
-  creditTo.spCarry += push * SP_PER_PUSH_PERMILLE[rules.round]
-  sp = floor(creditTo.spCarry / 1000)
-  creditTo.spCarry -= sp * 1000
-  before = share
-  if creditTo is A: share = min(SHARE_TOTAL, share + sp)
-  else:             share = max(0, share - sp)
-  return share - before          // signed from A's perspective; may be smaller than sp at the clamp
-```
-
-The carry accumulator means chip damage below one Share Point is never lost and never
-rounded up; over a fight, conversion is exact to the permille.
 
 ---
 
@@ -687,27 +693,27 @@ if suppressed:
   amount = 0
 else:
   amount = floor(firm.regenPerEvent * REGEN_MULT[month(tick)] / 1000)
-applied = min(amount, firm.cap - firm.goodwill)
-firm.goodwill += applied
-emit regen entry (raw = amount, goodwillDelta = applied, tag "suppressed" if suppressed)
+applied = min(amount, firm.cap - firm.loyalty)
+firm.loyalty += applied
+emit regen entry (raw = amount, loyaltyDelta = applied, tag "suppressed" if suppressed)
 ```
 
 A regen entry is emitted every event, including when `applied` is 0. Views decide what
 to show; the record is complete.
 
-### 11.2 Morale from Burnout — `tick mod MORALE_INTERVAL == 0`
+### 11.2 Scandal from Burnout — `tick mod SCANDAL_INTERVAL == 0`
 
 For each firm, A then B:
 
 ```
 stacks = Σ unit.burnout over the firm's units
 if stacks == 0: continue
-raw = floor(MORALE_PER_STACK * stacks * PUSH_MULT[month(tick)] / 1000)
-sp  = applyMorale(defender = firm, raw, creditTo = opponent)
-emit morale entry (sourceSide = firm, targetSide = firm, raw, capDelta = -raw, shareDelta = sp, tag "burnout")
+raw   = floor(SCANDAL_PER_STACK * stacks * RUSH_MULT[month(tick)] / 1000)
+taken = applyScandal(defender = firm, raw, creditTo = opponent)
+emit scandal entry (sourceSide = firm, targetSide = firm, raw, capDelta = -raw, revenueDelta = -taken, tag "burnout")
 ```
 
-The firm burns itself. The opponent gets the share.
+The firm burns itself. The opponent gets the money.
 
 ### 11.3 Periodic furniture and rooms
 
@@ -737,7 +743,7 @@ for rooms:
 
 | Status | Effect | Where applied |
 | --- | --- | --- |
-| Burnout | Push, Anomaly and Restore value × `(1000 − 50 × stacks)`; firm takes Morale each `MORALE_INTERVAL` | §9.2 step 5, §11.2 |
+| Burnout | Sales, Poach, Curse and PR value × `(1000 − 50 × stacks)`; firm takes a Scandal each `SCANDAL_INTERVAL` | §9.2 step 5, §11.2 |
 | Overtime | Cooldown rate +500 per stack | §8.1 |
 | Bureaucracy | Cooldown rate −200 per stack | §8.1 |
 | Frozen | Cooldown rate 0 | §8.1 |
@@ -819,7 +825,7 @@ month index, then apply banner effects in this order:
 | 0 | Modifier *Overtime Culture* | Each own unit: Burnout +1, then Overtime +1 |
 | 0 | Rider *Bad Influence* | Each unit adjacent to the rider's unit: Burnout +1 |
 | 400, 800 | Server Room below Tier III | Each occupant: Burnout +1 |
-| 1160 | Rider *Contractual Obligation* | `applyMorale(own firm, 200 × PUSH_MULT[3] / 1000, creditTo = opponent)` — i.e. 600 raw at the Bell |
+| 1160 | Rider *Contractual Obligation* | `applyScandal(own firm, 200 × RUSH_MULT[3] / 1000, creditTo = opponent)` — i.e. 600 raw at the Bell |
 
 Banner effects at tick 0 run before any cooldown has advanced. Banner effects run
 before expiry, so an Overtime granted at tick 0 expires in phase B of tick 60.
@@ -830,26 +836,18 @@ before expiry, so an Overtime granted at tick 0 expires in phase B of tick 60.
 
 ### 15.1 Phase F
 
-```
-if share >= SHARE_TOTAL: winner = A; ended = true
-elif share <= 0:         winner = B; ended = true
-```
-
-Checked once per tick, after phase E. A tick in which both firms' pushes would each
-have claimed the bar cannot occur: resolutions are sequential and `share` is clamped
-after every conversion, so the first to reach the edge ends the match at that tick's
-phase F. `endTick` is that tick.
+Nothing ends a quarter early (D-85). Phase F does nothing; it keeps its letter so the
+phase names of D-62 stay stable.
 
 ### 15.2 Bell resolution
 
-If the loop completes tick 1199 without ending:
+After tick 1199:
 
 ```
-if share > SHARE_START:         winner = A
-elif share < SHARE_START:       winner = B
-elif A.goodwill != B.goodwill:  winner = the firm with more goodwill
-elif A.totalPush != B.totalPush: winner = the firm with more totalPush
-else:                           winner = "draw"
+if A.revenue != B.revenue:          winner = the firm with more revenue
+elif A.loyalty != B.loyalty:        winner = the firm with more loyalty
+elif A.totalSales != B.totalSales:  winner = the firm with more totalSales
+else:                               winner = "draw"
 endTick = 1199
 ```
 
@@ -868,7 +866,7 @@ Every event in the match is one entry. Field order is normative for serialisatio
 {
   "seq": 241,                    // 0-based, dense, in emission order
   "tick": 412,
-  "kind": "push",                // push | morale | anomaly | restore | regen | status | retrigger | whiff | banner
+  "kind": "sales",               // sales | poach | scandal | curse | pr | regen | status | retrigger | whiff | banner
   "sourceSide": "A",             // "A" | "B" | "*"
   "sourceUnit": 7,               // unitIndex, or -1 for firm-level, furniture and banners
   "sourceInstanceId": "e_7f3a",  // "" when sourceUnit is -1
@@ -877,10 +875,10 @@ Every event in the match is one entry. Field order is normative for serialisatio
   "targetSide": "B",             // "A" | "B" | "*"
   "targetUnits": [],             // unitIndex list; empty for firm-level
   "raw": 840,                    // the value after the pipeline, before absorption
-  "goodwillDelta": -840,         // change to targetSide's goodwill (negative for damage; positive for restore/regen)
+  "loyaltyDelta": -840,          // change to targetSide's loyalty (negative for Poach; positive for pr/regen)
   "capDelta": 0,                 // change to targetSide's cap
-  "shareDelta": 0,               // change to share, signed from A's perspective
-  "overflow": 0,                 // push only: the part that went to share
+  "revenueDelta": 0,             // change to targetSide's revenue; negative is always a transfer to the other firm
+  "overflow": 0,                 // poach and curse self-cost only: the part past Loyalty
   "stacks": 0,                   // status only: stacksApplied
   "depth": 0,                    // 0, or 1 when retriggered
   "month": 1,                    // month index at emission, 0..3
@@ -890,39 +888,47 @@ Every event in the match is one entry. Field order is normative for serialisatio
 
 Per-kind conventions:
 
-| Kind | source | target | raw | goodwillDelta | capDelta | shareDelta |
+| Kind | source | target | raw | loyaltyDelta | capDelta | revenueDelta |
 | --- | --- | --- | --- | --- | --- | --- |
-| push | attacker unit | defender firm | v | −absorbed | 0 | sp |
-| anomaly | attacker unit | defender firm | v | 0 | 0 | sp |
-| anomaly self-cost | attacker unit | attacker firm | self | −absorbed | 0 | sp (to opponent) — emitted as a second entry tagged `self_cost` |
-| morale (event) | firm (`sourceUnit` −1) | same firm | raw | 0 or negative if goodwill was clamped to the cap | −raw | sp |
-| restore | caster unit | caster firm | v | +applied | 0 | 0 |
+| sales | seller unit | seller firm | v | 0 | 0 | +v |
+| poach | attacker unit | defender firm | v | −absorbed | 0 | −taken (to the attacker) |
+| curse | attacker unit | defender firm | v | 0 | 0 | −taken (to the attacker) |
+| curse self-cost | attacker unit | attacker firm | self | −absorbed | 0 | −taken (to the opponent) — emitted as a second entry tagged `self_cost` |
+| scandal (ability) | attacker unit | defender firm | raw | 0 or negative if loyalty was clamped to the cap | −raw | −taken (to the attacker) |
+| scandal (event) | firm (`sourceUnit` −1) | same firm | raw | 0 or negative if loyalty was clamped to the cap | −raw | −taken (to the opponent) |
+| pr | caster unit | caster firm | v | +applied | 0 | 0 |
 | regen | firm | same firm | amount | +applied | 0 | 0 |
 | status | caster unit or furniture | each target unit — one entry per target | 0 | 0 | 0 | 0 |
 | retrigger | retriggerer | target unit — one entry per target, emitted **before** the target's resolution entries | 0 | 0 | 0 | 0 |
 | whiff | caster | `*` | 0 | 0 | 0 | 0 |
 | banner | `*` | `*` | month index | 0 | 0 | 0 |
 
-`goodwillDelta` on a Morale entry is negative only when `goodwill` exceeded the new
-cap and was clamped; the clamped amount is recorded so the entry accounts for every
-point of Goodwill that moved.
+`loyaltyDelta` on a Scandal entry is negative only when `loyalty` exceeded the new cap
+and was clamped; the clamped amount is recorded so the entry accounts for every point
+of Loyalty that moved.
+
+A negative `revenueDelta` is always a transfer: the firm opposite `targetSide` gained
+exactly that amount. Only `sales` entries have a positive one. The amount a transfer
+*attempted* is derivable from the entry — a Poach's `overflow`, a Curse's `raw`, a
+Scandal's `floor(raw × SCANDAL_TRANSFER_PERMILLE / 1000)` — so a transfer that could not
+take it all shows the shortfall.
 
 ### 16.2 MatchResult
 
 ```jsonc
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "seed": 3735928559,
   "round": 8,
   "rulesHash": "…",              // FNV-1a 32 of the RuleSet's canonical serialisation
   "snapshotHashA": "…",          // FNV-1a 32 of the snapshot's canonical serialisation
   "snapshotHashB": "…",
   "winner": "A",                 // "A" | "B" | "draw"
-  "endTick": 1043,
-  "finalShare": 10000,
-  "finalGoodwill": { "A": 812, "B": 0 },
+  "endTick": 1199,               // always 1199: every quarter runs to the Bell
+  "finalRevenue": { "A": 11240, "B": 3875 },
+  "finalLoyalty": { "A": 812, "B": 0 },
   "finalCap": { "A": 2100, "B": 1800 },
-  "totalPush": { "A": 9310, "B": 4200 },
+  "totalSales": { "A": 9310, "B": 4200 },
   "entries": [ … ],
   "stateHash": "0x9c3b1e77"
 }
@@ -938,7 +944,7 @@ reproduces the file byte for byte.
 FNV-1a, 32-bit, over the UTF-8 bytes of the string:
 
 ```
-winner | endTick | finalShare | goodwillA | goodwillB | capA | capB | pushA | pushB | entryCount | rngState
+winner | endTick | revenueA | revenueB | loyaltyA | loyaltyB | capA | capB | salesA | salesB | entryCount | rngState
 ```
 
 joined with the ASCII pipe character and no spaces; integers in decimal; `rngState` as
@@ -1027,15 +1033,15 @@ Minimum fixture set, all at round 1 unless stated:
 | Fixture | Exercises |
 | --- | --- |
 | `mirror_junior` | One Junior Developer each, corridor. Ends in a draw at the Bell. §20 |
-| `overflow` | A's single Architect at round 16 against an empty tower. Overflow and carry arithmetic |
-| `regen_suppress` | QA Tester chip below threshold against a Recruiter. Regen never suppressed |
-| `burnout_pierce` | Consultant against a Legal turtle. Morale erosion; Bell ordering |
+| `overflow` | A's single Architect at round 16 against an empty tower. Large Sales. *Needs a new input: the Architect earns Sales since revision 2, so nothing overflows; a Poach source is wanted* |
+| `regen_suppress` | QA Tester against a Recruiter. *Needs a new input: the QA Tester earns Sales since revision 2, so Loyalty is never chipped; a Poach below `SUPPRESS_THRESHOLD` is wanted* |
+| `burnout_pierce` | Consultant against a Legal turtle. Scandal erosion; Bell ordering |
 | `retrigger_depth` | Team Lead adjacent to a Director adjacent to three units. Depth whiffs |
 | `tie_parity` | Two identical towers with identical cooldowns. Alternating initiative |
 | `random_selector` | A Paralegal with `random_floor` against a three-floor tower. RNG draw order |
-| `anomaly_selfcost` | Salaryman Ghost in a Summoning Circle with and without Ofuda |
+| `anomaly_selfcost` | Salaryman Ghost in a Summoning Circle with and without Ofuda. Curse and its self-cost |
 | `banner_order` | Yakult Cart, Overtime Culture and Bad Influence on the same tower at tick 0 |
-| `boss_act2` | The Compliance Office against the intended Act 2 counter-build |
+| `boss_act2` | The Compliance Office against the intended Act 2 counter-build: out-earn it, with Scandal and Curse |
 
 ---
 
@@ -1043,41 +1049,32 @@ Minimum fixture set, all at round 1 unless stated:
 
 Round 1. Each side: one Junior Developer on 1F at column 2, row 1, in the corridor.
 No rooms other than each side's empty Reception, no furniture, seed irrelevant (no
-random selectors).
+random selectors). The Junior Developer's Ship Feature is a `sales` ability.
 
 **Setup.** Both firms: `cap = 700`, `regenPerEvent = 21`, `suppressThreshold = 28`,
-`goodwill = 700`. Units: A0 (`unitIndex` 0), B0 (`unitIndex` 1). `cdTotal = 80000`.
-Value pipeline for Ship Feature: `60 → +0 → ×900 = 54 → ×1000 = 54 → ×1000 = 54 →
-×1000 = 54 → ×1000 = 54`. Both deal **54**.
+`loyalty = 700`, `revenue = 0`. Units: A0 (`unitIndex` 0), B0 (`unitIndex` 1).
+`cdTotal = 80000`. Value pipeline for Ship Feature: `60 → +0 → ×900 = 54 → ×1000 = 54
+→ ×1000 = 54 → ×1000 = 54 → ×1000 = 54`. Both earn **54**.
 
-| Tick | Phase | Event | A goodwill | B goodwill | share |
-| --- | --- | --- | --- | --- | --- |
-| 0 | A | banner month 0 | 700 | 700 | 5000 |
-| 40 | E | regen A: 21, applied 0. regen B: same | 700 | 700 | 5000 |
-| 80 | D | ready: A0, B0. Even tick → A first. A0 pushes 54 → B 646, B suppressed at 80. B0 pushes 54 → A 646, A suppressed at 80 | 646 | 646 | 5000 |
-| 80 | E | regen: `80 − 80 = 0 ≤ 20` → both suppressed, 0 | 646 | 646 | 5000 |
-| 120 | E | `120 − 80 = 40 > 20` → +21 each | 667 | 667 | 5000 |
-| 160 | D | odd? no — 160 is even → A first again. Both push 54 | 613 | 613 | 5000 |
-| 160 | E | suppressed | 613 | 613 | 5000 |
-| 200 | E | +21 | 634 | 634 | 5000 |
-| 240 | D | both push 54 | 580 | 580 | 5000 |
+| Tick | Phase | Event | A revenue | B revenue | A loyalty | B loyalty |
+| --- | --- | --- | --- | --- | --- | --- |
+| 0 | A | banner month 0 | 0 | 0 | 700 | 700 |
+| 40 | E | regen A: 21, applied 0 (Loyalty is full). regen B: same | 0 | 0 | 700 | 700 |
+| 80 | D | ready: A0, B0. Even tick → A first. A0 sells 54; B0 sells 54 | 54 | 54 | 700 | 700 |
+| 80 | E | regen: not suppressed (nobody Poaches), applied 0 | 54 | 54 | 700 | 700 |
+| 160 | D | both sell 54 | 108 | 108 | 700 | 700 |
+| 240 | D | both sell 54 | 162 | 162 | 700 | 700 |
 
-The pattern continues: −54 every 80 ticks, +21 every 80 ticks when not suppressed (one
-regen event in two), net −33 per 80 ticks. Goodwill at the end of Month 1 is
-`700 − 4 × 54 + 4 × 21 = 568`.
+Neither firm Poaches, so Loyalty never moves and every regen entry applies 0. Month 1
+has four fires (80, 160, 240, 320): each firm ends it with ¥216.
 
-At tick 400 the banner fires: `PUSH_MULT` 1400 makes each hit `floor(54 × 1400 / 1000)
-= 75`, and `REGEN_MULT` 600 makes regen `floor(21 × 600 / 1000) = 12`. Month 2 has
-five fires (400, 480, 560, 640, 720) and five unsuppressed regen events, so Goodwill at
-the end of Month 2 is `568 − 375 + 60 = 253`.
+At tick 400 the banner fires: `RUSH_MULT` 1400 makes each sale `floor(54 × 1400 / 1000)
+= 75`. Month 2 has five fires (400, 480, 560, 640, 720): `216 + 375 = 591`.
 
-Crunch makes each hit 108 and each regen 4. After the fires at 800 and 880 and the
-regens at 840 and 920, both firms sit at 45. At tick 960, A0 fires first (even tick):
-B absorbs 45, overflow 63, `63 × 8000 = 504000` carry → 504 SP, share 5504. Then B0
-fires: A absorbs 45, overflow 63 → share back to 5000. Both firms are at 0 Goodwill,
-every later fire overflows in full, and the symmetric pushes cancel. Nothing fires in
-the Bell window (1120 is the last multiple of 80 below 1160). Bell resolution: share
-5000, Goodwill 0 = 0, `totalPush` equal → **draw**, `endTick = 1199`.
+Crunch makes each sale 108, and it has five fires (800, 880, 960, 1040, 1120):
+`591 + 540 = 1131`. Nothing fires in the Bell window (1120 is the last multiple of 80
+below 1160). Bell resolution: Revenue 1131 = 1131, Loyalty 700 = 700, `totalSales`
+1131 = 1131 → **draw**, `endTick = 1199`.
 
 Ticks 80, 160, 240 … are all even, so A always resolves first in this trace. Parity
 alternates only when a cooldown's tick count is odd: equal 60-tick cooldowns fire on 60,
@@ -1086,6 +1083,7 @@ Overtime and cooldown multipliers are what produce odd tick counts in play (D-62
 
 **Entry count** for this fixture: 4 banner entries (ticks 0, 400, 800, 1160); 29 regen
 events (ticks 40 … 1160) × 2 firms = 58 regen entries; 14 fires (ticks 80 … 1120) × 2
-units = 28 push entries. **90 entries**, `seq` 0–89. An implementation producing a
-different count has a phase-order bug. Expected `finalShare` 5000, `finalGoodwill`
-`{A: 0, B: 0}`, `finalCap` `{A: 700, B: 700}`, `totalPush` `{A: 1131, B: 1131}`.
+units = 28 sales entries. **90 entries**, `seq` 0–89. An implementation producing a
+different count has a phase-order bug. Expected `finalRevenue` `{A: 1131, B: 1131}`,
+`finalLoyalty` `{A: 700, B: 700}`, `finalCap` `{A: 700, B: 700}`, `totalSales`
+`{A: 1131, B: 1131}`.

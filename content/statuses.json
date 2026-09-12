@@ -7,11 +7,11 @@
       "durationTicks": null,
       "expires": false,
       "cooldownRatePermillePerStack": 0,
-      "pushPenaltyPermillePerStack": 50,
-      "moralePerStackPerEvent": 8,
+      "outputPenaltyPermillePerStack": 50,
+      "scandalPerStackPerEvent": 8,
       "onExpire": [],
       "tone": "anomalous",
-      "text": "Stacking. Each second the firm takes Morale per stack; the employee's output falls 5% per stack. Never expires in a fight."
+      "text": "Stacking. Each second the firm causes itself a Scandal per stack; the employee's output falls 5% per stack. Never expires in a fight."
     },
     {
       "id": "status.overtime",
@@ -20,8 +20,8 @@
       "durationTicks": 60,
       "expires": true,
       "cooldownRatePermillePerStack": 500,
-      "pushPenaltyPermillePerStack": 0,
-      "moralePerStackPerEvent": 0,
+      "outputPenaltyPermillePerStack": 0,
+      "scandalPerStackPerEvent": 0,
       "onExpire": [
         {
           "status": "status.burnout",
@@ -38,8 +38,8 @@
       "durationTicks": 100,
       "expires": true,
       "cooldownRatePermillePerStack": -200,
-      "pushPenaltyPermillePerStack": 0,
-      "moralePerStackPerEvent": 0,
+      "outputPenaltyPermillePerStack": 0,
+      "scandalPerStackPerEvent": 0,
       "onExpire": [],
       "tone": "interface",
       "text": "Slow. -20% cooldown speed per stack; each stack lasts 5s independently."
@@ -51,8 +51,8 @@
       "durationTicks": null,
       "expires": true,
       "cooldownRatePermillePerStack": -1000,
-      "pushPenaltyPermillePerStack": 0,
-      "moralePerStackPerEvent": 0,
+      "outputPenaltyPermillePerStack": 0,
+      "scandalPerStackPerEvent": 0,
       "onExpire": [],
       "tone": "interface",
       "text": "Cooldown does not advance. Duration set by the applying ability; re-application extends."

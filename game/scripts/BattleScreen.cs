@@ -10,7 +10,7 @@ namespace CompanyWars.Game;
 
 /// <summary>
 /// The battle screen (GAME_DESIGN.md §19.2, D-35, D-08): two greybox towers, window bursts and floating numbers,
-/// the Market Share bar, both Goodwill bars with eroding frames, the month banner, founder badges, the live
+/// the lead bar with both firms' Revenue, both Client Loyalty bars with eroding frames, the month banner, founder badges, the live
 /// ledgers, the floor inset on hover, playback controls and the result banner. Everything is a view over the
 /// finished MatchResult at the playback tick; nothing here computes what the sim did not.
 /// </summary>
@@ -103,9 +103,9 @@ public partial class BattleScreen : Node2D
         DrawTower("A", _view.SnapshotA, tick);
         DrawTower("B", _view.SnapshotB, tick);
         DrawBursts(tick);
-        DrawShareBar(tick);
-        DrawGoodwill("A", _view.FrameA(tick), _view.CapAtStartA, tick);
-        DrawGoodwill("B", _view.FrameB(tick), _view.CapAtStartB, tick);
+        DrawLeadBar(tick);
+        DrawLoyalty("A", _view.FrameA(tick), _view.CapAtStartA, tick);
+        DrawLoyalty("B", _view.FrameB(tick), _view.CapAtStartB, tick);
         DrawBanner(tick);
         DrawFounder("A", _view.SnapshotA.Globals.FounderId, _r.NameA);
         DrawFounder("B", _view.SnapshotB.Globals.FounderId, _r.NameB);
@@ -158,7 +158,7 @@ public partial class BattleScreen : Node2D
             Color fill = Tones.Hatch(tone);
             foreach (LedgerEntry e in _view.EntriesBetween(tick - life + 1, tick))
             {
-                if (e.SourceUnit != u.Unit.UnitIndex || e.Kind is not ("push" or "anomaly" or "restore" or "status" or "retrigger" or "morale")) continue;
+                if (e.SourceUnit != u.Unit.UnitIndex || e.Kind is not ("sales" or "poach" or "curse" or "pr" or "status" or "retrigger" or "scandal")) continue;
                 fill = Tones.Text(Tones.ForKind(e.Kind)).Inverted();
                 break;
             }
@@ -189,7 +189,7 @@ public partial class BattleScreen : Node2D
         foreach (LedgerEntry e in _view.EntriesBetween(tick - life + 1, tick))
         {
             if (e.SourceUnit < 0 || _view.Unit(e.SourceUnit) is not UnitInfo u) continue;
-            if (e.Kind is not ("push" or "anomaly" or "restore" or "status" or "retrigger" or "morale")) continue;
+            if (e.Kind is not ("sales" or "poach" or "curse" or "pr" or "status" or "retrigger" or "scandal")) continue;
             if (Array.IndexOf(e.Tags, "self_cost") >= 0) continue;
             long age = tick - e.Tick;
             // The burst leaves the firer's window (D-68), not the segment's centre.
@@ -200,20 +200,22 @@ public partial class BattleScreen : Node2D
             Color tone = Tones.Fill(Tones.ForKind(e.Kind));
             tone.A = 1f - (float)age / life;
             DrawTextureRect(_r.Textures.For(L.Entry("fx.window_burst")), new Rect2(burst.Position, burst.Size), false, tone);
-            if (e.Raw > 0 && e.Kind is "push" or "anomaly" or "restore")
+            if (e.Raw > 0 && e.Kind is "sales" or "poach" or "curse" or "pr")
             {
                 int rise = (int)(16 * age / life);
                 Rect2I num = L.At("fx.floating_number", cx, cy - rise);
-                _r.Font.Draw(this, num.Position.X, num.Position.Y, (e.Kind == "restore" ? "+" : "-") + e.Raw, _r.Font.Small, Tones.Text("interface"), HorizontalAlignment.Center, num.Size.X);
+                string label = e.Kind switch { "sales" => $"+¥{e.Raw}", "pr" => $"+{e.Raw}", _ => $"-{e.Raw}" };
+                _r.Font.Draw(this, num.Position.X, num.Position.Y, label, _r.Font.Small, Tones.Text("interface"), HorizontalAlignment.Center, num.Size.X);
             }
         }
     }
 
-    private void DrawShareBar(long tick)
+    /// <summary>The lead bar (D-85): each firm's share of the quarter's takings so far, with both Revenues in ¥ beside it.</summary>
+    private void DrawLeadBar(long tick)
     {
         Rect2I r = _at.Rect("bar");
-        long share = _view.Share(tick);
-        long total = _view.Rules.ShareTotal;
+        long share = _view.RevenueShare(tick);   // side A's permille of the combined Revenue
+        const long total = 1000;
         DrawRect(new Rect2(r.Position, r.Size), Tones.Fill("interface"));
         int aWidth = (int)(r.Size.X * share / total);
         DrawRect(new Rect2(r.Position.X, r.Position.Y, aWidth, r.Size.Y), Tones.Fill(Ui.SideTone("A")));
@@ -223,7 +225,7 @@ public partial class BattleScreen : Node2D
         long life = _view.Rules.TicksPerSecond;
         for (long t = tick; t > tick - life && t > 0; t--)
         {
-            bool before = _view.Share(t - 1) > half, after = _view.Share(t) > half;
+            bool before = _view.RevenueShare(t - 1) > half, after = _view.RevenueShare(t) > half;
             if (before == after) continue;
             Color glow = Tones.Hatch(Ui.SideTone(after ? "A" : "B"));
             glow.A = 1f - (float)(tick - t) / life;
@@ -237,24 +239,15 @@ public partial class BattleScreen : Node2D
             DrawLine(new Vector2(x, r.Position.Y), new Vector2(x, r.Position.Y + r.Size.Y), Tones.Border("interface"));
         }
         DrawRect(new Rect2(r.Position, r.Size), Tones.Border("interface"), false);
-        _r.Font.Draw(this, r.Position.X - 36, r.Position.Y + 2, Percent(share, total), _r.Font.Small, Tones.Text("interface").Inverted(), HorizontalAlignment.Right, 34);
-        _r.Font.Draw(this, r.Position.X + r.Size.X + 2, r.Position.Y + 2, Complement(share, total), _r.Font.Small, Tones.Text("interface").Inverted());
+        _r.Font.Draw(this, r.Position.X - 36, r.Position.Y + 2, $"¥{_view.FrameA(tick).Revenue:N0}", _r.Font.Small, Tones.Text("interface").Inverted(), HorizontalAlignment.Right, 34);
+        _r.Font.Draw(this, r.Position.X + r.Size.X + 2, r.Position.Y + 2, $"¥{_view.FrameB(tick).Revenue:N0}", _r.Font.Small, Tones.Text("interface").Inverted());
     }
 
-    private static string Percent(long v, long total) => $"{v * 1000 / total / 10}.{v * 1000 / total % 10}%";
-
-    /// <summary>B's label is 100% less A's rounded label, so the two always sum to 100.0.</summary>
-    private static string Complement(long a, long total)
-    {
-        long tenths = 1000 - a * 1000 / total;
-        return $"{tenths / 10}.{tenths % 10}%";
-    }
-
-    private void DrawGoodwill(string side, FirmFrame f, long capAtStart, long tick)
+    private void DrawLoyalty(string side, FirmFrame f, long capAtStart, long tick)
     {
         Rect2I r = side == "A" ? _at.Rect("goodwill_bar") : _r.Layout.Mirror(_at.Rect("goodwill_bar"));
         int frameW = (int)(r.Size.X * f.Cap / Math.Max(1, capAtStart));
-        int fillW = (int)(r.Size.X * f.Goodwill / Math.Max(1, capAtStart));
+        int fillW = (int)(r.Size.X * f.Loyalty / Math.Max(1, capAtStart));
         Color fill = Tones.Fill("operations");
         Color frame = Tones.Border("interface");
         Color text = Tones.Text("interface").Inverted();
@@ -262,7 +255,7 @@ public partial class BattleScreen : Node2D
         long breakTick = _view.BreakTick(side);
         bool flash = breakTick >= 0 && tick - breakTick < 20 && (tick - breakTick) / 5 % 2 == 0;
         if (flash) fill = Tones.Fill("invalid");
-        Color eroded = Tones.Hatch("people"); // Morale's tone: the cap the bar used to have
+        Color eroded = Tones.Hatch("people"); // Scandal's tone: the cap the bar used to have
         eroded.A = 0.35f;
         if (side == "A")
         {
@@ -270,7 +263,7 @@ public partial class BattleScreen : Node2D
             DrawRect(new Rect2(r.Position.X, r.Position.Y, fillW, r.Size.Y), fill);
             DrawRect(new Rect2(r.Position.X, r.Position.Y, frameW, r.Size.Y), frame, false);
             for (int hx = r.Position.X + frameW + 2; hx < r.Position.X + r.Size.X; hx += 4) DrawLine(new Vector2(hx, r.Position.Y + 2), new Vector2(hx, r.Position.Y + r.Size.Y - 2), eroded);
-            _r.Font.Draw(this, r.Position.X + 4, r.Position.Y, f.Goodwill.ToString("N0"), _r.Font.Large, text);
+            _r.Font.Draw(this, r.Position.X + 4, r.Position.Y, f.Loyalty.ToString("N0"), _r.Font.Large, text);
         }
         else
         {
@@ -279,7 +272,7 @@ public partial class BattleScreen : Node2D
             DrawRect(new Rect2(r.Position.X + r.Size.X - fillW, r.Position.Y, fillW, r.Size.Y), fill);
             DrawRect(new Rect2(left, r.Position.Y, frameW, r.Size.Y), frame, false);
             for (int hx = left - 2; hx > r.Position.X; hx -= 4) DrawLine(new Vector2(hx, r.Position.Y + 2), new Vector2(hx, r.Position.Y + r.Size.Y - 2), eroded);
-            _r.Font.Draw(this, r.Position.X, r.Position.Y, f.Goodwill.ToString("N0"), _r.Font.Large, text, HorizontalAlignment.Right, r.Size.X - 4);
+            _r.Font.Draw(this, r.Position.X, r.Position.Y, f.Loyalty.ToString("N0"), _r.Font.Large, text, HorizontalAlignment.Right, r.Size.X - 4);
         }
     }
 
@@ -322,7 +315,7 @@ public partial class BattleScreen : Node2D
         DrawRect(new Rect2(r.Position, r.Size), Tones.Fill("interface"));
         DrawRect(new Rect2(r.Position, r.Size), Tones.Border("interface"), false);
         FirmFrame f = side == "A" ? _view.FrameA(tick) : _view.FrameB(tick);
-        string header = $"{side} · {(side == "A" ? _r.NameA : _r.NameB)} · GW {f.Goodwill}/{f.Cap}{(f.Broken ? " — GOODWILL BROKEN —" : string.Empty)}";
+        string header = $"{side} · {(side == "A" ? _r.NameA : _r.NameB)} · ¥{f.Revenue:N0} · LOYALTY {f.Loyalty}/{f.Cap}{(f.Broken ? " — LOYALTY BROKEN —" : string.Empty)}";
         _r.Font.Draw(this, r.Position.X + 2, r.Position.Y, header, _r.Font.Small, Tones.Muted("interface"));
         // Newest at the bottom, like a console: the eye reads time top to bottom, the same direction as the autopsy.
         IReadOnlyList<LedgerLine> lines = LiveLedger.Visible(_view, side, tick);

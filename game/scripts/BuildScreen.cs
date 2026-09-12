@@ -44,7 +44,7 @@ public partial class BuildScreen : Node2D
     /// would have thrown half of them away first. The container sits behind the screen's own drawing,
     /// which is where sortBias -10 puts a room floor anyway.
     /// </summary>
-    private readonly Dictionary<string, SubViewport?> _roomViews = new();
+    private readonly Dictionary<string, SubViewport?> _views = new();
 
     private BuildState State => _r.Building!;
     private RunState Run => State.Current;
@@ -206,13 +206,14 @@ public partial class BuildScreen : Node2D
     /// </summary>
     private const int RoomOversample = 2;
 
-    private SubViewport? RoomView(RoomDef rdef)
-    {
-        if (_roomViews.TryGetValue(rdef.Id, out SubViewport? found)) return found;
-        string path = $"res://scenes/rooms/{rdef.Id.Split('.')[1]}.tscn";
-        if (!ResourceLoader.Exists(path)) { _roomViews[rdef.Id] = null; return null; }
+    private SubViewport? RoomView(RoomDef rdef) => SceneView($"res://scenes/rooms/{rdef.Id.Split('.')[1]}.tscn", L.Size(rdef.Tile));
 
-        Vector2I plan = L.Size(rdef.Tile);
+    /// <summary>A room's or a floor's scene in its own 2x viewport, made once per path; null when there is no scene.</summary>
+    private SubViewport? SceneView(string path, Vector2I plan)
+    {
+        if (_views.TryGetValue(path, out SubViewport? found)) return found;
+        if (!ResourceLoader.Exists(path)) { _views[path] = null; return null; }
+
         var vp = new SubViewport
         {
             Size = plan * RoomOversample,
@@ -224,11 +225,13 @@ public partial class BuildScreen : Node2D
             RenderTargetUpdateMode = SubViewport.UpdateMode.Always,
             CanvasItemDefaultTextureFilter = Viewport.DefaultCanvasItemTextureFilter.Nearest,
         };
-        var room = GD.Load<PackedScene>(path).Instantiate<Node2D>();
-        room.Scale = new Vector2(RoomOversample, RoomOversample);
-        vp.AddChild(room);
+        var scene = GD.Load<PackedScene>(path).Instantiate<Node2D>();
+        scene.Scale = new Vector2(RoomOversample, RoomOversample);
+        // A floor scene's painting guides are for the editor (tools/dev/floor_guides.py); the game never draws them.
+        if (scene.GetNodeOrNull("Guides") is CanvasItem guides) guides.Visible = false;
+        vp.AddChild(scene);
         AddChild(vp);
-        _roomViews[rdef.Id] = vp;
+        _views[path] = vp;
         return vp;
     }
 
@@ -240,6 +243,15 @@ public partial class BuildScreen : Node2D
         Vector2I plan = L.Size(rdef.Tile);
         Overhang o = L.Entry(rdef.Tile).Overhang ?? new Overhang(0, 0, 0, 0);
         DrawTextureRect(vp.GetTexture(), new Rect2(tile.Position.X, tile.Position.Y - o.Top, plan.X, plan.Y), false, dim);
+    }
+
+    /// <summary>A floor's look is its scene (D-84), rendered like a room's; the frame panel stands in for a floor without one.</summary>
+    private void DrawFloor(FloorDef fd, Rect2I frame, Color dim)
+    {
+        // ponytail: every founder is the basic business; a founder's own folder, falling back to basic, once founders carry a business type.
+        SubViewport? vp = SceneView($"res://scenes/floors/basic/{fd.Id.Split('.')[1]}.tscn", frame.Size);
+        Texture2D look = vp != null ? vp.GetTexture() : _r.Textures.For(L.Entry("ui.build.floor_frame"));
+        DrawTextureRect(look, new Rect2(frame.Position, frame.Size), false, dim);
     }
 
     /// <summary>Text at a slot the scene positions (D-77). Anything visible is editable in Godot.</summary>
@@ -272,7 +284,7 @@ public partial class BuildScreen : Node2D
         Mode mode = _db.Modes.First(m => m.Id == Run.Mode);
         Text("topbar_round", $"Q{Run.Round} · FIGHT {Run.Round}/{mode.Rounds}");
         Text("topbar_budget", $"¥ {Run.Budget}");
-        Text("topbar_income", $"+¥{State.Income}{(State.Passives > 0 ? $"+{State.Passives}" : string.Empty)} −¥{State.Upkeep}/qtr{(State.UnpaidUpkeep > 0 ? $" ({State.UnpaidUpkeep} unpaid → Goodwill)" : string.Empty)}");
+        Text("topbar_income", $"+¥{State.Income}{(State.Passives > 0 ? $"+{State.Passives}" : string.Empty)} −¥{State.Upkeep}/qtr{(State.UnpaidUpkeep > 0 ? $" ({State.UnpaidUpkeep} unpaid → Loyalty)" : string.Empty)}");
         for (int i = 0; i < mode.Strikes; i++)
         {
             var s = new Rect2(_at.X("strikes") + i * 10, _at.Y("strikes"), 8, 8);
@@ -322,7 +334,7 @@ public partial class BuildScreen : Node2D
                 FloorDef fd = _db.FloorByIndex(index);
                 Rect2 tag(string slot) => new Rect2(frame.Position + LeaseTag.At(slot), LeaseTag.Rect(slot).Size);
                 bool shut = fd.RequiresPortal && !Run.PortalOpen;
-                DrawTextureRect(_r.Textures.For(L.Entry("ui.build.floor_frame")), new Rect2(frame.Position, frame.Size), false, dim);
+                DrawFloor(fd, frame, dim);
                 DrawRect(new Rect2(frame.Position, frame.Size), LeaseTag.Tint("screen"));
                 DrawTextureRect(_r.Textures.For(L.Entry("ui.build.lease_button")), tag("plate"), false);
                 Rect2 name = tag("name"), price = tag("price_text"), upkeep = tag("upkeep");
@@ -337,7 +349,7 @@ public partial class BuildScreen : Node2D
             }
             if (!selected) _hits.Add(hit, () => { _selectedFloor = captured; QueueRedraw(); }, $"Select {Legality.FloorName(index)}");
             SnapshotFloor floor = Legality.Floor(Run.Tower, index);
-            DrawTextureRect(_r.Textures.For(L.Entry("ui.build.floor_frame")), new Rect2(frame.Position, frame.Size), false, dim);
+            DrawFloor(_db.FloorByIndex(index), frame, dim);
             // void beyond the grid
             for (int row = 0; row < 3; row++)
             {
@@ -529,7 +541,11 @@ public partial class BuildScreen : Node2D
             name = d.Name;
             cost = $"¥{d.Cost}";
             hint = $"{d.Name} · {Explain.Passives(_db, d.Effects).FirstOrDefault() ?? d.Flavor}";
-            DrawTextureRect(_r.Textures.For(L.Entry(d.Tile)), new Rect2(at("sprite"), new Vector2(32, 32)), true);
+            // The whole room, fitted to the stage and centred: a plan is larger than a card, so it is drawn down, never up.
+            Rect2 stage = box("stage");
+            Vector2 plan = L.Size(d.Tile);
+            Vector2 fitted = plan * Math.Min(1f, Math.Min(stage.Size.X / plan.X, stage.Size.Y / plan.Y));
+            DrawTextureRect(_r.Textures.For(L.Entry(d.Tile)), new Rect2(stage.Position + (stage.Size - fitted) / 2, fitted), false);
         }
         else
         {
@@ -545,8 +561,15 @@ public partial class BuildScreen : Node2D
         DrawTextureRect(_r.Textures.For(L.Entry("ui.card.price")), box("price"), false);
         Rect2 figure = box("price_text");
         _font.Draw(this, (int)figure.Position.X, (int)figure.Position.Y, cost, (int)figure.Size.Y, Tones.Text("structure"), HorizontalAlignment.Center, (int)figure.Size.X);
+        // The name wraps to as many 8 px lines as its slot is tall, centred in the slot, rather than being cut.
         Rect2 label = box("name");
-        _font.Draw(this, (int)label.Position.X, (int)label.Position.Y, name.Length > 10 ? name[..10] : name, _font.Small, Tones.Text("interface"), HorizontalAlignment.Center, (int)label.Size.X);
+        List<string> lines = Ui.Wrap(_font, _font.Small, name, (int)label.Size.X, Math.Max(1, (int)label.Size.Y / _font.Small)).ToList();
+        int ly = (int)label.Position.Y + ((int)label.Size.Y - lines.Count * _font.Small) / 2;
+        foreach (string line in lines)
+        {
+            _font.Draw(this, (int)label.Position.X, ly, line, _font.Small, Tones.Text("interface"), HorizontalAlignment.Center, (int)label.Size.X);
+            ly += _font.Small;
+        }
         if (carried) DrawTextureRect(_r.Textures.For(L.Entry("ui.card.selector")), box("selector"), false);
         int i = index;
         _hits.Add(rect, () => PickCard(i), hint + " · tap the card to read more, then a tile to place");
@@ -696,7 +719,7 @@ public partial class BuildScreen : Node2D
             {
                 $"round {Run.Round} · strikes {Run.Strikes}",
                 $"fights won {Run.FightsWon} of {Run.History.Length}",
-                $"Goodwill cap base {_db.RuleSetFor(Run.Round).GoodwillBase(Run.Round)}",
+                $"Loyalty cap base {_db.RuleSetFor(Run.Round).LoyaltyBase(Run.Round)}",
                 $"floors leased {Run.Tower.Floors.Length} · staff {staff}",
                 $"budget ¥{Run.Budget} · income ¥{State.Income}+{State.Passives}",
                 $"upkeep ¥{State.Upkeep}/qtr",
@@ -801,7 +824,7 @@ public partial class BuildScreen : Node2D
     {
         Vector2I size = L.Size("ui.build.room_compare");
         DrawRect(new Rect2(x, y, w, size.Y), Tones.Fill("structure"));
-        Effect? aura = d.Effects.FirstOrDefault(e => e.On == "static" && e.Do == "stat" && e.Permille != null && e.Stat is "push" or "anomaly" or "restore");
+        Effect? aura = d.Effects.FirstOrDefault(e => e.On == "static" && e.Do == "stat" && e.Permille != null && e.Stat is "sales" or "poach" or "curse" or "pr");
         long basePermille = aura?.Permille ?? 1000;
         long step = _db.Rules.Tenure.StepPermille;
         long tierNow = Overlays.Tier(_db, room);

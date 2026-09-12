@@ -10,7 +10,7 @@ internal sealed partial class Match
 
     // ---------------------------------------------------------------- §16 emission
 
-    private void Emit(long tick, string kind, Source src, string targetSide, long[] targetUnits, long raw, long goodwillDelta, long capDelta, long shareDelta, long overflow, long stacks, int depth, string[] tags)
+    private void Emit(long tick, string kind, Source src, string targetSide, long[] targetUnits, long raw, long loyaltyDelta, long capDelta, long revenueDelta, long overflow, long stacks, int depth, string[] tags)
     {
         string[] sorted = tags;
         if (tags.Length > 1)
@@ -30,9 +30,9 @@ internal sealed partial class Match
             TargetSide: targetSide,
             TargetUnits: targetUnits,
             Raw: raw,
-            GoodwillDelta: goodwillDelta,
+            LoyaltyDelta: loyaltyDelta,
             CapDelta: capDelta,
-            ShareDelta: shareDelta,
+            RevenueDelta: revenueDelta,
             Overflow: overflow,
             Stacks: stacks,
             Depth: depth,
@@ -55,20 +55,21 @@ internal sealed partial class Match
             Expiry(tick);           // B
             // Readiness is judged on the progress accumulated through the previous tick, then the
             // cooldowns advance: this is the order the worked trace in SIMULATION_SPEC.md §20 encodes
-            // (first fires on tick 80, totalPush 1131). See the errata note in src/CompanyWars.Sim/README.md.
+            // (first fires on tick 80, totalSales 1131). See the errata note in src/CompanyWars.Sim/README.md.
             ReadyAndResolve(tick);  // D
             Advance(tick);          // C
             Periodic(tick);         // E
-            if (EndCheck(tick)) break; // F
+            // F: nothing. The quarter never ends early (D-85).
         }
-        if (!_ended) Bell();
+        Bell();
 
         string stateString = string.Join("|", new[]
         {
-            _winner, _endTick.ToString(), _share.ToString(),
-            A.Goodwill.ToString(), B.Goodwill.ToString(),
+            _winner, _endTick.ToString(),
+            A.Revenue.ToString(), B.Revenue.ToString(),
+            A.Loyalty.ToString(), B.Loyalty.ToString(),
             A.Cap.ToString(), B.Cap.ToString(),
-            A.TotalPush.ToString(), B.TotalPush.ToString(),
+            A.TotalSales.ToString(), B.TotalSales.ToString(),
             _entries.Count.ToString(), _rng.State.ToString(),
         });
 
@@ -81,10 +82,10 @@ internal sealed partial class Match
             SnapshotHashB: Fnv1a.Format(Fnv1a.Hash(b.Canonical())),
             Winner: _winner,
             EndTick: _endTick,
-            FinalShare: _share,
-            FinalGoodwill: new SideValues(A.Goodwill, B.Goodwill),
+            FinalRevenue: new SideValues(A.Revenue, B.Revenue),
+            FinalLoyalty: new SideValues(A.Loyalty, B.Loyalty),
             FinalCap: new SideValues(A.Cap, B.Cap),
-            TotalPush: new SideValues(A.TotalPush, B.TotalPush),
+            TotalSales: new SideValues(A.TotalSales, B.TotalSales),
             Entries: _entries.ToArray(),
             StateHash: Fnv1a.Format(Fnv1a.Hash(stateString)));
     }
@@ -259,12 +260,12 @@ internal sealed partial class Match
     private long Pipeline(Firm firm, Unit u, int kind, ValueSpec? value, long tick, long retriggerBonus, bool viaRetrigger)
     {
         long v = BaseValue(firm, u, value);
-        if (kind == Kind.Push) v += u.FlatPush;
-        v = Arith.Permille(v, kind >= 0 && kind < 3 ? u.Aura[kind] : 1000);
+        if (kind == Kind.Sales) v += u.FlatSales;
+        v = Arith.Permille(v, kind >= 0 && kind < Kind.Count ? u.Aura[kind] : 1000);
         v = Arith.Permille(v, u.FloorMult);
-        v = Arith.Permille(v, 1000 - _rules.BurnoutPushPenaltyPermille * u.Burnout);
+        v = Arith.Permille(v, 1000 - _rules.BurnoutOutputPenaltyPermille * u.Burnout);
         v = Arith.Permille(v, viaRetrigger ? retriggerBonus : 1000);
-        v = Arith.Permille(v, kind == Kind.Restore ? 1000 : _rules.PushMult[_rules.Month(tick)]);
+        v = Arith.Permille(v, kind == Kind.Pr ? 1000 : _rules.RushMult[_rules.Month(tick)]);
         return v;
     }
 
@@ -274,51 +275,59 @@ internal sealed partial class Match
         int month = _rules.Month(tick);
         switch (e.Do)
         {
-            case "push":
+            case "sales":
                 {
                     long v = caster != null && !firmLevelValue
-                        ? Pipeline(firm, caster, Kind.Push, e.Value, tick, retriggerBonus, viaRetrigger)
-                        : Arith.Permille(BaseValue(firm, caster, e.Value), _rules.PushMult[month]);
-                    (long absorbed, long overflow, long sp) = ApplyPush(firm, enemy, v, tick);
-                    firm.TotalPush += v;
-                    Emit(tick, "push", src, enemy.Side.Name(), NoUnits, v, -absorbed, 0, sp, overflow, 0, depth, NoTags);
+                        ? Pipeline(firm, caster, Kind.Sales, e.Value, tick, retriggerBonus, viaRetrigger)
+                        : Arith.Permille(BaseValue(firm, caster, e.Value), _rules.RushMult[month]);
+                    firm.Revenue += v;
+                    firm.TotalSales += v;
+                    Emit(tick, "sales", src, firm.Side.Name(), NoUnits, v, 0, 0, v, 0, 0, depth, NoTags);
                     break;
                 }
-            case "anomaly":
+            case "poach":
                 {
                     long v = caster != null && !firmLevelValue
-                        ? Pipeline(firm, caster, Kind.Anomaly, e.Value, tick, retriggerBonus, viaRetrigger)
-                        : Arith.Permille(BaseValue(firm, caster, e.Value), _rules.PushMult[month]);
-                    long sp = ConvertToShare(firm, v);
-                    Emit(tick, "anomaly", src, enemy.Side.Name(), NoUnits, v, 0, 0, sp, 0, 0, depth, NoTags);
-                    long selfCostPermille = caster?.SelfCostPermille ?? _rules.AnomalySelfCostPermille;
+                        ? Pipeline(firm, caster, Kind.Poach, e.Value, tick, retriggerBonus, viaRetrigger)
+                        : Arith.Permille(BaseValue(firm, caster, e.Value), _rules.RushMult[month]);
+                    (long absorbed, long overflow, long taken) = ApplyPoach(enemy, v, tick);
+                    Emit(tick, "poach", src, enemy.Side.Name(), NoUnits, v, -absorbed, 0, -taken, overflow, 0, depth, NoTags);
+                    break;
+                }
+            case "curse":
+                {
+                    long v = caster != null && !firmLevelValue
+                        ? Pipeline(firm, caster, Kind.Curse, e.Value, tick, retriggerBonus, viaRetrigger)
+                        : Arith.Permille(BaseValue(firm, caster, e.Value), _rules.RushMult[month]);
+                    long taken = Transfer(enemy, firm, v);
+                    Emit(tick, "curse", src, enemy.Side.Name(), NoUnits, v, 0, 0, -taken, 0, 0, depth, NoTags);
+                    long selfCostPermille = caster?.SelfCostPermille ?? _rules.CurseSelfCostPermille;
                     long self = Arith.Permille(v, selfCostPermille);
                     if (self > 0)
                     {
-                        (long absorbed, long overflow, long sp2) = ApplyPush(firm, firm, self, tick);
-                        Emit(tick, "anomaly", src, firm.Side.Name(), NoUnits, self, -absorbed, 0, sp2, overflow, 0, depth, new[] { "self_cost" });
+                        (long absorbed, long overflow, long taken2) = ApplyPoach(firm, self, tick);
+                        Emit(tick, "curse", src, firm.Side.Name(), NoUnits, self, -absorbed, 0, -taken2, overflow, 0, depth, new[] { "self_cost" });
                     }
-                    firm.TotalPush += v;
                     break;
                 }
-            case "morale":
+            case "scandal":
                 {
                     long v = caster != null && !firmLevelValue
                         ? Pipeline(firm, caster, -1, e.Value, tick, retriggerBonus, viaRetrigger)
-                        : Arith.Permille(BaseValue(firm, caster, e.Value), _rules.PushMult[month]);
+                        : Arith.Permille(BaseValue(firm, caster, e.Value), _rules.RushMult[month]);
                     Firm defender = e.Target?.Side == "own" ? firm : enemy;
-                    (long sp, long capDelta, long clamped) = ApplyMorale(defender, v, Opponent(defender));
-                    Emit(tick, "morale", src, defender.Side.Name(), NoUnits, v, -clamped, capDelta, sp, 0, 0, depth, NoTags);
+                    (long taken, long capDelta, long clamped) = ApplyScandal(defender, v, Opponent(defender));
+                    Emit(tick, "scandal", src, defender.Side.Name(), NoUnits, v, -clamped, capDelta, -taken, 0, 0, depth, NoTags);
                     break;
                 }
-            case "restore":
+            case "pr":
                 {
                     long v = caster != null && !firmLevelValue
-                        ? Pipeline(firm, caster, Kind.Restore, e.Value, tick, retriggerBonus, viaRetrigger)
+                        ? Pipeline(firm, caster, Kind.Pr, e.Value, tick, retriggerBonus, viaRetrigger)
                         : BaseValue(firm, caster, e.Value);
-                    long applied = Arith.Min(v, firm.Cap - firm.Goodwill);
-                    firm.Goodwill += applied;
-                    Emit(tick, "restore", src, firm.Side.Name(), NoUnits, v, applied, 0, 0, 0, 0, depth, NoTags);
+                    long applied = Arith.Min(v, firm.Cap - firm.Loyalty);
+                    firm.Loyalty += applied;
+                    Emit(tick, "pr", src, firm.Side.Name(), NoUnits, v, applied, 0, 0, 0, 0, depth, NoTags);
                     break;
                 }
             case "status":
@@ -374,43 +383,43 @@ internal sealed partial class Match
         return SelectOwnTargets(firm, caster, room, furniture, t, tick, excludeCaster);
     }
 
-    // ---------------------------------------------------------------- §10 Goodwill, overflow and Market Share
+    // ---------------------------------------------------------------- §10 Loyalty, overflow and Revenue
 
-    private (long Absorbed, long Overflow, long Sp) ApplyPush(Firm attacker, Firm defender, long v, long tick)
+    /// <summary>§10.1: moves Revenue, never more than <paramref name="from"/> holds. What it could not take is lost.</summary>
+    private static long Transfer(Firm from, Firm to, long amount)
     {
-        if (v >= defender.SuppressThreshold) defender.LastSuppressTick = tick;
-        long absorbed = Arith.Min(v, defender.Goodwill);
-        defender.Goodwill -= absorbed;
-        long overflow = v - absorbed;
-        long sp = 0;
-        if (overflow > 0) sp = ConvertToShare(Opponent(defender), overflow);
-        return (absorbed, overflow, sp);
+        long taken = Arith.Min(amount, from.Revenue);
+        from.Revenue -= taken;
+        to.Revenue += taken;
+        return taken;
     }
 
-    private (long Sp, long CapDelta, long Clamped) ApplyMorale(Firm defender, long raw, Firm creditTo)
+    /// <summary>§10.2: Loyalty absorbs the Poach; the overflow is taken from the defender and given to its opponent.</summary>
+    private (long Absorbed, long Overflow, long Taken) ApplyPoach(Firm defender, long v, long tick)
+    {
+        if (v >= defender.SuppressThreshold) defender.LastSuppressTick = tick;
+        long absorbed = Arith.Min(v, defender.Loyalty);
+        defender.Loyalty -= absorbed;
+        long overflow = v - absorbed;
+        long taken = 0;
+        if (overflow > 0) taken = Transfer(defender, Opponent(defender), overflow);
+        return (absorbed, overflow, taken);
+    }
+
+    /// <summary>§10.3: the cap shrinks by the raw amount and part of it moves from the defender's Revenue to <paramref name="creditTo"/>.</summary>
+    private (long Taken, long CapDelta, long Clamped) ApplyScandal(Firm defender, long raw, Firm creditTo)
     {
         long before = defender.Cap;
         long floorCap = Arith.Max(1, defender.ProtectedCap);
         defender.Cap = Arith.Max(floorCap, defender.Cap - raw);
         long clamped = 0;
-        if (defender.Goodwill > defender.Cap)
+        if (defender.Loyalty > defender.Cap)
         {
-            clamped = defender.Goodwill - defender.Cap;
-            defender.Goodwill = defender.Cap;
+            clamped = defender.Loyalty - defender.Cap;
+            defender.Loyalty = defender.Cap;
         }
-        long sp = ConvertToShare(creditTo, Arith.Permille(raw, _rules.MoraleRatePermille));
-        return (sp, defender.Cap - before, clamped);
-    }
-
-    private long ConvertToShare(Firm creditTo, long push)
-    {
-        creditTo.SpCarry += push * _rules.SpPerPushPermille[_rules.Round - 1];
-        long sp = Arith.FloorDiv(creditTo.SpCarry, 1000);
-        creditTo.SpCarry -= sp * 1000;
-        long before = _share;
-        if (creditTo.Side == Side.A) _share = Arith.Min(_rules.ShareTotal, _share + sp);
-        else _share = Arith.Max(0, _share - sp);
-        return _share - before;
+        long taken = Transfer(defender, creditTo, Arith.Permille(raw, _rules.ScandalTransferPermille));
+        return (taken, defender.Cap - before, clamped);
     }
 
     // ---------------------------------------------------------------- §11 periodic events
@@ -425,21 +434,21 @@ internal sealed partial class Match
             {
                 bool suppressed = !firm.RegenNeverSuppressed && (tick - firm.LastSuppressTick) <= _rules.RegenSuppressWindow;
                 long amount = suppressed ? 0 : Arith.Permille(firm.RegenPerEvent, _rules.RegenMult[month]);
-                long applied = Arith.Min(amount, firm.Cap - firm.Goodwill);
-                firm.Goodwill += applied;
+                long applied = Arith.Min(amount, firm.Cap - firm.Loyalty);
+                firm.Loyalty += applied;
                 Emit(tick, "regen", Source.OfFirm(firm.Side, "regen"), firm.Side.Name(), NoUnits, amount, applied, 0, 0, 0, 0, 0, suppressed ? new[] { "suppressed" } : NoTags);
             }
         }
-        if (tick % _rules.MoraleInterval == 0)
+        if (tick % _rules.ScandalInterval == 0)
         {
             foreach (Firm firm in _firms)
             {
                 long stacks = 0;
                 foreach (Unit u in firm.Units) stacks += u.Burnout;
                 if (stacks == 0) continue;
-                long raw = Arith.FloorDiv(_rules.MoralePerStack * stacks * _rules.PushMult[month], 1000);
-                (long sp, long capDelta, long clamped) = ApplyMorale(firm, raw, Opponent(firm));
-                Emit(tick, "morale", Source.OfFirm(firm.Side, "burnout"), firm.Side.Name(), NoUnits, raw, -clamped, capDelta, sp, 0, 0, 0, new[] { "burnout" });
+                long raw = Arith.FloorDiv(_rules.ScandalPerStack * stacks * _rules.RushMult[month], 1000);
+                (long taken, long capDelta, long clamped) = ApplyScandal(firm, raw, Opponent(firm));
+                Emit(tick, "scandal", Source.OfFirm(firm.Side, "burnout"), firm.Side.Name(), NoUnits, raw, -clamped, capDelta, -taken, 0, 0, 0, new[] { "burnout" });
             }
         }
         foreach (FurnitureState f in _furniture)
@@ -608,20 +617,12 @@ internal sealed partial class Match
 
     // ---------------------------------------------------------------- §15 end of match
 
-    private bool EndCheck(long tick)
-    {
-        if (_share >= _rules.ShareTotal) { _winner = "A"; _ended = true; }
-        else if (_share <= 0) { _winner = "B"; _ended = true; }
-        if (_ended) _endTick = tick;
-        return _ended;
-    }
-
+    /// <summary>§15.2: every quarter runs to the Bell. More Revenue wins, then more Loyalty, then more total Sales.</summary>
     private void Bell()
     {
-        if (_share > _rules.ShareStart) _winner = "A";
-        else if (_share < _rules.ShareStart) _winner = "B";
-        else if (A.Goodwill != B.Goodwill) _winner = A.Goodwill > B.Goodwill ? "A" : "B";
-        else if (A.TotalPush != B.TotalPush) _winner = A.TotalPush > B.TotalPush ? "A" : "B";
+        if (A.Revenue != B.Revenue) _winner = A.Revenue > B.Revenue ? "A" : "B";
+        else if (A.Loyalty != B.Loyalty) _winner = A.Loyalty > B.Loyalty ? "A" : "B";
+        else if (A.TotalSales != B.TotalSales) _winner = A.TotalSales > B.TotalSales ? "A" : "B";
         else _winner = "draw";
         _endTick = _rules.QuarterTicks - 1;
     }

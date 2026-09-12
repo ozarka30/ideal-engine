@@ -98,7 +98,7 @@ public static class Fixtures
             if (e != a) return $"entry {i} differs: expected {e} actual {a}";
         }
         if (expected.Entries.Length != actual.Entries.Length) return $"entry count {expected.Entries.Length} vs {actual.Entries.Length}";
-        return $"header differs: winner {expected.Winner}/{actual.Winner} endTick {expected.EndTick}/{actual.EndTick} share {expected.FinalShare}/{actual.FinalShare}";
+        return $"header differs: winner {expected.Winner}/{actual.Winner} endTick {expected.EndTick}/{actual.EndTick} revenue {expected.FinalRevenue}/{actual.FinalRevenue}";
     }
 }
 

@@ -85,7 +85,7 @@ One solution, `CompanyWars.sln`. C# throughout, `Nullable` enabled,
 | `src/CompanyWars.Sim` | `net8.0` class library | `SIMULATION_SPEC.md`, implemented | `Simulate(seed, a, b, rules)`, `TowerSnapshot`, `MatchResult`, `LedgerEntry`, `StateHash`, `Mulberry32` |
 | `src/CompanyWars.Content` | `net8.0` class library | Loads and validates `content/` against the schema; resolves ids; exposes typed definitions | `ContentDb`, `ContentLoader`, `ContentValidator` |
 | `src/CompanyWars.Manifest` | `net8.0` class library | Loads and validates `manifest/sprites.json`; derived fields; coverage | `SpriteManifest`, `ManifestValidator`, `Coverage` |
-| `src/CompanyWars.Playback` | `net8.0` class library | Views over a `MatchResult` (§3): the playback clock, the derived Goodwill and share frames, the live ledger with its coalescing and line budget (D-08), the autopsy's timeline, floor bars, findings and filters. References `Sim` only, so the line budget is a unit test | `PlaybackClock`, `MatchView`, `LiveLedger`, `Autopsy` |
+| `src/CompanyWars.Playback` | `net8.0` class library | Views over a `MatchResult` (§3): the playback clock, the derived Loyalty and Revenue frames, the live ledger with its coalescing and line budget (D-08), the autopsy's timeline, floor bars, findings and filters. References `Sim` only, so the line budget is a unit test | `PlaybackClock`, `MatchView`, `LiveLedger`, `Autopsy` |
 | `src/CompanyWars.Build` | `net8.0` class library | The build phase as a reducer over actions; the economy; recipes; the rival template expander; snapshot legality | `BuildReducer`, `BuildState`, `RecipeMatcher`, `TemplateExpander`, `Constructibility` |
 | `src/CompanyWars.Harness` | `net8.0` console | Balance harness: populations, invariants, reports | `Matrix`, `Invariants`, `Report` |
 | `src/CompanyWars.Tools` | `net8.0` console | `validate-content`, `validate-manifest`, `slice`, `worklist`, `atlas`, `packs`, `screenshot-compare`, `fixtures` | |
@@ -114,15 +114,16 @@ playback.Load(result);                                     // the client now own
 Then the client plays `result.Entries` against a **playback clock**: a tick counter
 advanced in `_Process(delta)` by an accumulator — elapsed seconds times twenty ticks,
 never one tick per frame — at 1×, 2× or 4×, or jumped to `EndTick` for skip. The
-Goodwill bars, the Market Share bar, the window bursts and the ledger are views over
+Loyalty bars, the Revenue lead bar, the window bursts and the ledger are views over
 `Entries` filtered to `Tick <= playbackTick`.
 
 Rules that follow:
 
 - **The client never calls into `Sim` except `Simulate()`.** No per-tick sim calls;
-  no "ask the sim what Goodwill is now" — the client computes it from entries.
-- **Playback state is derived, not stored.** Goodwill at tick `t` is `CapAtStart` plus
-  the sum of `GoodwillDelta` for entries with `Tick <= t`; the client keeps a running
+  no "ask the sim what Loyalty is now" — the client computes it from entries.
+- **Playback state is derived, not stored.** Loyalty at tick `t` is `CapAtStart` plus
+  the sum of `LoyaltyDelta` for entries with `Tick <= t`, and Revenue the sum of
+  `RevenueDelta` (a negative one is the other firm's gain); the client keeps a running
   accumulator for speed and can recompute from scratch at any tick, which is what makes
   the autopsy scrubber free.
 - **The sim runs on the main thread in v1.** A match is a few milliseconds (§11). If a
