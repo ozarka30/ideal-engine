@@ -70,7 +70,7 @@ every round. The game is the argument between those two facts.
 | **Sales** | ¥ an employee adds to its own firm's Revenue, in proportion to the firm's Client Loyalty: wavering clients buy less (D-87). Making money |
 | **Client Loyalty** | How firmly a firm's clients stay: a current value and a cap. Shields Revenue from Poaching and keeps Sales flowing. Once called Goodwill |
 | **Poach** | Drains the rival's Loyalty; once it is empty, moves ¥ from the rival's Revenue to yours, never more than they hold |
-| **Scandal** | Shrinks the rival's Loyalty cap for the rest of the quarter and moves ¥ to you at a quarter rate. Burnout makes a firm cause its own |
+| **Scandal** | Shrinks the rival's Loyalty cap for the rest of the quarter and moves three-eighths of it in ¥ to you. Burnout makes a firm cause its own |
 | **Curse** | Moves ¥ from the rival to you straight through their Loyalty; a quarter of it rebounds on your own Loyalty. Extraplanar staff |
 | **PR** | Rebuilds your own Loyalty, from an active ability |
 | **Clients drift back** | Loyalty recovers every 2 seconds, unless the firm was Poached in the last second |
@@ -573,7 +573,7 @@ lighting up on the tick. A build whose combo comes online at 39.9s should see it
    the rival's Revenue to yours in full — never more than they hold. A Poach of at least
    4% of the rival's cap stops their clients drifting back for one second.
 5. **Scandal** skips Loyalty: it lowers the rival's Loyalty cap by the raw amount and moves
-   a quarter of it from their Revenue to yours.
+   three-eighths of it from their Revenue to yours.
 6. **Curse** skips Loyalty and moves the full amount from the rival's Revenue to yours; your
    own Loyalty takes a quarter of it, and if that breaks your Loyalty the excess goes to
    the rival.
@@ -582,7 +582,7 @@ lighting up on the tick. A build whose combo comes online at 39.9s should see it
 
 Every two seconds, each firm that has not been Poached in the last second writes a
 **clients drift back** entry to its ledger. Every second, each firm whose employees hold
-Burnout causes itself a **Scandal**: its Loyalty cap shrinks and the rival takes a quarter of it.
+Burnout causes itself a **Scandal**: its Loyalty cap shrinks and the rival takes three-eighths of it.
 
 ### 11.3 How it ends
 

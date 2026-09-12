@@ -133,7 +133,7 @@ All constants live in the `RuleSet` (§4.3). The values here are the initial one
 | `SUPPRESS_THRESHOLD_PERMILLE` | 40 | A Poach must be at least this permille of the target's cap to suppress |
 | `SCANDAL_INTERVAL` | 20 | Ticks between Burnout Scandal events |
 | `SCANDAL_PER_STACK` | 8 | Raw Scandal per Burnout stack per event |
-| `SCANDAL_TRANSFER_PERMILLE` | 250 | A Scandal moves this permille of its raw amount from the target's Revenue |
+| `SCANDAL_TRANSFER_PERMILLE` | 375 | A Scandal moves this permille of its raw amount from the target's Revenue |
 | `CURSE_SELF_COST_PERMILLE` | 250 | The curser's own Loyalty takes this permille of raw Curse, as a Poach |
 
 Revenue needs no constant. It is counted in the value pipeline's own units, and both
