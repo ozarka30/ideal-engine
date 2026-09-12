@@ -34,17 +34,18 @@ public class PlaybackTests
     }
 
     [Fact]
-    public void DerivedGoodwillMatchesRecomputationFromEntries()
+    public void DerivedLoyaltyAndRevenueMatchRecomputationFromEntries()
     {
         MatchView v = Fight("rival.boss_parent_company", "rival.boss_compliance_office");
         for (long t = 0; t <= v.Result.EndTick; t += 37)
         {
-            long ga = v.CapAtStartA + v.Result.Entries.Where(e => e.TargetSide == "A" && e.Tick <= t).Sum(e => e.GoodwillDelta);
-            Assert.Equal(ga, v.FrameA(t).Goodwill);
+            long la = v.CapAtStartA + v.Result.Entries.Where(e => e.TargetSide == "A" && e.Tick <= t).Sum(e => e.LoyaltyDelta);
+            Assert.Equal(la, v.FrameA(t).Loyalty);
         }
-        Assert.Equal(v.Result.FinalGoodwill.A, v.FrameA(v.Result.EndTick).Goodwill);
+        Assert.Equal(v.Result.FinalLoyalty.A, v.FrameA(v.Result.EndTick).Loyalty);
         Assert.Equal(v.Result.FinalCap.B, v.FrameB(v.Result.EndTick).Cap);
-        Assert.Equal(v.Result.FinalShare, v.Share(v.Result.EndTick));
+        Assert.Equal(v.Result.FinalRevenue.A, v.FrameA(v.Result.EndTick).Revenue);
+        Assert.Equal(v.Result.FinalRevenue.B, v.FrameB(v.Result.EndTick).Revenue);
     }
 
     [Fact]
@@ -102,12 +103,13 @@ public class PlaybackTests
         Assert.All(findings, f => Assert.False(string.IsNullOrWhiteSpace(f)));
         long[] timeline = Autopsy.Timeline(v, 60);
         Assert.Equal(60, timeline.Length);
-        Assert.Equal(v.Rules.ShareStart, timeline[0]);
+        Assert.All(timeline, s => Assert.InRange(s, 0, 1000));
         FloorTotals[] bars = Autopsy.FloorBars(v);
         Assert.Equal(5, bars.Length);
-        Assert.Equal(v.Result.TotalPush.A, bars.Sum(b => b.A) - v.Result.Entries.Where(e => e.Kind == "morale" && e.SourceSide == "A" && e.SourceUnit >= 0).Sum(e => e.Raw));
+        Assert.Equal(v.Result.TotalSales.A, v.Result.Entries.Where(e => e.Kind == "sales" && e.SourceSide == "A").Sum(e => e.RevenueDelta));
+        Assert.True(bars.Sum(b => b.A) >= v.Result.TotalSales.A);
         Assert.Equal(v.Result.Entries.Length, Autopsy.Filter(v, new HashSet<string>(), new HashSet<string>(), new HashSet<long>()).Count);
-        Assert.All(Autopsy.Filter(v, new HashSet<string> { "push" }, new HashSet<string>(), new HashSet<long>()), e => Assert.Equal("push", e.Kind));
+        Assert.All(Autopsy.Filter(v, new HashSet<string> { "sales" }, new HashSet<string>(), new HashSet<long>()), e => Assert.Equal("sales", e.Kind));
     }
 
     [Fact]

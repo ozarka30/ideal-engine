@@ -25,7 +25,8 @@ font_color = Color(0.145, 0.192, 0.133, 1)
 ; what it does is read in the inspector once the card is picked. `bg` is the panel art: it
 ; has a soft margin, so it is sized past the hit rect until its body fills the card, and the
 ; game draws it there. `stage` is the lighter plate the sprite stands on, filled in the card's
-; tone. `price` is the rounded tag along the bottom (`ui.card.price`); `price_text` is the
+; tone; a room card draws the whole room fitted into it. `name` wraps to as many 8 px lines as
+; it is tall. `price` is the rounded tag along the bottom (`ui.card.price`); `price_text` is the
 ; figure on it, drawn in the header face at that slot's height, so resizing it resizes the text.
 [node name="Layout" type="Node2D" parent="." unique_id=2054466317]
 
@@ -40,11 +41,11 @@ region_rect = Rect2(0, 0, 104, 160)
 offset_left = 3.0
 offset_top = 3.0
 offset_right = 49.0
-offset_bottom = 54.0
+offset_bottom = 46.0
 color = Color(0.808, 0.714, 0.647, 1)
 
 [node name="sprite" type="Sprite2D" parent="Layout" unique_id=978559227]
-position = Vector2(10, 12)
+position = Vector2(10, 8)
 texture = ExtResource("1")
 centered = false
 
@@ -78,7 +79,7 @@ vertical_alignment = 1
 
 [node name="name" type="ColorRect" parent="Layout" unique_id=526541754]
 offset_left = 3.0
-offset_top = 56.0
+offset_top = 48.0
 offset_right = 49.0
 offset_bottom = 64.0
 color = Color(0.85, 0.8, 0.65, 0.2)
@@ -86,10 +87,12 @@ color = Color(0.85, 0.8, 0.65, 0.2)
 [node name="text" type="Label" parent="Layout/name" unique_id=1096002035]
 layout_mode = 0
 offset_right = 46.0
-offset_bottom = 8.0
+offset_bottom = 16.0
 text = "Junior Dev"
 label_settings = SubResource("ls_text")
 horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
 ; The picked card's frame (`ui.card.selector`): the UI pack's corner brackets, drawn over the card.
 [node name="selector" type="Sprite2D" parent="Layout"]

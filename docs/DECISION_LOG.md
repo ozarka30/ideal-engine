@@ -112,8 +112,17 @@ history of a reversal is the most useful thing in a document like this.
 | [D-81](#d-81) | The sim is handled headlessly and anything visible is editable in Godot: a visible number belongs in a scene, not in a `_Draw` | Human | UI workflow |
 | [D-82](#d-82) | A shop card is its face, name and price; the rest is read in the inspector once the card is picked. Supersedes D-68's tier band and price size | Human | UI review |
 | [D-83](#d-83) | Floors are leased from the tower: an unleased floor is greyed under a screen with its price, and tapping it leases it; the shop's lease row is removed | Human | UI review |
+| [D-84](#d-84) | A floor's look is a scene per business, rendered live like a room; what a floor is stays content. One business, `basic`, for now | Human | UI workflow |
+| [D-85](#d-85) | The fight is a revenue race: most ¥ at the Bell wins; Sales earn, Poach, Scandal and Curse take, Client Loyalty protects. Ids renamed to match; no early finish | Human | Money rework |
+| [D-86](#d-86) | The balance plan restated for the race: archetypes renamed fortress, raider, earner, scandal; `fight_length` becomes `late_swing` (100–250‰ of quarters won from behind after Crunch); `bellRateMax` retired | Craft | Money rework |
+| [D-87](#d-87) | Sales earn in proportion to Client Loyalty (`v × loyalty / capAtStart`); the archetype band applies from round 4 | Human | Money rework |
+| [D-88](#d-88) | Sales scale by Loyalty over the current cap, not the starting cap, so a Scandal no longer cuts a firm's Sales for good | Human | Money rework |
+| [D-89](#d-89) | Legal bills its hours: the Paralegal, Compliance Officer and General Counsel earn Sales, then file, clear or freeze | Human | Money rework |
+| [D-90](#d-90) | An archetype may be weak early and strong late: the band judges its mean over the run; each round stays within 300–700‰ | Human | Money rework |
+| [D-91](#d-91) | Management keeps its clients: the Team Lead's Delegate is followed by PR 60 | Human | Money rework |
+| [D-92](#d-92) | The late-swing check starts at round 4, like the archetype band; the smoke run uses 40 seeds | Human | Money rework |
 
-Fifty-seven craft decisions and twenty-six human calls taken. Eight items remain open in
+Fifty-eight craft decisions and thirty-four human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -239,6 +248,8 @@ whenever either side fields Burnout. Cards carry three numbers and the ledger th
 colours, which is the UI cost of the mechanic being meaningful.
 
 Authority: Craft · Question: [Q-GW-5](OPEN_QUESTIONS.md#q-gw-5--what-pierces-goodwill)
+
+Superseded by: [D-85](#d-85), for the kinds — they become Sales, Poach, Scandal and Curse; that piercing Loyalty is a property of the kind stands.
 
 ---
 
@@ -681,6 +692,8 @@ it by a whole percent at round 1.
 
 Authority: Craft · Phase 2, `SIMULATION_SPEC.md` §3.2, §10.3
 
+Superseded by: [D-85](#d-85). The score is each firm's Revenue in ¥; there are no Share Points and no conversion table.
+
 ---
 
 ## D-31
@@ -774,6 +787,8 @@ first place Morale becomes visible without reading the ledger, which is what mak
 Compliance Office fight teachable.
 
 Authority: Human · Phase 2, `GAME_DESIGN.md` §19.2
+
+Superseded by: [D-85](#d-85), in part. The per-side bar stands as Client Loyalty; the Market Share bar gives way to each firm's Revenue and a lead bar showing each firm's share of the quarter's takings.
 
 ---
 
@@ -1866,3 +1881,197 @@ is the tint: `SceneLayout` now reads a ColorRect's colour as well as its box. A 
 is reached by scrolling the tower, as before. D-68 (3) stands; only the row it sat under is gone.
 
 Authority: Human · `GAME_DESIGN.md` §5.4, §19.1 · amends the placement named in [D-68](#d-68)
+
+## D-84
+
+**A floor's look is a scene. Each floor has `game/scenes/floors/<business>/<floor>.tscn`, authored at its
+160 × 96 build-screen size and rendered live through a SubViewport at 2x, exactly as a room is (D-79). The
+build screen draws it where it drew the floor frame — under the void, rooms, grid, people and the lease
+cover. What a floor *is* — its grid, output, room kinds, upkeep, lease and fixed rooms — stays content,
+read by the sim. There is one business for now, `basic`, and every founder uses it.**
+
+*Why:* the owner plans each founder as a different kind of business, and a business is mostly how its
+floors look. One frame panel shared by every floor could not carry that; a scene per floor can, and it is
+edited the way rooms and screens already are (D-78, D-81).
+
+*Consequence:* the five floor scenes start as the old frame panel with an empty half-scale tile layer on
+the office tileset, so the screen is unchanged until they are painted; a floor with no scene falls back
+to the frame. When founders carry a business type, the folder becomes the founder's and `basic` the
+fallback — a field on the founder, so a schema change. The build screen's sample floors instance these
+scenes, so painting one updates the preview. Each floor scene carries a locked `Guides` node — a line where
+tiles meet, a red wash where nothing can be placed, each fixed room outlined and named, and what the floor
+takes — written from content by `tools/dev/floor_guides.py` and hidden when the game renders the floor.
+
+Authority: Human · `GAME_DESIGN.md` §19.1 · extends [D-79](#d-79) and [D-81](#d-81)
+
+## D-85
+
+**The fight is a revenue race: the firm that makes the most money in the quarter wins. Each firm has
+Revenue in ¥, starting at ¥0. Sales add to your own Revenue; Poach, Scandal and Curse take from the
+rival's; Client Loyalty — Goodwill, renamed — shields Revenue from Poaching and is rebuilt by PR and by
+clients drifting back. Every quarter runs to the Bell, where more Revenue wins; there is no early
+finish. Every effect id, stat and field named for the old fight is renamed to the new word — `push`
+becomes `sales` or `poach`, `morale` `scandal`, `anomaly` `curse`, `restore` `pr`, `goodwill` `loyalty`.
+The score is shown in ¥ labelled Revenue, and a fight's Revenue does not carry into the build Budget.
+`REVENUE_RACE.md` holds the rules until they are folded into the spec.**
+
+*Why:* the owner's goal is that the winner is the company that makes the most money, and that every
+mechanic a player sees relates to it. Under the Goodwill fight a firm could not earn anything without
+attacking first — Push had to drain the rival's Goodwill before it moved anything — and the score was a
+tug-of-war bar, not money. The race separates making money from taking it, and keeps the sim's
+arithmetic: the value pipeline, the Quarter Close curve, rooms, floors, statuses and retriggers are
+unchanged; what changes is what the value is applied to.
+
+*Consequence:* supersedes D-30 and parts of D-07 and D-35; D-04, D-05, D-06 and D-23 stand, restated
+for Revenue and Loyalty. The fight half of D-53's sign-off is reopened and closes when the last stage
+lands. Stage 1 — this entry, `REVENUE_RACE.md`, `GAME_DESIGN.md` §2, §6.4 and §11 — is done; until
+stage 2 lands, `SIMULATION_SPEC.md` and the code still run the Goodwill fight. Stage 2 changes the spec,
+the sim and the schema's effect vocabulary, and re-records the ten fixtures under the owner's
+`fixtures-approved` label; stage 3 rewrites content and the balance plan, retiring `bellRateMax` and
+restating the invariants that assume Goodwill; stage 4 changes the screens. Each stage is approved
+before it starts.
+
+Authority: Human · `REVENUE_RACE.md`, `GAME_DESIGN.md` §2, §6.4, §11 · supersedes [D-30](#d-30), parts of [D-07](#d-07) and [D-35](#d-35)
+
+Superseded by: [D-87](#d-87), in part. Sales earn in proportion to Client Loyalty; something now blocks them.
+
+## D-86
+
+**The balance plan is restated for the revenue race. Four archetypes take the race's names — turtle
+becomes fortress, burst raider, economy earner, burnout scandal — in the template ids
+(`rival.t_fortress`, …), the schema's archetype enum and the counter web, which is redrawn as
+`REVENUE_RACE.md` §5. `inv.fight_length` is replaced by `inv.late_swing`: between 100‰ and 250‰ of
+decided field quarters must be won by a firm that was behind or level at some tick after Crunch began,
+and draws stay at most 20‰. `bellRateMax` is retired. `break_guaranteed`, `bar_moves_early`,
+`single_hit_cap`, `chip_cannot_suppress` and `ability_diversity` keep their purpose, restated in Loyalty
+and ¥. The Account Manager becomes Sales's Poacher (Steal the Account), and the Headhunter's Burnout
+ability, which was called Poach, becomes Job Offer, so that the word Poach means one thing.**
+
+*Why:* the old bands assumed an early finish. Every quarter now lasts sixty seconds, so a median end
+tick and a Bell rate measure nothing; what the length band protected was a fight still open late (D-21,
+D-23). The swing rate's floor is D-23 (comebacks exist) and its ceiling is the `GAME_DESIGN.md` §21 test
+(a lead lost late more than one fight in four feels like theft). A median "lead settles" tick was tried
+first and dropped: in a race the stronger engine usually leads from its first sale, so the median
+settles in Month 1 even when late swings are common.
+
+*Consequence:* the harness prints the swing rate per round. At the first measurement it is 96–141‰, and
+the archetype bands are far out: the earner wins 750–990‰ against the field and management 80–390‰.
+Stage 3 continues one knob per commit. `REVENUE_RACE.md` §4's department table is followed except for
+HR, which still has no Burnout on the rival.
+
+Authority: Craft · `BALANCE_PLAN.md` §4–§6, `REVENUE_RACE.md` §4–§5 · extends [D-85](#d-85)
+
+## D-87
+
+**Sales earn in proportion to the firm's Client Loyalty: an employee's Sales add
+`floor(v × loyalty / capAtStart)` to its firm's Revenue, so a firm whose clients are being poached, or
+whose cap a Scandal has cut, sells less. The ledger's `raw` keeps the full value and `revenueDelta` what
+was earned. The archetype band applies from round 4, when tier-2 staff arrive: rounds 1–3 have only
+tier-1 staff and no card that can hurt Sales, so a pure earner wins them whatever the numbers.**
+
+*Why:* stage 3's harness found the pure earner winning 795–990‰ against the field. In the race as D-85
+wrote it nothing blocked Sales, so every card that did not earn barely paid, and none of nine single
+knobs moved the earner below about 715‰. A prototype of this rule brought the earner to 330–520‰ from
+round 6 and turned the counter web the way `REVENUE_RACE.md` §5 draws it — the raider beats the earner,
+the fortress rises — and it gives Loyalty a job in a race: Poaching hurts from its first hit, and PR and
+Loyalty passives protect a firm's earnings.
+
+*Consequence:* amends D-85's "Sales add to your own Revenue; nothing blocks it". `SIMULATION_SPEC.md`
+revision 3 changes §9.3 and §16.1; the §20 worked trace is unchanged, because with no Poach Loyalty stays
+at its cap. Burnout now costs a firm its own Sales too, through the Scandal that cuts its cap, so Scandal
+and management are the next knobs. The ten fixtures need re-recording under `fixtures-approved`, as for
+stage 2.
+
+Authority: Human · `SIMULATION_SPEC.md` §9.3, §16.1, `BALANCE_PLAN.md` §4 · amends [D-85](#d-85)
+
+Superseded by: [D-88](#d-88), in part. Loyalty is measured against the current cap, not the starting one.
+
+## D-88
+
+**Sales earn in proportion to Loyalty over the firm's current cap, not its starting cap:
+`floor(v × loyalty / cap)`. A Scandal lowers the cap a firm's Loyalty is measured against, so it hurts
+through its transfer and by leaving Poaching less to chew through, not by cutting that firm's Sales for
+the rest of the quarter.**
+
+*Why:* measured against the starting cap, every point a Scandal shaved off a cap was a permanent cut to
+that firm's Sales. Management, whose Middle Managers' Overtime leaves Burnout on every expiry, ground its
+own cap to 1 by mid-quarter and earned 12–20% of what it sold, and the scandal archetype won 754–845‰
+against the field. Over the current cap the prototype held scandal at 314–470‰ and management at
+162–394‰ from round 6, and Poaching still cuts a rival's Sales as D-87 intended.
+
+*Consequence:* amends D-87's formula; `SIMULATION_SPEC.md` revision 3's §9.3 says `cap`. The raider and
+management remain outside the band and are the next knobs.
+
+Authority: Human · `SIMULATION_SPEC.md` §9.3 · amends [D-87](#d-87)
+
+## D-89
+
+**Legal bills its hours. The Paralegal (¥40 every 3 s), the Compliance Officer (¥40 every 4 s) and
+the General Counsel (¥200 every 10 s) each earn Sales as their ability, Billable Hours, and after each
+bill file their Bureaucracy, clear it next door, or Freeze the rival's best person. The fortress is
+Loyalty guarding an income, not Loyalty alone.**
+
+*Why:* in the race the fortress earned almost nothing — about ¥3.7k of its own Sales in a round-16
+quarter against the earner's ~¥39k — so it won 178–363‰ against the field whatever it held. Of three
+designs trialled (Legal billing; a Sales engine behind Legal and HR; both), billing alone brought the
+fortress into the band from round 12 (414/531/513‰ at rounds 6/12/16), made it beat the raider 677‰ as
+the counter web asks, and took the failing invariants from 12 to 11.
+
+*Consequence:* amends `REVENUE_RACE.md` §4's Legal row ("Poach with Bureaucracy"): Legal earns too. A
+Paralegal now earns what a Sales Rep does for the same ¥3 and still brings Bureaucracy and Loyalty; the
+nightly pick-rate checks (`dead_content`, the optimizer) watch whether it takes over. The
+`random_selector` fixture's overlay now re-aims the Paralegal's Bureaucracy, which is no longer its
+ability.
+
+Authority: Human · `GAME_DESIGN.md` §9, `BALANCE_PLAN.md` §5.1 · amends [D-85](#d-85)
+
+## D-90
+
+**An archetype may be weak early and strong late. `inv.archetype_band` judges each archetype's mean
+win rate over the measured rounds, from round 4, against the 420–580‰ band; in any single round it need
+only stay inside 300–700‰ (`archetypeRoundSpike`), so an archetype that is a write-off or a wall in one
+round still fails.**
+
+*Why:* the owner is content for archetypes to have a curve through the run rather than sit inside the
+band at every round. Judging each round separately failed exactly those curves.
+
+*Consequence:* the harness prints each round against the spike band and one line of means, and its
+failure count counts archetypes, not archetype-rounds. The owner set the principle; 300–700‰ is a first
+value, not a signed-off number.
+
+Authority: Human · `BALANCE_PLAN.md` §4, §6 · extends [D-87](#d-87)
+
+## D-91
+
+**Management keeps its clients: the Team Lead's Delegate is followed by PR 60 to its own firm.
+Management makes its best person work again and rebuilds Loyalty while it does, so its earners keep
+selling under Poach.**
+
+*Why:* management earns through retriggers of whoever stands beside its Team Leads, and had nothing
+that kept Loyalty; under D-87 any Poach emptied it and its Sales stopped. It averaged 358‰ against the
+field after its template changes. Of four designs trialled at 40 seeds — retriggers ×1.5, ×2, Delegate
+followed by PR, and both — Delegate PR alone brought it into the band (685/366/308‰ at rounds 6/12/16,
+mean 453‰) and moved the raider from 637‰ to 605‰. PR 40 and PR 80 were worse.
+
+*Consequence:* the fortress falls from 450‰ to 389‰, because management now holds its Loyalty against
+the fortress's Counsel; the fortress is the next knob. The generalist and the raider also buy Team
+Leads and gain a little PR.
+
+Authority: Human · `GAME_DESIGN.md` §9, `BALANCE_PLAN.md` §5.1 · extends [D-89](#d-89)
+
+## D-92
+
+**The late-swing check starts at round 4, like the archetype band (D-87), and the smoke run uses 40
+seeds per population instead of 20.**
+
+*Why:* at round 1, with only tier-1 staff, 27% of quarters were won from behind after Crunch against
+the 25% ceiling, at 20 and at 60 seeds alike; the starting-roster fight is not where a lead needs to
+stick. At 20 seeds the same content measured 25–70‰ differently from one template ordering to the
+next, so a smoke pass or failure meant little. At 40 seeds the smoke run takes about 100 s instead of
+25 s.
+
+*Consequence:* `balance.json` `seeds.smoke` is 40, and the harness skips rounds before
+`archetypeBandFromRound` for both checks. Management's round-6 rate sits at the 700‰ per-round
+ceiling, within the noise of a 40-seed run.
+
+Authority: Human · `BALANCE_PLAN.md` §2, §4, §6 · extends [D-87](#d-87) and [D-90](#d-90)

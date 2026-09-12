@@ -1,0 +1,152 @@
+[gd_scene format=4 uid="uid://s7w7jrd73yk1"]
+
+[ext_resource type="Texture2D" uid="uid://tbal8hokuuc1" path="res://assets/ui/ui/build/floor_frame.png" id="1"]
+[ext_resource type="TileSet" uid="uid://cydacchwkehi4" path="res://assets/packs/japanese_office_interior.tres" id="2"]
+
+[node name="Floor" type="Node2D" unique_id=1828396619]
+
+[node name="frame" type="Sprite2D" parent="." unique_id=539287930]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1")
+centered = false
+
+[node name="Tiles" type="TileMapLayer" parent="." unique_id=384774557]
+visible = false
+scale = Vector2(0.5, 0.5)
+tile_set = ExtResource("2")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=221843044]
+scale = Vector2(0.5, 0.5)
+tile_map_data = PackedByteArray("AAACAAAAAAArAAYAAAADAAAAAAAsAAYAAAAEAAAAAAAsAAYAAAAFAAAAAAAtAAYAAAACAAEAAAArAAcAAAADAAEAAAAsAAcAAAAEAAEAAAAsAAcAAAAFAAEAAAAtAAcAAAAFAAIAAAAtAAcAAAAEAAIAAAAsAAcAAAADAAIAAAAsAAcAAAACAAIAAAArAAcAAAACAAMAAAArAAgAAAADAAMAAAAsAAgAAAAEAAMAAAAsAAgAAAAFAAMAAAAtAAgAAAAAAAAAAAAoAAMAAAAJAAAAAAAqAAMAAAABAAAAAAApAAMAAAAGAAAAAAApAAMAAAAHAAAAAAApAAMAAAAIAAAAAAApAAMAAAAJAAEAAAAqAAQAAAAJAAIAAAAqAAQAAAAJAAMAAAAqAAQAAAAJAAQAAAAqAAQAAAAJAAUAAAAqAAUAAAAIAAUAAAApAAUAAAAHAAUAAAApAAUAAAAGAAUAAAApAAUAAAAFAAUAAAApAAUAAAAEAAUAAAApAAUAAAADAAUAAAApAAUAAAACAAUAAAApAAUAAAABAAUAAAApAAUAAAAAAAUAAAAoAAUAAAAAAAQAAAAoAAQAAAAAAAMAAAAoAAQAAAAAAAIAAAAoAAQAAAAAAAEAAAAoAAQAAAABAAEAAAApAAQAAAABAAIAAAApAAQAAAABAAMAAAApAAQAAAABAAQAAAApAAQAAAACAAQAAAApAAQAAAADAAQAAAApAAQAAAAEAAQAAAApAAQAAAAFAAQAAAApAAQAAAAGAAQAAAApAAQAAAAHAAQAAAApAAQAAAAIAAQAAAApAAQAAAAIAAMAAAApAAQAAAAIAAIAAAApAAQAAAAIAAEAAAApAAQAAAAHAAEAAAApAAQAAAAGAAEAAAApAAQAAAAGAAIAAAApAAQAAAAGAAMAAAApAAQAAAAHAAMAAAApAAQAAAAHAAIAAAApAAQAAAAEAP//AABGAAIAAAADAP//AAAmAAcAAAACAP//AAAmAAcAAAABAP//AAAmAAcAAAAAAP//AAAmAAkAAAAFAP//AAAmAAcAAAAGAP//AAAmAAcAAAAHAP//AAAmAAcAAAAIAP//AAAmAAcAAAAJAP//AAAnAAkAAAA=")
+tile_set = ExtResource("2")
+
+[node name="TileMapLayer2" type="TileMapLayer" parent="." unique_id=1469997433]
+visible = false
+scale = Vector2(0.5, 0.5)
+tile_map_data = PackedByteArray("AAACAP7/AAA7AAwAAAACAP//AAA7AA0AAAADAP7/AAA8AAwAAAADAP//AAA8AA0AAAAEAAEAAAAzAAAAAAAEAAIAAAAzAAEAAAAFAAEAAAA0AAAAAAAFAAIAAAA0AAEAAAACAAMAAAAuAA0AAAADAAMAAAAvAA0AAAAFAP//AAA9AAoAAAAFAAAAAAA9AAsAAAA=")
+tile_set = ExtResource("2")
+
+[node name="TileMapLayer5" type="TileMapLayer" parent="." unique_id=1128978038]
+visible = false
+scale = Vector2(0.5, 0.5)
+tile_map_data = PackedByteArray("AAACAP7/AAA7AAwAAAACAP//AAA7AA0AAAADAP7/AAA8AAwAAAADAP//AAA8AA0AAAAEAAEAAAAzAAAAAAAEAAIAAAAzAAEAAAAFAAEAAAA0AAAAAAAFAAIAAAA0AAEAAAACAAMAAAAuAA0AAAADAAMAAAAvAA0AAAAFAP//AAA9AAoAAAAFAAAAAAA9AAsAAAA=")
+tile_set = ExtResource("2")
+
+[node name="TileMapLayer3" type="TileMapLayer" parent="." unique_id=562588080]
+visible = false
+position = Vector2(-2, 7)
+scale = Vector2(0.5, 0.5)
+tile_map_data = PackedByteArray("AAAFAAIAAAA0AAsAAAAFAAMAAAA0AAwAAAAEAAIAAAA0AAsAAAAEAAMAAAA0AAwAAAA=")
+tile_set = ExtResource("2")
+
+[node name="TileMapLayer4" type="TileMapLayer" parent="." unique_id=989257162]
+visible = false
+position = Vector2(-2, 7)
+scale = Vector2(0.5, 0.5)
+tile_map_data = PackedByteArray("AAAFAAIAAAAzAAsAAAAFAAMAAAAzAAwAAAAEAAIAAAAzAAsAAAAEAAMAAAAzAAwAAAA=")
+tile_set = ExtResource("2")
+
+[node name="Guides" type="Node2D" parent="." unique_id=1502098343]
+z_index = 1
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="col_0" type="ColorRect" parent="Guides" unique_id=42266059]
+offset_right = 1.0
+offset_bottom = 96.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="col_1" type="ColorRect" parent="Guides" unique_id=1529603633]
+offset_left = 32.0
+offset_right = 33.0
+offset_bottom = 96.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="col_2" type="ColorRect" parent="Guides" unique_id=1063818279]
+offset_left = 64.0
+offset_right = 65.0
+offset_bottom = 96.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="col_3" type="ColorRect" parent="Guides" unique_id=1578638591]
+offset_left = 96.0
+offset_right = 97.0
+offset_bottom = 96.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="col_4" type="ColorRect" parent="Guides" unique_id=1129136802]
+offset_left = 128.0
+offset_right = 129.0
+offset_bottom = 96.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="col_5" type="ColorRect" parent="Guides" unique_id=1382379763]
+offset_left = 159.0
+offset_right = 160.0
+offset_bottom = 96.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="row_0" type="ColorRect" parent="Guides" unique_id=881811448]
+offset_right = 160.0
+offset_bottom = 1.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="row_1" type="ColorRect" parent="Guides" unique_id=893840558]
+offset_top = 32.0
+offset_right = 160.0
+offset_bottom = 33.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="row_2" type="ColorRect" parent="Guides" unique_id=1228934410]
+offset_top = 64.0
+offset_right = 160.0
+offset_bottom = 65.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="row_3" type="ColorRect" parent="Guides" unique_id=987537540]
+offset_top = 95.0
+offset_right = 160.0
+offset_bottom = 96.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="room_0" type="ColorRect" parent="Guides" unique_id=1017714340]
+offset_left = 32.0
+offset_right = 96.0
+offset_bottom = 64.0
+mouse_filter = 2
+color = Color(0.3, 0.6, 1, 0.25)
+
+[node name="room_0_label" type="Label" parent="Guides" unique_id=1237499978]
+offset_left = 34.0
+offset_top = 2.0
+offset_right = 94.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 8
+text = "Reception (its room scene)"
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="takes" type="Label" parent="Guides" unique_id=537342320]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 158.0
+offset_bottom = 32.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 8
+text = "G — Reception · reception, security, general rooms"
+autowrap_mode = 3

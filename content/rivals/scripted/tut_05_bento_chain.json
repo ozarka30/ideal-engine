@@ -2,11 +2,11 @@
   "id": "rival.tut_05_bento_chain",
   "name": "Bento Chain",
   "kind": "scripted",
-  "archetype": "economy",
+  "archetype": "earner",
   "round": 5,
   "gimmick": null,
   "exemptFromBudget": false,
-  "note": "Fight 5. An economy build. Chip damage and regen; the player learns severance this round.",
+  "note": "Fight 5. An earner: Sales on a Sales Floor and nothing to take the player's money. The player learns severance this round.",
   "snapshot": {
     "schemaVersion": 1,
     "contentVersion": "0.1.0",

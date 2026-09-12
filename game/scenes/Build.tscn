@@ -8,7 +8,9 @@
 [ext_resource type="FontFile" path="res://fonts/HoneyPigeon.ttf" id="6"]
 [ext_resource type="FontFile" path="res://fonts/honeyblot_caps.ttf" id="7"]
 [ext_resource type="PackedScene" path="res://scenes/widgets/Card.tscn" id="8"]
-[ext_resource type="Texture2D" path="res://assets/ui/ui/build/floor_frame.png" id="9"]
+[ext_resource type="PackedScene" path="res://scenes/floors/basic/f2.tscn" id="9"]
+[ext_resource type="PackedScene" path="res://scenes/floors/basic/f1.tscn" id="15"]
+[ext_resource type="PackedScene" path="res://scenes/floors/basic/g.tscn" id="16"]
 [ext_resource type="Texture2D" path="res://assets/topdown/emp/junior_dev.png" id="10"]
 [ext_resource type="Texture2D" path="res://assets/topdown/emp/intern.png" id="11"]
 [ext_resource type="Texture2D" path="res://assets/topdown/emp/qa_tester.png" id="12"]
@@ -247,11 +249,8 @@ offset_right = 184.0
 offset_bottom = 128.0
 color = Color(0.85, 0.8, 0.65, 0.15)
 
-[node name="frame" type="Sprite2D" parent="Layout/floor_above"]
+[node name="frame" parent="Layout/floor_above" instance=ExtResource("9")]
 modulate = Color(1, 1, 1, 0.5)
-centered = false
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("9")
 
 ; 2F is not leased at the start of a run: the sample shows the lease cover the game draws over it (D-83).
 [node name="lease" parent="Layout/floor_above" instance=ExtResource("14")]
@@ -271,10 +270,7 @@ offset_right = 184.0
 offset_bottom = 232.0
 color = Color(0.85, 0.8, 0.65, 0.15)
 
-[node name="frame" type="Sprite2D" parent="Layout/floor_selected"]
-centered = false
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("9")
+[node name="frame" parent="Layout/floor_selected" instance=ExtResource("15")]
 
 [node name="intern" type="Sprite2D" parent="Layout/floor_selected"]
 centered = false
@@ -305,11 +301,8 @@ offset_right = 184.0
 offset_bottom = 336.0
 color = Color(0.85, 0.8, 0.65, 0.15)
 
-[node name="frame" type="Sprite2D" parent="Layout/floor_below"]
+[node name="frame" parent="Layout/floor_below" instance=ExtResource("16")]
 modulate = Color(1, 1, 1, 0.5)
-centered = false
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("9")
 
 [node name="name" type="Label" parent="Layout/floor_below"]
 offset_left = -14.0

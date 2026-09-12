@@ -14,7 +14,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "flatPush",
+          "stat": "flatSales",
           "subject": {
             "scope": "adjacent",
             "dept": [
@@ -25,7 +25,7 @@
         }
       ],
       "sprite": "furn.whiteboard",
-      "flavor": "+15 Push to adjacent Engineering. Recipe input."
+      "flavor": "+¥15 Sales to adjacent Engineering. Recipe input."
     },
     {
       "id": "furn.pc_90s",
@@ -68,7 +68,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "adjacent",
             "dept": [
@@ -79,7 +79,7 @@
         }
       ],
       "sprite": "furn.filing_cabinet",
-      "flavor": "+60 Goodwill per adjacent Legal. Recipe input."
+      "flavor": "+60 Loyalty per adjacent Legal. Recipe input."
     },
     {
       "id": "furn.fax_machine",
@@ -232,7 +232,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "anomalySelfCost",
+          "stat": "curseSelfCost",
           "subject": {
             "scope": "adjacent",
             "dept": [
@@ -243,7 +243,7 @@
         }
       ],
       "sprite": "furn.ofuda",
-      "flavor": "Halves the Anomaly self-cost of adjacent extraplanar staff. Stacks with the Circle to zero."
+      "flavor": "Halves the Curse self-cost of adjacent extraplanar staff. Stacks with the Circle to zero."
     },
     {
       "id": "furn.desk_phone",
@@ -259,7 +259,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "flatPush",
+          "stat": "flatSales",
           "subject": {
             "scope": "adjacent",
             "dept": [
@@ -270,7 +270,7 @@
         }
       ],
       "sprite": "furn.desk_phone",
-      "flavor": "+10 Push to adjacent Sales."
+      "flavor": "+¥10 Sales to adjacent Sales staff."
     },
     {
       "id": "furn.shredder",
@@ -312,7 +312,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "adjacent"
           },
@@ -320,7 +320,7 @@
         }
       ],
       "sprite": "furn.potted_plant",
-      "flavor": "+30 Goodwill per neighbour. Dies mysteriously in round 3 of the first run."
+      "flavor": "+30 Loyalty per neighbour. Dies mysteriously in round 3 of the first run."
     },
     {
       "id": "furn.copier",

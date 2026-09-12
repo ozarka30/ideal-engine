@@ -15,27 +15,24 @@ public sealed record RulesFile(
     string Id,
     long SchemaVersion,
     RulesTime Time,
-    RulesGoodwill Goodwill,
-    RulesMorale Morale,
-    RulesAnomaly Anomaly,
-    RulesShare Share,
+    RulesLoyalty Loyalty,
+    RulesScandal Scandal,
+    RulesCurse Curse,
     RulesFloors Floors,
     RulesTenure Tenure,
     RulesPortal Portal,
     RulesRetrigger Retrigger,
     RulesUpkeep Upkeep);
 
-public sealed record RulesTime(long TicksPerSecond, long QuarterTicks, long[] MonthStart, long[] PushMult, long[] RegenMult);
+public sealed record RulesTime(long TicksPerSecond, long QuarterTicks, long[] MonthStart, long[] RushMult, long[] RegenMult);
 
 public sealed record RulesBaseCap(long Constant, long PerRound);
 
-public sealed record RulesGoodwill(RulesBaseCap BaseCap, long RegenBasePermille, long RegenInterval, long RegenSuppressWindow, long SuppressThresholdPermille);
+public sealed record RulesLoyalty(RulesBaseCap BaseCap, long RegenBasePermille, long RegenInterval, long RegenSuppressWindow, long SuppressThresholdPermille);
 
-public sealed record RulesMorale(long Interval, long PerStack, long RatePermille);
+public sealed record RulesScandal(long Interval, long PerStack, long TransferPermille);
 
-public sealed record RulesAnomaly(long SelfCostPermille);
-
-public sealed record RulesShare(long Total, long Start, long[] SpPerPushPermille);
+public sealed record RulesCurse(long SelfCostPermille);
 
 public sealed record RulesFloors(long CorridorMult);
 
@@ -45,7 +42,7 @@ public sealed record RulesPortal(long ReceptionCapPerOccupant, long EmployeeCapT
 
 public sealed record RulesRetrigger(long DepthMax);
 
-public sealed record RulesUpkeep(long GoodwillPerUnpaidBudget);
+public sealed record RulesUpkeep(long LoyaltyPerUnpaidBudget);
 
 public sealed record EconomyFile(
     string Id,

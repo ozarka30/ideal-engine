@@ -15,15 +15,15 @@ public static class FixtureCatalog
             Tower(v, 1, "founder.sato", Ground(), Corridor(1, Emp("emp.junior_dev", 2, 1, "e_a1"))),
             Tower(v, 1, "founder.sato", Ground(), Corridor(1, Emp("emp.junior_dev", 2, 1, "e_b1"))), null);
 
-        yield return new FixtureInput("overflow", "A's single Architect at round 16 against an empty tower. Overflow and carry arithmetic.", 2, 16,
-            Tower(v, 16, "founder.nakagawa", Ground(), Corridor(1, Emp("emp.architect", 2, 1, "e_a1"))),
-            Tower(v, 16, "founder.sato", Ground(), Corridor(1)), null);
+        yield return new FixtureInput("overflow", "A Patent Attorney and an Account Manager against two Junior Developers. Poach breaks Loyalty, the overflow transfers Revenue, and B's Sales shrink with its Loyalty (D-87).", 2, 1,
+            Tower(v, 1, "founder.okada", Ground(), Corridor(1, Emp("emp.patent_attorney", 1, 1, "e_a1"), Emp("emp.account_manager", 3, 1, "e_a2"))),
+            Tower(v, 1, "founder.sato", Ground(), Corridor(1, Emp("emp.junior_dev", 1, 1, "e_b1"), Emp("emp.junior_dev", 3, 1, "e_b2"))), null);
 
-        yield return new FixtureInput("regen_suppress", "QA Tester chip below threshold against a Recruiter. Regen never suppressed.", 3, 1,
-            Tower(v, 1, "founder.nakagawa", Ground(), Corridor(1, Emp("emp.qa_tester", 2, 1, "e_a1"))),
-            Tower(v, 1, "founder.ueda", Ground(), Corridor(1, Emp("emp.recruiter", 2, 1, "e_b1"))), null);
+        yield return new FixtureInput("regen_suppress", "An Account Manager's corridor Poach of 81 against a round-16 cap of 2200 (threshold 88): in Month 1 regen still comes 20 ticks later; at 113 and 162, once the rush multiplies it, regen is suppressed.", 3, 16,
+            Tower(v, 16, "founder.hoshino", Ground(), Corridor(1, Emp("emp.account_manager", 2, 1, "e_a1"))),
+            Tower(v, 16, "founder.ueda", Ground(), Corridor(1, Emp("emp.junior_dev", 2, 1, "e_b1"))), null);
 
-        yield return new FixtureInput("burnout_pierce", "Consultant against a Legal turtle. Morale erosion; Bell ordering.", 4, 6,
+        yield return new FixtureInput("burnout_pierce", "Consultant against a Legal turtle. Scandal erosion; Bell ordering.", 4, 6,
             Tower(v, 6, "founder.moriyama", Ground(), Corridor(1, Emp("emp.consultant", 2, 1, "e_a1"), Emp("emp.junior_dev", 3, 1, "e_a2"))),
             Tower(v, 6, "founder.okada",
                 Ground(Emp("emp.paralegal", 1, 0, "e_b0")),
@@ -44,7 +44,8 @@ public static class FixtureCatalog
         {
             Id = "emp.test_random_paralegal",
             Name = "Paralegal (random selectors, fixture only)",
-            Effects = paralegal.Effects.Select(e => e.On == "ability" ? e with { Target = new TargetSpec("enemy", "random_floor", "random", null, null, null, null) } : e).ToArray(),
+            // The Paralegal's Bureaucracy fires after its Billable Hours (D-89); that status effect is the one re-aimed.
+            Effects = paralegal.Effects.Select(e => e.Do == "status" ? e with { Target = new TargetSpec("enemy", "random_floor", "random", null, null, null, null) } : e).ToArray(),
         };
         yield return new FixtureInput("random_selector", "A Paralegal with random_floor / random against a three-floor tower. RNG draw order. The definition is a fixture-local overlay: no shipped employee uses a random selector.", 12345, 3,
             Tower(v, 3, "founder.okada", Ground(), Corridor(1, Emp("emp.test_random_paralegal", 2, 1, "e_a1"))),
@@ -54,7 +55,7 @@ public static class FixtureCatalog
                 Corridor(2, Emp("emp.junior_dev", 2, 1, "e_b3"))),
             new[] { randomParalegal });
 
-        yield return new FixtureInput("anomaly_selfcost", "Salaryman Ghost in a Summoning Circle with Ofuda (A) and without (B).", 8, 6,
+        yield return new FixtureInput("anomaly_selfcost", "Salaryman Ghost in a Summoning Circle with Ofuda (A) and without (B). Curse and its self-cost.", 8, 6,
             TowerFull(v, 6, "founder.kitamura",
                 new[] { Basement(new[] { Room("b1_circle", "room.summoning_circle", 0, 0, 2, 2, 0) }, Emp("emp.x_salaryman_ghost", 0, 0, "e_a1"), Furn("furn.ofuda", 1, 0, "f_a2")), Ground(), Corridor(1) },
                 None, new[] { new RiderRef("e_a1", "rider.tenured") }, leasedB1: true),
@@ -74,7 +75,7 @@ public static class FixtureCatalog
             Tower(v, 5, "founder.sato", Ground(), Corridor(1, Emp("emp.junior_dev", 2, 1, "e_b1"))), null);
 
         ScriptedRival boss = db.Rival("rival.boss_compliance_office");
-        yield return new FixtureInput("boss_act2", "The Compliance Office against the intended Act 2 counter-build: Morale and Anomaly, not Push.", 10, boss.Round,
+        yield return new FixtureInput("boss_act2", "The Compliance Office against the intended Act 2 counter-build: out-earn it, with Scandal and Curse.", 10, boss.Round,
             TowerFull(v, boss.Round, "founder.hoshino",
                 new[]
                 {

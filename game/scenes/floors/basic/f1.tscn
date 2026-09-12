@@ -1,0 +1,118 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/ui/ui/build/floor_frame.png" id="1"]
+[ext_resource type="TileSet" path="res://assets/packs/japanese_office_interior.tres" id="2"]
+
+; 1F — Operations, the basic company (D-84). 160 x 96 at 1x, the floor's slot on the build screen,
+; drawn live at 2x like a room. The grid is 5 x 3 tiles of 32 px from (0, 0); the starting roster
+; stands here. Paint the look on `Tiles` -- it is half scale, so a cell is 16 px, as in a room scene --
+; and delete `frame` when the paint covers it. What the floor is (grid, output, room kinds, lease)
+; stays in tools/planning/gen_content.py; the game draws the grid, rooms, people and the lease cover over this.
+[node name="Floor" type="Node2D"]
+
+[node name="frame" type="Sprite2D" parent="."]
+centered = false
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1")
+
+[node name="Tiles" type="TileMapLayer" parent="."]
+scale = Vector2(0.5, 0.5)
+tile_set = ExtResource("2")
+
+[node name="Guides" type="Node2D" parent="."]
+; written by tools/dev/floor_guides.py from content -- rerun it instead of editing; hidden in game
+z_index = 1
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="col_0" type="ColorRect" parent="Guides"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1.0
+offset_bottom = 96.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="col_1" type="ColorRect" parent="Guides"]
+offset_left = 32.0
+offset_top = 0.0
+offset_right = 33.0
+offset_bottom = 96.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="col_2" type="ColorRect" parent="Guides"]
+offset_left = 64.0
+offset_top = 0.0
+offset_right = 65.0
+offset_bottom = 96.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="col_3" type="ColorRect" parent="Guides"]
+offset_left = 96.0
+offset_top = 0.0
+offset_right = 97.0
+offset_bottom = 96.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="col_4" type="ColorRect" parent="Guides"]
+offset_left = 128.0
+offset_top = 0.0
+offset_right = 129.0
+offset_bottom = 96.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="col_5" type="ColorRect" parent="Guides"]
+offset_left = 159.0
+offset_top = 0.0
+offset_right = 160.0
+offset_bottom = 96.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="row_0" type="ColorRect" parent="Guides"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 160.0
+offset_bottom = 1.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="row_1" type="ColorRect" parent="Guides"]
+offset_left = 0.0
+offset_top = 32.0
+offset_right = 160.0
+offset_bottom = 33.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="row_2" type="ColorRect" parent="Guides"]
+offset_left = 0.0
+offset_top = 64.0
+offset_right = 160.0
+offset_bottom = 65.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="row_3" type="ColorRect" parent="Guides"]
+offset_left = 0.0
+offset_top = 95.0
+offset_right = 160.0
+offset_bottom = 96.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.45)
+
+[node name="takes" type="Label" parent="Guides"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 158.0
+offset_bottom = 32.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 8
+text = "1F — Operations · general rooms"
+autowrap_mode = 3

@@ -2,11 +2,11 @@
   "id": "rival.tut_07_compliance_adjacent",
   "name": "Harada Legal (Regional Office)",
   "kind": "scripted",
-  "archetype": "turtle",
+  "archetype": "fortress",
   "round": 7,
   "gimmick": null,
   "exemptFromBudget": false,
-  "note": "Fight 7. The first Counsel the player meets. Goodwill that will not break in Month 1.",
+  "note": "Fight 7. The first Counsel the player meets. Loyalty that will not break in Month 1.",
   "snapshot": {
     "schemaVersion": 1,
     "contentVersion": "0.1.0",

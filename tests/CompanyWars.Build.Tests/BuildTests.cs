@@ -145,10 +145,10 @@ public class BuildTests
 
     [Theory]
     [InlineData("rival.t_generalist")]
-    [InlineData("rival.t_turtle")]
-    [InlineData("rival.t_burst")]
-    [InlineData("rival.t_economy")]
-    [InlineData("rival.t_burnout")]
+    [InlineData("rival.t_fortress")]
+    [InlineData("rival.t_raider")]
+    [InlineData("rival.t_earner")]
+    [InlineData("rival.t_scandal")]
     [InlineData("rival.t_management")]
     public void EveryTemplateExpandsToAValidConstructibleSnapshotAtEveryRoundForFiftySeeds(string templateId)
     {
@@ -164,7 +164,7 @@ public class BuildTests
                 ContentValidator.SnapshotStructure(db, rival.Snapshot, $"{templateId} r{round} s{seed}", errors);
                 Assert.Empty(errors);
                 // Constructibility holds at the field population's budget (1000 permille); a template whose own
-                // budget exceeds the player's (the economy archetype, 1050) is richer on purpose.
+                // budget exceeds the player's (the earner archetype, 1050) is richer on purpose.
                 Rival field = TemplateExpander.Expand(db, templateId, round, seed, false, 1000);
                 if (field.SourceId == templateId) ContentValidator.Constructibility(db, field.Snapshot, round, $"{templateId} r{round} s{seed} @1000", errors);
                 Assert.Empty(errors);
@@ -178,8 +178,8 @@ public class BuildTests
     public void ExpansionIsDeterministic()
     {
         ContentDb db = Db.Value;
-        Rival a = TemplateExpander.Expand(db, "rival.t_burst", 9, 777);
-        Rival b = TemplateExpander.Expand(db, "rival.t_burst", 9, 777);
+        Rival a = TemplateExpander.Expand(db, "rival.t_raider", 9, 777);
+        Rival b = TemplateExpander.Expand(db, "rival.t_raider", 9, 777);
         Assert.Equal(a.Snapshot.Canonical(), b.Snapshot.Canonical());
         Assert.Equal(a.Name, b.Name);
     }
@@ -214,7 +214,7 @@ public class ExplainTests
     public void EveryEmployeeExplainsItselfWithoutVocabularyWords()
     {
         ContentDb db = Db.Value;
-        string[] raw = { "permille", "afterFire", "status.", "highest_occupied", "most_populated", "everyN", "goodwillCap", "regenPerEvent", "_" };
+        string[] raw = { "permille", "afterFire", "status.", "highest_occupied", "most_populated", "everyN", "loyaltyCap", "regenPerEvent", "_" };
         foreach (EmployeeDef e in db.Employees)
         {
             string text = Explain.Ability(db, e) + " " + string.Join(" ", Explain.Passives(db, e.Effects, e)) + " " + string.Join(" ", Explain.Placement(db, e));
@@ -229,7 +229,7 @@ public class ExplainTests
     public void KnownExplanationsReadAsIntended()
     {
         ContentDb db = Db.Value;
-        Assert.Equal("Ship Feature: 60 Push every 4.0 s.", Explain.Ability(db, db.Employees.First(e => e.Id == "emp.junior_dev")));
+        Assert.Equal("Ship Feature: earn ¥60 every 4.0 s.", Explain.Ability(db, db.Employees.First(e => e.Id == "emp.junior_dev")));
         Assert.Contains("Open Plan", Explain.Placement(db, db.Employees.First(e => e.Id == "emp.junior_dev"))[0]);
         Assert.Contains("Whiteboard", Explain.Placement(db, db.Employees.First(e => e.Id == "emp.junior_dev"))[1]);
         Assert.Equal("Delegate: the hardest-hitting neighbour fires now every 6.0 s.", Explain.Ability(db, db.Employees.First(e => e.Id == "emp.team_lead")));

@@ -1,6 +1,6 @@
 {
   "id": "rules.default",
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "time": {
     "ticksPerSecond": 20,
     "quarterTicks": 1200,
@@ -10,7 +10,7 @@
       800,
       1160
     ],
-    "pushMult": [
+    "rushMult": [
       1000,
       1400,
       2000,
@@ -23,7 +23,7 @@
       0
     ]
   },
-  "goodwill": {
+  "loyalty": {
     "baseCap": {
       "constant": 600,
       "perRound": 100
@@ -33,35 +33,13 @@
     "regenSuppressWindow": 20,
     "suppressThresholdPermille": 40
   },
-  "morale": {
+  "scandal": {
     "interval": 20,
     "perStack": 8,
-    "ratePermille": 500
+    "transferPermille": 375
   },
-  "anomaly": {
+  "curse": {
     "selfCostPermille": 250
-  },
-  "share": {
-    "total": 10000,
-    "start": 5000,
-    "spPerPushPermille": [
-      8000,
-      7000,
-      6000,
-      5200,
-      4500,
-      3900,
-      3400,
-      3000,
-      2600,
-      2300,
-      2000,
-      1750,
-      1500,
-      1300,
-      1150,
-      1000
-    ]
   },
   "floors": {
     "corridorMult": 900
@@ -84,6 +62,6 @@
     "depthMax": 1
   },
   "upkeep": {
-    "goodwillPerUnpaidBudget": 100
+    "loyaltyPerUnpaidBudget": 100
   }
 }

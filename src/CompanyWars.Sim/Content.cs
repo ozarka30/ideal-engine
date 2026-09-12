@@ -107,8 +107,8 @@ public sealed record StatusDef(
     long? DurationTicks,
     bool Expires,
     long CooldownRatePermillePerStack,
-    long PushPenaltyPermillePerStack,
-    long MoralePerStackPerEvent,
+    long OutputPenaltyPermillePerStack,
+    long ScandalPerStackPerEvent,
     ThenSpec[] OnExpire,
     string Tone,
     string Text);
@@ -176,8 +176,8 @@ public static class Vocabulary
     public const string StatusFrozen = "status.frozen";
 
     public static readonly string[] Triggers = { "ability", "afterFire", "static", "periodic", "banner", "economy", "onHire", "onAccept" };
-    public static readonly string[] Actions = { "push", "anomaly", "morale", "restore", "status", "cleanse", "retrigger", "stat", "flag", "override", "consumeAdjacentFurniture", "roomTenure" };
-    public static readonly string[] Stats = { "push", "anomaly", "restore", "flatPush", "cooldown", "goodwillCap", "goodwillCapMult", "regenPerEvent", "passiveMult", "statusStacksBonus", "burnoutMaxOverride", "burnoutMaxDelta", "anomalySelfCost", "retriggerBonus", "floorOutput", "income", "upkeep", "rerollCost", "severance", "severanceMult" };
+    public static readonly string[] Actions = { "sales", "poach", "scandal", "curse", "pr", "status", "cleanse", "retrigger", "stat", "flag", "override", "consumeAdjacentFurniture", "roomTenure" };
+    public static readonly string[] Stats = { "sales", "poach", "curse", "pr", "flatSales", "cooldown", "loyaltyCap", "loyaltyCapMult", "regenPerEvent", "passiveMult", "statusStacksBonus", "burnoutMaxOverride", "burnoutMaxDelta", "curseSelfCost", "retriggerBonus", "floorOutput", "income", "upkeep", "rerollCost", "severance", "severanceMult" };
     public static readonly string[] Flags = { "untargetable", "bureaucracyImmune", "frozenImmune", "burnoutImmune", "overtimePermanent", "cannotBeRetriggered", "wholeFloorAdjacency", "capProtected", "regenNeverSuppressed", "receptionDisabled", "everyFloorMostPopulated", "floorSelectorMirror", "cannotBeLaidOff", "landingOnly" };
     public static readonly string[] Overrides = { "floorSelector", "tenureTier" };
     public static readonly string[] FloorSelectors = { "highest_occupied_floor", "lowest_occupied_floor", "most_populated_floor", "least_populated_floor", "same_floor_index", "random_floor", "all_floors" };

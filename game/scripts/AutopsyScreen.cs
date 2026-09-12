@@ -73,7 +73,7 @@ public partial class AutopsyScreen : Node2D
         Rect2I banner = _at.Rect("banner");
         DrawRect(new Rect2(banner.Position, banner.Size), Tones.Fill("interface"));
         font.Draw(this, _at.X("banner_result"), _at.Y("banner_result"), Autopsy.ResultBanner(_view, _r.FightRound, "A"), font.Large, Tones.Text("interface"));
-        font.Draw(this, _at.X("banner_context"), _at.Y("banner_context"), $"{_r.NameA} vs {_r.NameB} · at {Autopsy.Seconds(_playhead)} share {_view.Share(_playhead) / 100}.{_view.Share(_playhead) % 100 / 10}%", font.Small, Tones.Muted("interface"), HorizontalAlignment.Right, _at.Rect("banner_context").Size.X);
+        font.Draw(this, _at.X("banner_context"), _at.Y("banner_context"), $"{_r.NameA} vs {_r.NameB} · at {Autopsy.Seconds(_playhead)} ¥{_view.FrameA(_playhead).Revenue:N0} to ¥{_view.FrameB(_playhead).Revenue:N0}", font.Small, Tones.Muted("interface"), HorizontalAlignment.Right, _at.Rect("banner_context").Size.X);
 
         // Timeline
         Rect2I tl = _at.Rect("timeline");
@@ -84,7 +84,7 @@ public partial class AutopsyScreen : Node2D
         {
             long t = c * span;
             if (t > _view.Result.EndTick) break;
-            int h = (int)(tl.Size.Y * _timeline[c] / _view.Rules.ShareTotal);
+            int h = (int)(tl.Size.Y * _timeline[c] / 1000);   // side A's permille of the takings
             DrawRect(new Rect2(tl.Position.X + c * colW, tl.Position.Y + tl.Size.Y - h, colW - 1, h), Tones.Fill(Ui.SideTone("A")));
         }
         foreach (long start in _view.Rules.MonthStart)
@@ -225,9 +225,9 @@ public partial class AutopsyScreen : Node2D
         string text = LiveLedger.Describe(_view, e);
         var parts = new List<string>();
         if (e.Kind is "status" or "retrigger" && e.TargetUnits.Length > 0 && _view.Unit(e.TargetUnits[0]) is UnitInfo t) text += $" → {t.Name}";
-        if (e.GoodwillDelta != 0 && e.Kind != "regen" && e.Kind != "restore") parts.Add($"gw {e.GoodwillDelta:+#;-#;0}");
+        if (e.LoyaltyDelta != 0 && e.Kind != "regen" && e.Kind != "pr") parts.Add($"loyalty {e.LoyaltyDelta:+#;-#;0}");
         if (e.CapDelta != 0) parts.Add($"cap {e.CapDelta:+#;-#;0}");
-        if (e.ShareDelta != 0 && e.Kind is not ("push" or "anomaly")) parts.Add($"share {e.ShareDelta:+#;-#;0}");
+        if (e.RevenueDelta != 0 && e.Kind is not ("sales" or "poach" or "curse")) parts.Add($"¥{e.RevenueDelta:+#;-#;0}");
         if (e.Depth > 0) parts.Add("retriggered");
         string side = e.SourceSide == "*" ? " " : e.SourceSide;
         return $"{Autopsy.Seconds(e.Tick),6} {side} {text}{(parts.Count > 0 ? " · " + string.Join(" ", parts) : string.Empty)}";

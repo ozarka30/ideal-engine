@@ -15,11 +15,14 @@ internal static class SideExtensions
     public static Side Other(this Side s) => s == Side.A ? Side.B : Side.A;
 }
 
+/// <summary>The kinds whose value runs the §9.2 pipeline; each indexes <see cref="Unit.Aura"/>.</summary>
 internal static class Kind
 {
-    public const int Push = 0;
-    public const int Anomaly = 1;
-    public const int Restore = 2;
+    public const int Sales = 0;
+    public const int Poach = 1;
+    public const int Curse = 2;
+    public const int Pr = 3;
+    public const int Count = 4;
 }
 
 /// <summary>An <c>afterFire</c> effect attached to a unit at setup (SIMULATION_SPEC.md §9.4).</summary>
@@ -46,8 +49,8 @@ internal sealed class Unit
     public long[] CdBaseByMonth { get; } = new long[4];
     public long CdMult { get; set; } = 1000;
     public long CdProgress { get; set; }
-    public long[] Aura { get; } = { 1000, 1000, 1000 };
-    public long FlatPush { get; set; }
+    public long[] Aura { get; } = { 1000, 1000, 1000, 1000 };
+    public long FlatSales { get; set; }
     public long FloorMult { get; set; } = 1000;
     public long RetriggerBonus { get; set; } = 1000;
     public long PassiveMult { get; set; } = 1000;
@@ -174,12 +177,12 @@ internal sealed class Firm
     // §5.5 firm stats
     public long Cap { get; set; }
     public long CapAtStart { get; set; }
-    public long Goodwill { get; set; }
+    public long Loyalty { get; set; }
     public long RegenPerEvent { get; set; }
     public long SuppressThreshold { get; set; }
     public long LastSuppressTick { get; set; } = -1000;
-    public long SpCarry { get; set; }
-    public long TotalPush { get; set; }
+    public long Revenue { get; set; }
+    public long TotalSales { get; set; }
     public long CapFlat { get; set; }
     public long CapMult { get; set; } = 1000;
     public long RegenFlat { get; set; }

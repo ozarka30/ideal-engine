@@ -13,10 +13,11 @@ public static class Explain
     /// <summary>What a damage or support kind does to the fight, in one sentence.</summary>
     public static string Kind(string kind) => kind switch
     {
-        "push" => "Push drains the rival's Goodwill bar; once it is empty, every Push moves the Market Share bar.",
-        "anomaly" => "Anomaly moves the Market Share bar straight away, ignoring Goodwill, but a quarter of it hurts your own Goodwill.",
-        "morale" => "Morale shrinks the rival's Goodwill cap for the rest of the fight and moves the bar a little.",
-        "restore" => "Restore refills your own Goodwill.",
+        "sales" => "Sales add money to your Revenue in proportion to your Client Loyalty: wavering clients buy less.",
+        "poach" => "Poach drains the rival's Client Loyalty; once it is empty, every Poach moves money from their Revenue to yours.",
+        "scandal" => "A Scandal shrinks a firm's Loyalty cap for the rest of the quarter and hands three-eighths of its size in money to the other firm.",
+        "curse" => "A Curse moves money from the rival to you straight through their Loyalty, but a quarter of it rebounds on your own Loyalty.",
+        "pr" => "PR rebuilds your own Client Loyalty.",
         "status" => "A status changes how an employee works for a while.",
         "cleanse" => "Cleanse removes status stacks from your own people.",
         "retrigger" => "A retrigger makes another employee fire now, without resetting their cooldown.",
@@ -25,7 +26,7 @@ public static class Explain
 
     public static string Status(string statusId) => statusId switch
     {
-        "status.burnout" => "Burnout: −5% output per stack, and their firm loses Morale every second. Never wears off in a fight.",
+        "status.burnout" => "Burnout: −5% output per stack, and their firm causes itself a Scandal every second. Never wears off in a fight.",
         "status.overtime" => "Overtime: +50% cooldown speed per stack for 3 s, then one Burnout when it wears off.",
         "status.bureaucracy" => "Bureaucracy: −20% cooldown speed per stack for 5 s.",
         "status.frozen" => "Frozen: the cooldown stops entirely for the duration.",
@@ -48,10 +49,11 @@ public static class Explain
         string target = Target(e.Target);
         switch (e.Do)
         {
-            case "push": return $"{Value(e.Value, owner)} Push";
-            case "anomaly": return $"{Value(e.Value, owner)} Anomaly";
-            case "morale": return $"{Value(e.Value, owner)} Morale";
-            case "restore": return $"restore {Value(e.Value, owner)} Goodwill";
+            case "sales": return $"earn {Money(e.Value, owner)}";
+            case "poach": return $"poach {Money(e.Value, owner)} from the rival";
+            case "curse": return $"curse {Money(e.Value, owner)} from the rival";
+            case "scandal": return $"a {Value(e.Value, owner)} Scandal on {(e.Target?.Side == "own" ? "your firm" : "the rival")}";
+            case "pr": return $"rebuild {Value(e.Value, owner)} Loyalty";
             case "status": return $"{e.Stacks} {StatusName(e.Status)}{(e.DurationTicks.HasValue ? $" for {Seconds(e.DurationTicks.Value)}" : string.Empty)} to {target}";
             case "cleanse": return $"remove {e.Stacks} {StatusName(e.Status)} from {target}";
             case "retrigger": return $"{target} fire{(e.Target?.Pick != null || e.Target?.Scope == "self" ? "s" : string.Empty)} now{(e.Then != null ? $", then {e.Then.Stacks} {StatusName(e.Then.Status)} each" : string.Empty)}";
@@ -93,7 +95,7 @@ public static class Explain
             foreach (Effect x in r.Effects)
             {
                 if (x.On != "static" || x.Do != "stat" || x.Permille == null || x.Permille <= 1000) continue;
-                if (x.Stat is not ("push" or "anomaly" or "restore" or "passiveMult")) continue;
+                if (x.Stat is not ("sales" or "poach" or "curse" or "pr" or "passiveMult")) continue;
                 if (!Matches(x.Subject, e)) continue;
                 rooms.Add($"{r.Name} ×{x.Permille / 1000}.{x.Permille % 1000 / 100}");
                 break;
@@ -128,13 +130,13 @@ public static class Explain
     /// <summary>How a fight works, for the firm panel: a heading and the sentences a first-time player needs before pressing READY. The screen wraps them.</summary>
     public static string[] Primer() => new[]
     {
-        "HOW A FIGHT WORKS",
-        "Each employee fires when its cooldown fills.",
-        "Push drains the rival's Goodwill bar; once it hits 0, Push moves the Market Share bar instead.",
-        "First to 100% wins; otherwise the Bell rings at 60 s and the bar decides.",
+        "HOW A QUARTER WORKS",
+        "Each employee works when its cooldown fills.",
+        "Sales add money to your Revenue; Poach and Curse take it from the rival's.",
+        "Client Loyalty shields your Revenue from Poaching, and regrows every 2 s unless you were just Poached.",
+        "The Bell rings at 60 s: the firm with more Revenue wins.",
         "Rooms multiply everyone inside; the corridor is ×0.9.",
         "Furniture and abilities reach the tiles beside them.",
-        "Goodwill regrows every 2 s unless it was hit hard.",
     };
 
 
@@ -145,8 +147,11 @@ public static class Explain
         if (v == null) return string.Empty;
         if (v.Constant.HasValue) return v.Constant.Value.ToString();
         if (v.Base.HasValue) return $"{v.Base} + {v.Each} per {v.PerTag} employee";
-        return $"{(v.PermilleOfTargetCap ?? 0) / 10}% of the rival's cap";
+        return $"{(v.PermilleOfTargetCap ?? 0) / 10}% of the rival's Loyalty cap";
     }
+
+    /// <summary>A value that is money: "¥60" for a constant; the other forms read as <see cref="Value"/>.</summary>
+    private static string Money(ValueSpec? v, EmployeeDef? owner) => v?.Constant is long c ? $"¥{c}" : Value(v, owner);
 
     private static string Target(TargetSpec? t)
     {
@@ -220,22 +225,23 @@ public static class Explain
         return who.Length == 0 ? $"{what} {mult}" : $"{what} {mult} for {who}";
     }
 
-    /// <summary>A stat's plain name: "push" → "Push", "goodwillCap" → "Goodwill cap". Cards use it at twelve columns.</summary>
+    /// <summary>A stat's plain name: "sales" → "Sales", "loyaltyCap" → "Loyalty cap". Cards use it at twelve columns.</summary>
     public static string StatWord(string? stat, string? status = null, string? floor = null, ContentDb? db = null) => stat switch
     {
-        "push" => "Push",
-        "anomaly" => "Anomaly",
-        "restore" => "Restore",
-        "flatPush" => "Push",
+        "sales" => "Sales",
+        "poach" => "Poach",
+        "curse" => "Curse",
+        "pr" => "PR",
+        "flatSales" => "Sales",
         "cooldown" => "cooldown time",
-        "goodwillCap" => "Goodwill cap",
-        "goodwillCapMult" => "Goodwill cap",
-        "regenPerEvent" => "Goodwill regen",
+        "loyaltyCap" => "Loyalty cap",
+        "loyaltyCapMult" => "Loyalty cap",
+        "regenPerEvent" => "Loyalty regrowth",
         "passiveMult" => "cap and regen passives",
         "statusStacksBonus" => $"{StatusName(status)} applied",
         "burnoutMaxOverride" => "Burnout limit",
         "burnoutMaxDelta" => "Burnout limit",
-        "anomalySelfCost" => "Anomaly self-cost",
+        "curseSelfCost" => "Curse self-cost",
         "retriggerBonus" => "retrigger strength",
         "floorOutput" => $"output on {(floor == "*" ? "every floor" : db?.Floors.FirstOrDefault(f => f.Id == floor)?.Name ?? floor)}",
         "income" => "income per round",
@@ -262,8 +268,8 @@ public static class Explain
         "overtimePermanent" => "always on Overtime, without the hangover",
         "cannotBeRetriggered" => "cannot be retriggered",
         "wholeFloorAdjacency" => "management retriggers reach the whole floor",
-        "capProtected" => "its Goodwill cap contribution cannot be eroded",
-        "regenNeverSuppressed" => "regen is never suppressed",
+        "capProtected" => "its Loyalty cap contribution cannot be eroded",
+        "regenNeverSuppressed" => "Loyalty regrows even after a Poach",
         "receptionDisabled" => "Reception grants no cap",
         "everyFloorMostPopulated" => "every floor counts as the busiest",
         "floorSelectorMirror" => "highest-floor abilities also hit the lowest floor",
