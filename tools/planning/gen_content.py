@@ -657,7 +657,7 @@ templates = [
       ["mod.g_franchise", "mod.g_night_shift"], LAY(["floor.f1", "floor.f2", "floor.g"], ["management", "sales", "hr"])),
     T("rival.t_management", "management", ["Ito Corporation", "Shimizu Enterprises", "Goto Industrial", "Maeda Holdings"],
       shoplist(("room.meeting_room", 3, 2), ("room.boardroom", 3, 7), ("room.open_plan", 2, 2), ("room.server_room", 1, 4)),
-      shoplist(("emp.team_lead", 5, 1), ("emp.junior_dev", 3, 1), ("emp.senior_dev", 3, 4), ("emp.director", 2, 9), ("emp.vp_operations", 1, 11), ("emp.architect", 1, 10)),
+      shoplist(("emp.team_lead", 3, 1), ("emp.junior_dev", 3, 1), ("emp.senior_dev", 5, 4), ("emp.director", 2, 9), ("emp.vp_operations", 1, 11), ("emp.architect", 1, 10)),
       ["mod.g_old_money", "mod.g_conglomerate"], LAY(["floor.f1", "floor.f3", "floor.f2"], ["management", "engineering"])),
 ]
 lease_schedule = OD([("id", "rival.lease_schedule"), ("byRound", OD([("1", []), ("4", ["floor.f2"]), ("8", ["floor.f2", "floor.f3"]), ("11", ["floor.f2", "floor.f3", "floor.b1"])]))])

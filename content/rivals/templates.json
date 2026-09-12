@@ -549,7 +549,7 @@
       "staff": [
         {
           "defId": "emp.team_lead",
-          "weight": 5,
+          "weight": 3,
           "minRound": 1
         },
         {
@@ -559,7 +559,7 @@
         },
         {
           "defId": "emp.senior_dev",
-          "weight": 3,
+          "weight": 5,
           "minRound": 4
         },
         {
