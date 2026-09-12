@@ -106,9 +106,6 @@ public static class Ui
     /// <summary>Side tones: A and B never borrow a category tone (Morale is people, Anomaly is anomalous).</summary>
     public static string SideTone(string side) => side == "A" ? "operations" : "support";
 
-    /// <summary>Tier as a colour, the auto-battler convention (D-68): T1 neutral, T2 ochre, T3 teal, beyond that violet.</summary>
-    public static string TierTone(long tier) => tier switch { 1 => "interface", 2 => "support", 3 => "operations", _ => "anomalous" };
-
     /// <summary>A department's tone for the tower facade markers.</summary>
     public static string DeptTone(string dept) => dept switch
     {

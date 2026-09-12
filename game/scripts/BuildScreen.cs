@@ -317,9 +317,20 @@ public partial class BuildScreen : Node2D
             long captured = index;
             if (!Legality.HasFloor(Run.Tower, index))
             {
-                DrawTextureRect(_r.Textures.For(L.Entry("ui.build.floor_void")), new Rect2(frame.Position, frame.Size), true, dim);
+                // An unleased floor is its own lease button (D-83): the empty floor greyed under the widget's screen,
+                // and a tag with the price over the upkeep it adds. Leasing it lifts the screen.
                 FloorDef fd = _db.FloorByIndex(index);
-                _font.Draw(this, frame.Position.X + 4, y + 4, $"{fd.Name} · tap to lease ¥{fd.Lease}", _font.Small, Tones.Muted("structure"));
+                Rect2 tag(string slot) => new Rect2(frame.Position + LeaseTag.At(slot), LeaseTag.Rect(slot).Size);
+                bool shut = fd.RequiresPortal && !Run.PortalOpen;
+                DrawTextureRect(_r.Textures.For(L.Entry("ui.build.floor_frame")), new Rect2(frame.Position, frame.Size), false, dim);
+                DrawRect(new Rect2(frame.Position, frame.Size), LeaseTag.Tint("screen"));
+                DrawTextureRect(_r.Textures.For(L.Entry("ui.build.lease_button")), tag("plate"), false);
+                Rect2 name = tag("name"), price = tag("price_text"), upkeep = tag("upkeep");
+                _font.Draw(this, (int)name.Position.X, (int)name.Position.Y, fd.Name, (int)name.Size.Y, Tones.Text("structure"));
+                _font.Draw(this, (int)price.Position.X, (int)price.Position.Y, shut ? "LOCKED" : $"LEASE ¥{fd.Lease}", (int)price.Size.Y,
+                    !shut && Run.Budget >= fd.Lease ? Tones.Text("structure") : Tones.Hatch("structure"), HorizontalAlignment.Center, (int)price.Size.X);
+                _font.Draw(this, (int)upkeep.Position.X, (int)upkeep.Position.Y, shut ? "needs the portal" : $"−¥{fd.UpkeepBudget} upkeep/qtr", (int)upkeep.Size.Y,
+                    Tones.Hatch("structure"), HorizontalAlignment.Center, (int)upkeep.Size.X);
                 string floorId = fd.Id;
                 _hits.Add(hit, () => { _selectedFloor = captured; Do(new Lease(floorId)); }, $"Lease {fd.Name} for ¥{fd.Lease}; then −¥{fd.UpkeepBudget} upkeep per round{(fd.RequiresPortal ? "; needs the portal" : string.Empty)}");
                 continue;
@@ -482,46 +493,32 @@ public partial class BuildScreen : Node2D
         _hits.Add(reroll, () => Do(new Reroll(_tab)), "Replace this tab's cards from its bag; nothing repeats until the bag empties");
         Text("otherworld", "Otherworld Temp Agency · the portal is closed", Tones.Hatch("anomalous"));
 
-        Text("lease_label", "LEASE", Tones.Hatch("interface"));
-        Vector2I lb = L.Size("ui.build.lease_button");
-        int k = 0;
-        foreach (string floorId in _db.Shop.Leases)
-        {
-            FloorDef fd = _db.Floors.First(f => f.Id == floorId);
-            var rect = new Rect2I(_at.X("lease") + k * 80, _at.Y("lease"), lb.X, lb.Y);
-            bool owned = Legality.HasFloor(Run.Tower, fd.Index);
-            bool can = !owned && Run.Budget >= fd.Lease && (!fd.RequiresPortal || Run.PortalOpen);
-            Ui.Button(this, rect, owned ? $"{Legality.FloorName(fd.Index)} leased · −¥{fd.UpkeepBudget}/q" : $"{Legality.FloorName(fd.Index)} ¥{fd.Lease} · −¥{fd.UpkeepBudget}/q", "interface", can);
-            if (k == 0)
-            {
-                // The commit where the thumb already is on touch (D-68); the top-right READY stays for keyboard and mouse.
-                Rect2I readyShop = _at.Rect("ready_shop");
-                Ui.Button(this, readyShop, "READY", "operations");
-                _hits.Add(readyShop, () => _r.ReadyUp(), "Commit the tower and fight. No confirmation; UNDO is always one press away.");
-            }
-            if (!owned) _hits.Add(rect, () => Do(new Lease(floorId)), $"Lease {fd.Name} for ¥{fd.Lease}; upkeep ¥{fd.UpkeepBudget} per round{(fd.RequiresPortal ? "; needs the portal" : string.Empty)}");
-            k++;
-        }
+        // The commit where the thumb already is on touch (D-68); the top-right READY stays for keyboard and mouse.
+        // Floors are leased from the tower itself (D-83), so the shop no longer has a lease row above it.
+        Rect2I readyShop = _at.Rect("ready_shop");
+        Ui.Button(this, readyShop, "READY", "operations");
+        _hits.Add(readyShop, () => _r.ReadyUp(), "Commit the tower and fight. No confirmation; UNDO is always one press away.");
     }
 
     private static SceneLayout Card => SceneLayout.Widget("res://scenes/widgets/Card.tscn");
 
+    private static SceneLayout LeaseTag => SceneLayout.Widget("res://scenes/widgets/LeaseTag.tscn");
+
     private void DrawCard(Rect2I rect, string defId, int index)
     {
         Vector2I at(string slot) => rect.Position + Card.At(slot);
+        Rect2 box(string slot) => new Rect2(at(slot), Card.Rect(slot).Size);
         string kindEntry = _tab == Shop.StaffTab ? "ui.card.applicant" : _tab == Shop.RoomsTab ? "ui.card.room" : "ui.card.furniture";
         bool carried = _carryIndex == index && (_carry is CarryKind.StaffCard or CarryKind.RoomCard or CarryKind.FurnitureCard);
-        DrawTextureRect(_r.Textures.For(L.Entry(kindEntry)), new Rect2(rect.Position, rect.Size), false, carried ? new Color(1, 1, 1, 0.5f) : Colors.White);
-        string name, line1, line2, cost, hint;
-        long tier = 0;
+        // The panel art has a soft margin, so the scene sizes it past the hit rect until its body fills the card.
+        DrawTextureRect(_r.Textures.For(L.Entry(kindEntry)), box("bg"), false);
+        // The sprite stands on a lighter stage, lit when the card is picked; the selector frames it at the end.
+        DrawRect(box("stage"), carried ? Tones.Text("structure") : Tones.Hatch(L.Entry(kindEntry).Category));
+        string name, cost, hint;
         if (_tab == Shop.StaffTab)
         {
             EmployeeDef d = _db.Employees.First(e => e.Id == defId);
-            Effect ab = d.Effects.First(e => e.On == "ability");
             name = d.Name;
-            tier = d.Tier;
-            line1 = $"{(d.Dept.Length <= 3 ? d.Dept.ToUpperInvariant() : char.ToUpperInvariant(d.Dept[0]) + d.Dept[1..3])} T{d.Tier} {Explain.Seconds(d.CooldownTicks)}";
-            line2 = ShortAction(ab, d);
             cost = $"¥{Economy.EmployeePrice(_db, d)}";
             hint = $"{d.Name} · {Explain.Ability(_db, d)}";
             DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(at("sprite"), L.Size(d.Sprite)), false);
@@ -530,9 +527,6 @@ public partial class BuildScreen : Node2D
         {
             RoomDef d = _db.Rooms.First(r => r.Id == defId);
             name = d.Name;
-            line1 = $"{d.Footprint.W}x{d.Footprint.H} {string.Join(" ", d.Floors.Select(f => Legality.FloorName(_db.Floors.First(x => x.Id == f).Index)))}";
-            Effect? aura = d.Effects.FirstOrDefault(e => e.On == "static" && e.Do == "stat" && e.Permille != null);
-            line2 = aura != null ? $"×{aura.Permille / 1000}.{aura.Permille % 1000 / 100} {Explain.StatWord(aura.Stat)}" : string.Empty;
             cost = $"¥{d.Cost}";
             hint = $"{d.Name} · {Explain.Passives(_db, d.Effects).FirstOrDefault() ?? d.Flavor}";
             DrawTextureRect(_r.Textures.For(L.Entry(d.Tile)), new Rect2(at("sprite"), new Vector2(32, 32)), true);
@@ -541,36 +535,21 @@ public partial class BuildScreen : Node2D
         {
             FurnitureDef d = _db.Furniture.First(f => f.Id == defId);
             name = d.Name;
-            line1 = $"{d.Footprint.W}x{d.Footprint.H} {d.Rarity}";
-            Effect e0 = d.Effects[0];
-            line2 = e0.Do == "stat" ? $"{(e0.Amount.HasValue ? "+" + e0.Amount : "×" + e0.Permille / 1000 + "." + e0.Permille % 1000 / 100)} {Explain.StatWord(e0.Stat)}" : ShortAction(e0, null);
             cost = $"¥{d.Cost}";
             hint = $"{d.Name} · {Explain.Passives(_db, d.Effects).FirstOrDefault() ?? d.Flavor}";
             DrawTextureRect(_r.Textures.For(L.Entry(d.Sprite)), new Rect2(at("sprite"), L.Size(d.Sprite)), false);
         }
-        // Price first and large (D-68): the cost is the decision the shop asks; a tier band along the top edge for staff.
-        _font.Draw(this, at("price").X, at("price").Y, cost, _font.Large, Tones.Text("interface"));
-        if (tier > 0) DrawRect(new Rect2(rect.Position + Card.At("band"), Card.Rect("band").Size), Tones.Fill(Ui.TierTone(tier)));
-        _font.Draw(this, at("name").X, at("name").Y, name.Length > 10 ? name[..10] : name, _font.Small, Tones.Text("interface"));
-        _font.Draw(this, at("line1").X, at("line1").Y, line1, _font.Small, Tones.Text("interface"));
-        _font.Draw(this, at("line2").X, at("line2").Y, line2, _font.Small, Tones.Text("interface"));
+        // A card is its face, name and price (D-82); what it does is the inspector's once the card is picked.
+        // The price sits on a rounded tag along the bottom edge. The figure has its own slot and is drawn in the
+        // header face at that slot's height, so Card.tscn sizes the text independently of the tag.
+        DrawTextureRect(_r.Textures.For(L.Entry("ui.card.price")), box("price"), false);
+        Rect2 figure = box("price_text");
+        _font.Draw(this, (int)figure.Position.X, (int)figure.Position.Y, cost, (int)figure.Size.Y, Tones.Text("structure"), HorizontalAlignment.Center, (int)figure.Size.X);
+        Rect2 label = box("name");
+        _font.Draw(this, (int)label.Position.X, (int)label.Position.Y, name.Length > 10 ? name[..10] : name, _font.Small, Tones.Text("interface"), HorizontalAlignment.Center, (int)label.Size.X);
+        if (carried) DrawTextureRect(_r.Textures.For(L.Entry("ui.card.selector")), box("selector"), false);
         int i = index;
         _hits.Add(rect, () => PickCard(i), hint + " · tap the card to read more, then a tile to place");
-    }
-
-    /// <summary>The ability in card width: "60 Push", "1 Overtime", "Retrigger". Twelve characters at the small face.</summary>
-    private static string ShortAction(Effect ab, EmployeeDef? owner)
-    {
-        string text = ab.Do switch
-        {
-            "push" or "anomaly" or "morale" => Explain.Action(null!, ab, owner),
-            "restore" => Explain.Action(null!, ab, owner).Replace("restore ", string.Empty).Replace(" Goodwill", " Restore"),
-            "status" => $"{ab.Stacks} {Explain.Status(ab.Status ?? string.Empty).Split(':')[0]}",
-            "cleanse" => "Cleanse",
-            "retrigger" => "Retrigger",
-            _ => ab.Do,
-        };
-        return text.Length > 12 ? text[..12] : text;
     }
 
     private void PickCard(int index)

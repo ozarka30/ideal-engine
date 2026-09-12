@@ -110,8 +110,10 @@ history of a reversal is the most useful thing in a document like this.
 | [D-79](#d-79) | A room renders live from its scene through a SubViewport at 2x, not from a baked PNG: baking at half scale threw away the resolution that painting at half scale bought | Human | UI workflow |
 | [D-80](#d-80) | The GuttyKreum licence is recorded and clear for release; the sheets a room draws from are committed, the rest stay a local palette | Human | [Q-RISK-1](OPEN_QUESTIONS.md#q-risk-1--is-the-guttykreum-licence-clear-for-a-commercial-steam-release) |
 | [D-81](#d-81) | The sim is handled headlessly and anything visible is editable in Godot: a visible number belongs in a scene, not in a `_Draw` | Human | UI workflow |
+| [D-82](#d-82) | A shop card is its face, name and price; the rest is read in the inspector once the card is picked. Supersedes D-68's tier band and price size | Human | UI review |
+| [D-83](#d-83) | Floors are leased from the tower: an unleased floor is greyed under a screen with its price, and tapping it leases it; the shop's lease row is removed | Human | UI review |
 
-Forty-nine craft decisions and nineteen human calls taken. Eight items remain open in
+Fifty-seven craft decisions and twenty-six human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -1465,6 +1467,8 @@ added (`fx.tower.window_occupant`, `ui.build.ready_shop`); every screenshot fixt
 
 Authority: Craft · `GAME_DESIGN.md` §19, `ARCHITECTURE.md` §7
 
+Superseded by: [D-82](#d-82), for the tier band and the price's size in (2); the price still leads.
+
 ---
 
 ## D-69
@@ -1818,3 +1822,47 @@ either derived from a node — a bar that stretches with its panel — or a widg
 become editable when that widget is a scene, as the shop card now is.
 
 Authority: Human · `ARCHITECTURE.md` §1, §7 · extends [D-60](#d-60) and [D-77](#d-77)
+
+## D-82
+
+**A shop card is its face, its name and its price. Department, tier, cooldown, the ability, passives and
+an extraplanar rider leave the card for the inspector, which already shows all of them the moment a card
+is picked and before it is placed. The tier band goes with them. The price moves to a rounded tag along the
+card's bottom edge, `ui.card.price`, set in Honeyblot Caps at the height of its own slot inside the tag — under D-68's
+`font.ui.16`, so it sits inside its row. The picked card is framed by the UI pack's corner-bracket
+selector, `ui.card.selector`.**
+
+*Why:* the owner set the shop beside the shop grids it will be judged against — a rhythm game's outfit
+shop and a roguelite's item grid — where a tile is a picture and a price and the panel beside the grid
+does the reading. At 52 × 80 the stat lines were eight-pixel abbreviations, *Eng T1 3.0 s* and *35 Push*,
+that the inspector then spelled out in full: the card said everything twice, once illegibly. A 2 px tier
+band said nothing the second line did not.
+
+*Consequence:* supersedes the tier band and the price's size in D-68 (2), and the sentence in
+`GAME_DESIGN.md` §5.1 that a card states everything the sim will use. Nothing becomes hidden — it is one
+tap away, as it is in the genre — and the price is still the card's largest mark. `Ui.TierTone` and
+`BuildScreen.ShortAction`, which existed only for the card, are deleted. The header face now serves any
+size above the 8 px body line, not only 16 and 32.
+
+Authority: Human · `GAME_DESIGN.md` §5.1, §9, §20 · supersedes part of [D-68](#d-68)
+
+## D-83
+
+**Floors are leased from the tower, not the shop. An unleased floor draws as the empty floor, greyed under a
+screen, with a tag in its middle — the lease price over the upkeep it will add — and tapping anywhere on the
+floor leases it: the screen lifts and the floor is live. A floor that needs the portal reads LOCKED until
+the portal opens. The shop's Lease label and its three lease buttons are removed; the shop's READY stays at
+the foot of the shop, where D-68 put it for the thumb.**
+
+*Why:* the owner wanted a lease bought where it is used. A floor is a place in the tower, and a button for
+it three panels away asked the player to connect the two; the three buttons' 16 px labels also overflowed
+their 72 px width. On the floor itself the price has the whole floor to sit on, and buying it reads as
+unlocking the space.
+
+*Consequence:* `GAME_DESIGN.md` §5.4 and the §19.1 shop, tower and READY rows are amended.
+`ui.build.lease_button` becomes the tag, built from the UI pack's `button_square` in the dark `structure`
+ramp, and its insides are a widget scene, `game/scenes/widgets/LeaseTag.tscn`, whose `screen` slot's colour
+is the tint: `SceneLayout` now reads a ColorRect's colour as well as its box. A floor off the three in view
+is reached by scrolling the tower, as before. D-68 (3) stands; only the row it sat under is gone.
+
+Authority: Human · `GAME_DESIGN.md` §5.4, §19.1 · amends the placement named in [D-68](#d-68)

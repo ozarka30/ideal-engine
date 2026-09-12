@@ -23,7 +23,7 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 | [`schema/content.schema.json`](schema/content.schema.json) | JSON Schema every content file validates against |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Package graph, sim/render split, state stores, save format and migrations, Steam, CI and release, the deferred ranked backend |
 | [`docs/ART_PIPELINE.md`](docs/ART_PIPELINE.md) | The manifest, footprint vs bounds, draw order, the greybox renderer, validation, tooling, the art-complete gate, pixel discipline, perspective rule |
-| [`manifest/sprites.json`](manifest/sprites.json) | The sprite manifest: 182 visual slots, every one a greybox spec with exact dimensions, anchor, footprint and target path |
+| [`manifest/sprites.json`](manifest/sprites.json) | The sprite manifest: 193 visual slots, every one a greybox spec with exact dimensions, anchor, footprint and target path |
 | [`manifest/greybox_palette.json`](manifest/greybox_palette.json) | The seven greybox tones |
 | [`schema/manifest.schema.json`](schema/manifest.schema.json) | JSON Schema the manifest validates against |
 | [`docs/BALANCE_PLAN.md`](docs/BALANCE_PLAN.md) | The harness, the populations, the bands, the six-archetype counter web, seventeen CI invariants, the tuning loop, what is not a knob |
@@ -56,7 +56,7 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 | 4 — Technical | `ARCHITECTURE.md`, `ART_PIPELINE.md`, `manifest/` | Signed off (D-53) |
 | 5 — Balance and plan | `BALANCE_PLAN.md`, `ROADMAP.md`, `content/balance.json` | Signed off (D-53) |
 
-Sixty-eight decisions are logged — forty-nine craft calls and nineteen human ones.
+Eighty-three decisions are logged — fifty-seven craft calls and twenty-six human ones.
 The design phase is signed off (D-53) and a research verification pass has been run;
 its findings are in `docs/RESEARCH_NOTES.md`, and the stack is Godot 4 with C# (D-60) after Tauri was dropped (D-59); five strikes
 are adopted (D-58); the title still needs a registry search. Eight items are open, none blocking M0; each is listed against the phase where it first bites.

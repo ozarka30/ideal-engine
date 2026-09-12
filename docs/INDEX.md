@@ -8,7 +8,7 @@ none needs the conversation that produced it.
 | `DESIGN_BRIEF.md` | anything in the locked foundation | The decisions that predate every other document. Not relitigated |
 | `PLANNING_PROMPT.md` | the process | The brief the design phase was run against |
 | `OPEN_QUESTIONS.md` | anything with a `Q-` id, or before proposing a new mechanic | Every open decision with options, a recommendation, and what it blocks. Ten open |
-| `DECISION_LOG.md` | any rule, number or format that feels arbitrary | Fifty-seven append-only entries with the one-line reason that did the work. Grep it first |
+| `DECISION_LOG.md` | any rule, number or format that feels arbitrary | Eighty-three append-only entries with the one-line reason that did the work. Grep it first |
 | `GAME_DESIGN.md` | the loop, a screen, a room, an employee, the economy, the campaign | The full design, with pixel rects for every screen in §19 and the human-check list in §21 |
 | `SIMULATION_SPEC.md` | `packages/sim`, a status, a selector, the ledger or replay format | The combat sim as a conformance target. Two implementations must agree byte for byte |
 | `CONTENT_SCHEMA.md` | `content/`, `schema/content.schema.json`, `tools/planning/gen_content.py` | The closed effect vocabulary, every content type with verbatim examples, the loader's checks, what is and is not a code change |
@@ -24,6 +24,6 @@ Data, not prose:
 | --- | --- |
 | `content/index.json` | Every content file and its schema `$def`; the content version |
 | `content/balance.json` | The harness's invariants and bands, as data |
-| `manifest/sprites.json` | 182 visual slots; the only place a pixel size may be written |
+| `manifest/sprites.json` | 193 visual slots; the only place a pixel size may be written |
 | `manifest/greybox_palette.json` | The seven placeholder tones |
 | `schema/*.schema.json` | What every JSON file must satisfy |

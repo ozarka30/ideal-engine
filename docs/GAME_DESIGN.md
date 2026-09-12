@@ -188,9 +188,10 @@ Rooms are offered only for floors the player owns. After the portal opens, the S
 tab gains a second row, **Otherworld Temp Agency**, with two extraplanar cards and its
 own `¥1` reroll.
 
-Cards state everything the sim will use: department, tier, cooldown, kind and value of
-the ability, targeting, passives, and — for extraplanar staff — the rider. There is no
-hidden information on a card.
+A card shows its face, its name and its price (D-82). Everything the sim will use —
+department, tier, cooldown, kind and value of the ability, targeting, passives, and — for
+extraplanar staff — the rider — is in the inspector the moment the card is picked, before
+it is placed. Nothing is hidden; it is one tap away.
 
 ### 5.2 Placement
 
@@ -232,9 +233,10 @@ distinct, costly action — **Relocate** — separate from demolishing it.
 
 ### 5.4 Leasing
 
-Floors are bought from the Lease section of the shop. The button shows the price and
-the projected upkeep line before the player commits. Order is free — 3F may be leased
-before 2F — but B1 requires the portal to be open.
+Floors are leased from the tower itself (D-83). An unleased floor draws greyed under a
+screen, with a tag showing the price and the projected upkeep line before the player
+commits; tapping the floor leases it and the screen lifts. Order is free — 3F may be
+leased before 2F — but B1 requires the portal to be open, and its tag reads LOCKED until then.
 
 ### 5.5 Crafting
 
@@ -415,7 +417,7 @@ bites, and it is in the Phase 2 catalogue on purpose.
 ## 9. Employees
 
 An employee is one tile, one department, one tier, one ability, and possibly one
-passive. Nothing is hidden on the card.
+passive. Nothing is hidden: the inspector shows all of it the moment the card is picked (D-82).
 
 ### 9.1 Departments
 
@@ -732,8 +734,9 @@ you. It invoices you.
 Every extraplanar hire is strong and comes with two costs the player can see before
 paying (recommended in Q-PTL-1, awaiting sign-off; built on here):
 
-- **A rider**, rolled from the pool when the card is generated and printed on the
-  card. Accepting the hire accepts the rider. Permanent for the run.
+- **A rider**, rolled from the pool when the card is generated and shown in the
+  inspector when the card is picked (D-82). Accepting the hire accepts the rider.
+  Permanent for the run.
 - **A Goodwill tax**: each extraplanar employee lowers the firm's Goodwill cap by 100.
   Leasing B1 lowers it by a further 150. A portal build is inherently a glass cannon.
 
@@ -966,9 +969,9 @@ Fonts: `font.ui.8` is an 8-pixel-line pixel font with variable-width glyphs aver
 | Region | Rect | Contents |
 | --- | --- | --- |
 | `ui.build.topbar` | (0, 0, 640, 24) | Round `Q3 · FIGHT 7/16` at (8, 8); Budget `¥ 24` at (200, 8); upkeep `−¥4/qtr` at (280, 8); five strike icons 8×8 from (400, 8); **READY** button (552, 4, 80, 16) |
-| `ui.build.ready_shop` | (192, 312, 232, 20) | A second **READY** under the shop's lease row in `font.ui.16`, where the thumb already is on touch (D-68); the top-right one stays for keyboard and mouse |
-| `ui.build.tower` | (8, 32, 176, 304) | Elevator shaft (8, 32, 16, 304) with floor labels drawn inside it; three floor viewports stacked: above at y=32, **selected** at y=136, below at y=240, each 160 × 96 at x=24. Unselected floors dimmed 50%, still interactive. Scrolls by whole floors |
-| `ui.build.shop` | (192, 32, 232, 304) | Tab bar (192, 32, 232, 16); four cards 52 × 80 at x = 192, 248, 304, 360, y = 56; Otherworld row label (192, 140, 232, 8) and two cards at x = 192, 248, y = 152; Lease section (192, 240, 232, 64) with three buttons 72 × 24 at x = 192, 272, 352, y = 260 |
+| `ui.build.ready_shop` | (192, 312, 232, 20) | A second **READY** at the foot of the shop in `font.ui.16`, where the thumb already is on touch (D-68); the top-right one stays for keyboard and mouse |
+| `ui.build.tower` | (8, 32, 176, 304) | Elevator shaft (8, 32, 16, 304) with floor labels drawn inside it; three floor viewports stacked: above at y=32, **selected** at y=136, below at y=240, each 160 × 96 at x=24. Unselected floors dimmed 50%, still interactive. Scrolls by whole floors. An unleased floor draws greyed under a screen with a lease tag (`ui.build.lease_button`, laid out by `game/scenes/widgets/LeaseTag.tscn`) showing the price and upkeep; the whole floor is the button (D-83) |
+| `ui.build.shop` | (192, 32, 232, 304) | Tab bar (192, 32, 232, 16); four cards 52 × 80 at x = 192, 248, 304, 360, y = 56; Otherworld row label (192, 140, 232, 8) and two cards at x = 192, 248, y = 152 |
 | `ui.build.inspector` | (432, 32, 200, 304) | Portrait slot 96 × 96 at (440, 40) (D-71); name `font.ui.8` at (544, 44); dept and tier at (544, 54); from y = 144 (D-65): the aura and floor multiplier where it stands, then *WHAT IT DOES* — the ability as a sentence, its passives, a one-line glossary of the kind it deals — and *WHERE TO PUT IT* — the rooms that boost its department, the furniture it likes beside it, its reach, the floor multipliers; while a shop card is carried the inspector shows the same block for the card; for a room, the comparison block (440, 276, 184, 24) — *here ×1.40 · Tier II* / *on 2F ×1.38 now, ×1.61 by round 14* / *relocate: −3 Tenure rounds, ¥13*; action buttons at y = 308: **LAY OFF · ¥1** (440, 308, 184, 20) for staff, or **RELOCATE · ¥13** (440, 308, 90, 20) and **DEMOLISH · ¥13** (534, 308, 90, 20) for rooms |
 | `ui.build.firm_panel` | (432, 32, 200, 304) | The inspector's default state when nothing is selected: founder portrait 96 × 96 at (440, 40) (D-71); firm name at (544, 44); founder name and title at (544, 54) and (544, 64); run stats from y = 144 — round, strikes, fights won, Goodwill cap, floors leased, staff count; below them *HOW A FIGHT WORKS*, the six-sentence primer (D-65) |
 | `ui.build.hint` | (0, 344, 640, 16) | One line of hint text, first run only; otherwise the hovered element's one-line summary |
@@ -1080,9 +1083,11 @@ effect in that list, applied like a modifier, and the sim already reads it.
 
 | Entity | Sprite | Anchor | Footprint | `sortBias` | Notes |
 | --- | --- | --- | --- | --- | --- |
-| `ui.card.applicant` | 52 × 80 | top-left | — | 0 | Laid out by `game/scenes/widgets/Card.tscn`, whose slots are relative to the card's own corner and are the editable copy of the offsets below (D-81). Cost first: `¥2` in `font.ui.16` at (2, 2), the card's largest mark (D-68); a 52 × 2 tier band along the top edge in the tier tone (T1 interface, T2 support, T3 operations); portrait slot (18, 4, 32, 32) = idle sprite frame; name (2, 40, 48, 8); dept, tier and cooldown (2, 50, 48, 8); the ability in two words (2, 60, 48, 8); rider strip replaces the ability line for extraplanar |
-| `ui.card.room` | 52 × 80 | top-left | — | 0 | Footprint diagram 32 × 32 at (10, 4), 8 px per cell; name; aura line; legal floors as up to five 6 × 6 glyphs at (2, 60); cost tag |
-| `ui.card.furniture` | 52 × 80 | top-left | — | 0 | Sprite at (10, 4); name; effect line; cost |
+| `ui.card.applicant` | 52 × 80 | top-left | — | 0 | Laid out by `game/scenes/widgets/Card.tscn`, whose slots are relative to the card's own corner (D-81). The card is its face, name and price (D-82): the idle sprite frame on a lighter stage, the name, and the price in Honeyblot Caps on a rounded tag along the bottom edge (`ui.card.price`), at the height of its own `price_text` slot, still the card's largest mark. Tier, department, cooldown, the ability and an extraplanar rider are read in the inspector once the card is picked |
+| `ui.card.room` | 52 × 80 | top-left | — | 0 | As the applicant card: the room tile on the stage, name, price tag (D-82) |
+| `ui.card.furniture` | 52 × 80 | top-left | — | 0 | As the applicant card: the sprite on the stage, name, price tag (D-82) |
+| `ui.card.selector` | 64 × 92 | top-left | — | 0 | The picked card's frame: the UI pack's four rounded corner brackets, 6 px outside the card, drawn over it |
+| `ui.card.price` | 46 × 13 | top-left | — | 0 | The card's price tag: the UI pack's `box` in the dark `structure` ramp; the price in Honeyblot Caps at the height of the card's `price_text` slot, centred (D-82) |
 | `emp.*` | 32 × 32 | bottom-centre | 1 × 1 | 0 | Down-facing idle frame in build view |
 | `room.*` floor plan | 32 fw × (32 fh + 32) | bottom-left | per room | −10 | One composed plan per room type: floor across the footprint, fittings along the back row, the top 32 px overhanging into the wall band above (D-73). Every tile stays walkable |
 | `room.*.sign` | 32 × 8 | top-left | — | −9 | Name + Tenure pips, at the room's top-left tile |

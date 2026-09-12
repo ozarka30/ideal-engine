@@ -1,0 +1,81 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/ui/ui/build/lease_button.png" id="1"]
+[ext_resource type="FontFile" path="res://fonts/HoneyPigeon.ttf" id="2"]
+[ext_resource type="FontFile" path="res://fonts/honeyblot_caps.ttf" id="3"]
+
+[sub_resource type="LabelSettings" id="ls_price"]
+font = ExtResource("3")
+font_size = 11
+font_color = Color(0.961, 0.925, 0.761, 1)
+
+[sub_resource type="LabelSettings" id="ls_name"]
+font = ExtResource("2")
+font_size = 8
+font_color = Color(0.961, 0.925, 0.761, 1)
+
+[sub_resource type="LabelSettings" id="ls_upkeep"]
+font = ExtResource("2")
+font_size = 8
+font_color = Color(0.655, 0.608, 0.525, 1)
+
+[node name="LeaseTag" type="Node2D"]
+
+; An unleased floor's cover (D-83). Positions are relative to the floor's top-left, the 160 x 96
+; `ui.build.floor_frame`; the build screen draws this over every floor not yet leased, and the whole
+; floor is the button. `screen` is the one slot whose colour is the design, not a guide's: the game
+; tints the floor with it. Text is drawn at each text slot's height, so resizing a slot resizes its text.
+[node name="Layout" type="Node2D" parent="."]
+
+[node name="screen" type="ColorRect" parent="Layout"]
+offset_right = 160.0
+offset_bottom = 96.0
+color = Color(0.145, 0.192, 0.133, 0.55)
+
+[node name="name" type="ColorRect" parent="Layout"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 156.0
+offset_bottom = 12.0
+color = Color(0.85, 0.8, 0.65, 0.2)
+
+[node name="text" type="Label" parent="Layout/name"]
+offset_right = 152.0
+offset_bottom = 8.0
+text = "2F — Operations"
+label_settings = SubResource("ls_name")
+
+[node name="plate" type="Sprite2D" parent="Layout"]
+position = Vector2(44, 36)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1")
+centered = false
+
+[node name="price_text" type="ColorRect" parent="Layout"]
+offset_left = 44.0
+offset_top = 39.0
+offset_right = 116.0
+offset_bottom = 50.0
+color = Color(0.85, 0.8, 0.65, 0.2)
+
+[node name="text" type="Label" parent="Layout/price_text"]
+offset_right = 72.0
+offset_bottom = 11.0
+text = "LEASE ¥28"
+label_settings = SubResource("ls_price")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="upkeep" type="ColorRect" parent="Layout"]
+offset_left = 44.0
+offset_top = 50.0
+offset_right = 116.0
+offset_bottom = 58.0
+color = Color(0.85, 0.8, 0.65, 0.2)
+
+[node name="text" type="Label" parent="Layout/upkeep"]
+offset_right = 72.0
+offset_bottom = 8.0
+text = "−¥2 upkeep/qtr"
+label_settings = SubResource("ls_upkeep")
+horizontal_alignment = 1
