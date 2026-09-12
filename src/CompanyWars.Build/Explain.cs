@@ -15,7 +15,7 @@ public static class Explain
     {
         "sales" => "Sales add money straight to your Revenue. Nothing can block them.",
         "poach" => "Poach drains the rival's Client Loyalty; once it is empty, every Poach moves money from their Revenue to yours.",
-        "scandal" => "A Scandal shrinks a firm's Loyalty cap for the rest of the quarter and hands half its size in money to the other firm.",
+        "scandal" => "A Scandal shrinks a firm's Loyalty cap for the rest of the quarter and hands a quarter of its size in money to the other firm.",
         "curse" => "A Curse moves money from the rival to you straight through their Loyalty, but a quarter of it rebounds on your own Loyalty.",
         "pr" => "PR rebuilds your own Client Loyalty.",
         "status" => "A status changes how an employee works for a while.",

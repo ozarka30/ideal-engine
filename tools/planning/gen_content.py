@@ -59,7 +59,7 @@ rules = OD([
     ("loyalty", OD([("baseCap", OD([("constant", 600), ("perRound", 100)])),
                     ("regenBasePermille", 30), ("regenInterval", 40),
                     ("regenSuppressWindow", 20), ("suppressThresholdPermille", 40)])),
-    ("scandal", OD([("interval", 20), ("perStack", 8), ("transferPermille", 500)])),
+    ("scandal", OD([("interval", 20), ("perStack", 8), ("transferPermille", 250)])),
     ("curse", OD([("selfCostPermille", 250)])),
     ("floors", OD([("corridorMult", 900)])),
     ("tenure", OD([("tierRounds", [3, 6, 10]), ("stepPermille", 100),
