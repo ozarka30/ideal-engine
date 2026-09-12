@@ -171,7 +171,7 @@ entry("ui.build.nearmiss_glyph", "ui", "interface", "Near-miss glyph", 8, 8, CC,
 entry("ui.card.applicant", "ui", "people", "Applicant card", 52, 80, TL, screens=["build", "shop", "reward"], visibility=1,
       reads="Name and price only (D-82): idle sprite frame on a lighter stage; name; price tag along the bottom. What it does is read in the inspector")
 entry("ui.card.room", "ui", "operations", "Room card", 52, 80, TL, screens=["build", "shop"], visibility=1,
-      reads="As applicant card: room tile on the stage; name; price tag (D-82)")
+      reads="As applicant card: the whole room plan drawn down to fit the stage; name; price tag (D-82)")
 entry("ui.card.furniture", "ui", "support", "Furniture card", 52, 80, TL, screens=["build", "shop"], visibility=1, reads="As applicant card: sprite on the stage; name; price tag (D-82)")
 entry("ui.card.otherworld", "ui", "anomalous", "Otherworld Temp Agency card", 52, 80, TL, screens=["build", "shop"], visibility=3, reads="As applicant card in the anomalous tone; its rider is read in the inspector (D-82)")
 entry("ui.card.selector", "ui", "support", "Card selector", 64, 92, TL, screens=["build", "shop"], visibility=1, reads="The picked card's frame: four rounded corner brackets 6px outside the card, drawn over it")

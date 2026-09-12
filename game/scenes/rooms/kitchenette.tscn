@@ -1,17 +1,36 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=4 uid="uid://codvg3hdwiq5b"]
 
-[ext_resource type="TileSet" path="res://assets/packs/japanese_office_interior.tres" id="1"]
+[ext_resource type="TileSet" uid="uid://cydacchwkehi4" path="res://assets/packs/japanese_office_interior.tres" id="1"]
 
-; kitchenette: plan 32x96; the top 32px overhangs the footprint. Layers are half
-; scale, so a cell is 16px and a source tile draws at 16px.
-[node name="Room" type="Node2D"]
+[node name="Room" type="Node2D" unique_id=1423278698]
 
-[node name="Floor" type="TileMapLayer" parent="."]
+[node name="Floor" type="TileMapLayer" parent="." unique_id=1616776166]
 scale = Vector2(0.5, 0.5)
 tile_map_data = PackedByteArray("AAAAAAIAAAAbABcAAAABAAIAAAAbABcAAAAAAAMAAAAbABcAAAABAAMAAAAbABcAAAAAAAQAAAAbABcAAAABAAQAAAAbABcAAAAAAAUAAAAbABcAAAABAAUAAAAbABcAAAA=")
 tile_set = ExtResource("1")
 
-[node name="Fittings" type="TileMapLayer" parent="."]
+[node name="Fittings" type="TileMapLayer" parent="." unique_id=715986750]
 scale = Vector2(0.5, 0.5)
-tile_map_data = PackedByteArray("AAAAAAEAAAA1AAUAAAAAAAIAAAA1AAYAAAA=")
+tile_set = ExtResource("1")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1951206022]
+scale = Vector2(0.5, 0.5)
+tile_map_data = PackedByteArray("AAAAAAMAAAAaABMAAAAAAAQAAAAaABMAAAABAAMAAAAcABMAAAABAAQAAAAcABMAAAAAAAIAAAAaABIAAAAAAAUAAAAaABQAAAABAAUAAAAcABQAAAABAAIAAAAcABIAAAA=")
+tile_set = ExtResource("1")
+
+[node name="TileMapLayer2" type="TileMapLayer" parent="." unique_id=2040796121]
+scale = Vector2(0.5, 0.5)
+tile_map_data = PackedByteArray("AAABAAIAAAA1AAUAAAABAAMAAAA9AAUAAAABAAQAAAA9AAYAAAA=")
+tile_set = ExtResource("1")
+
+[node name="TileMapLayer3" type="TileMapLayer" parent="." unique_id=1529223058]
+position = Vector2(1, -14)
+scale = Vector2(0.5, 0.5)
+tile_map_data = PackedByteArray("AAAAAAMAAAA9AAsAAAAAAAIAAAA9AAoAAAA=")
+tile_set = ExtResource("1")
+
+[node name="TileMapLayer4" type="TileMapLayer" parent="." unique_id=379208653]
+position = Vector2(3, -18)
+scale = Vector2(0.5, 0.5)
+tile_map_data = PackedByteArray("AAABAAQAAAA4AA4AAAABAAUAAAA4AA8AAAA=")
 tile_set = ExtResource("1")

@@ -4472,7 +4472,7 @@
         "shop"
       ],
       "visibility": 1,
-      "reads": "As applicant card: room tile on the stage; name; price tag (D-82)",
+      "reads": "As applicant card: the whole room plan drawn down to fit the stage; name; price tag (D-82)",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
