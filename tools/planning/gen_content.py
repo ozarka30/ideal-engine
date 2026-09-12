@@ -237,7 +237,7 @@ emp("emp.sales_rep", "Sales Rep", SAL, 1, 3, 60,
     [sales(40, name="Cold Call"), eff("economy", "stat", stat="income", subject=SELF, amount=1)],
     flavor="Grows the budget between fights and the Revenue during them.")
 emp("emp.account_manager", "Account Manager", SAL, 2, 6, 100,
-    [poach(110, name="Steal the Account"), eff("economy", "stat", stat="income", subject=SELF, amount=2)],
+    [poach(90, name="Steal the Account"), eff("economy", "stat", stat="income", subject=SELF, amount=2)],
     flavor="Takes the rival's biggest client to lunch. Expenses it.")
 emp("emp.headhunter", "Headhunter", SAL, 2, 6, 140,
     [status(BRN, 2, HI_HI, name="Job Offer"), eff("economy", "stat", stat="income", subject=SELF, amount=1)],

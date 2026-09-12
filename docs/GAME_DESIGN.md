@@ -471,7 +471,7 @@ the selector vocabulary.
 | Name | Tier | Cooldown | Ability | Passive |
 | --- | --- | --- | --- | --- |
 | Sales Rep | 1 | 3.0 | **Cold Call** — ¥40 Sales | +`¥1` income per round |
-| Account Manager | 2 | 5.0 | **Steal the Account** — Poach 110 | +`¥2` income per round |
+| Account Manager | 2 | 5.0 | **Steal the Account** — Poach 90 | +`¥2` income per round |
 | Headhunter | 2 | 7.0 | **Job Offer** — 2 Burnout to `highest_occupied / highest_base_value` | +`¥1` income per round |
 | Sales Director | 3 | 12.0 | **Quarterly Target** — Sales of ¥300 + ¥50 per Sales employee in the tower | +`¥3` income per round |
 

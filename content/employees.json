@@ -767,7 +767,7 @@
         {
           "on": "ability",
           "do": "poach",
-          "value": 110,
+          "value": 90,
           "target": {
             "side": "enemy",
             "scope": "firm"
