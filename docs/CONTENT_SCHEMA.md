@@ -708,8 +708,9 @@ slot shows.
 
 Four, and their numbers are here rather than in `rules.json` because a status is
 content — a fifth could be added. `cooldownRatePermillePerStack` is the per-stack
-change to cooldown rate (§8.1 of the sim spec); `outputPenaltyPermillePerStack` and
-`scandalPerStackPerEvent` are Burnout's; `onExpire` is Overtime's hangover.
+change to cooldown rate (§8.1 of the sim spec); `outputPenaltyPermillePerStack` is
+Burnout's; `onExpire` is Overtime's hangover. Burnout's periodic Scandal per stack is a
+rule, not a status number: `rules.json` `scandal.perStack` (`SCANDAL_PER_STACK`, §11.2).
 
 ```json
 {
@@ -720,7 +721,6 @@ change to cooldown rate (§8.1 of the sim spec); `outputPenaltyPermillePerStack`
   "expires": true,
   "cooldownRatePermillePerStack": 500,
   "outputPenaltyPermillePerStack": 0,
-  "scandalPerStackPerEvent": 0,
   "onExpire": [
     {
       "status": "status.burnout",

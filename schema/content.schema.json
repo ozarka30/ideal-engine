@@ -1424,10 +1424,6 @@
           "type": "integer",
           "minimum": 0
         },
-        "scandalPerStackPerEvent": {
-          "type": "integer",
-          "minimum": 0
-        },
         "onExpire": {
           "type": "array",
           "items": {
@@ -1450,7 +1446,6 @@
         "expires",
         "cooldownRatePermillePerStack",
         "outputPenaltyPermillePerStack",
-        "scandalPerStackPerEvent",
         "onExpire",
         "tone",
         "text"

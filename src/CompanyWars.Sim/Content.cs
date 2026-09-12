@@ -108,7 +108,6 @@ public sealed record StatusDef(
     bool Expires,
     long CooldownRatePermillePerStack,
     long OutputPenaltyPermillePerStack,
-    long ScandalPerStackPerEvent,
     ThenSpec[] OnExpire,
     string Tone,
     string Text);
