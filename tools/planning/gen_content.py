@@ -187,7 +187,7 @@ emp("emp.devops", "DevOps", ENG, 2, 6, 120,
 emp("emp.sysadmin", "Sysadmin", ENG, 2, 6, 100, [sales(100, name="Reboot"), flag("bureaucracyImmune", SELF)],
     flavor="Cannot be slowed. Has never once been in a meeting.")
 emp("emp.architect", "Architect", ENG, 3, 10, 160,
-    [sales(400, name="Refactor"), after(status(OVT, 1, own("adjacent", dept=ENG)), everyN=3)],
+    [sales(350, name="Refactor"), after(status(OVT, 1, own("adjacent", dept=ENG)), everyN=3)],
     flavor="Every third Refactor is the one that makes everyone stay late.")
 emp("emp.cto", "CTO", ENG, 3, 10, 200,
     [sales(250, name="Roadmap"), stat("cooldown", subj("sameFloor", dept=ENG), permille=900)],

@@ -447,7 +447,7 @@ the selector vocabulary.
 | QA Tester | 1 | 2.0 | **Bug Report** — ¥25 Sales | — |
 | Senior Developer | 2 | 4.0 | **Ship Feature** — ¥150 Sales | During Crunch, cooldown 3.0 |
 | DevOps | 2 | 6.0 | **Deploy** — ¥90 Sales; then 1 Overtime to each adjacent Engineering | — |
-| Architect | 3 | 8.0 | **Refactor** — ¥400 Sales | Every third Refactor also grants 1 Overtime to every adjacent Engineering |
+| Architect | 3 | 8.0 | **Refactor** — ¥350 Sales | Every third Refactor also grants 1 Overtime to every adjacent Engineering |
 
 **Legal**
 
