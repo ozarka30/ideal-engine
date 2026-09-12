@@ -641,7 +641,7 @@ templates = [
       ["mod.g_zaibatsu", "mod.g_skeleton_crew"], LAY(["floor.f1", "floor.f2", "floor.g"], ["engineering", "sales", "legal", "management"])),
     T("rival.t_fortress", "fortress", ["Compliance Partners", "Harada Legal", "Mizuno Assurance", "Ishikawa & Ishikawa"],
       shoplist(("room.legal_dept", 4, 2), ("room.executive_lounge", 2, 7), ("room.kitchenette", 1, 3), ("room.security_desk", 1, 4)),
-      shoplist(("emp.paralegal", 5, 1), ("emp.recruiter", 3, 1), ("emp.sales_rep", 3, 1), ("emp.compliance_officer", 2, 2), ("emp.counsel", 3, 4), ("emp.patent_attorney", 1, 5), ("emp.hr_manager", 2, 5), ("emp.general_counsel", 1, 9), ("emp.head_of_people", 1, 10)),
+      shoplist(("emp.paralegal", 5, 1), ("emp.recruiter", 1, 1), ("emp.sales_rep", 3, 1), ("emp.compliance_officer", 2, 2), ("emp.counsel", 3, 4), ("emp.patent_attorney", 1, 5), ("emp.hr_manager", 2, 5), ("emp.general_counsel", 1, 9), ("emp.head_of_people", 1, 10)),
       ["mod.g_deep_pockets", "mod.g_regulatory_capture"], LAY(["floor.f1", "floor.g", "floor.f2"], ["legal", "hr", "sales"])),
     T("rival.t_raider", "raider", ["Kurokawa Capital", "Tanaka Acquisitions", "Ono & Partners", "Yamashita Ventures"],
       shoplist(("room.meeting_room", 4, 2), ("room.mail_room", 1, 2), ("room.legal_dept", 2, 4), ("room.corner_office", 1, 8)),

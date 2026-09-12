@@ -168,7 +168,7 @@
         },
         {
           "defId": "emp.recruiter",
-          "weight": 3,
+          "weight": 1,
           "minRound": 1
         },
         {
