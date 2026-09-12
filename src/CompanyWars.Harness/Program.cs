@@ -6,7 +6,7 @@ using CompanyWars.Tools;
 
 namespace CompanyWars.Harness;
 
-public sealed record MatchRow(long Round, string ArchA, string ArchB, uint Seed, string Winner, long SettleTick, long FirstMoneyTick, long MaxHitRevenue);
+public sealed record MatchRow(long Round, string ArchA, string ArchB, uint Seed, string Winner, long SettleTick, long FirstMoneyTick, long MaxHitRevenue, long RevenueA, long RevenueB, long TakenA, long TakenB);
 
 public static class Program
 {
@@ -50,7 +50,7 @@ public static class Program
                     uint seed = Run.Hash(seedA, round, seedB);
                     MatchResult r = Simulator.Simulate(seed, a.Snapshot, b.Snapshot, rules, table);
                     matches++;
-                    long first = -1, maxHit = 0, revA = 0, revB = 0, settle = 0;
+                    long first = -1, maxHit = 0, revA = 0, revB = 0, settle = 0, takenA = 0, takenB = 0;
                     foreach (LedgerEntry e in r.Entries)
                     {
                         if (e.RevenueDelta == 0) continue;
@@ -59,11 +59,11 @@ public static class Program
                         // A negative delta is a transfer: the other firm gains what this one lost (SIMULATION_SPEC §16.1).
                         bool toA = e.TargetSide == "A";
                         if (toA) revA += e.RevenueDelta; else revB += e.RevenueDelta;
-                        if (e.RevenueDelta < 0) { if (toA) revB -= e.RevenueDelta; else revA -= e.RevenueDelta; }
+                        if (e.RevenueDelta < 0) { if (toA) { revB -= e.RevenueDelta; takenB -= e.RevenueDelta; } else { revA -= e.RevenueDelta; takenA -= e.RevenueDelta; } }
                         bool winnerAhead = r.Winner == "A" ? revA > revB : r.Winner == "B" && revB > revA;
                         if (!winnerAhead) settle = e.Tick;
                     }
-                    rows.Add(new MatchRow(round, archA, archB, seed, r.Winner, settle, first, maxHit));
+                    rows.Add(new MatchRow(round, archA, archB, seed, r.Winner, settle, first, maxHit, revA, revB, takenA, takenB));
                 }
             }
         }
