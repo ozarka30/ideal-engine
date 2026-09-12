@@ -172,6 +172,11 @@
           "minRound": 1
         },
         {
+          "defId": "emp.sales_rep",
+          "weight": 3,
+          "minRound": 1
+        },
+        {
           "defId": "emp.compliance_officer",
           "weight": 2,
           "minRound": 2
