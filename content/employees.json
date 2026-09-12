@@ -929,10 +929,20 @@
             "pick": "highest_base_value"
           },
           "name": "Delegate"
+        },
+        {
+          "on": "afterFire",
+          "do": "pr",
+          "value": 60,
+          "target": {
+            "side": "own",
+            "scope": "firm"
+          },
+          "everyN": 1
         }
       ],
       "sprite": "emp.team_lead",
-      "flavor": "Makes the best person next to them do it again. Does nothing personally."
+      "flavor": "Makes the best person next to them do it again, then tells the client it was the plan."
     },
     {
       "id": "emp.project_manager",

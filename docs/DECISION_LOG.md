@@ -119,8 +119,9 @@ history of a reversal is the most useful thing in a document like this.
 | [D-88](#d-88) | Sales scale by Loyalty over the current cap, not the starting cap, so a Scandal no longer cuts a firm's Sales for good | Human | Money rework |
 | [D-89](#d-89) | Legal bills its hours: the Paralegal, Compliance Officer and General Counsel earn Sales, then file, clear or freeze | Human | Money rework |
 | [D-90](#d-90) | An archetype may be weak early and strong late: the band judges its mean over the run; each round stays within 300–700‰ | Human | Money rework |
+| [D-91](#d-91) | Management keeps its clients: the Team Lead's Delegate is followed by PR 60 | Human | Money rework |
 
-Fifty-eight craft decisions and thirty-two human calls taken. Eight items remain open in
+Fifty-eight craft decisions and thirty-three human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -2038,3 +2039,21 @@ failure count counts archetypes, not archetype-rounds. The owner set the princip
 value, not a signed-off number.
 
 Authority: Human · `BALANCE_PLAN.md` §4, §6 · extends [D-87](#d-87)
+
+## D-91
+
+**Management keeps its clients: the Team Lead's Delegate is followed by PR 60 to its own firm.
+Management makes its best person work again and rebuilds Loyalty while it does, so its earners keep
+selling under Poach.**
+
+*Why:* management earns through retriggers of whoever stands beside its Team Leads, and had nothing
+that kept Loyalty; under D-87 any Poach emptied it and its Sales stopped. It averaged 358‰ against the
+field after its template changes. Of four designs trialled at 40 seeds — retriggers ×1.5, ×2, Delegate
+followed by PR, and both — Delegate PR alone brought it into the band (685/366/308‰ at rounds 6/12/16,
+mean 453‰) and moved the raider from 637‰ to 605‰. PR 40 and PR 80 were worse.
+
+*Consequence:* the fortress falls from 450‰ to 389‰, because management now holds its Loyalty against
+the fortress's Counsel; the fortress is the next knob. The generalist and the raider also buy Team
+Leads and gain a little PR.
+
+Authority: Human · `GAME_DESIGN.md` §9, `BALANCE_PLAN.md` §5.1 · extends [D-89](#d-89)

@@ -253,8 +253,8 @@ emp("emp.key_account_manager", "Key Account Manager", SAL, 3, 10, 160,
 
 # Management
 emp("emp.team_lead", "Team Lead", MGT, 1, 3, 120,
-    [retrig(own("adjacent", pick="highest_base_value"), name="Delegate")],
-    flavor="Makes the best person next to them do it again. Does nothing personally.")
+    [retrig(own("adjacent", pick="highest_base_value"), name="Delegate"), after(pr(60))],
+    flavor="Makes the best person next to them do it again, then tells the client it was the plan.")
 emp("emp.project_manager", "Project Manager", MGT, 1, 3, 100,
     [status(BUR, 1, enemy("same_floor_index", "lowest_cooldown_remaining"), name="Scope Creep")],
     flavor="Slows down the rival's mirror floor with requirements.")

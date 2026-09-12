@@ -479,7 +479,7 @@ the selector vocabulary.
 
 | Name | Tier | Cooldown | Ability | Passive |
 | --- | --- | --- | --- | --- |
-| Team Lead | 1 | 6.0 | **Delegate** — the adjacent employee with the highest base value fires now | — |
+| Team Lead | 1 | 6.0 | **Delegate** — the adjacent employee with the highest base value fires now; then PR 60 (D-91) | — |
 | Middle Manager | 2 | 8.0 | **Standup** — 1 Overtime to every adjacent employee | — |
 | Consultant | 2 | 9.0 | **Efficiency Review** — 1 Burnout to every enemy employee on `most_populated / all` | — |
 | Director | 3 | 10.0 | **Reorg** — every adjacent employee fires now, then gains 1 Burnout | — |
