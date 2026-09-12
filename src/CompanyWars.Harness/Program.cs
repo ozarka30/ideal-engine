@@ -6,7 +6,7 @@ using CompanyWars.Tools;
 
 namespace CompanyWars.Harness;
 
-public sealed record MatchRow(long Round, string ArchA, string ArchB, uint Seed, string Winner, long EndTick, long FirstMoneyTick, long MaxHitRevenue);
+public sealed record MatchRow(long Round, string ArchA, string ArchB, uint Seed, string Winner, long SettleTick, long FirstMoneyTick, long MaxHitRevenue);
 
 public static class Program
 {
@@ -50,20 +50,27 @@ public static class Program
                     uint seed = Run.Hash(seedA, round, seedB);
                     MatchResult r = Simulator.Simulate(seed, a.Snapshot, b.Snapshot, rules, table);
                     matches++;
-                    long first = -1, maxHit = 0;
+                    long first = -1, maxHit = 0, revA = 0, revB = 0, settle = 0;
                     foreach (LedgerEntry e in r.Entries)
                     {
-                        // ponytail: measured in ¥ now; the bands these feed are restated for the race in stage 3 (REVENUE_RACE.md §7).
-                        if (e.RevenueDelta != 0) { if (first < 0) first = e.Tick; maxHit = Math.Max(maxHit, Math.Abs(e.RevenueDelta)); }
+                        if (e.RevenueDelta == 0) continue;
+                        if (first < 0) first = e.Tick;
+                        maxHit = Math.Max(maxHit, Math.Abs(e.RevenueDelta));
+                        // A negative delta is a transfer: the other firm gains what this one lost (SIMULATION_SPEC §16.1).
+                        bool toA = e.TargetSide == "A";
+                        if (toA) revA += e.RevenueDelta; else revB += e.RevenueDelta;
+                        if (e.RevenueDelta < 0) { if (toA) revB -= e.RevenueDelta; else revA -= e.RevenueDelta; }
+                        bool winnerAhead = r.Winner == "A" ? revA > revB : r.Winner == "B" && revB > revA;
+                        if (!winnerAhead) settle = e.Tick;
                     }
-                    rows.Add(new MatchRow(round, archA, archB, seed, r.Winner, r.EndTick, first, maxHit));
+                    rows.Add(new MatchRow(round, archA, archB, seed, r.Winner, settle, first, maxHit));
                 }
             }
         }
         sw.Stop();
         Console.WriteLine($"harness: {matches} matches in {sw.ElapsedMilliseconds} ms ({(matches > 0 ? sw.ElapsedMilliseconds * 1000.0 / matches : 0):F1} µs/match), rounds {string.Join(",", rounds)}, {seeds} seeds");
         int failures = 0;
-        failures += FightLength(db, rows);
+        failures += LateSwing(db, rows);
         failures += BarMovesEarly(db, rows);
         failures += ArchetypeBand(db, rows);
         if (json) File.WriteAllText(Path.Combine(root, "harness_smoke.json"), System.Text.Json.JsonSerializer.Serialize(rows, ContentJson.Indented));
@@ -83,20 +90,21 @@ public static class Program
         return a.Length == 0 ? 0 : a[Math.Min(a.Length - 1, (int)(a.Length * 0.9))];
     }
 
-    private static int FightLength(ContentDb db, List<MatchRow> rows)
+    private static int LateSwing(ContentDb db, List<MatchRow> rows)
     {
-        Invariant inv = db.Balance.Invariants.First(i => i.Id == "inv.fight_length");
+        Invariant inv = db.Balance.Invariants.First(i => i.Id == "inv.late_swing");
         long lo = inv.Threshold[0][0].GetInt64(), hi = inv.Threshold[0][1].GetInt64();
-        long bellMax = inv.Threshold[1].GetInt64(), drawMax = inv.Threshold[2].GetInt64();
+        long drawMax = inv.Threshold[1].GetInt64();
         int failures = 0;
         foreach (IGrouping<long, MatchRow> g in rows.GroupBy(r => r.Round).OrderBy(g => g.Key))
         {
-            long median = Median(g.Select(r => r.EndTick));
-            long bell = g.Count(r => r.EndTick >= 1160) * 1000 / g.Count();
-            long draw = g.Count(r => r.Winner == "draw") * 1000 / g.Count();
-            bool ok = median >= lo && median <= hi && bell <= bellMax && draw <= drawMax;
+            long crunch = db.RuleSetFor(g.Key).MonthStart[2];
+            var decided = g.Where(r => r.Winner != "draw").ToList();
+            long swing = decided.Count == 0 ? 0 : decided.Count(r => r.SettleTick >= crunch) * 1000L / decided.Count;
+            long draw = g.Count(r => r.Winner == "draw") * 1000L / g.Count();
+            bool ok = swing >= lo && swing <= hi && draw <= drawMax;
             if (!ok) failures++;
-            Console.WriteLine($"  inv.fight_length r{g.Key,2}: median endTick {median} (want {lo}–{hi}), bell {bell}‰ (≤{bellMax}), draw {draw}‰ (≤{drawMax}) {(ok ? "ok" : "FAIL")}");
+            Console.WriteLine($"  inv.late_swing r{g.Key,2}: won from behind after Crunch {swing}‰ (want {lo}–{hi}), draw {draw}‰ (≤{drawMax}) {(ok ? "ok" : "FAIL")}");
         }
         return failures;
     }

@@ -736,13 +736,13 @@
       "effects": [
         {
           "on": "ability",
-          "do": "sales",
+          "do": "poach",
           "value": 110,
           "target": {
-            "side": "own",
+            "side": "enemy",
             "scope": "firm"
           },
-          "name": "Close Deal"
+          "name": "Steal the Account"
         },
         {
           "on": "economy",
@@ -755,7 +755,7 @@
         }
       ],
       "sprite": "emp.account_manager",
-      "flavor": "Closes. Expenses lunch."
+      "flavor": "Takes the rival's biggest client to lunch. Expenses it."
     },
     {
       "id": "emp.headhunter",
@@ -779,7 +779,7 @@
             "floor": "highest_occupied_floor",
             "unit": "highest_base_value"
           },
-          "name": "Poach"
+          "name": "Job Offer"
         },
         {
           "on": "economy",

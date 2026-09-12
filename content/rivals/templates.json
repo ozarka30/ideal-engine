@@ -99,6 +99,11 @@
           "defId": "emp.architect",
           "weight": 1,
           "minRound": 9
+        },
+        {
+          "defId": "emp.recruiter",
+          "weight": 1,
+          "minRound": 3
         }
       ],
       "gimmickPool": [
@@ -120,8 +125,8 @@
       }
     },
     {
-      "id": "rival.t_turtle",
-      "archetype": "turtle",
+      "id": "rival.t_fortress",
+      "archetype": "fortress",
       "namePool": [
         "Compliance Partners",
         "Harada Legal",
@@ -215,34 +220,34 @@
       }
     },
     {
-      "id": "rival.t_burst",
-      "archetype": "burst",
+      "id": "rival.t_raider",
+      "archetype": "raider",
       "namePool": [
-        "Tanaka Systems",
-        "Ono Engineering",
-        "Kurokawa Labs",
-        "Yamashita Digital"
+        "Kurokawa Capital",
+        "Tanaka Acquisitions",
+        "Ono & Partners",
+        "Yamashita Ventures"
       ],
       "founderPool": [
-        "founder.nakagawa",
-        "founder.kitamura"
+        "founder.hoshino",
+        "founder.okada"
       ],
       "budgetPermille": 950,
       "rooms": [
         {
-          "defId": "room.server_room",
+          "defId": "room.meeting_room",
           "weight": 4,
           "minRound": 2
         },
         {
-          "defId": "room.open_plan",
-          "weight": 2,
+          "defId": "room.mail_room",
+          "weight": 1,
           "minRound": 2
         },
         {
-          "defId": "room.meeting_room",
-          "weight": 1,
-          "minRound": 5
+          "defId": "room.legal_dept",
+          "weight": 2,
+          "minRound": 4
         },
         {
           "defId": "room.corner_office",
@@ -253,23 +258,18 @@
       "staff": [
         {
           "defId": "emp.junior_dev",
-          "weight": 4,
+          "weight": 3,
           "minRound": 1
         },
         {
-          "defId": "emp.intern",
+          "defId": "emp.sales_rep",
           "weight": 2,
           "minRound": 1
         },
         {
-          "defId": "emp.senior_dev",
-          "weight": 4,
-          "minRound": 4
-        },
-        {
-          "defId": "emp.devops",
+          "defId": "emp.paralegal",
           "weight": 2,
-          "minRound": 5
+          "minRound": 1
         },
         {
           "defId": "emp.team_lead",
@@ -277,19 +277,29 @@
           "minRound": 2
         },
         {
-          "defId": "emp.architect",
+          "defId": "emp.account_manager",
+          "weight": 4,
+          "minRound": 4
+        },
+        {
+          "defId": "emp.patent_attorney",
           "weight": 3,
-          "minRound": 9
+          "minRound": 4
+        },
+        {
+          "defId": "emp.counsel",
+          "weight": 2,
+          "minRound": 5
+        },
+        {
+          "defId": "emp.middle_manager",
+          "weight": 2,
+          "minRound": 6
         },
         {
           "defId": "emp.director",
           "weight": 1,
           "minRound": 11
-        },
-        {
-          "defId": "emp.cto",
-          "weight": 1,
-          "minRound": 12
         }
       ],
       "gimmickPool": [
@@ -303,23 +313,25 @@
           "floor.f3"
         ],
         "fillOrder": [
-          "engineering",
-          "management"
+          "sales",
+          "legal",
+          "management",
+          "engineering"
         ]
       }
     },
     {
-      "id": "rival.t_economy",
-      "archetype": "economy",
+      "id": "rival.t_earner",
+      "archetype": "earner",
       "namePool": [
         "Suzuki Sales Co.",
         "Matsumoto Direct",
-        "Ando Telemarketing",
+        "Tanaka Systems",
         "Hayashi Retail"
       ],
       "founderPool": [
-        "founder.hoshino",
-        "founder.kitamura"
+        "founder.nakagawa",
+        "founder.hoshino"
       ],
       "budgetPermille": 1050,
       "rooms": [
@@ -356,14 +368,14 @@
           "minRound": 1
         },
         {
-          "defId": "emp.account_manager",
-          "weight": 4,
-          "minRound": 4
+          "defId": "emp.junior_dev",
+          "weight": 3,
+          "minRound": 1
         },
         {
-          "defId": "emp.headhunter",
-          "weight": 1,
-          "minRound": 6
+          "defId": "emp.senior_dev",
+          "weight": 2,
+          "minRound": 4
         },
         {
           "defId": "emp.key_account_manager",
@@ -393,14 +405,14 @@
         ],
         "fillOrder": [
           "sales",
-          "management",
-          "engineering"
+          "engineering",
+          "management"
         ]
       }
     },
     {
-      "id": "rival.t_burnout",
-      "archetype": "burnout",
+      "id": "rival.t_scandal",
+      "archetype": "scandal",
       "namePool": [
         "Watanabe Consulting",
         "Kimura Advisory",

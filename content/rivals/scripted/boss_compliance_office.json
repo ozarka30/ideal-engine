@@ -2,7 +2,7 @@
   "id": "rival.boss_compliance_office",
   "name": "The Compliance Office",
   "kind": "scripted",
-  "archetype": "turtle",
+  "archetype": "fortress",
   "round": 12,
   "gimmick": "mod.g_regulatory_capture",
   "exemptFromBudget": true,
