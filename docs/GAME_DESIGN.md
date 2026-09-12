@@ -64,15 +64,16 @@ every round. The game is the argument between those two facts.
 | **Run** | One campaign or ranked attempt: 16 fights, 5 strikes |
 | **Round** | One build phase followed by one fight. Rounds are numbered 1–16 |
 | **Interlude** | A campaign map node with no fight (Recruiter, Board Meeting, Consultant). Does not advance the round counter |
-| **Quarter** | The fight. 60 seconds, 1,200 ticks, divided into Month 1, Month 2, Crunch and the Bell |
-| **Budget** | Currency. Displayed as `¥` |
-| **Goodwill** | Each firm's defensive buffer. Has a current value and a cap |
-| **Market Share** | The shared bar, 0–100%. Starts at 50% |
-| **Push** | Damage that depletes Goodwill, then overflows into Market Share |
-| **Morale** | Damage that ignores Goodwill and erodes its cap. Produced by Burnout |
-| **Anomaly** | Damage that ignores Goodwill and costs the attacker Goodwill. Produced by extraplanar staff |
-| **Restore** | Direct recovery of Goodwill from an active ability |
-| **Regen** | Passive recovery of Goodwill, every 2 seconds, suppressed by recent hits |
+| **Quarter** | The fight. 60 seconds, 1,200 ticks, divided into Month 1, Month 2, Crunch and the Bell. It always runs to the Bell |
+| **Budget** | What a firm spends in the build phase. Displayed as `¥`. Set by income; a fight's Revenue does not carry into it |
+| **Revenue** | A firm's takings in a quarter, in `¥`. Starts at ¥0 and never goes below it. More Revenue at the Bell wins the fight (D-85) |
+| **Sales** | ¥ an employee adds straight to its own firm's Revenue. Nothing blocks it. Making money |
+| **Client Loyalty** | How firmly a firm's clients stay: a current value and a cap. Shields Revenue from Poaching. Once called Goodwill |
+| **Poach** | Drains the rival's Loyalty; once it is empty, moves ¥ from the rival's Revenue to yours, never more than they hold |
+| **Scandal** | Shrinks the rival's Loyalty cap for the rest of the quarter and moves ¥ to you at half rate. Burnout makes a firm cause its own |
+| **Curse** | Moves ¥ from the rival to you straight through their Loyalty; a quarter of it rebounds on your own Loyalty. Extraplanar staff |
+| **PR** | Rebuilds your own Loyalty, from an active ability |
+| **Clients drift back** | Loyalty recovers every 2 seconds, unless the firm was Poached in the last second |
 | **Tenure** | Rounds a room has been held while staffed. Grants tiers at 3 / 6 / 10 |
 | **Strike** | A life. A lost fight costs one. Three ends the run |
 | **Rider** | A visible permanent drawback attached to an extraplanar hire |
@@ -297,14 +298,14 @@ The economy is deliberately tight enough that a full-floor rebuild is never rout
 must stay below a stated threshold, or the room-commitment tension has silently
 collapsed (D-24).
 
-### 6.4 Goodwill, per round
+### 6.4 Client Loyalty, per round
 
 | Round | 1 | 4 | 8 | 12 | 16 |
 | --- | --- | --- | --- | --- | --- |
-| Base Goodwill cap | 700 | 1,000 | 1,400 | 1,800 | 2,200 |
+| Base Client Loyalty cap | 700 | 1,000 | 1,400 | 1,800 | 2,200 |
 
-Formula: `600 + 100 × round`. Passives add to it; portal taxes subtract. Base regen per
-2-second event is 3% of cap. A hit must be at least 4% of cap to suppress regen.
+Formula: `600 + 100 × round`. Passives add to it; portal taxes subtract. Clients drift back
+at 3% of cap every 2 seconds; a Poach of at least 4% of cap stops that for one second.
 
 ---
 
@@ -542,52 +543,57 @@ balance sheet does not have a line for it.
 ## 11. The fight
 
 What the player watches. The rules live in `SIMULATION_SPEC.md`; this section is what
-they feel like.
+they feel like. This section describes the revenue race (D-85); until stage 2 of that change
+lands, the spec and the code still run the Goodwill fight it replaces, and
+`REVENUE_RACE.md` holds the race's rules.
 
 ### 11.1 The quarter
 
-| Phase | Time | Push | Regen | On screen |
+| Phase | Time | Sales, Poach, Scandal, Curse | Clients drift back | On screen |
 | --- | --- | --- | --- | --- |
 | **Month 1** | 0–20s | × 1.0 | × 1.0 | `— Q OPEN —` banner. Yakult Cart fires |
 | **Month 2** | 20–40s | × 1.4 | × 0.6 | `— MONTH 2 —`. Server Rooms burn |
 | **Crunch** | 40–58s | × 2.0 | × 0.2 | `— CRUNCH —`. Senior Devs accelerate. Server Rooms burn again |
-| **The Bell** | 58–60s | × 3.0 | × 0 | `— QUARTER CLOSE —`. Nothing regenerates |
+| **The Bell** | 58–60s | × 3.0 | × 0 | `— QUARTER CLOSE —`. No client comes back |
 
 Each transition is telegraphed one second early by the banner sliding in dimmed, then
 lighting up on the tick. A build whose combo comes online at 39.9s should see it coming.
 
-### 11.2 What happens to a hit
+### 11.2 What happens when an employee works
 
 1. An employee's cooldown fills. It fires.
 2. Its base value is adjusted by furniture, then multiplied by its room's aura
    (including Tenure), its floor, its statuses, and the month. One integer comes out.
-3. **Push** hits the rival's Goodwill. If it breaks Goodwill, the excess carries into
-   Market Share in full. A hit of at least 4% of the rival's cap suppresses their regen
-   for one second.
-4. **Morale** skips Goodwill: it lowers the rival's Goodwill cap by the raw amount and
-   moves Market Share at half rate.
-5. **Anomaly** skips Goodwill and moves Market Share at full rate, and the attacker's
-   own Goodwill takes a quarter of the raw amount.
-6. **Restore** raises the caster's own Goodwill, up to cap. It is not suppressed.
-7. A ledger entry is written for every one of these.
+3. **Sales** adds the value to the firm's own Revenue. Nothing blocks it: the answers are
+   to earn more, to slow the seller (Bureaucracy, Frozen), or to take the money afterwards.
+4. **Poach** hits the rival's Client Loyalty. If it breaks Loyalty, the excess moves from
+   the rival's Revenue to yours in full — never more than they hold. A Poach of at least
+   4% of the rival's cap stops their clients drifting back for one second.
+5. **Scandal** skips Loyalty: it lowers the rival's Loyalty cap by the raw amount and moves
+   half of it from their Revenue to yours.
+6. **Curse** skips Loyalty and moves the full amount from the rival's Revenue to yours; your
+   own Loyalty takes a quarter of it, and if that breaks your Loyalty the excess goes to
+   the rival.
+7. **PR** raises the firm's own Loyalty, up to cap. It is not suppressed.
+8. A ledger entry is written for every one of these.
 
-Every two seconds, each firm that has not taken a suppressing hit in the last second
-writes a **regen** entry to its ledger. Every second, each firm whose employees hold
-Burnout writes a **Morale** entry to the rival's.
+Every two seconds, each firm that has not been Poached in the last second writes a
+**clients drift back** entry to its ledger. Every second, each firm whose employees hold
+Burnout causes itself a **Scandal**: its Loyalty cap shrinks and the rival takes half.
 
 ### 11.3 How it ends
 
-Market Share reaches 0% or 100%, or the Bell rings. At the Bell, the leader wins. At
-exactly 50%, the firm with more Goodwill remaining wins; if equal, the firm that dealt
-more total Push; if still equal, a **draw** — in campaign it counts as a loss with no
-strike ("no growth this quarter"); in ranked, no rating change.
+Every quarter runs to the Bell (D-85). Then the firm with more Revenue wins. If Revenue is
+equal, the firm with more Loyalty remaining wins; if equal, the firm with more total Sales;
+if still equal, a **draw** — in campaign it counts as a loss with no strike ("no growth
+this quarter"); in ranked, no rating change.
 
 ### 11.4 What it should feel like
 
-Month 1 is Goodwill being chipped and regenerating — the ledger is where the drama is,
-and the bar barely moves unless someone brought Burnout. Month 2 is the break: one
-side's Goodwill hits zero and the bar starts to travel. Crunch is the swing. The Bell
-is two seconds of triple damage with no defence, and it can erase a lead.
+Month 1 is two engines starting — both Revenue totals ticking up, the first Poaches
+chipping Loyalty, and the ledger showing who is earning and who is raiding. Month 2 is the
+break: one firm's Loyalty empties and its Revenue starts to walk. Crunch is the swing. The
+Bell is two seconds at triple value with no client coming back, and it can erase a lead.
 
 That last fact is deliberate (D-23). If it feels bad in playtest, the fix is a cap on
 Bell-window multipliers, never a ratchet.
@@ -970,7 +976,7 @@ Fonts: `font.ui.8` is an 8-pixel-line pixel font with variable-width glyphs aver
 | --- | --- | --- |
 | `ui.build.topbar` | (0, 0, 640, 24) | Round `Q3 · FIGHT 7/16` at (8, 8); Budget `¥ 24` at (200, 8); upkeep `−¥4/qtr` at (280, 8); five strike icons 8×8 from (400, 8); **READY** button (552, 4, 80, 16) |
 | `ui.build.ready_shop` | (192, 312, 232, 20) | A second **READY** at the foot of the shop in `font.ui.16`, where the thumb already is on touch (D-68); the top-right one stays for keyboard and mouse |
-| `ui.build.tower` | (8, 32, 176, 304) | Elevator shaft (8, 32, 16, 304) with floor labels drawn inside it; three floor viewports stacked: above at y=32, **selected** at y=136, below at y=240, each 160 × 96 at x=24. Unselected floors dimmed 50%, still interactive. Scrolls by whole floors. An unleased floor draws greyed under a screen with a lease tag (`ui.build.lease_button`, laid out by `game/scenes/widgets/LeaseTag.tscn`) showing the price and upkeep; the whole floor is the button (D-83) |
+| `ui.build.tower` | (8, 32, 176, 304) | Elevator shaft (8, 32, 16, 304) with floor labels drawn inside it; three floor viewports stacked: above at y=32, **selected** at y=136, below at y=240, each 160 × 96 at x=24. Unselected floors dimmed 50%, still interactive. Scrolls by whole floors. An unleased floor draws greyed under a screen with a lease tag (`ui.build.lease_button`, laid out by `game/scenes/widgets/LeaseTag.tscn`) showing the price and upkeep; the whole floor is the button (D-83). Each floor's look is its scene, `game/scenes/floors/basic/<floor>.tscn`, rendered live like a room (D-84) |
 | `ui.build.shop` | (192, 32, 232, 304) | Tab bar (192, 32, 232, 16); four cards 52 × 80 at x = 192, 248, 304, 360, y = 56; Otherworld row label (192, 140, 232, 8) and two cards at x = 192, 248, y = 152 |
 | `ui.build.inspector` | (432, 32, 200, 304) | Portrait slot 96 × 96 at (440, 40) (D-71); name `font.ui.8` at (544, 44); dept and tier at (544, 54); from y = 144 (D-65): the aura and floor multiplier where it stands, then *WHAT IT DOES* — the ability as a sentence, its passives, a one-line glossary of the kind it deals — and *WHERE TO PUT IT* — the rooms that boost its department, the furniture it likes beside it, its reach, the floor multipliers; while a shop card is carried the inspector shows the same block for the card; for a room, the comparison block (440, 276, 184, 24) — *here ×1.40 · Tier II* / *on 2F ×1.38 now, ×1.61 by round 14* / *relocate: −3 Tenure rounds, ¥13*; action buttons at y = 308: **LAY OFF · ¥1** (440, 308, 184, 20) for staff, or **RELOCATE · ¥13** (440, 308, 90, 20) and **DEMOLISH · ¥13** (534, 308, 90, 20) for rooms |
 | `ui.build.firm_panel` | (432, 32, 200, 304) | The inspector's default state when nothing is selected: founder portrait 96 × 96 at (440, 40) (D-71); firm name at (544, 44); founder name and title at (544, 54) and (544, 64); run stats from y = 144 — round, strikes, fights won, Goodwill cap, floors leased, staff count; below them *HOW A FIGHT WORKS*, the six-sentence primer (D-65) |
@@ -1084,7 +1090,7 @@ effect in that list, applied like a modifier, and the sim already reads it.
 | Entity | Sprite | Anchor | Footprint | `sortBias` | Notes |
 | --- | --- | --- | --- | --- | --- |
 | `ui.card.applicant` | 52 × 80 | top-left | — | 0 | Laid out by `game/scenes/widgets/Card.tscn`, whose slots are relative to the card's own corner (D-81). The card is its face, name and price (D-82): the idle sprite frame on a lighter stage, the name, and the price in Honeyblot Caps on a rounded tag along the bottom edge (`ui.card.price`), at the height of its own `price_text` slot, still the card's largest mark. Tier, department, cooldown, the ability and an extraplanar rider are read in the inspector once the card is picked |
-| `ui.card.room` | 52 × 80 | top-left | — | 0 | As the applicant card: the room tile on the stage, name, price tag (D-82) |
+| `ui.card.room` | 52 × 80 | top-left | — | 0 | As the applicant card: the whole room plan drawn down to fit the stage, centred; name, wrapped to its slot; price tag (D-82) |
 | `ui.card.furniture` | 52 × 80 | top-left | — | 0 | As the applicant card: the sprite on the stage, name, price tag (D-82) |
 | `ui.card.selector` | 64 × 92 | top-left | — | 0 | The picked card's frame: the UI pack's four rounded corner brackets, 6 px outside the card, drawn over it |
 | `ui.card.price` | 46 × 13 | top-left | — | 0 | The card's price tag: the UI pack's `box` in the dark `structure` ramp; the price in Honeyblot Caps at the height of the card's `price_text` slot, centred (D-82) |

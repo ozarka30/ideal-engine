@@ -112,8 +112,10 @@ history of a reversal is the most useful thing in a document like this.
 | [D-81](#d-81) | The sim is handled headlessly and anything visible is editable in Godot: a visible number belongs in a scene, not in a `_Draw` | Human | UI workflow |
 | [D-82](#d-82) | A shop card is its face, name and price; the rest is read in the inspector once the card is picked. Supersedes D-68's tier band and price size | Human | UI review |
 | [D-83](#d-83) | Floors are leased from the tower: an unleased floor is greyed under a screen with its price, and tapping it leases it; the shop's lease row is removed | Human | UI review |
+| [D-84](#d-84) | A floor's look is a scene per business, rendered live like a room; what a floor is stays content. One business, `basic`, for now | Human | UI workflow |
+| [D-85](#d-85) | The fight is a revenue race: most ¥ at the Bell wins; Sales earn, Poach, Scandal and Curse take, Client Loyalty protects. Ids renamed to match; no early finish | Human | Money rework |
 
-Fifty-seven craft decisions and twenty-six human calls taken. Eight items remain open in
+Fifty-seven craft decisions and twenty-eight human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -239,6 +241,8 @@ whenever either side fields Burnout. Cards carry three numbers and the ledger th
 colours, which is the UI cost of the mechanic being meaningful.
 
 Authority: Craft · Question: [Q-GW-5](OPEN_QUESTIONS.md#q-gw-5--what-pierces-goodwill)
+
+Superseded by: [D-85](#d-85), for the kinds — they become Sales, Poach, Scandal and Curse; that piercing Loyalty is a property of the kind stands.
 
 ---
 
@@ -681,6 +685,8 @@ it by a whole percent at round 1.
 
 Authority: Craft · Phase 2, `SIMULATION_SPEC.md` §3.2, §10.3
 
+Superseded by: [D-85](#d-85). The score is each firm's Revenue in ¥; there are no Share Points and no conversion table.
+
 ---
 
 ## D-31
@@ -774,6 +780,8 @@ first place Morale becomes visible without reading the ledger, which is what mak
 Compliance Office fight teachable.
 
 Authority: Human · Phase 2, `GAME_DESIGN.md` §19.2
+
+Superseded by: [D-85](#d-85), in part. The per-side bar stands as Client Loyalty; the Market Share bar gives way to each firm's Revenue and a lead bar showing each firm's share of the quarter's takings.
 
 ---
 
@@ -1866,3 +1874,54 @@ is the tint: `SceneLayout` now reads a ColorRect's colour as well as its box. A 
 is reached by scrolling the tower, as before. D-68 (3) stands; only the row it sat under is gone.
 
 Authority: Human · `GAME_DESIGN.md` §5.4, §19.1 · amends the placement named in [D-68](#d-68)
+
+## D-84
+
+**A floor's look is a scene. Each floor has `game/scenes/floors/<business>/<floor>.tscn`, authored at its
+160 × 96 build-screen size and rendered live through a SubViewport at 2x, exactly as a room is (D-79). The
+build screen draws it where it drew the floor frame — under the void, rooms, grid, people and the lease
+cover. What a floor *is* — its grid, output, room kinds, upkeep, lease and fixed rooms — stays content,
+read by the sim. There is one business for now, `basic`, and every founder uses it.**
+
+*Why:* the owner plans each founder as a different kind of business, and a business is mostly how its
+floors look. One frame panel shared by every floor could not carry that; a scene per floor can, and it is
+edited the way rooms and screens already are (D-78, D-81).
+
+*Consequence:* the five floor scenes start as the old frame panel with an empty half-scale tile layer on
+the office tileset, so the screen is unchanged until they are painted; a floor with no scene falls back
+to the frame. When founders carry a business type, the folder becomes the founder's and `basic` the
+fallback — a field on the founder, so a schema change. The build screen's sample floors instance these
+scenes, so painting one updates the preview. Each floor scene carries a locked `Guides` node — a line where
+tiles meet, a red wash where nothing can be placed, each fixed room outlined and named, and what the floor
+takes — written from content by `tools/dev/floor_guides.py` and hidden when the game renders the floor.
+
+Authority: Human · `GAME_DESIGN.md` §19.1 · extends [D-79](#d-79) and [D-81](#d-81)
+
+## D-85
+
+**The fight is a revenue race: the firm that makes the most money in the quarter wins. Each firm has
+Revenue in ¥, starting at ¥0. Sales add to your own Revenue; Poach, Scandal and Curse take from the
+rival's; Client Loyalty — Goodwill, renamed — shields Revenue from Poaching and is rebuilt by PR and by
+clients drifting back. Every quarter runs to the Bell, where more Revenue wins; there is no early
+finish. Every effect id, stat and field named for the old fight is renamed to the new word — `push`
+becomes `sales` or `poach`, `morale` `scandal`, `anomaly` `curse`, `restore` `pr`, `goodwill` `loyalty`.
+The score is shown in ¥ labelled Revenue, and a fight's Revenue does not carry into the build Budget.
+`REVENUE_RACE.md` holds the rules until they are folded into the spec.**
+
+*Why:* the owner's goal is that the winner is the company that makes the most money, and that every
+mechanic a player sees relates to it. Under the Goodwill fight a firm could not earn anything without
+attacking first — Push had to drain the rival's Goodwill before it moved anything — and the score was a
+tug-of-war bar, not money. The race separates making money from taking it, and keeps the sim's
+arithmetic: the value pipeline, the Quarter Close curve, rooms, floors, statuses and retriggers are
+unchanged; what changes is what the value is applied to.
+
+*Consequence:* supersedes D-30 and parts of D-07 and D-35; D-04, D-05, D-06 and D-23 stand, restated
+for Revenue and Loyalty. The fight half of D-53's sign-off is reopened and closes when the last stage
+lands. Stage 1 — this entry, `REVENUE_RACE.md`, `GAME_DESIGN.md` §2, §6.4 and §11 — is done; until
+stage 2 lands, `SIMULATION_SPEC.md` and the code still run the Goodwill fight. Stage 2 changes the spec,
+the sim and the schema's effect vocabulary, and re-records the ten fixtures under the owner's
+`fixtures-approved` label; stage 3 rewrites content and the balance plan, retiring `bellRateMax` and
+restating the invariants that assume Goodwill; stage 4 changes the screens. Each stage is approved
+before it starts.
+
+Authority: Human · `REVENUE_RACE.md`, `GAME_DESIGN.md` §2, §6.4, §11 · supersedes [D-30](#d-30), parts of [D-07](#d-07) and [D-35](#d-35)

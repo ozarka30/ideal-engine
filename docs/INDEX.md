@@ -8,7 +8,7 @@ none needs the conversation that produced it.
 | `DESIGN_BRIEF.md` | anything in the locked foundation | The decisions that predate every other document. Not relitigated |
 | `PLANNING_PROMPT.md` | the process | The brief the design phase was run against |
 | `OPEN_QUESTIONS.md` | anything with a `Q-` id, or before proposing a new mechanic | Every open decision with options, a recommendation, and what it blocks. Ten open |
-| `DECISION_LOG.md` | any rule, number or format that feels arbitrary | Eighty-three append-only entries with the one-line reason that did the work. Grep it first |
+| `DECISION_LOG.md` | any rule, number or format that feels arbitrary | Eighty-five append-only entries with the one-line reason that did the work. Grep it first |
 | `GAME_DESIGN.md` | the loop, a screen, a room, an employee, the economy, the campaign | The full design, with pixel rects for every screen in §19 and the human-check list in §21 |
 | `SIMULATION_SPEC.md` | `packages/sim`, a status, a selector, the ledger or replay format | The combat sim as a conformance target. Two implementations must agree byte for byte |
 | `CONTENT_SCHEMA.md` | `content/`, `schema/content.schema.json`, `tools/planning/gen_content.py` | The closed effect vocabulary, every content type with verbatim examples, the loader's checks, what is and is not a code change |
@@ -17,6 +17,7 @@ none needs the conversation that produced it.
 | `BALANCE_PLAN.md` | `content/balance.json`, any number, the harness | Populations, bands, the counter web, nineteen invariants, the tuning loop, what is not a knob |
 | `ROADMAP.md` | scope, order, what to build next | Six milestones with exit criteria; release gates; post-v1; what the human does |
 | `RESEARCH_NOTES.md` | the stack, Steam, licensing, or when a genre precedent is claimed | The verification pass: findings, trust levels, what changed because of them |
+| `REVENUE_RACE.md` | the fight, while the money rework is open | Draft proposal: the quarter as a revenue race — every fight word mapped to money, the new rules, the counter web, the stages. Approved as D-85; the rule for the race until stages 2–4 fold it into the spec |
 
 Data, not prose:
 
