@@ -13,7 +13,7 @@ public static class Explain
     /// <summary>What a damage or support kind does to the fight, in one sentence.</summary>
     public static string Kind(string kind) => kind switch
     {
-        "sales" => "Sales add money straight to your Revenue. Nothing can block them.",
+        "sales" => "Sales add money to your Revenue in proportion to your Client Loyalty: wavering clients buy less.",
         "poach" => "Poach drains the rival's Client Loyalty; once it is empty, every Poach moves money from their Revenue to yours.",
         "scandal" => "A Scandal shrinks a firm's Loyalty cap for the rest of the quarter and hands a quarter of its size in money to the other firm.",
         "curse" => "A Curse moves money from the rival to you straight through their Loyalty, but a quarter of it rebounds on your own Loyalty.",

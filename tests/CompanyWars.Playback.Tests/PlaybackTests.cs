@@ -106,7 +106,7 @@ public class PlaybackTests
         Assert.All(timeline, s => Assert.InRange(s, 0, 1000));
         FloorTotals[] bars = Autopsy.FloorBars(v);
         Assert.Equal(5, bars.Length);
-        Assert.Equal(v.Result.TotalSales.A, v.Result.Entries.Where(e => e.Kind == "sales" && e.SourceSide == "A").Sum(e => e.Raw));
+        Assert.Equal(v.Result.TotalSales.A, v.Result.Entries.Where(e => e.Kind == "sales" && e.SourceSide == "A").Sum(e => e.RevenueDelta));
         Assert.True(bars.Sum(b => b.A) >= v.Result.TotalSales.A);
         Assert.Equal(v.Result.Entries.Length, Autopsy.Filter(v, new HashSet<string>(), new HashSet<string>(), new HashSet<long>()).Count);
         Assert.All(Autopsy.Filter(v, new HashSet<string> { "sales" }, new HashSet<string>(), new HashSet<long>()), e => Assert.Equal("sales", e.Kind));

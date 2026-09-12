@@ -130,9 +130,15 @@ public static class Program
     {
         Invariant inv = db.Balance.Invariants.First(i => i.Id == "inv.archetype_band");
         long lo = inv.Threshold[0].GetInt64(), hi = inv.Threshold[1].GetInt64();
+        long fromRound = db.Balance.Bands.TryGetValue("archetypeBandFromRound", out System.Text.Json.JsonElement fr) ? fr.GetInt64() : 1;
         int failures = 0;
         foreach (IGrouping<long, MatchRow> g in rows.GroupBy(r => r.Round).OrderBy(g => g.Key))
         {
+            if (g.Key < fromRound)
+            {
+                Console.WriteLine($"  inv.archetype_band r{g.Key,2}: exempt before round {fromRound} (D-87)");
+                continue;
+            }
             var parts = new List<string>();
             foreach (string arch in db.Templates.Templates.Select(t => t.Archetype))
             {

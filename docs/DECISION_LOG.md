@@ -115,8 +115,9 @@ history of a reversal is the most useful thing in a document like this.
 | [D-84](#d-84) | A floor's look is a scene per business, rendered live like a room; what a floor is stays content. One business, `basic`, for now | Human | UI workflow |
 | [D-85](#d-85) | The fight is a revenue race: most ¥ at the Bell wins; Sales earn, Poach, Scandal and Curse take, Client Loyalty protects. Ids renamed to match; no early finish | Human | Money rework |
 | [D-86](#d-86) | The balance plan restated for the race: archetypes renamed fortress, raider, earner, scandal; `fight_length` becomes `late_swing` (100–250‰ of quarters won from behind after Crunch); `bellRateMax` retired | Craft | Money rework |
+| [D-87](#d-87) | Sales earn in proportion to Client Loyalty (`v × loyalty / capAtStart`); the archetype band applies from round 4 | Human | Money rework |
 
-Fifty-eight craft decisions and twenty-eight human calls taken. Eight items remain open in
+Fifty-eight craft decisions and twenty-nine human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -1927,6 +1928,8 @@ before it starts.
 
 Authority: Human · `REVENUE_RACE.md`, `GAME_DESIGN.md` §2, §6.4, §11 · supersedes [D-30](#d-30), parts of [D-07](#d-07) and [D-35](#d-35)
 
+Superseded by: [D-87](#d-87), in part. Sales earn in proportion to Client Loyalty; something now blocks them.
+
 ## D-86
 
 **The balance plan is restated for the revenue race. Four archetypes take the race's names — turtle
@@ -1952,3 +1955,26 @@ Stage 3 continues one knob per commit. `REVENUE_RACE.md` §4's department table 
 HR, which still has no Burnout on the rival.
 
 Authority: Craft · `BALANCE_PLAN.md` §4–§6, `REVENUE_RACE.md` §4–§5 · extends [D-85](#d-85)
+
+## D-87
+
+**Sales earn in proportion to the firm's Client Loyalty: an employee's Sales add
+`floor(v × loyalty / capAtStart)` to its firm's Revenue, so a firm whose clients are being poached, or
+whose cap a Scandal has cut, sells less. The ledger's `raw` keeps the full value and `revenueDelta` what
+was earned. The archetype band applies from round 4, when tier-2 staff arrive: rounds 1–3 have only
+tier-1 staff and no card that can hurt Sales, so a pure earner wins them whatever the numbers.**
+
+*Why:* stage 3's harness found the pure earner winning 795–990‰ against the field. In the race as D-85
+wrote it nothing blocked Sales, so every card that did not earn barely paid, and none of nine single
+knobs moved the earner below about 715‰. A prototype of this rule brought the earner to 330–520‰ from
+round 6 and turned the counter web the way `REVENUE_RACE.md` §5 draws it — the raider beats the earner,
+the fortress rises — and it gives Loyalty a job in a race: Poaching hurts from its first hit, and PR and
+Loyalty passives protect a firm's earnings.
+
+*Consequence:* amends D-85's "Sales add to your own Revenue; nothing blocks it". `SIMULATION_SPEC.md`
+revision 3 changes §9.3 and §16.1; the §20 worked trace is unchanged, because with no Poach Loyalty stays
+at its cap. Burnout now costs a firm its own Sales too, through the Scandal that cuts its cap, so Scandal
+and management are the next knobs. The ten fixtures need re-recording under `fixtures-approved`, as for
+stage 2.
+
+Authority: Human · `SIMULATION_SPEC.md` §9.3, §16.1, `BALANCE_PLAN.md` §4 · amends [D-85](#d-85)

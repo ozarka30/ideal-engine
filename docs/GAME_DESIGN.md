@@ -67,8 +67,8 @@ every round. The game is the argument between those two facts.
 | **Quarter** | The fight. 60 seconds, 1,200 ticks, divided into Month 1, Month 2, Crunch and the Bell. It always runs to the Bell |
 | **Budget** | What a firm spends in the build phase. Displayed as `¥`. Set by income; a fight's Revenue does not carry into it |
 | **Revenue** | A firm's takings in a quarter, in `¥`. Starts at ¥0 and never goes below it. More Revenue at the Bell wins the fight (D-85) |
-| **Sales** | ¥ an employee adds straight to its own firm's Revenue. Nothing blocks it. Making money |
-| **Client Loyalty** | How firmly a firm's clients stay: a current value and a cap. Shields Revenue from Poaching. Once called Goodwill |
+| **Sales** | ¥ an employee adds to its own firm's Revenue, in proportion to the firm's Client Loyalty: wavering clients buy less (D-87). Making money |
+| **Client Loyalty** | How firmly a firm's clients stay: a current value and a cap. Shields Revenue from Poaching and keeps Sales flowing. Once called Goodwill |
 | **Poach** | Drains the rival's Loyalty; once it is empty, moves ¥ from the rival's Revenue to yours, never more than they hold |
 | **Scandal** | Shrinks the rival's Loyalty cap for the rest of the quarter and moves ¥ to you at a quarter rate. Burnout makes a firm cause its own |
 | **Curse** | Moves ¥ from the rival to you straight through their Loyalty; a quarter of it rebounds on your own Loyalty. Extraplanar staff |
@@ -427,7 +427,7 @@ passive. Nothing is hidden: the inspector shows all of it the moment the card is
 | **Engineering** | pushes | The main Push source. Wants rooms and furniture |
 | **Legal** | resists | Raises Goodwill cap and regen; applies Bureaucracy and Frozen |
 | **HR** | restores | Active Goodwill restore; cleanses Burnout |
-| **Sales** | grows | Chip Push in the fight; Budget income between fights; the only enemy-side Burnout source outside Management |
+| **Sales** | grows | Sales in the fight, and the Account Manager's Poach; Budget income between fights; the only enemy-side Burnout source outside Management |
 | **Management** | retriggers | Makes other people fire. Never fires anything itself |
 | **Extraplanar** | pierces | Anomaly damage with a self-cost; always comes with a rider |
 
@@ -563,8 +563,10 @@ lighting up on the tick. A build whose combo comes online at 39.9s should see it
 1. An employee's cooldown fills. It fires.
 2. Its base value is adjusted by furniture, then multiplied by its room's aura
    (including Tenure), its floor, its statuses, and the month. One integer comes out.
-3. **Sales** adds the value to the firm's own Revenue. Nothing blocks it: the answers are
-   to earn more, to slow the seller (Bureaucracy, Frozen), or to take the money afterwards.
+3. **Sales** adds the value to the firm's own Revenue, scaled by the firm's Loyalty as a
+   share of its starting cap: a firm at full Loyalty earns it all, a firm whose clients
+   are being poached earns less (D-87). The answers are to earn more, to slow the seller
+   (Bureaucracy, Frozen), to Poach its clients, or to take the money afterwards.
 4. **Poach** hits the rival's Client Loyalty. If it breaks Loyalty, the excess moves from
    the rival's Revenue to yours in full — never more than they hold. A Poach of at least
    4% of the rival's cap stops their clients drifting back for one second.

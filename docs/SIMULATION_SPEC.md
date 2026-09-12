@@ -16,6 +16,12 @@ renamed Client Loyalty; the effect kinds are `sales`, `poach`, `scandal`, `curse
 `pr`. The `MatchResult` `schemaVersion` is 2, and fixtures recorded under revision 1 are
 invalid until re-recorded (§18.8). The `TowerSnapshot` format is unchanged.
 
+**Revision 3 — Sales scale with Loyalty (D-87).** A `sales` effect earns
+`floor(v × loyalty / capAtStart)` (§9.3): wavering clients buy less. The entry's `raw` is
+`v` and its `revenueDelta` what was earned (§16.1). Fixtures recorded under revision 2 are
+invalid until re-recorded; the §20 trace is unchanged, because with no Poach Loyalty
+stays at its cap.
+
 ---
 
 ## Contents
@@ -558,11 +564,14 @@ Scandal from Burnout skips the first six steps (§11.2).
 
 ### 9.3 Primary effects by kind
 
-**`sales`** — target: own firm. Making money: nothing blocks it.
+**`sales`** — target: own firm. Making money, in proportion to how firmly the firm's
+clients stay (D-87): Poaching that drains Loyalty, and Scandal that cuts the cap under it,
+both cut Sales.
 
 ```
-seller.revenue    += v
-seller.totalSales += v
+earned = floor(v * seller.loyalty / max(1, seller.capAtStart))
+seller.revenue    += earned
+seller.totalSales += earned
 ```
 
 **`poach`** — target: opposing firm.
@@ -890,7 +899,7 @@ Per-kind conventions:
 
 | Kind | source | target | raw | loyaltyDelta | capDelta | revenueDelta |
 | --- | --- | --- | --- | --- | --- | --- |
-| sales | seller unit | seller firm | v | 0 | 0 | +v |
+| sales | seller unit | seller firm | v | 0 | 0 | +earned (§9.3) |
 | poach | attacker unit | defender firm | v | −absorbed | 0 | −taken (to the attacker) |
 | curse | attacker unit | defender firm | v | 0 | 0 | −taken (to the attacker) |
 | curse self-cost | attacker unit | attacker firm | self | −absorbed | 0 | −taken (to the opponent) — emitted as a second entry tagged `self_cost` |

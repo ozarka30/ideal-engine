@@ -113,6 +113,7 @@ Permille throughout, matching the sim. From `content/balance.json`:
 | Band | Value | Meaning |
 | --- | --- | --- |
 | `archetypeVsField` | [420, 580] | Each archetype's win rate against the field, mirror excluded |
+| `archetypeBandFromRound` | 4 | The archetype band applies from round 4, when tier-2 staff arrive. Rounds 1–3 have nothing that can hurt Sales, so a pure earner wins them whatever the numbers (D-87) |
 | `counterPair` | [580, 750] | A counter wins clearly and is not a wall |
 | `mirror` | [470, 530] | A template against itself is even; this is the fairness check on tick-parity initiative |
 | `lateSwingRate` | [100, 250] | Between one quarter in ten and one in four is won by a firm that was behind or level after Crunch began: comebacks exist (D-23) without making a lead meaningless (`GAME_DESIGN.md` §21) |
@@ -200,7 +201,7 @@ invariant is a content edit plus a measure implementation, never a spec change.
 | --- | --- | --- | --- | --- |
 | `break_guaranteed` | No defence survives to the Bell | strongest_defence vs median_attacker | smoke+nightly | fail |
 | `bar_moves_early` | Fights do not open flat | field vs field | smoke+nightly | fail |
-| `archetype_band` | No archetype dominates the field | each archetype vs field | smoke+nightly | fail |
+| `archetype_band` | No archetype dominates the field | each archetype vs field, from round 4 | smoke+nightly | fail |
 | `counter_pairs` | Counters exist and are not walls | counters | nightly | fail |
 | `mirror_parity` | Mirrors are fair | mirror | nightly | fail |
 | `late_swing` | Crunch is the swing | field vs field | smoke+nightly | fail |
