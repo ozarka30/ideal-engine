@@ -684,7 +684,7 @@ def inv(id, name, statement, population, measure, comparator, threshold, cadence
                ("comparator", comparator), ("threshold", threshold), ("cadence", cadence), ("severity", severity), ("source", source)])
 balance = OD([
     ("id", "balance.default"),
-    ("seeds", OD([("smoke", 20), ("nightly", 200), ("search", 200)])),
+    ("seeds", OD([("smoke", 40), ("nightly", 200), ("search", 200)])),
     ("smokeRounds", [1, 6, 12, 16]),
     ("populations", OD([
         ("field", OD([("description", "Every archetype template expanded at the round, seeds x 6 archetypes, budget 1000 permille"), ("templates", "all"), ("budgetPermille", 1000)])),
@@ -735,8 +735,8 @@ balance = OD([
             "counters", "win rate permille of winner vs loser", "in", [580, 750], "nightly", "fail", "DESIGN_BRIEF §6 triangle; this plan"),
         inv("inv.mirror_parity", "Mirrors are fair", "A template against itself with different seeds is close to even.",
             "mirror", "win rate permille of side A", "in", [470, 530], "nightly", "fail", "D-29"),
-        inv("inv.late_swing", "Crunch is the swing", "Every quarter runs to the Bell (D-85). In field matches a firm behind or level after Crunch begins still wins sometimes, but not so often that a lead means nothing; draws are rare.",
-            "field vs field", "permille of decided matches whose winner was not strictly ahead at some tick from the start of Crunch; draw rate", "swing in [100,250]; draw<=20", [[100, 250], 20], "smoke+nightly", "fail", "D-23; D-85; GAME_DESIGN §11.4, §21"),
+        inv("inv.late_swing", "Crunch is the swing", "Every quarter runs to the Bell (D-85). In field matches a firm behind or level after Crunch begins still wins sometimes, but not so often that a lead means nothing; draws are rare. From round 4, like the archetype band (D-92).",
+            "field vs field, round >= archetypeBandFromRound", "permille of decided matches whose winner was not strictly ahead at some tick from the start of Crunch; draw rate", "swing in [100,250]; draw<=20", [[100, 250], 20], "smoke+nightly", "fail", "D-23; D-85; GAME_DESIGN §11.4, §21"),
         inv("inv.chip_cannot_suppress", "Chip cannot hold regen down alone", "No shop-available employee whose base Poach value reaches the round's suppression threshold has a cooldown under 60 ticks.",
             "static: employees x rounds offered", "for each (employee, round): basePoach >= suppressThreshold(round) implies cooldownTicks >= 60", "all", True, "commit", "fail", "D-04 trade-off"),
         inv("inv.single_hit_cap", "No one hit claims the quarter", "No single resolution in a field match moves more than 15% of the quarter's combined Revenue.",

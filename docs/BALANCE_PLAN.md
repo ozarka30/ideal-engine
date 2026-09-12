@@ -66,7 +66,7 @@ It never loads Godot. It runs in three cadences:
 | Cadence | Trigger | Scope | Budget |
 | --- | --- | --- | --- |
 | **commit** | every push | Static checks and the cheapest invariants | seconds |
-| **smoke** | every push | Rounds [1, 6, 12, 16], 20 seeds per population | under a minute |
+| **smoke** | every push | Rounds [1, 6, 12, 16], 40 seeds per population (D-92) | under two minutes |
 | **nightly** | scheduled, and on demand | All rounds, 200 seeds, the search populations at 200 iterations | tens of minutes |
 
 Output is `balance_report.json` — every invariant with its measured value, its
@@ -114,10 +114,10 @@ Permille throughout, matching the sim. From `content/balance.json`:
 | --- | --- | --- |
 | `archetypeVsField` | [420, 580] | Each archetype's win rate against the field, mirror excluded, averaged over the rounds measured (D-90) |
 | `archetypeRoundSpike` | [300, 700] | In any single round an archetype stays inside this wider band. It may be weak early and strong late, but it is never a write-off or a wall (D-90) |
-| `archetypeBandFromRound` | 4 | The archetype band applies from round 4, when tier-2 staff arrive. Rounds 1–3 have nothing that can hurt Sales, so a pure earner wins them whatever the numbers (D-87) |
+| `archetypeBandFromRound` | 4 | The archetype band and the late-swing check apply from round 4, when tier-2 staff arrive. Rounds 1–3 have nothing that can hurt Sales, so a pure earner wins them whatever the numbers (D-87, D-92) |
 | `counterPair` | [580, 750] | A counter wins clearly and is not a wall |
 | `mirror` | [470, 530] | A template against itself is even; this is the fairness check on tick-parity initiative |
-| `lateSwingRate` | [100, 250] | Between one quarter in ten and one in four is won by a firm that was behind or level after Crunch began: comebacks exist (D-23) without making a lead meaningless (`GAME_DESIGN.md` §21) |
+| `lateSwingRate` | [100, 250] | Between one quarter in ten and one in four is won by a firm that was behind or level after Crunch began: comebacks exist (D-23) without making a lead meaningless (`GAME_DESIGN.md` §21). From round 4, like the archetype band (D-92) |
 | `drawRateMax` | 20 | Draws are rare |
 | `firstRevenueMoveMedianTick` / `P90` | 200 / 400 | Revenue moves inside 10 s in the median quarter, inside 20 s in nine of ten |
 | `singleHitRevenueMaxPermille` | 150 | No single resolution moves more than 15% of the quarter's combined Revenue |
@@ -205,7 +205,7 @@ invariant is a content edit plus a measure implementation, never a spec change.
 | `archetype_band` | No archetype dominates the field | each archetype vs field, from round 4 | smoke+nightly | fail |
 | `counter_pairs` | Counters exist and are not walls | counters | nightly | fail |
 | `mirror_parity` | Mirrors are fair | mirror | nightly | fail |
-| `late_swing` | Crunch is the swing | field vs field | smoke+nightly | fail |
+| `late_swing` | Crunch is the swing | field vs field, from round 4 | smoke+nightly | fail |
 | `chip_cannot_suppress` | Chip cannot hold regen down alone | static: employees x rounds offered | commit | fail |
 | `single_hit_cap` | No one hit claims the quarter | field vs field | smoke+nightly | fail |
 | `rider_net_negative` | The portal is a gamble, not an upgrade | field with substitution vs field | nightly | fail |

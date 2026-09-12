@@ -1,7 +1,7 @@
 {
   "id": "balance.default",
   "seeds": {
-    "smoke": 20,
+    "smoke": 40,
     "nightly": 200,
     "search": 200
   },
@@ -217,8 +217,8 @@
     {
       "id": "inv.late_swing",
       "name": "Crunch is the swing",
-      "statement": "Every quarter runs to the Bell (D-85). In field matches a firm behind or level after Crunch begins still wins sometimes, but not so often that a lead means nothing; draws are rare.",
-      "population": "field vs field",
+      "statement": "Every quarter runs to the Bell (D-85). In field matches a firm behind or level after Crunch begins still wins sometimes, but not so often that a lead means nothing; draws are rare. From round 4, like the archetype band (D-92).",
+      "population": "field vs field, round >= archetypeBandFromRound",
       "measure": "permille of decided matches whose winner was not strictly ahead at some tick from the start of Crunch; draw rate",
       "comparator": "swing in [100,250]; draw<=20",
       "threshold": [

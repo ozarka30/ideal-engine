@@ -120,8 +120,9 @@ history of a reversal is the most useful thing in a document like this.
 | [D-89](#d-89) | Legal bills its hours: the Paralegal, Compliance Officer and General Counsel earn Sales, then file, clear or freeze | Human | Money rework |
 | [D-90](#d-90) | An archetype may be weak early and strong late: the band judges its mean over the run; each round stays within 300–700‰ | Human | Money rework |
 | [D-91](#d-91) | Management keeps its clients: the Team Lead's Delegate is followed by PR 60 | Human | Money rework |
+| [D-92](#d-92) | The late-swing check starts at round 4, like the archetype band; the smoke run uses 40 seeds | Human | Money rework |
 
-Fifty-eight craft decisions and thirty-three human calls taken. Eight items remain open in
+Fifty-eight craft decisions and thirty-four human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -2057,3 +2058,20 @@ the fortress's Counsel; the fortress is the next knob. The generalist and the ra
 Leads and gain a little PR.
 
 Authority: Human · `GAME_DESIGN.md` §9, `BALANCE_PLAN.md` §5.1 · extends [D-89](#d-89)
+
+## D-92
+
+**The late-swing check starts at round 4, like the archetype band (D-87), and the smoke run uses 40
+seeds per population instead of 20.**
+
+*Why:* at round 1, with only tier-1 staff, 27% of quarters were won from behind after Crunch against
+the 25% ceiling, at 20 and at 60 seeds alike; the starting-roster fight is not where a lead needs to
+stick. At 20 seeds the same content measured 25–70‰ differently from one template ordering to the
+next, so a smoke pass or failure meant little. At 40 seeds the smoke run takes about 100 s instead of
+25 s.
+
+*Consequence:* `balance.json` `seeds.smoke` is 40, and the harness skips rounds before
+`archetypeBandFromRound` for both checks. Management's round-6 rate sits at the 700‰ per-round
+ceiling, within the noise of a 40-seed run.
+
+Authority: Human · `BALANCE_PLAN.md` §2, §4, §6 · extends [D-87](#d-87) and [D-90](#d-90)

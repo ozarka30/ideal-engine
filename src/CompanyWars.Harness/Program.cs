@@ -95,9 +95,15 @@ public static class Program
         Invariant inv = db.Balance.Invariants.First(i => i.Id == "inv.late_swing");
         long lo = inv.Threshold[0][0].GetInt64(), hi = inv.Threshold[0][1].GetInt64();
         long drawMax = inv.Threshold[1].GetInt64();
+        long fromRound = db.Balance.Bands.TryGetValue("archetypeBandFromRound", out System.Text.Json.JsonElement fr) ? fr.GetInt64() : 1;
         int failures = 0;
         foreach (IGrouping<long, MatchRow> g in rows.GroupBy(r => r.Round).OrderBy(g => g.Key))
         {
+            if (g.Key < fromRound)
+            {
+                Console.WriteLine($"  inv.late_swing r{g.Key,2}: exempt before round {fromRound} (D-92)");
+                continue;
+            }
             long crunch = db.RuleSetFor(g.Key).MonthStart[2];
             var decided = g.Where(r => r.Winner != "draw").ToList();
             long swing = decided.Count == 0 ? 0 : decided.Count(r => r.SettleTick >= crunch) * 1000L / decided.Count;
