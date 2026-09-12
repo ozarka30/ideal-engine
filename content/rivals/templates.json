@@ -558,11 +558,6 @@
           "minRound": 1
         },
         {
-          "defId": "emp.middle_manager",
-          "weight": 3,
-          "minRound": 4
-        },
-        {
           "defId": "emp.senior_dev",
           "weight": 3,
           "minRound": 4

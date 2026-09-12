@@ -148,7 +148,7 @@ The race renamed four of them (D-86); the template ids follow (`rival.t_fortress
 | **fortress** | turtle | Legal Departments, HR PR, Reception full of Paralegals | Poachers | Scandal — it ignores Loyalty |
 | **raider** | burst | Account Managers, Patent Attorneys and Counsel, timed for the rush | A rival with Revenue and no Loyalty | Fortress Loyalty and regen |
 | **scandal** | burnout | Consultants, Headhunters, Training Rooms, HR to clean up | A rival that paid for Loyalty | Cleanse and tempo |
-| **management** | management | Boardroom Directors, Middle Managers, earners to retrigger | Adjacency | Raiders and scandal |
+| **management** | management | Boardroom Directors and Team Leads, earners to retrigger; no stack of Middle Managers, whose Overtime hangover burns the firm out in a race | Adjacency | Raiders and scandal |
 
 ### 5.2 The web
 
