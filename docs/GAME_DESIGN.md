@@ -88,7 +88,7 @@ One round, from arrival to departure. Every step names the screen it happens on.
 
 **0. Found the firm.** *(Founder select screen, once per run.)* The player picks a
 founder from eight portraits and names the firm. Both modes. The founder appears on
-the build screen's firm panel, beside the Goodwill bar in every fight, in the run
+the build screen's firm panel, beside the Loyalty bar in every fight, in the run
 history, and — for rivals — in the dossier. In v1 the choice changes nothing the sim
 sees; the founder carries an empty effects list so that buildings, staff or abilities
 can be attached to founders later without a format change (D-46).
@@ -98,7 +98,7 @@ ones their current position connects to. Fight nodes begin a round; interludes d
 
 **2. Income.** *(Build screen, top bar.)* Budget increases by the round's income plus
 every Sales employee's passive, then decreases by floor upkeep. Upkeep that cannot be
-paid is not carried as debt — it is paid in Goodwill instead, at 100 Goodwill cap per
+paid is not carried as debt — it is paid in Loyalty instead, at 100 Loyalty cap per
 unpaid `¥1`, for this round only. The top bar shows the arithmetic.
 
 **3. Build.** *(Build screen.)* Untimed. The player hires from the shop, rerolls it,
@@ -141,7 +141,7 @@ and 1F; the rest are leased.
 | **2F — Operations** | 5 × 3 | 15 | × 1.15 | General | `¥2` / round | `¥28` |
 | **1F — Operations** | 5 × 3 | 15 | × 1.00 | General | none | starting |
 | **G — Reception** | 5 × 3 | 15 | × 0.90 | Reception, Security, General | none | starting |
-| **B1 — Portal** | 3 × 3 | 9 | × 1.00 | Extraplanar only | −150 Goodwill cap | `¥20`, portal required |
+| **B1 — Portal** | 3 × 3 | 9 | × 1.00 | Extraplanar only | −150 Loyalty cap | `¥20`, portal required |
 
 Grids are drawn as top-down 32 × 32 tiles. Column 0 of every floor is the **landing
 column**, adjacent to the elevator shaft; landing tiles count as adjacent to the
@@ -150,7 +150,7 @@ landing tiles directly above and below them. Nothing else is vertically adjacent
 **What makes floors different** is the combination, not any one column of that table:
 
 - **G** is where reputation lives. Every employee inside the Reception room adds
-  +100 to the Goodwill cap, which is why the weakest-output floor is worth staffing.
+  +100 to the Loyalty cap, which is why the weakest-output floor is worth staffing.
   It is also the floor every `lowest_floor` ability lands on.
 - **1F and 2F** are the engine — the most tiles, the widest room legality, and the
   place a build's core usually sits.
@@ -158,7 +158,7 @@ landing tiles directly above and below them. Nothing else is vertically adjacent
   upkeep, and every `highest_floor` ability in the game aimed at it. Stacking the
   Executive floor is a legible, punishable choice, not a free optimum.
 - **B1** cannot be targeted by floor selectors at all, but only extraplanar rooms may
-  be built there and leasing it costs Goodwill rather than Budget. It is a specialist
+  be built there and leasing it costs Loyalty rather than Budget. It is a specialist
   floor, never a safe one.
 
 The starting tower: G with a fixed 2 × 2 **Reception** room in columns 1–2, rows 0–1,
@@ -345,18 +345,18 @@ in one place.
 
 | Room | Size | Floors | Cost | Aura on occupants | Tier III clause |
 | --- | --- | --- | --- | --- | --- |
-| **Reception** | 2×2 | G (fixed, starting) | — | Each occupant: +100 Goodwill cap. Push × 0.80 | Occupants also grant +30 regen per event |
-| **Open Plan Office** | 2×3 | 1F, 2F | `¥13` | Engineering push × 1.20 | Every occupant: cooldown × 0.90 |
-| **Server Room** | 2×2 | 1F, 2F | `¥9` | Engineering push × 1.35. At the Month 2 and Crunch banners every occupant gains 1 Burnout (it is hot in there) | Banner Burnout no longer applies |
-| **Legal Department** | 2×2 | 1F, 2F, 3F | `¥9` | Legal passives × 1.50. Bureaucracy applied by occupants: +1 stack | Occupants' Goodwill contributions cannot be eroded by Morale |
-| **Sales Floor** | 2×2 | 1F, 2F | `¥9` | Sales push × 1.20. Sales income passive +1 each | Sales occupants' abilities also apply 1 Bureaucracy |
-| **Break Room** | 1×2 | G, 1F, 2F, 3F | `¥5` | Non-HR occupants: push × 0.50, immune to Burnout. HR occupants: restore × 1.50 | Occupants cleanse 1 Burnout from every adjacent employee every 10s |
+| **Reception** | 2×2 | G (fixed, starting) | — | Each occupant: +100 Loyalty cap. Sales and Poach × 0.80 | Occupants also grant +30 regen per event |
+| **Open Plan Office** | 2×3 | 1F, 2F | `¥13` | Engineering Sales × 1.20 | Every occupant: cooldown × 0.90 |
+| **Server Room** | 2×2 | 1F, 2F | `¥9` | Engineering Sales × 1.35. At the Month 2 and Crunch banners every occupant gains 1 Burnout (it is hot in there) | Banner Burnout no longer applies |
+| **Legal Department** | 2×2 | 1F, 2F, 3F | `¥9` | Legal passives × 1.50. Bureaucracy applied by occupants: +1 stack | Occupants' Loyalty contributions cannot be eroded by Scandal |
+| **Sales Floor** | 2×2 | 1F, 2F | `¥9` | Sales staff's Sales × 1.20. Sales income passive +1 each | Sales occupants' abilities also apply 1 Bureaucracy |
+| **Break Room** | 1×2 | G, 1F, 2F, 3F | `¥5` | Non-HR occupants: Sales and Poach × 0.50, immune to Burnout. HR occupants: PR × 1.50 | Occupants cleanse 1 Burnout from every adjacent employee every 10s |
 | **Security Desk** | 1×2 | G only, not landing | `¥5` | Occupants cannot be selected by enemy employee selectors | Occupants also cannot receive Bureaucracy |
-| **Boardroom** | 2×2 | 3F only | `¥9` | All push × 1.20. Management retriggers reach the whole floor, not only adjacent tiles | Every Management fire is also a Standup: 1 Overtime to adjacent |
-| **Corner Office** | 1×2 | 3F only | `¥5` | Single occupant only: push × 1.60, Goodwill cap −100 | Cap penalty removed |
-| **Summoning Circle** | 2×2 | B1 only | `¥9` | Extraplanar occupants: Anomaly self-cost halved. Required by all Ritual recipes | Occupants' Anomaly also applies 1 Burnout to its target |
+| **Boardroom** | 2×2 | 3F only | `¥9` | All Sales and Poach × 1.20. Management retriggers reach the whole floor, not only adjacent tiles | Every Management fire is also a Standup: 1 Overtime to adjacent |
+| **Corner Office** | 1×2 | 3F only | `¥5` | Single occupant only: Sales and Poach × 1.60, Loyalty cap −100 | Cap penalty removed |
+| **Summoning Circle** | 2×2 | B1 only | `¥9` | Extraplanar occupants: Curse self-cost halved. Required by all Ritual recipes | Occupants' Curses also apply 1 Burnout to the rival's best |
 
-**Corridor** (no room): occupants get no aura and push × 0.90. Standing in the corridor
+**Corridor** (no room): occupants get no aura and output × 0.90. Standing in the corridor
 is always legal and never good.
 
 ### 7.3 Room specification
@@ -368,7 +368,7 @@ Every room entry in content declares, and the manifest mirrors:
 | `footprint` | `{ w, h }` in tiles |
 | `floors` | Legal floor kinds |
 | `landingLegal` | May the rectangle include column 0 |
-| `aura` | List of `{ filter, stat, permille }` — e.g. `{ dept: "engineering", push: 1200 }` |
+| `aura` | List of `{ filter, stat, permille }` — e.g. `{ dept: "engineering", sales: 1200 }` |
 | `flat` | List of flat additions — e.g. `{ goodwillCap: +100 per occupant }` |
 | `tierIII` | The unique clause, by effect id |
 | `banners` | Effects fired at month transitions, if any |
@@ -396,15 +396,15 @@ fold.
 
 | Furniture | Size | Cost | Effect on adjacent employees | Notes |
 | --- | --- | --- | --- | --- |
-| **Whiteboard** | 1×1, wall | `¥2` | Engineering: +15 flat push | Recipe input. `sortBias` −5 |
+| **Whiteboard** | 1×1, wall | `¥2` | Engineering: +¥15 flat Sales | Recipe input. `sortBias` −5 |
 | **90s PC** | 1×1 | `¥2` | Engineering: cooldown × 0.90 | |
-| **Filing Cabinet** | 1×1 | `¥2` | Legal: +60 Goodwill cap each | Recipe input |
+| **Filing Cabinet** | 1×1 | `¥2` | Legal: +60 Loyalty cap each | Recipe input |
 | **Fax Machine** | 1×1 | `¥4` | Every 6s, the adjacent Legal employee with the highest base value fires immediately | A retrigger source that is not a person |
 | **Water Cooler** | 1×1 | `¥2` | Every 10s, remove 1 Burnout from each | Recipe input |
 | **Yakult Cart** | 1×1 | `¥4` | At the Quarter Open banner: 1 Overtime each | Haste with a hangover |
 | **Monitoring Station** | 1×2 | `¥4` | Their floor-targeting abilities use `most_populated_floor` instead of their default | Targeting override |
 | **Executive Desk** | 1×2 | `¥4` | Management: retrigger value × 1.25 | 3F only |
-| **Ofuda** | 1×1, wall | `¥2` | Extraplanar: Anomaly self-cost −50% | B1 only. Stacks with Summoning Circle to zero |
+| **Ofuda** | 1×1, wall | `¥2` | Extraplanar: Curse self-cost −50% | B1 only. Stacks with Summoning Circle to zero |
 
 Furniture has no Tenure. Selling it refunds nothing and costs nothing.
 
@@ -424,12 +424,12 @@ passive. Nothing is hidden: the inspector shows all of it the moment the card is
 
 | Department | Verb | Identity in the fight |
 | --- | --- | --- |
-| **Engineering** | pushes | The main Push source. Wants rooms and furniture |
-| **Legal** | resists | Raises Goodwill cap and regen; applies Bureaucracy and Frozen |
-| **HR** | restores | Active Goodwill restore; cleanses Burnout |
+| **Engineering** | earns | The main Sales source. Wants rooms and furniture |
+| **Legal** | resists | Bills its hours; raises Loyalty cap and regen; Poaches; applies Bureaucracy and Frozen |
+| **HR** | protects | PR rebuilds Loyalty; cleanses Burnout |
 | **Sales** | grows | Sales in the fight, and the Account Manager's Poach; Budget income between fights; the only enemy-side Burnout source outside Management |
 | **Management** | retriggers | Makes other people fire. Never fires anything itself |
-| **Extraplanar** | pierces | Anomaly damage with a self-cost; always comes with a rider |
+| **Extraplanar** | curses | Curse — ¥ straight from the rival — with a self-cost; always comes with a rider |
 
 ### 9.2 Roster — Phase 2 set
 
@@ -443,11 +443,11 @@ the selector vocabulary.
 
 | Name | Tier | Cooldown | Ability | Passive |
 | --- | --- | --- | --- | --- |
-| Junior Developer | 1 | 4.0 | **Ship Feature** — 60 Push | — |
-| QA Tester | 1 | 2.0 | **Bug Report** — 25 Push | — |
-| Senior Developer | 2 | 4.0 | **Ship Feature** — 150 Push | During Crunch, cooldown 3.0 |
-| DevOps | 2 | 6.0 | **Deploy** — 90 Push; then 1 Overtime to each adjacent Engineering | — |
-| Architect | 3 | 8.0 | **Refactor** — 400 Push | Every third Refactor also grants 1 Overtime to every adjacent Engineering |
+| Junior Developer | 1 | 4.0 | **Ship Feature** — ¥60 Sales | — |
+| QA Tester | 1 | 2.0 | **Bug Report** — ¥25 Sales | — |
+| Senior Developer | 2 | 4.0 | **Ship Feature** — ¥150 Sales | During Crunch, cooldown 3.0 |
+| DevOps | 2 | 6.0 | **Deploy** — ¥90 Sales; then 1 Overtime to each adjacent Engineering | — |
+| Architect | 3 | 8.0 | **Refactor** — ¥400 Sales | Every third Refactor also grants 1 Overtime to every adjacent Engineering |
 
 **Legal**
 
@@ -462,18 +462,18 @@ the selector vocabulary.
 
 | Name | Tier | Cooldown | Ability | Passive |
 | --- | --- | --- | --- | --- |
-| Recruiter | 1 | 5.0 | **Team Building** — Restore 80 | +30 regen per event |
-| HR Manager | 2 | 6.0 | **Wellness Program** — Restore 150; remove 2 Burnout from every own employee on this floor | — |
-| Head of People | 3 | 8.0 | **Retention Bonus** — Restore 300 | Own employees' Burnout maximum is 3 instead of 5 |
+| Recruiter | 1 | 5.0 | **Team Building** — PR 80 | +30 regen per event |
+| HR Manager | 2 | 6.0 | **Wellness Program** — PR 150; remove 2 Burnout from every own employee on this floor | — |
+| Head of People | 3 | 8.0 | **Retention Bonus** — PR 300 | Own employees' Burnout maximum is 3 instead of 5 |
 
 **Sales**
 
 | Name | Tier | Cooldown | Ability | Passive |
 | --- | --- | --- | --- | --- |
-| Sales Rep | 1 | 3.0 | **Cold Call** — 40 Push | +`¥1` income per round |
-| Account Manager | 2 | 5.0 | **Close Deal** — 110 Push | +`¥2` income per round |
-| Headhunter | 2 | 7.0 | **Poach** — 2 Burnout to `highest_occupied / highest_base_value` | +`¥1` income per round |
-| Sales Director | 3 | 12.0 | **Quarterly Target** — Push = 300 + 50 per Sales employee in the tower | +`¥3` income per round |
+| Sales Rep | 1 | 3.0 | **Cold Call** — ¥40 Sales | +`¥1` income per round |
+| Account Manager | 2 | 5.0 | **Steal the Account** — Poach 110 | +`¥2` income per round |
+| Headhunter | 2 | 7.0 | **Job Offer** — 2 Burnout to `highest_occupied / highest_base_value` | +`¥1` income per round |
+| Sales Director | 3 | 12.0 | **Quarterly Target** — Sales of ¥300 + ¥50 per Sales employee in the tower | +`¥3` income per round |
 
 **Management**
 
@@ -492,7 +492,7 @@ where Middle Management lives in the tower, and it is why the landing column mat
 ### 9.3 What the roster is shaped to do
 
 - **Engineering** wants a room and furniture around it: an Architect in a Tier II
-  Server Room next to a Whiteboard and a 90s PC is the game's Push ceiling.
+  Server Room next to a Whiteboard and a 90s PC is the game's Sales ceiling.
 - **Legal** bills its hours — a Paralegal, Compliance Officer or General Counsel earns
   before it files, clears or freezes (D-89) — and stacks Loyalty and regen so that
   Poaching cannot get through; Cease & Desist poaches back. It loses to a Headhunter and
@@ -746,7 +746,7 @@ paying (recommended in Q-PTL-1, awaiting sign-off; built on here):
 - **A rider**, rolled from the pool when the card is generated and shown in the
   inspector when the card is picked (D-82). Accepting the hire accepts the rider.
   Permanent for the run.
-- **A Goodwill tax**: each extraplanar employee lowers the firm's Goodwill cap by 100.
+- **A Loyalty tax**: each extraplanar employee lowers the firm's Loyalty cap by 100.
   Leasing B1 lowers it by a further 150. A portal build is inherently a glass cannon.
 
 Rider pool — Phase 2 set of eight; capped at twelve at launch:
@@ -757,10 +757,10 @@ Rider pool — Phase 2 set of eight; capped at twelve at launch:
 | *Union Dispute* | Every reroll costs `¥1` more while employed |
 | *Bad Influence* | At Quarter Open, adjacent employees gain 1 Burnout |
 | *Executive Aversion* | 3F output × 0.80 while employed |
-| *Poor Reception* | Reception grants no Goodwill cap while employed |
+| *Poor Reception* | Reception grants no Loyalty cap while employed |
 | *Overhead* | Upkeep +`¥1` per round |
 | *Hungry* | On hire, consumes one adjacent piece of furniture |
-| *Contractual Obligation* | At the Bell, the firm takes 200 Morale |
+| *Contractual Obligation* | At the Bell, the firm causes itself a 200 Scandal |
 
 `BALANCE_PLAN` asserts that no rider is net-positive and that no extraplanar employee
 beats its Tier equivalent at equal cost once the tax is counted.
@@ -769,18 +769,19 @@ beats its Tier equivalent at equal cost once the tax is counted.
 
 | Name | Cooldown | Ability | Passive |
 | --- | --- | --- | --- |
-| **Salaryman Ghost** | 3.0 | **Overtime Eternal** — 90 Anomaly | Permanently holds 2 Overtime that never expire and never cause Burnout |
-| **Office Lady of the Third Floor** | 6.0 | **Filing** — 60 Anomaly, then 1 Bureaucracy to `same_floor_index / lowest_cooldown_remaining` | Must be placed on 3F |
-| **The Auditor** | 12.0 | **Audit** — Anomaly equal to 15% of the rival's Goodwill cap | Cannot be retriggered |
-| **Salaryman Who Never Left** (Ritual result) | 4.0 | **Loyalty** — 200 Anomaly | Immune to Bureaucracy and Frozen. Counts as Engineering for rooms |
+| **Salaryman Ghost** | 3.0 | **Overtime Eternal** — Curse 90 | Permanently holds 2 Overtime that never expire and never cause Burnout |
+| **Office Lady of the Third Floor** | 6.0 | **Filing** — Curse 60, then 1 Bureaucracy to `same_floor_index / lowest_cooldown_remaining` | Must be placed on 3F |
+| **The Auditor** | 12.0 | **Audit** — Curse equal to 15% of the rival's Loyalty cap | Cannot be retriggered |
+| **Salaryman Who Never Left** (Ritual result) | 4.0 | **Loyalty** — Curse 200 | Immune to Bureaucracy and Frozen. Counts as Engineering for rooms |
 
-### 14.5 Anomaly
+### 14.5 Curse
 
-Anomaly ignores Goodwill and moves Market Share at full rate. In return the attacker's
-own Goodwill takes 25% of the raw amount as a hit — and that hit suppresses their own
-regen like any other. A Summoning Circle halves the self-cost; an Ofuda halves it
-again, to zero. Getting the self-cost to zero is a three-tile, one-room, one-floor
-investment on a floor that costs Goodwill to lease. That is the whole gamble.
+A Curse ignores Loyalty and moves its full amount from the rival's Revenue to yours. In
+return the caster's own Loyalty takes a quarter of the raw amount as a Poach — which
+suppresses their own regen like any other, and, since Sales scale with Loyalty (D-87),
+costs them Sales too. A Summoning Circle halves the self-cost; an Ofuda halves it again,
+to zero. Getting the self-cost to zero is a three-tile, one-room, one-floor investment on
+a floor that costs Loyalty to lease. That is the whole gamble.
 
 ---
 
@@ -821,9 +822,9 @@ readable — a player who beats it should be able to say, from the autopsy, whic
 their employees did the work. Its defeat opens the portal.
 
 **Act 2 — The Compliance Office.** A Legal Department at Tier II with two Counsel and a
-General Counsel, a Reception full of Paralegals, and a regen rate that Push alone
-cannot beat before the Bell. It is unwinnable without Morale or Anomaly. This is the
-fight that teaches Burnout.
+General Counsel, a Reception full of Paralegals billing their hours, and Loyalty that
+always comes back, so Poaching alone gets nowhere. Out-earn it, or bring Scandal or
+Curse. This is the fight that teaches Burnout.
 
 **Act 3 — The Parent Company.** Five floors staffed, a Consultant and a Headhunter, a
 Director in a Boardroom, and floor-targeting on every ability that has a target. It
@@ -831,20 +832,20 @@ punishes concentration: a tower that stacked 3F loses it; a tower that left G em
 loses its Reception. The run's thesis statement.
 
 Bosses are authored snapshots. They are also balance fixtures, and they are re-authored
-whenever the pressure curve or the base Goodwill table moves.
+whenever the pressure curve or the base Loyalty table moves.
 
 ### 15.3 Strikes
 
 Losing any fight — boss included — costs one strike and the map continues. A run ends
 at five strikes (D-58), or after fight 16. A run that reaches fight 16 with strikes remaining
-is a win; its score is strikes remaining and total Market Share claimed.
+is a win; its score is strikes remaining and total Revenue earned.
 
 ### 15.4 Board Meeting modifiers — Phase 2 set
 
 | Modifier | Cost | Benefit |
 | --- | --- | --- |
 | *Overtime Culture* | Every employee starts each fight with 1 Burnout | Every employee starts with 1 Overtime |
-| *Lean* | Goodwill cap −200 | Income +`¥2` per round |
+| *Lean* | Loyalty cap −200 | Income +`¥2` per round |
 | *Family Firm* | Severance doubled | All rooms gain +1 Tenure round now |
 | *Compliance Review* | Reroll costs `¥2` | Bureaucracy applied by own staff +1 stack |
 
@@ -878,11 +879,11 @@ one; ordinary rivals carry one from round 8 onward. Phase 2 set:
 
 | Gimmick | Effect | Teaches |
 | --- | --- | --- |
-| *Deep Pockets* | Goodwill cap × 1.5 | Push alone is slow; bring Burnout |
+| *Deep Pockets* | Loyalty cap × 1.5 | Poaching alone is slow; bring Burnout, or out-earn it |
 | *Franchise* | Every floor counts as `most_populated_floor` | Floor-selected statuses land everywhere |
 | *Old Money* | All rooms at Tier III | What Tenure looks like fully grown |
 | *Night Shift* | All staff hold 1 permanent Overtime; no Burnout on expiry | Haste without the cost, and how to slow it |
-| *Regulatory Capture* (Compliance Office) | Regen is never suppressed | The Act 2 boss's signature; unwinnable without Morale or Anomaly |
+| *Regulatory Capture* (Compliance Office) | Regen is never suppressed | The Act 2 boss's signature; its Loyalty always comes back, so answer it with Scandal, Curse, or more Sales |
 | *Conglomerate* (Parent Company) | Every status ability is floor-selected, and `highest_occupied_floor` also hits `lowest_occupied_floor` | The Act 3 boss's signature; concentration is punished twice |
 | *Mirror* (Regional Rival) | None — the tower is a competent copy of the player's own archetype at this round | The Act 1 boss's signature is having no gimmick; the ledger is the lesson |
 
@@ -954,7 +955,7 @@ tutorial mode.
 | 5 | *Bento Chain* | Severance is real | The player has more staff than good tiles; laying one off shows the fee |
 | 6 | **The Regional Rival** | The ledger is the answer | Boss. The portal opens |
 | 7 | *Compliance-adjacent* | Legal exists and it stalls you | First rival with a Counsel |
-| 8–12 | — | Burnout | The Act 2 boss is unwinnable without it; the Consultant interlude in Act 2 always offers a Morale recipe |
+| 8–12 | — | Burnout | Scandal is the Act 2 boss's intended answer; the Consultant interlude in Act 2 always offers the Headhunter recipe |
 
 A hint line at the bottom of the build screen shows one sentence per round for the
 first run only. It is never modal.
