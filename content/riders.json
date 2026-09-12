@@ -69,7 +69,7 @@
     {
       "id": "rider.poor_reception",
       "name": "Poor Reception",
-      "text": "Reception grants no Goodwill while employed.",
+      "text": "Reception grants no Loyalty while employed.",
       "effects": [
         {
           "on": "static",
@@ -115,11 +115,11 @@
     {
       "id": "rider.contractual_obligation",
       "name": "Contractual Obligation",
-      "text": "At the Bell, the firm takes 200 Morale.",
+      "text": "At the Bell, the firm causes itself a 200 Scandal.",
       "effects": [
         {
           "on": "banner",
-          "do": "morale",
+          "do": "scandal",
           "month": 3,
           "value": 200,
           "target": {

@@ -214,7 +214,7 @@ public class ExplainTests
     public void EveryEmployeeExplainsItselfWithoutVocabularyWords()
     {
         ContentDb db = Db.Value;
-        string[] raw = { "permille", "afterFire", "status.", "highest_occupied", "most_populated", "everyN", "goodwillCap", "regenPerEvent", "_" };
+        string[] raw = { "permille", "afterFire", "status.", "highest_occupied", "most_populated", "everyN", "loyaltyCap", "regenPerEvent", "_" };
         foreach (EmployeeDef e in db.Employees)
         {
             string text = Explain.Ability(db, e) + " " + string.Join(" ", Explain.Passives(db, e.Effects, e)) + " " + string.Join(" ", Explain.Placement(db, e));
@@ -229,7 +229,7 @@ public class ExplainTests
     public void KnownExplanationsReadAsIntended()
     {
         ContentDb db = Db.Value;
-        Assert.Equal("Ship Feature: 60 Push every 4.0 s.", Explain.Ability(db, db.Employees.First(e => e.Id == "emp.junior_dev")));
+        Assert.Equal("Ship Feature: earn ¥60 every 4.0 s.", Explain.Ability(db, db.Employees.First(e => e.Id == "emp.junior_dev")));
         Assert.Contains("Open Plan", Explain.Placement(db, db.Employees.First(e => e.Id == "emp.junior_dev"))[0]);
         Assert.Contains("Whiteboard", Explain.Placement(db, db.Employees.First(e => e.Id == "emp.junior_dev"))[1]);
         Assert.Equal("Delegate: the hardest-hitting neighbour fires now every 6.0 s.", Explain.Ability(db, db.Employees.First(e => e.Id == "emp.team_lead")));

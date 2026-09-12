@@ -284,7 +284,7 @@ public partial class BuildScreen : Node2D
         Mode mode = _db.Modes.First(m => m.Id == Run.Mode);
         Text("topbar_round", $"Q{Run.Round} · FIGHT {Run.Round}/{mode.Rounds}");
         Text("topbar_budget", $"¥ {Run.Budget}");
-        Text("topbar_income", $"+¥{State.Income}{(State.Passives > 0 ? $"+{State.Passives}" : string.Empty)} −¥{State.Upkeep}/qtr{(State.UnpaidUpkeep > 0 ? $" ({State.UnpaidUpkeep} unpaid → Goodwill)" : string.Empty)}");
+        Text("topbar_income", $"+¥{State.Income}{(State.Passives > 0 ? $"+{State.Passives}" : string.Empty)} −¥{State.Upkeep}/qtr{(State.UnpaidUpkeep > 0 ? $" ({State.UnpaidUpkeep} unpaid → Loyalty)" : string.Empty)}");
         for (int i = 0; i < mode.Strikes; i++)
         {
             var s = new Rect2(_at.X("strikes") + i * 10, _at.Y("strikes"), 8, 8);
@@ -719,7 +719,7 @@ public partial class BuildScreen : Node2D
             {
                 $"round {Run.Round} · strikes {Run.Strikes}",
                 $"fights won {Run.FightsWon} of {Run.History.Length}",
-                $"Goodwill cap base {_db.RuleSetFor(Run.Round).GoodwillBase(Run.Round)}",
+                $"Loyalty cap base {_db.RuleSetFor(Run.Round).LoyaltyBase(Run.Round)}",
                 $"floors leased {Run.Tower.Floors.Length} · staff {staff}",
                 $"budget ¥{Run.Budget} · income ¥{State.Income}+{State.Passives}",
                 $"upkeep ¥{State.Upkeep}/qtr",
@@ -824,7 +824,7 @@ public partial class BuildScreen : Node2D
     {
         Vector2I size = L.Size("ui.build.room_compare");
         DrawRect(new Rect2(x, y, w, size.Y), Tones.Fill("structure"));
-        Effect? aura = d.Effects.FirstOrDefault(e => e.On == "static" && e.Do == "stat" && e.Permille != null && e.Stat is "push" or "anomaly" or "restore");
+        Effect? aura = d.Effects.FirstOrDefault(e => e.On == "static" && e.Do == "stat" && e.Permille != null && e.Stat is "sales" or "poach" or "curse" or "pr");
         long basePermille = aura?.Permille ?? 1000;
         long step = _db.Rules.Tenure.StepPermille;
         long tierNow = Overlays.Tier(_db, room);

@@ -45,13 +45,13 @@ public class LoaderTests
     public void RuleSetMatchesTheSpecConstants()
     {
         RuleSet r = ContentLoader.Load(Root).RuleSetFor(8);
-        Assert.Equal(1400, r.GoodwillBase(8));
+        Assert.Equal(1400, r.LoyaltyBase(8));
         Assert.Equal(new long[] { 0, 400, 800, 1160 }, r.MonthStart);
         Assert.Equal(900, r.FloorMultFor(0));
         Assert.Equal(1450, r.FloorMultFor(3));
         Assert.Equal(-1, r.FloorIndexOf("floor.b1"));
         Assert.Equal(5, r.BurnoutMax);
-        Assert.Equal(50, r.BurnoutPushPenaltyPermille);
+        Assert.Equal(50, r.BurnoutOutputPenaltyPermille);
         Assert.Equal(60, r.OvertimeDuration);
         Assert.Equal(200, r.BureaucracyRatePermille);
         Assert.Equal(0, r.Month(399));

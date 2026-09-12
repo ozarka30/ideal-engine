@@ -137,10 +137,11 @@ An effect has a **trigger** (`on`), an **action** (`do`), and depending on the a
 
 | `do` | Needs | Meaning |
 | --- | --- | --- |
-| `push` | `value`, `target` firm | Push damage — SIMULATION_SPEC §9.3 |
-| `anomaly` | `value`, `target` firm | Anomaly damage |
-| `morale` | `value`, `target` firm | Morale damage |
-| `restore` | `value`, `target` own firm | Direct Goodwill recovery |
+| `sales` | `value`, `target` own firm | ¥ added to your own Revenue — SIMULATION_SPEC §9.3 |
+| `poach` | `value`, `target` firm | Drains the rival's Loyalty, then moves ¥ from their Revenue to yours |
+| `scandal` | `value`, `target` firm | Shrinks a Loyalty cap and moves ¥ at half rate to the other firm |
+| `curse` | `value`, `target` firm | Moves ¥ from the rival straight through Loyalty; a quarter rebounds on your own |
+| `pr` | `value`, `target` own firm | Direct Loyalty recovery |
 | `status` | `status`, `stacks`, `target` | Apply stacks; `durationTicks` for Frozen |
 | `cleanse` | `status`, `stacks`, `target` | Remove stacks |
 | `retrigger` | `target` | Targets fire now, depth +1; optional `then` applies a status to each target after its resolution |
@@ -168,8 +169,8 @@ An effect has a **trigger** (`on`), an **action** (`do`), and depending on the a
 
 Enemy targets use the two-level selector vocabulary from `SIMULATION_SPEC.md` §6 —
 floor: `highest_occupied_floor`, `lowest_occupied_floor`, `most_populated_floor`, `least_populated_floor`, `same_floor_index`, `random_floor`, `all_floors`; unit: `lowest_cooldown_remaining`, `highest_base_value`, `random`, `all`. Own targets use a
-scope and an optional `pick`. Firm targets are for damage and restore, which have no
-unit target (D-32).
+scope and an optional `pick`. Firm targets are for Sales, Poach, Scandal, Curse and PR,
+which have no unit target (D-32).
 
 ### 3.4 Values
 
@@ -182,7 +183,7 @@ unit target (D-32).
 
 ### 3.5 Stats
 
-`stat` names one of: `push`, `anomaly`, `restore`, `flatPush`, `cooldown`, `goodwillCap`, `goodwillCapMult`, `regenPerEvent`, `passiveMult`, `statusStacksBonus`, `burnoutMaxOverride`, `burnoutMaxDelta`, `anomalySelfCost`, `retriggerBonus`, `floorOutput`, `income`, `upkeep`, `rerollCost`, `severance`, `severanceMult`.
+`stat` names one of: `sales`, `poach`, `curse`, `pr`, `flatSales`, `cooldown`, `loyaltyCap`, `loyaltyCapMult`, `regenPerEvent`, `passiveMult`, `statusStacksBonus`, `burnoutMaxOverride`, `burnoutMaxDelta`, `curseSelfCost`, `retriggerBonus`, `floorOutput`, `income`, `upkeep`, `rerollCost`, `severance`, `severanceMult`.
 
 Their sim semantics are in `SIMULATION_SPEC.md` §6.4. `amount` is an integer added;
 `permille` is a multiplier. `floorOutput` also needs `floor` (a floor id, or `*`);
@@ -229,7 +230,7 @@ it is a snapshot field, always empty in v1 (D-13).
   "effects": [
     {
       "on": "ability",
-      "do": "push",
+      "do": "poach",
       "value": 90,
       "target": {
         "side": "enemy",
@@ -252,7 +253,7 @@ it is a snapshot field, always empty in v1 (D-13).
     {
       "on": "static",
       "do": "stat",
-      "stat": "goodwillCap",
+      "stat": "loyaltyCap",
       "subject": {
         "scope": "self"
       },
@@ -290,10 +291,10 @@ A Sales passive is an `economy` effect the sim never reads:
   "effects": [
     {
       "on": "ability",
-      "do": "push",
+      "do": "sales",
       "value": 20,
       "target": {
-        "side": "enemy",
+        "side": "own",
         "scope": "firm"
       },
       "name": "Cold Call"
@@ -309,7 +310,7 @@ A Sales passive is an `economy` effect the sim never reads:
     }
   ],
   "sprite": "emp.telemarketer",
-  "flavor": "Twenty Push every two seconds. Never enough to suppress anything. That is the joke."
+  "flavor": "¥20 every two seconds. Never a big number. That is the joke."
 }
 ```
 
@@ -333,7 +334,7 @@ A ritual result, with a `countsAsDept` and two immunities:
   "effects": [
     {
       "on": "ability",
-      "do": "anomaly",
+      "do": "curse",
       "value": 200,
       "target": {
         "side": "enemy",
@@ -393,7 +394,7 @@ floor-tile sprite.
     {
       "on": "static",
       "do": "stat",
-      "stat": "push",
+      "stat": "sales",
       "subject": {
         "scope": "occupants",
         "dept": [
@@ -454,7 +455,16 @@ longer applies at Tier III". A Tier III clause is the same thing with `fromTier`
     {
       "on": "static",
       "do": "stat",
-      "stat": "push",
+      "stat": "sales",
+      "subject": {
+        "scope": "occupants"
+      },
+      "permille": 1200
+    },
+    {
+      "on": "static",
+      "do": "stat",
+      "stat": "poach",
       "subject": {
         "scope": "occupants"
       },
@@ -698,8 +708,8 @@ slot shows.
 
 Four, and their numbers are here rather than in `rules.json` because a status is
 content — a fifth could be added. `cooldownRatePermillePerStack` is the per-stack
-change to cooldown rate (§8.1 of the sim spec); `pushPenaltyPermillePerStack` and
-`moralePerStackPerEvent` are Burnout's; `onExpire` is Overtime's hangover.
+change to cooldown rate (§8.1 of the sim spec); `outputPenaltyPermillePerStack` and
+`scandalPerStackPerEvent` are Burnout's; `onExpire` is Overtime's hangover.
 
 ```json
 {
@@ -709,8 +719,8 @@ change to cooldown rate (§8.1 of the sim spec); `pushPenaltyPermillePerStack` a
   "durationTicks": 60,
   "expires": true,
   "cooldownRatePermillePerStack": 500,
-  "pushPenaltyPermillePerStack": 0,
-  "moralePerStackPerEvent": 0,
+  "outputPenaltyPermillePerStack": 0,
+  "scandalPerStackPerEvent": 0,
   "onExpire": [
     {
       "status": "status.burnout",
@@ -738,11 +748,11 @@ appropriate, and both ride in the snapshot's `globals`.
 {
   "id": "rider.contractual_obligation",
   "name": "Contractual Obligation",
-  "text": "At the Bell, the firm takes 200 Morale.",
+  "text": "At the Bell, the firm causes itself a 200 Scandal.",
   "effects": [
     {
       "on": "banner",
-      "do": "morale",
+      "do": "scandal",
       "month": 3,
       "value": 200,
       "target": {
@@ -758,17 +768,17 @@ appropriate, and both ride in the snapshot's `globals`.
 {
   "id": "mod.lean",
   "name": "Lean",
-  "text": "Goodwill cap −200; income +¥2 per round.",
+  "text": "Loyalty cap −200; income +¥2 per round.",
   "rivalOnly": false,
   "boardMeeting": {
-    "cost": "−200 Goodwill cap",
+    "cost": "−200 Loyalty cap",
     "benefit": "+¥2 income per round"
   },
   "effects": [
     {
       "on": "static",
       "do": "stat",
-      "stat": "goodwillCap",
+      "stat": "loyaltyCap",
       "subject": {
         "scope": "firm"
       },
@@ -796,7 +806,7 @@ dossier shows:
   "name": "Regulatory Capture",
   "text": "Regen is never suppressed.",
   "rivalOnly": true,
-  "teaches": "The Act 2 boss's signature. Unwinnable without Morale or Anomaly.",
+  "teaches": "The Act 2 boss's signature. Its Loyalty always comes back: answer it with Scandal, Curse, or more Sales.",
   "effects": [
     {
       "on": "static",
@@ -816,7 +826,7 @@ The sim does not know which side is the player. The shop refuses to offer a
 A **founder** is the third modifier-shaped entity. Chosen at run start, it names a
 portrait and a badge in the manifest and carries an `effects` list the sim applies
 exactly as a modifier's, ordered first. In v1 every list is empty — the founder is the
-player's face on the firm panel and beside the Goodwill bar — and it is in the snapshot's
+player's face on the firm panel and beside the Loyalty bar — and it is in the snapshot's
 `globals.founderId` so that a founder gaining a mechanic later is a content edit rather
 than a format migration (D-46). Rival templates draw from a `founderPool`; scripted
 rivals name theirs.

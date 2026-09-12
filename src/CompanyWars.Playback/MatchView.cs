@@ -2,21 +2,22 @@ using CompanyWars.Sim;
 
 namespace CompanyWars.Playback;
 
-/// <summary>What one firm looks like at a tick, derived from the ledger (D-35).</summary>
-public readonly record struct FirmFrame(long Goodwill, long Cap, bool Suppressed, bool Broken);
+/// <summary>What one firm looks like at a tick, derived from the ledger (D-35, D-85).</summary>
+public readonly record struct FirmFrame(long Loyalty, long Cap, long Revenue, bool Suppressed, bool Broken);
 
 /// <summary>What a unit is called on screen.</summary>
 public sealed record UnitInfo(OrderedUnit Unit, string Name, string Dept);
 
 /// <summary>
-/// Playback state is derived, not stored (ARCHITECTURE.md §3): Goodwill at tick t is capAtStart plus the sum of
-/// goodwillDelta for entries with tick &lt;= t. This precomputes per-tick frames once so the screen can seek freely.
+/// Playback state is derived, not stored (ARCHITECTURE.md §3): Loyalty at tick t is capAtStart plus the side's
+/// loyaltyDelta for entries with tick &lt;= t, and Revenue is the side's revenueDelta, where a negative revenueDelta
+/// on one side is the same amount gained by the other (SIMULATION_SPEC.md §16.1). This precomputes per-tick frames
+/// once so the screen can seek freely.
 /// </summary>
 public sealed class MatchView
 {
     private readonly FirmFrame[] _a;
     private readonly FirmFrame[] _b;
-    private readonly long[] _share;
     private readonly int[] _firstEntryAtTick;
 
     public MatchView(MatchResult result, TowerSnapshot a, TowerSnapshot b, RuleSet rules, ContentTable content)
@@ -31,10 +32,9 @@ public sealed class MatchView
         long ticks = rules.QuarterTicks;
         _a = new FirmFrame[ticks];
         _b = new FirmFrame[ticks];
-        _share = new long[ticks];
         _firstEntryAtTick = new int[ticks + 1];
 
-        long ga = CapAtStartA, gb = CapAtStartB, ca = CapAtStartA, cb = CapAtStartB, share = rules.ShareStart;
+        long la = CapAtStartA, lb = CapAtStartB, ca = CapAtStartA, cb = CapAtStartB, ra = 0, rb = 0;
         bool sa = false, sb = false;
         int i = 0;
         for (long t = 0; t < ticks; t++)
@@ -43,9 +43,16 @@ public sealed class MatchView
             while (i < result.Entries.Length && result.Entries[i].Tick == t)
             {
                 LedgerEntry e = result.Entries[i];
-                if (e.TargetSide == "A") { ga += e.GoodwillDelta; ca += e.CapDelta; }
-                else if (e.TargetSide == "B") { gb += e.GoodwillDelta; cb += e.CapDelta; }
-                share += e.ShareDelta;
+                if (e.TargetSide == "A")
+                {
+                    la += e.LoyaltyDelta; ca += e.CapDelta; ra += e.RevenueDelta;
+                    if (e.RevenueDelta < 0) rb -= e.RevenueDelta;
+                }
+                else if (e.TargetSide == "B")
+                {
+                    lb += e.LoyaltyDelta; cb += e.CapDelta; rb += e.RevenueDelta;
+                    if (e.RevenueDelta < 0) ra -= e.RevenueDelta;
+                }
                 if (e.Kind == "regen")
                 {
                     bool suppressed = Array.IndexOf(e.Tags, "suppressed") >= 0;
@@ -53,9 +60,8 @@ public sealed class MatchView
                 }
                 i++;
             }
-            _a[t] = new FirmFrame(ga, ca, sa, ga == 0);
-            _b[t] = new FirmFrame(gb, cb, sb, gb == 0);
-            _share[t] = share;
+            _a[t] = new FirmFrame(la, ca, ra, sa, la == 0);
+            _b[t] = new FirmFrame(lb, cb, rb, sb, lb == 0);
         }
         _firstEntryAtTick[ticks] = i;
     }
@@ -70,8 +76,14 @@ public sealed class MatchView
 
     public FirmFrame FrameA(long tick) => _a[Clamp(tick)];
     public FirmFrame FrameB(long tick) => _b[Clamp(tick)];
-    public long Share(long tick) => _share[Clamp(tick)];
     public int Month(long tick) => Rules.Month(Clamp(tick));
+
+    /// <summary>Side A's share of the quarter's takings so far, in permille; 500 before either firm has earned.</summary>
+    public long RevenueShare(long tick)
+    {
+        long a = FrameA(tick).Revenue, b = FrameB(tick).Revenue;
+        return a + b == 0 ? 500 : a * 1000 / (a + b);
+    }
 
     /// <summary>The entries emitted at exactly this tick.</summary>
     public ArraySegment<LedgerEntry> EntriesAt(long tick)
@@ -89,7 +101,7 @@ public sealed class MatchView
         return new ArraySegment<LedgerEntry>(Result.Entries, _firstEntryAtTick[f], _firstEntryAtTick[t + 1] - _firstEntryAtTick[f]);
     }
 
-    /// <summary>The first tick at which the side's Goodwill reached zero, or -1.</summary>
+    /// <summary>The first tick at which the side's Loyalty reached zero, or -1. From then on its Revenue was open to Poaching.</summary>
     public long BreakTick(string side)
     {
         FirmFrame[] frames = side == "A" ? _a : _b;

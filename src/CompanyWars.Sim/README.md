@@ -29,7 +29,7 @@ no clock, no `System.Random`, no I/O, no floating-point type anywhere in the ass
 These are decisions the text does not settle. Each is deterministic and pinned by a fixture;
 changing one is a rule change (§18.8) and regenerates the fixtures under the fixture guard.
 
-1. **Phase order within a tick is A, B, D, C, E, F** (D-62): readiness is judged on the
+1. **Phase order within a tick is A, B, D, C, E, F** (D-62; F does nothing since revision 2): readiness is judged on the
    progress accumulated through the previous tick, then cooldowns advance, so a fresh
    80-tick cooldown fires on tick 80. §7 once listed the advance first; the human ruled
    for §20's reading and §7 now says so.
@@ -40,7 +40,7 @@ changing one is a rule change (§18.8) and regenerates the fixtures under the fi
    (Burnout: count; Overtime and Bureaucracy: the freshest expiries first; Frozen: clears)
    and emits a `status` entry per unit *changed*, with negative `stacks` and the tag
    `cleanse`, as §11.3's Water Cooler prescribes.
-4. **The Tenure step applies to room-granted `push`, `anomaly` and `restore` permille**
+4. **The Tenure step applies to room-granted `sales`, `poach`, `curse` and `pr` permille**
    (§5.4 `roomAura`), not to `cooldown`. `CONTENT_SCHEMA.md` §3.5 and `GAME_DESIGN.md` §7.1
    say "every multiplier the room grants", which would make a Tier III Open Plan's cooldown
    ×0.9 into ×1.2. The spec wins for what the sim computes; the two documents need a line.
@@ -56,7 +56,7 @@ changing one is a rule change (§18.8) and regenerates the fixtures under the fi
    then its enclosing room's banner effect on that unit), so a Server Room burns each
    occupant exactly once.
 9. **Static permille grants chain in a fixed order** — rooms, furniture, employees, riders,
-   founder, modifiers — flooring after each, so a modifier's `push` ×1.1 lands on top of the
+   founder, modifiers — flooring after each, so a modifier's `sales` ×1.1 lands on top of the
    room aura. Flags and sums are order-free; overrides (Old Money's Tenure tier) run first.
 10. **`abilityId`** is `ability.` plus the ability's name in lowercase with non-alphanumerics
     collapsed to `_` (`Cease & Desist` → `ability.cease_desist`); furniture, rooms, riders

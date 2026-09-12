@@ -15,22 +15,19 @@ public sealed record RuleSet(
     long TicksPerSecond,
     long QuarterTicks,
     long[] MonthStart,
-    long[] PushMult,
+    long[] RushMult,
     long[] RegenMult,
-    // §3.2 Goodwill and Market Share
-    long GoodwillBaseConstant,
-    long GoodwillBasePerRound,
+    // §3.2 Client Loyalty and Revenue
+    long LoyaltyBaseConstant,
+    long LoyaltyBasePerRound,
     long RegenBasePermille,
     long RegenInterval,
     long RegenSuppressWindow,
     long SuppressThresholdPermille,
-    long MoraleInterval,
-    long MoralePerStack,
-    long MoraleRatePermille,
-    long AnomalySelfCostPermille,
-    long ShareTotal,
-    long ShareStart,
-    long[] SpPerPushPermille,
+    long ScandalInterval,
+    long ScandalPerStack,
+    long ScandalTransferPermille,
+    long CurseSelfCostPermille,
     // §3.3 Floors and rooms. Floor arrays are indexed by FLOOR_INDEX + 1 (B1, G, F1, F2, F3).
     string[] FloorIds,
     long[] FloorMult,
@@ -42,7 +39,7 @@ public sealed record RuleSet(
     long B1LeaseCapTax,
     // §3.4 Status effects
     long BurnoutMax,
-    long BurnoutPushPenaltyPermille,
+    long BurnoutOutputPenaltyPermille,
     long OvertimeMax,
     long OvertimeDuration,
     long OvertimeRatePermille,
@@ -51,7 +48,7 @@ public sealed record RuleSet(
     long BureaucracyRatePermille,
     long RetriggerDepthMax)
 {
-    public long GoodwillBase(long round) => GoodwillBaseConstant + GoodwillBasePerRound * round;
+    public long LoyaltyBase(long round) => LoyaltyBaseConstant + LoyaltyBasePerRound * round;
 
     /// <summary>The largest month index whose start tick is at or before <paramref name="tick"/>.</summary>
     public int Month(long tick)
@@ -86,22 +83,19 @@ public sealed record RuleSet(
         Canon.Field(sb, "TICKS_PER_SECOND", TicksPerSecond); sb.Append(',');
         Canon.Field(sb, "QUARTER_TICKS", QuarterTicks); sb.Append(',');
         Canon.Field(sb, "MONTH_START", MonthStart); sb.Append(',');
-        Canon.Field(sb, "PUSH_MULT", PushMult); sb.Append(',');
+        Canon.Field(sb, "RUSH_MULT", RushMult); sb.Append(',');
         Canon.Field(sb, "REGEN_MULT", RegenMult); sb.Append(',');
-        sb.Append("\"GOODWILL_BASE\":{");
-        Canon.Field(sb, "constant", GoodwillBaseConstant); sb.Append(',');
-        Canon.Field(sb, "perRound", GoodwillBasePerRound); sb.Append("},");
+        sb.Append("\"LOYALTY_BASE\":{");
+        Canon.Field(sb, "constant", LoyaltyBaseConstant); sb.Append(',');
+        Canon.Field(sb, "perRound", LoyaltyBasePerRound); sb.Append("},");
         Canon.Field(sb, "REGEN_BASE_PERMILLE", RegenBasePermille); sb.Append(',');
         Canon.Field(sb, "REGEN_INTERVAL", RegenInterval); sb.Append(',');
         Canon.Field(sb, "REGEN_SUPPRESS_WINDOW", RegenSuppressWindow); sb.Append(',');
         Canon.Field(sb, "SUPPRESS_THRESHOLD_PERMILLE", SuppressThresholdPermille); sb.Append(',');
-        Canon.Field(sb, "MORALE_INTERVAL", MoraleInterval); sb.Append(',');
-        Canon.Field(sb, "MORALE_PER_STACK", MoralePerStack); sb.Append(',');
-        Canon.Field(sb, "MORALE_RATE_PERMILLE", MoraleRatePermille); sb.Append(',');
-        Canon.Field(sb, "ANOMALY_SELF_COST_PERMILLE", AnomalySelfCostPermille); sb.Append(',');
-        Canon.Field(sb, "SHARE_TOTAL", ShareTotal); sb.Append(',');
-        Canon.Field(sb, "SHARE_START", ShareStart); sb.Append(',');
-        Canon.Field(sb, "SP_PER_PUSH_PERMILLE", SpPerPushPermille); sb.Append(',');
+        Canon.Field(sb, "SCANDAL_INTERVAL", ScandalInterval); sb.Append(',');
+        Canon.Field(sb, "SCANDAL_PER_STACK", ScandalPerStack); sb.Append(',');
+        Canon.Field(sb, "SCANDAL_TRANSFER_PERMILLE", ScandalTransferPermille); sb.Append(',');
+        Canon.Field(sb, "CURSE_SELF_COST_PERMILLE", CurseSelfCostPermille); sb.Append(',');
         sb.Append("\"FLOOR_MULT\":{");
         for (int i = 0; i < FloorIds.Length; i++)
         {
@@ -116,7 +110,7 @@ public sealed record RuleSet(
         Canon.Field(sb, "PORTAL_EMPLOYEE_CAP_TAX", PortalEmployeeCapTax); sb.Append(',');
         Canon.Field(sb, "B1_LEASE_CAP_TAX", B1LeaseCapTax); sb.Append(',');
         Canon.Field(sb, "BURNOUT_MAX", BurnoutMax); sb.Append(',');
-        Canon.Field(sb, "BURNOUT_PUSH_PENALTY_PERMILLE", BurnoutPushPenaltyPermille); sb.Append(',');
+        Canon.Field(sb, "BURNOUT_OUTPUT_PENALTY_PERMILLE", BurnoutOutputPenaltyPermille); sb.Append(',');
         Canon.Field(sb, "OVERTIME_MAX", OvertimeMax); sb.Append(',');
         Canon.Field(sb, "OVERTIME_DURATION", OvertimeDuration); sb.Append(',');
         Canon.Field(sb, "OVERTIME_RATE_PERMILLE", OvertimeRatePermille); sb.Append(',');

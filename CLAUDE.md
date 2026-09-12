@@ -71,6 +71,6 @@ python3 tools/dev/ui.py                           # builds the UI chrome from to
 ## Gotchas
 - Round = fight. Campaign interludes do not advance the round (D-31).
 - A room is a zone over tiles, not an object consuming them (D-12).
-- Push has no target; only status and retrigger effects have selectors (D-32).
+- Sales and Poach have no unit target (a firm, not a unit); only status and retrigger effects have selectors (D-32, D-85).
 - `globals.founderId` is in every snapshot; a founder's effects apply like a modifier's and are empty in v1 (D-46).
 - The sixteen-fight loop against templated rivals *is* ranked's loop (D-49). Do not build campaign-only shortcuts into it.

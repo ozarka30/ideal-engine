@@ -6,7 +6,7 @@
   "round": 12,
   "gimmick": "mod.g_regulatory_capture",
   "exemptFromBudget": true,
-  "note": "Act 2 boss. Regen is never suppressed; two Legal Departments at Tier I and II; a Reception full of Paralegals at Tier III. Push alone cannot beat it before the Bell. Bring Morale or Anomaly.",
+  "note": "Act 2 boss. Regen is never suppressed; two Legal Departments at Tier I and II; a Reception full of Paralegals at Tier III. Poaching alone cannot break it; out-earn it, or bring Scandal or Curse.",
   "snapshot": {
     "schemaVersion": 1,
     "contentVersion": "0.1.0",

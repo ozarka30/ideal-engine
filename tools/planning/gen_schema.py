@@ -28,11 +28,11 @@ UNIT_SEL = ["lowest_cooldown_remaining", "highest_base_value", "random", "all"]
 OWN_SCOPE = ["self", "adjacent", "sameFloor", "occupants", "all"]
 SUBJECT_SCOPE = ["self", "adjacent", "sameFloor", "occupants", "all", "firm", "allRooms"]
 ON = ["ability", "afterFire", "static", "periodic", "banner", "economy", "onHire", "onAccept"]
-DO = ["push", "anomaly", "morale", "restore", "status", "cleanse", "retrigger", "stat", "flag",
+DO = ["sales", "poach", "scandal", "curse", "pr", "status", "cleanse", "retrigger", "stat", "flag",
       "override", "consumeAdjacentFurniture", "roomTenure"]
-STATS = ["push", "anomaly", "restore", "flatPush", "cooldown", "goodwillCap", "goodwillCapMult",
+STATS = ["sales", "poach", "curse", "pr", "flatSales", "cooldown", "loyaltyCap", "loyaltyCapMult",
          "regenPerEvent", "passiveMult", "statusStacksBonus", "burnoutMaxOverride", "burnoutMaxDelta",
-         "anomalySelfCost", "retriggerBonus", "floorOutput", "income", "upkeep", "rerollCost",
+         "curseSelfCost", "retriggerBonus", "floorOutput", "income", "upkeep", "rerollCost",
          "severance", "severanceMult"]
 FLAGS = ["untargetable", "bureaucracyImmune", "frozenImmune", "burnoutImmune", "overtimePermanent",
          "cannotBeRetriggered", "wholeFloorAdjacency", "capProtected", "regenNeverSuppressed",
@@ -82,8 +82,8 @@ def when_on(on_, req):
 defs["Effect"] = {
     "type": "object", "properties": effect_props, "required": ["on", "do"], "additionalProperties": False,
     "allOf": [
-        when("push", ["value", "target"]), when("anomaly", ["value", "target"]), when("morale", ["value", "target"]),
-        when("restore", ["value", "target"]),
+        when("sales", ["value", "target"]), when("poach", ["value", "target"]), when("scandal", ["value", "target"]),
+        when("curse", ["value", "target"]), when("pr", ["value", "target"]),
         when("status", ["status", "stacks", "target"]), when("cleanse", ["status", "stacks", "target"]),
         when("retrigger", ["target"]),
         when("stat", ["stat", "subject"], anyOf=[{"required": ["amount"]}, {"required": ["permille"]}]),
@@ -149,26 +149,25 @@ defs["Floor"] = obj(OD([
 
 defs["Status"] = obj(OD([
     ("id", ID), ("name", STR), ("maxStacks", {"type": "integer", "minimum": 1}), ("durationTicks", {"oneOf": [{"type": "null"}, {"type": "integer", "minimum": 1}]}),
-    ("expires", BOOL), ("cooldownRatePermillePerStack", INT), ("pushPenaltyPermillePerStack", NONNEG), ("moralePerStackPerEvent", NONNEG),
+    ("expires", BOOL), ("cooldownRatePermillePerStack", INT), ("outputPenaltyPermillePerStack", NONNEG), ("scandalPerStackPerEvent", NONNEG),
     ("onExpire", arr(ref("Then"))), ("tone", STR), ("text", STR),
-]), ["id", "name", "maxStacks", "durationTicks", "expires", "cooldownRatePermillePerStack", "pushPenaltyPermillePerStack", "moralePerStackPerEvent", "onExpire", "tone", "text"])
+]), ["id", "name", "maxStacks", "durationTicks", "expires", "cooldownRatePermillePerStack", "outputPenaltyPermillePerStack", "scandalPerStackPerEvent", "onExpire", "tone", "text"])
 
 defs["RuleSet"] = obj(OD([
     ("id", ID), ("schemaVersion", {"type": "integer", "minimum": 1}),
-    ("time", obj(OD([("ticksPerSecond", NONNEG), ("quarterTicks", NONNEG), ("monthStart", arr(NONNEG, 4)), ("pushMult", arr(PERMILLE, 4)), ("regenMult", arr(PERMILLE, 4))]),
-                 ["ticksPerSecond", "quarterTicks", "monthStart", "pushMult", "regenMult"])),
-    ("goodwill", obj(OD([("baseCap", obj(OD([("constant", NONNEG), ("perRound", NONNEG)]), ["constant", "perRound"])), ("regenBasePermille", PERMILLE),
-                         ("regenInterval", NONNEG), ("regenSuppressWindow", NONNEG), ("suppressThresholdPermille", PERMILLE)]),
-                     ["baseCap", "regenBasePermille", "regenInterval", "regenSuppressWindow", "suppressThresholdPermille"])),
-    ("morale", obj(OD([("interval", NONNEG), ("perStack", NONNEG), ("ratePermille", PERMILLE)]), ["interval", "perStack", "ratePermille"])),
-    ("anomaly", obj(OD([("selfCostPermille", PERMILLE)]), ["selfCostPermille"])),
-    ("share", obj(OD([("total", NONNEG), ("start", NONNEG), ("spPerPushPermille", arr(PERMILLE, 16))]), ["total", "start", "spPerPushPermille"])),
+    ("time", obj(OD([("ticksPerSecond", NONNEG), ("quarterTicks", NONNEG), ("monthStart", arr(NONNEG, 4)), ("rushMult", arr(PERMILLE, 4)), ("regenMult", arr(PERMILLE, 4))]),
+                 ["ticksPerSecond", "quarterTicks", "monthStart", "rushMult", "regenMult"])),
+    ("loyalty", obj(OD([("baseCap", obj(OD([("constant", NONNEG), ("perRound", NONNEG)]), ["constant", "perRound"])), ("regenBasePermille", PERMILLE),
+                        ("regenInterval", NONNEG), ("regenSuppressWindow", NONNEG), ("suppressThresholdPermille", PERMILLE)]),
+                    ["baseCap", "regenBasePermille", "regenInterval", "regenSuppressWindow", "suppressThresholdPermille"])),
+    ("scandal", obj(OD([("interval", NONNEG), ("perStack", NONNEG), ("transferPermille", PERMILLE)]), ["interval", "perStack", "transferPermille"])),
+    ("curse", obj(OD([("selfCostPermille", PERMILLE)]), ["selfCostPermille"])),
     ("floors", obj(OD([("corridorMult", PERMILLE)]), ["corridorMult"])),
     ("tenure", obj(OD([("tierRounds", arr(NONNEG, 3)), ("stepPermille", PERMILLE), ("staffedPermille", PERMILLE)]), ["tierRounds", "stepPermille", "staffedPermille"])),
     ("portal", obj(OD([("receptionCapPerOccupant", NONNEG), ("employeeCapTax", NONNEG), ("b1LeaseCapTax", NONNEG)]), ["receptionCapPerOccupant", "employeeCapTax", "b1LeaseCapTax"])),
     ("retrigger", obj(OD([("depthMax", NONNEG)]), ["depthMax"])),
-    ("upkeep", obj(OD([("goodwillPerUnpaidBudget", NONNEG)]), ["goodwillPerUnpaidBudget"])),
-]), ["id", "schemaVersion", "time", "goodwill", "morale", "anomaly", "share", "floors", "tenure", "portal", "retrigger", "upkeep"])
+    ("upkeep", obj(OD([("loyaltyPerUnpaidBudget", NONNEG)]), ["loyaltyPerUnpaidBudget"])),
+]), ["id", "schemaVersion", "time", "loyalty", "scandal", "curse", "floors", "tenure", "portal", "retrigger", "upkeep"])
 
 TIERMAP = {"type": "object", "patternProperties": {"^(1|2|3|extraplanar)$": NONNEG}, "additionalProperties": False}
 defs["Economy"] = obj(OD([

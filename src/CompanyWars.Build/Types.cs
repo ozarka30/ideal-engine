@@ -6,7 +6,7 @@ namespace CompanyWars.Build;
 public sealed record Rival(string Name, string Archetype, string SourceId, TowerSnapshot Snapshot);
 
 /// <summary>One fight's record in the run history (ARCHITECTURE.md §4.1).</summary>
-public sealed record FightRecord(long Round, string RivalName, string RivalArchetype, uint Seed, string Winner, long EndTick, long FinalShare, string StateHash);
+public sealed record FightRecord(long Round, string RivalName, string RivalArchetype, uint Seed, string Winner, long EndTick, SideValues FinalRevenue, string StateHash);
 
 /// <summary>One bag: the eligible card ids for a tab, shuffled; draws come off the front; refilled only when empty (D-54).</summary>
 public sealed record BagState(string[] Remaining);

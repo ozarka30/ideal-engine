@@ -265,10 +265,11 @@
         "do": {
           "type": "string",
           "enum": [
-            "push",
-            "anomaly",
-            "morale",
-            "restore",
+            "sales",
+            "poach",
+            "scandal",
+            "curse",
+            "pr",
             "status",
             "cleanse",
             "retrigger",
@@ -306,19 +307,20 @@
         "stat": {
           "type": "string",
           "enum": [
-            "push",
-            "anomaly",
-            "restore",
-            "flatPush",
+            "sales",
+            "poach",
+            "curse",
+            "pr",
+            "flatSales",
             "cooldown",
-            "goodwillCap",
-            "goodwillCapMult",
+            "loyaltyCap",
+            "loyaltyCapMult",
             "regenPerEvent",
             "passiveMult",
             "statusStacksBonus",
             "burnoutMaxOverride",
             "burnoutMaxDelta",
-            "anomalySelfCost",
+            "curseSelfCost",
             "retriggerBonus",
             "floorOutput",
             "income",
@@ -418,7 +420,7 @@
           "if": {
             "properties": {
               "do": {
-                "const": "push"
+                "const": "sales"
               }
             },
             "required": [
@@ -436,7 +438,7 @@
           "if": {
             "properties": {
               "do": {
-                "const": "anomaly"
+                "const": "poach"
               }
             },
             "required": [
@@ -454,7 +456,7 @@
           "if": {
             "properties": {
               "do": {
-                "const": "morale"
+                "const": "scandal"
               }
             },
             "required": [
@@ -472,7 +474,25 @@
           "if": {
             "properties": {
               "do": {
-                "const": "restore"
+                "const": "curse"
+              }
+            },
+            "required": [
+              "do"
+            ]
+          },
+          "then": {
+            "required": [
+              "value",
+              "target"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "do": {
+                "const": "pr"
               }
             },
             "required": [
@@ -1400,11 +1420,11 @@
         "cooldownRatePermillePerStack": {
           "type": "integer"
         },
-        "pushPenaltyPermillePerStack": {
+        "outputPenaltyPermillePerStack": {
           "type": "integer",
           "minimum": 0
         },
-        "moralePerStackPerEvent": {
+        "scandalPerStackPerEvent": {
           "type": "integer",
           "minimum": 0
         },
@@ -1429,8 +1449,8 @@
         "durationTicks",
         "expires",
         "cooldownRatePermillePerStack",
-        "pushPenaltyPermillePerStack",
-        "moralePerStackPerEvent",
+        "outputPenaltyPermillePerStack",
+        "scandalPerStackPerEvent",
         "onExpire",
         "tone",
         "text"
@@ -1467,7 +1487,7 @@
               },
               "minItems": 4
             },
-            "pushMult": {
+            "rushMult": {
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1488,12 +1508,12 @@
             "ticksPerSecond",
             "quarterTicks",
             "monthStart",
-            "pushMult",
+            "rushMult",
             "regenMult"
           ],
           "additionalProperties": false
         },
-        "goodwill": {
+        "loyalty": {
           "type": "object",
           "properties": {
             "baseCap": {
@@ -1540,7 +1560,7 @@
           ],
           "additionalProperties": false
         },
-        "morale": {
+        "scandal": {
           "type": "object",
           "properties": {
             "interval": {
@@ -1551,7 +1571,7 @@
               "type": "integer",
               "minimum": 0
             },
-            "ratePermille": {
+            "transferPermille": {
               "type": "integer",
               "minimum": 0
             }
@@ -1559,11 +1579,11 @@
           "required": [
             "interval",
             "perStack",
-            "ratePermille"
+            "transferPermille"
           ],
           "additionalProperties": false
         },
-        "anomaly": {
+        "curse": {
           "type": "object",
           "properties": {
             "selfCostPermille": {
@@ -1573,33 +1593,6 @@
           },
           "required": [
             "selfCostPermille"
-          ],
-          "additionalProperties": false
-        },
-        "share": {
-          "type": "object",
-          "properties": {
-            "total": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "start": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "spPerPushPermille": {
-              "type": "array",
-              "items": {
-                "type": "integer",
-                "minimum": 0
-              },
-              "minItems": 16
-            }
-          },
-          "required": [
-            "total",
-            "start",
-            "spPerPushPermille"
           ],
           "additionalProperties": false
         },
@@ -1682,13 +1675,13 @@
         "upkeep": {
           "type": "object",
           "properties": {
-            "goodwillPerUnpaidBudget": {
+            "loyaltyPerUnpaidBudget": {
               "type": "integer",
               "minimum": 0
             }
           },
           "required": [
-            "goodwillPerUnpaidBudget"
+            "loyaltyPerUnpaidBudget"
           ],
           "additionalProperties": false
         }
@@ -1697,10 +1690,9 @@
         "id",
         "schemaVersion",
         "time",
-        "goodwill",
-        "morale",
-        "anomaly",
-        "share",
+        "loyalty",
+        "scandal",
+        "curse",
         "floors",
         "tenure",
         "portal",

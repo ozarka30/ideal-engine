@@ -16,10 +16,10 @@
       "effects": [
         {
           "on": "ability",
-          "do": "push",
+          "do": "sales",
           "value": 35,
           "target": {
-            "side": "enemy",
+            "side": "own",
             "scope": "firm"
           }
         }
@@ -43,10 +43,10 @@
       "effects": [
         {
           "on": "ability",
-          "do": "push",
+          "do": "sales",
           "value": 60,
           "target": {
-            "side": "enemy",
+            "side": "own",
             "scope": "firm"
           },
           "name": "Ship Feature"
@@ -69,10 +69,10 @@
       "effects": [
         {
           "on": "ability",
-          "do": "push",
+          "do": "sales",
           "value": 25,
           "target": {
-            "side": "enemy",
+            "side": "own",
             "scope": "firm"
           },
           "name": "Bug Report"
@@ -98,10 +98,10 @@
       "effects": [
         {
           "on": "ability",
-          "do": "push",
+          "do": "sales",
           "value": 150,
           "target": {
-            "side": "enemy",
+            "side": "own",
             "scope": "firm"
           },
           "name": "Ship Feature"
@@ -124,10 +124,10 @@
       "effects": [
         {
           "on": "ability",
-          "do": "push",
+          "do": "sales",
           "value": 90,
           "target": {
-            "side": "enemy",
+            "side": "own",
             "scope": "firm"
           },
           "name": "Deploy"
@@ -164,10 +164,10 @@
       "effects": [
         {
           "on": "ability",
-          "do": "push",
+          "do": "sales",
           "value": 100,
           "target": {
-            "side": "enemy",
+            "side": "own",
             "scope": "firm"
           },
           "name": "Reboot"
@@ -198,10 +198,10 @@
       "effects": [
         {
           "on": "ability",
-          "do": "push",
+          "do": "sales",
           "value": 400,
           "target": {
-            "side": "enemy",
+            "side": "own",
             "scope": "firm"
           },
           "name": "Refactor"
@@ -238,10 +238,10 @@
       "effects": [
         {
           "on": "ability",
-          "do": "push",
+          "do": "sales",
           "value": 250,
           "target": {
-            "side": "enemy",
+            "side": "own",
             "scope": "firm"
           },
           "name": "Roadmap"
@@ -289,7 +289,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "self"
           },
@@ -325,7 +325,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "self"
           },
@@ -349,7 +349,7 @@
       "effects": [
         {
           "on": "ability",
-          "do": "push",
+          "do": "poach",
           "value": 90,
           "target": {
             "side": "enemy",
@@ -372,7 +372,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "self"
           },
@@ -405,7 +405,7 @@
       "effects": [
         {
           "on": "ability",
-          "do": "push",
+          "do": "poach",
           "value": 130,
           "target": {
             "side": "enemy",
@@ -416,7 +416,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "self"
           },
@@ -454,7 +454,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "self"
           },
@@ -487,7 +487,7 @@
       "effects": [
         {
           "on": "ability",
-          "do": "restore",
+          "do": "pr",
           "value": 80,
           "target": {
             "side": "own",
@@ -506,7 +506,7 @@
         }
       ],
       "sprite": "emp.recruiter",
-      "flavor": "Restores Goodwill. Has a lanyard."
+      "flavor": "Rebuilds Loyalty. Has a lanyard."
     },
     {
       "id": "emp.office_manager",
@@ -534,7 +534,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "self"
           },
@@ -558,7 +558,7 @@
       "effects": [
         {
           "on": "ability",
-          "do": "restore",
+          "do": "pr",
           "value": 150,
           "target": {
             "side": "own",
@@ -631,7 +631,7 @@
       "effects": [
         {
           "on": "ability",
-          "do": "restore",
+          "do": "pr",
           "value": 300,
           "target": {
             "side": "own",
@@ -666,10 +666,10 @@
       "effects": [
         {
           "on": "ability",
-          "do": "push",
+          "do": "sales",
           "value": 20,
           "target": {
-            "side": "enemy",
+            "side": "own",
             "scope": "firm"
           },
           "name": "Cold Call"
@@ -685,7 +685,7 @@
         }
       ],
       "sprite": "emp.telemarketer",
-      "flavor": "Twenty Push every two seconds. Never enough to suppress anything. That is the joke."
+      "flavor": "¥20 every two seconds. Never a big number. That is the joke."
     },
     {
       "id": "emp.sales_rep",
@@ -701,10 +701,10 @@
       "effects": [
         {
           "on": "ability",
-          "do": "push",
+          "do": "sales",
           "value": 40,
           "target": {
-            "side": "enemy",
+            "side": "own",
             "scope": "firm"
           },
           "name": "Cold Call"
@@ -720,7 +720,7 @@
         }
       ],
       "sprite": "emp.sales_rep",
-      "flavor": "Grows the budget between fights and chips at Goodwill during them."
+      "flavor": "Grows the budget between fights and the Revenue during them."
     },
     {
       "id": "emp.account_manager",
@@ -736,10 +736,10 @@
       "effects": [
         {
           "on": "ability",
-          "do": "push",
+          "do": "sales",
           "value": 110,
           "target": {
-            "side": "enemy",
+            "side": "own",
             "scope": "firm"
           },
           "name": "Close Deal"
@@ -792,7 +792,7 @@
         }
       ],
       "sprite": "emp.headhunter",
-      "flavor": "Burns out their best person by offering them a job. Morale damage does not appear on a balance sheet."
+      "flavor": "Burns out their best person by offering them a job. A Scandal does not appear on a balance sheet until it does."
     },
     {
       "id": "emp.sales_director",
@@ -808,14 +808,14 @@
       "effects": [
         {
           "on": "ability",
-          "do": "push",
+          "do": "sales",
           "value": {
             "base": 300,
             "perTag": "sales",
             "each": 50
           },
           "target": {
-            "side": "enemy",
+            "side": "own",
             "scope": "firm"
           },
           "name": "Quarterly Target"
@@ -847,17 +847,17 @@
       "effects": [
         {
           "on": "ability",
-          "do": "push",
+          "do": "sales",
           "value": 200,
           "target": {
-            "side": "enemy",
+            "side": "own",
             "scope": "firm"
           },
           "name": "Enterprise Deal"
         },
         {
           "on": "afterFire",
-          "do": "restore",
+          "do": "pr",
           "value": 100,
           "target": {
             "side": "own",
@@ -1055,7 +1055,7 @@
       "effects": [
         {
           "on": "ability",
-          "do": "anomaly",
+          "do": "curse",
           "value": 90,
           "target": {
             "side": "enemy",
@@ -1094,7 +1094,7 @@
       "effects": [
         {
           "on": "ability",
-          "do": "anomaly",
+          "do": "curse",
           "value": 60,
           "target": {
             "side": "enemy",
@@ -1132,7 +1132,7 @@
       "effects": [
         {
           "on": "ability",
-          "do": "anomaly",
+          "do": "curse",
           "value": {
             "permilleOfTargetCap": 150
           },
@@ -1152,7 +1152,7 @@
         }
       ],
       "sprite": "emp.x_auditor",
-      "flavor": "Deals 15% of the rival's Goodwill cap, straight to the bar. Cannot be hurried."
+      "flavor": "Curses 15% of the rival's Loyalty cap in ¥ straight out of their Revenue. Cannot be hurried."
     },
     {
       "id": "emp.x_fax_spirit",
@@ -1168,7 +1168,7 @@
       "effects": [
         {
           "on": "ability",
-          "do": "anomaly",
+          "do": "curse",
           "value": 40,
           "target": {
             "side": "enemy",
@@ -1207,7 +1207,7 @@
       "effects": [
         {
           "on": "ability",
-          "do": "anomaly",
+          "do": "curse",
           "value": 30,
           "target": {
             "side": "enemy",
@@ -1245,7 +1245,7 @@
       "effects": [
         {
           "on": "ability",
-          "do": "anomaly",
+          "do": "curse",
           "value": 200,
           "target": {
             "side": "enemy",
@@ -1289,7 +1289,7 @@
       "effects": [
         {
           "on": "ability",
-          "do": "anomaly",
+          "do": "curse",
           "value": 600,
           "target": {
             "side": "enemy",
@@ -1300,7 +1300,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "self"
           },
@@ -1308,7 +1308,7 @@
         }
       ],
       "sprite": "emp.x_the_chairman",
-      "flavor": "Six hundred Anomaly every fifteen seconds. The firm's reputation pays for the chair."
+      "flavor": "A ¥600 Curse every fifteen seconds. The firm's Loyalty pays for the chair."
     },
     {
       "id": "emp.x_the_partner",
@@ -1326,7 +1326,7 @@
       "effects": [
         {
           "on": "ability",
-          "do": "anomaly",
+          "do": "curse",
           "value": 250,
           "target": {
             "side": "enemy",
@@ -1337,7 +1337,7 @@
         {
           "on": "static",
           "do": "stat",
-          "stat": "goodwillCap",
+          "stat": "loyaltyCap",
           "subject": {
             "scope": "self"
           },
@@ -1363,7 +1363,7 @@
       "effects": [
         {
           "on": "ability",
-          "do": "anomaly",
+          "do": "curse",
           "value": 50,
           "target": {
             "side": "enemy",
@@ -1403,7 +1403,7 @@
       "effects": [
         {
           "on": "ability",
-          "do": "anomaly",
+          "do": "curse",
           "value": 80,
           "target": {
             "side": "enemy",
