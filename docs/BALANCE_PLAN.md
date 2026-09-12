@@ -145,7 +145,7 @@ The race renamed four of them (D-86); the template ids follow (`rival.t_fortress
 | --- | --- | --- | --- | --- |
 | **generalist** | generalist | Open Plan Engineering, a Sales Rep, a Poacher, a Recruiter's PR | Nothing in particular | Nothing in particular. The median |
 | **earner** | economy | Engineering and Sales on Sales Floors, income | A quiet quarter | Raiders — its pile is the prize |
-| **fortress** | turtle | Legal Departments, HR PR, Reception full of Paralegals | Poachers | Scandal — it ignores Loyalty |
+| **fortress** | turtle | Legal Departments whose staff bill their hours (D-89), HR PR, Reception full of Paralegals | Poachers | Scandal — it ignores Loyalty |
 | **raider** | burst | Account Managers, Patent Attorneys and Counsel, timed for the rush | A rival with Revenue and no Loyalty | Fortress Loyalty and regen |
 | **scandal** | burnout | Consultants, Headhunters, Training Rooms, HR to clean up | A rival that paid for Loyalty | Cleanse and tempo |
 | **management** | management | Boardroom Directors and Team Leads, earners to retrigger; no stack of Middle Managers, whose Overtime hangover burns the firm out in a race | Adjacency | Raiders and scandal |

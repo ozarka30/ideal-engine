@@ -453,9 +453,10 @@ the selector vocabulary.
 
 | Name | Tier | Cooldown | Ability | Passive |
 | --- | --- | --- | --- | --- |
-| Paralegal | 1 | 3.0 | **Paperwork** — 1 Bureaucracy to `most_populated / lowest_cooldown_remaining` | +100 Goodwill cap |
-| Counsel | 2 | 6.0 | **Cease & Desist** — 90 Push, then 2 Bureaucracy to `highest_occupied / highest_base_value` | +250 cap, +40 regen per event |
-| General Counsel | 3 | 10.0 | **Injunction** — Frozen 3.0s on `highest_occupied / highest_base_value` | +500 cap, +80 regen per event |
+| Paralegal | 1 | 3.0 | **Billable Hours** — ¥40 Sales, then 1 Bureaucracy to `most_populated / lowest_cooldown_remaining` | +100 Loyalty cap |
+| Compliance Officer | 1 | 4.0 | **Billable Hours** — ¥40 Sales, then remove 1 Bureaucracy from each adjacent own employee | +150 Loyalty cap |
+| Counsel | 2 | 6.0 | **Cease & Desist** — Poach 90, then 2 Bureaucracy to `highest_occupied / highest_base_value` | +250 cap, +40 regen per event |
+| General Counsel | 3 | 10.0 | **Billable Hours** — ¥200 Sales, then Frozen 3.0s on `highest_occupied / highest_base_value` | +500 cap, +80 regen per event |
 
 **HR**
 
@@ -492,9 +493,10 @@ where Middle Management lives in the tower, and it is why the landing column mat
 
 - **Engineering** wants a room and furniture around it: an Architect in a Tier II
   Server Room next to a Whiteboard and a 90s PC is the game's Push ceiling.
-- **Legal** stacks Loyalty and regen so that Poaching cannot get through, and poaches
-  back with Cease & Desist — and then loses to a Headhunter and a Consultant, because
-  Scandal does not care about Loyalty.
+- **Legal** bills its hours — a Paralegal, Compliance Officer or General Counsel earns
+  before it files, clears or freezes (D-89) — and stacks Loyalty and regen so that
+  Poaching cannot get through; Cease & Desist poaches back. It loses to a Headhunter and
+  a Consultant, because Scandal does not care about Loyalty.
 - **HR** keeps a Burnout-heavy own build alive: a Director's Reorg burns people out;
   an HR Manager on the same floor un-burns them.
 - **Sales** is the earner that also happens to beat the fortress: Loyalty does not stop

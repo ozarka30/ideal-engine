@@ -195,11 +195,11 @@ emp("emp.cto", "CTO", ENG, 3, 10, 200,
 
 # Legal
 emp("emp.paralegal", "Paralegal", LEG, 1, 3, 60,
-    [status(BUR, 1, MP_LO, name="Paperwork"), stat("loyaltyCap", SELF, amount=100)],
-    flavor="Generates forms. The forms are the weapon.")
+    [sales(40, name="Billable Hours"), after(status(BUR, 1, MP_LO)), stat("loyaltyCap", SELF, amount=100)],
+    flavor="Bills an hour, then generates forms. The forms are the weapon.")
 emp("emp.compliance_officer", "Compliance Officer", LEG, 1, 3, 80,
-    [cleanse(BUR, 1, own("adjacent"), name="Waiver"), stat("loyaltyCap", SELF, amount=150)],
-    flavor="Unblocks the people next to them. Files a report about it.")
+    [sales(40, name="Billable Hours"), after(cleanse(BUR, 1, own("adjacent"))), stat("loyaltyCap", SELF, amount=150)],
+    flavor="Bills for unblocking the people next to them. Files a report about it.")
 emp("emp.counsel", "Counsel", LEG, 2, 6, 120,
     [poach(90, name="Cease & Desist"), after(status(BUR, 2, HI_HI)),
      stat("loyaltyCap", SELF, amount=250), stat("regenPerEvent", SELF, amount=40)],
@@ -208,7 +208,7 @@ emp("emp.patent_attorney", "Patent Attorney", LEG, 2, 6, 140,
     [poach(130, name="Litigation"), stat("loyaltyCap", SELF, amount=150)],
     flavor="Legal that attacks. Rare, expensive, and very slow.")
 emp("emp.general_counsel", "General Counsel", LEG, 3, 10, 200,
-    [status(FRZ, 1, HI_HI, name="Injunction", durationTicks=60),
+    [sales(200, name="Billable Hours"), after(status(FRZ, 1, HI_HI, durationTicks=60)),
      stat("loyaltyCap", SELF, amount=500), stat("regenPerEvent", SELF, amount=80)],
     flavor="Freezes their best person for three seconds. Bills for six.")
 

@@ -44,7 +44,8 @@ public static class FixtureCatalog
         {
             Id = "emp.test_random_paralegal",
             Name = "Paralegal (random selectors, fixture only)",
-            Effects = paralegal.Effects.Select(e => e.On == "ability" ? e with { Target = new TargetSpec("enemy", "random_floor", "random", null, null, null, null) } : e).ToArray(),
+            // The Paralegal's Bureaucracy fires after its Billable Hours (D-89); that status effect is the one re-aimed.
+            Effects = paralegal.Effects.Select(e => e.Do == "status" ? e with { Target = new TargetSpec("enemy", "random_floor", "random", null, null, null, null) } : e).ToArray(),
         };
         yield return new FixtureInput("random_selector", "A Paralegal with random_floor / random against a three-floor tower. RNG draw order. The definition is a fixture-local overlay: no shipped employee uses a random selector.", 12345, 3,
             Tower(v, 3, "founder.okada", Ground(), Corridor(1, Emp("emp.test_random_paralegal", 2, 1, "e_a1"))),

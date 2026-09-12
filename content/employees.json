@@ -276,6 +276,16 @@
       "effects": [
         {
           "on": "ability",
+          "do": "sales",
+          "value": 40,
+          "target": {
+            "side": "own",
+            "scope": "firm"
+          },
+          "name": "Billable Hours"
+        },
+        {
+          "on": "afterFire",
           "do": "status",
           "status": "status.bureaucracy",
           "stacks": 1,
@@ -284,7 +294,7 @@
             "floor": "most_populated_floor",
             "unit": "lowest_cooldown_remaining"
           },
-          "name": "Paperwork"
+          "everyN": 1
         },
         {
           "on": "static",
@@ -297,7 +307,7 @@
         }
       ],
       "sprite": "emp.paralegal",
-      "flavor": "Generates forms. The forms are the weapon."
+      "flavor": "Bills an hour, then generates forms. The forms are the weapon."
     },
     {
       "id": "emp.compliance_officer",
@@ -313,6 +323,16 @@
       "effects": [
         {
           "on": "ability",
+          "do": "sales",
+          "value": 40,
+          "target": {
+            "side": "own",
+            "scope": "firm"
+          },
+          "name": "Billable Hours"
+        },
+        {
+          "on": "afterFire",
           "do": "cleanse",
           "status": "status.bureaucracy",
           "stacks": 1,
@@ -320,7 +340,7 @@
             "side": "own",
             "scope": "adjacent"
           },
-          "name": "Waiver"
+          "everyN": 1
         },
         {
           "on": "static",
@@ -333,7 +353,7 @@
         }
       ],
       "sprite": "emp.compliance_officer",
-      "flavor": "Unblocks the people next to them. Files a report about it."
+      "flavor": "Bills for unblocking the people next to them. Files a report about it."
     },
     {
       "id": "emp.counsel",
@@ -440,6 +460,16 @@
       "effects": [
         {
           "on": "ability",
+          "do": "sales",
+          "value": 200,
+          "target": {
+            "side": "own",
+            "scope": "firm"
+          },
+          "name": "Billable Hours"
+        },
+        {
+          "on": "afterFire",
           "do": "status",
           "status": "status.frozen",
           "stacks": 1,
@@ -448,8 +478,8 @@
             "floor": "highest_occupied_floor",
             "unit": "highest_base_value"
           },
-          "name": "Injunction",
-          "durationTicks": 60
+          "durationTicks": 60,
+          "everyN": 1
         },
         {
           "on": "static",

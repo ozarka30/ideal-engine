@@ -117,8 +117,9 @@ history of a reversal is the most useful thing in a document like this.
 | [D-86](#d-86) | The balance plan restated for the race: archetypes renamed fortress, raider, earner, scandal; `fight_length` becomes `late_swing` (100–250‰ of quarters won from behind after Crunch); `bellRateMax` retired | Craft | Money rework |
 | [D-87](#d-87) | Sales earn in proportion to Client Loyalty (`v × loyalty / capAtStart`); the archetype band applies from round 4 | Human | Money rework |
 | [D-88](#d-88) | Sales scale by Loyalty over the current cap, not the starting cap, so a Scandal no longer cuts a firm's Sales for good | Human | Money rework |
+| [D-89](#d-89) | Legal bills its hours: the Paralegal, Compliance Officer and General Counsel earn Sales, then file, clear or freeze | Human | Money rework |
 
-Fifty-eight craft decisions and thirty human calls taken. Eight items remain open in
+Fifty-eight craft decisions and thirty-one human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -1999,3 +2000,24 @@ against the field. Over the current cap the prototype held scandal at 314–470�
 management remain outside the band and are the next knobs.
 
 Authority: Human · `SIMULATION_SPEC.md` §9.3 · amends [D-87](#d-87)
+
+## D-89
+
+**Legal bills its hours. The Paralegal (¥40 every 3 s), the Compliance Officer (¥40 every 4 s) and
+the General Counsel (¥200 every 10 s) each earn Sales as their ability, Billable Hours, and after each
+bill file their Bureaucracy, clear it next door, or Freeze the rival's best person. The fortress is
+Loyalty guarding an income, not Loyalty alone.**
+
+*Why:* in the race the fortress earned almost nothing — about ¥3.7k of its own Sales in a round-16
+quarter against the earner's ~¥39k — so it won 178–363‰ against the field whatever it held. Of three
+designs trialled (Legal billing; a Sales engine behind Legal and HR; both), billing alone brought the
+fortress into the band from round 12 (414/531/513‰ at rounds 6/12/16), made it beat the raider 677‰ as
+the counter web asks, and took the failing invariants from 12 to 11.
+
+*Consequence:* amends `REVENUE_RACE.md` §4's Legal row ("Poach with Bureaucracy"): Legal earns too. A
+Paralegal now earns what a Sales Rep does for the same ¥3 and still brings Bureaucracy and Loyalty; the
+nightly pick-rate checks (`dead_content`, the optimizer) watch whether it takes over. The
+`random_selector` fixture's overlay now re-aims the Paralegal's Bureaucracy, which is no longer its
+ability.
+
+Authority: Human · `GAME_DESIGN.md` §9, `BALANCE_PLAN.md` §5.1 · amends [D-85](#d-85)
