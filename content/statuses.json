@@ -8,7 +8,6 @@
       "expires": false,
       "cooldownRatePermillePerStack": 0,
       "outputPenaltyPermillePerStack": 50,
-      "scandalPerStackPerEvent": 8,
       "onExpire": [],
       "tone": "anomalous",
       "text": "Stacking. Each second the firm causes itself a Scandal per stack; the employee's output falls 5% per stack. Never expires in a fight."
@@ -21,7 +20,6 @@
       "expires": true,
       "cooldownRatePermillePerStack": 500,
       "outputPenaltyPermillePerStack": 0,
-      "scandalPerStackPerEvent": 0,
       "onExpire": [
         {
           "status": "status.burnout",
@@ -39,7 +37,6 @@
       "expires": true,
       "cooldownRatePermillePerStack": -200,
       "outputPenaltyPermillePerStack": 0,
-      "scandalPerStackPerEvent": 0,
       "onExpire": [],
       "tone": "interface",
       "text": "Slow. -20% cooldown speed per stack; each stack lasts 5s independently."
@@ -52,7 +49,6 @@
       "expires": true,
       "cooldownRatePermillePerStack": -1000,
       "outputPenaltyPermillePerStack": 0,
-      "scandalPerStackPerEvent": 0,
       "onExpire": [],
       "tone": "interface",
       "text": "Cooldown does not advance. Duration set by the applying ability; re-application extends."

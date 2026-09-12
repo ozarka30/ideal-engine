@@ -149,9 +149,9 @@ defs["Floor"] = obj(OD([
 
 defs["Status"] = obj(OD([
     ("id", ID), ("name", STR), ("maxStacks", {"type": "integer", "minimum": 1}), ("durationTicks", {"oneOf": [{"type": "null"}, {"type": "integer", "minimum": 1}]}),
-    ("expires", BOOL), ("cooldownRatePermillePerStack", INT), ("outputPenaltyPermillePerStack", NONNEG), ("scandalPerStackPerEvent", NONNEG),
+    ("expires", BOOL), ("cooldownRatePermillePerStack", INT), ("outputPenaltyPermillePerStack", NONNEG),
     ("onExpire", arr(ref("Then"))), ("tone", STR), ("text", STR),
-]), ["id", "name", "maxStacks", "durationTicks", "expires", "cooldownRatePermillePerStack", "outputPenaltyPermillePerStack", "scandalPerStackPerEvent", "onExpire", "tone", "text"])
+]), ["id", "name", "maxStacks", "durationTicks", "expires", "cooldownRatePermillePerStack", "outputPenaltyPermillePerStack", "onExpire", "tone", "text"])
 
 defs["RuleSet"] = obj(OD([
     ("id", ID), ("schemaVersion", {"type": "integer", "minimum": 1}),
