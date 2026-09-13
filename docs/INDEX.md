@@ -8,7 +8,7 @@ none needs the conversation that produced it.
 | `DESIGN_BRIEF.md` | anything in the locked foundation | The decisions that predate every other document. Not relitigated |
 | `PLANNING_PROMPT.md` | the process | The brief the design phase was run against |
 | `OPEN_QUESTIONS.md` | anything with a `Q-` id, or before proposing a new mechanic | Every open decision with options, a recommendation, and what it blocks. Ten open |
-| `DECISION_LOG.md` | any rule, number or format that feels arbitrary | Eighty-five append-only entries with the one-line reason that did the work. Grep it first |
+| `DECISION_LOG.md` | any rule, number or format that feels arbitrary | Ninety-three append-only entries with the one-line reason that did the work. Grep it first |
 | `GAME_DESIGN.md` | the loop, a screen, a room, an employee, the economy, the campaign | The full design, with pixel rects for every screen in §19 and the human-check list in §21 |
 | `SIMULATION_SPEC.md` | `packages/sim`, a status, a selector, the ledger or replay format | The combat sim as a conformance target. Two implementations must agree byte for byte |
 | `CONTENT_SCHEMA.md` | `content/`, `schema/content.schema.json`, `tools/planning/gen_content.py` | The closed effect vocabulary, every content type with verbatim examples, the loader's checks, what is and is not a code change |
