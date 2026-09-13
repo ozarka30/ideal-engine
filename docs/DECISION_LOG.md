@@ -121,8 +121,9 @@ history of a reversal is the most useful thing in a document like this.
 | [D-90](#d-90) | An archetype may be weak early and strong late: the band judges its mean over the run; each round stays within 300–700‰ | Human | Money rework |
 | [D-91](#d-91) | Management keeps its clients: the Team Lead's Delegate is followed by PR 60 | Human | Money rework |
 | [D-92](#d-92) | The late-swing check starts at round 4, like the archetype band; the smoke run uses 40 seeds | Human | Money rework |
+| [D-93](#d-93) | The screens speak the race: `lead_bar` and `loyalty_bar` slots; ledger lines in the kind tone's border; multipliers in full | Craft | Money rework |
 
-Fifty-eight craft decisions and thirty-four human calls taken. Eight items remain open in
+Fifty-nine craft decisions and thirty-four human calls taken. Eight items remain open in
 [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md); one blocks a Phase 4 greybox, one is a
 vertical-slice playtest gate.
 
@@ -2075,3 +2076,24 @@ next, so a smoke pass or failure meant little. At 40 seeds the smoke run takes a
 ceiling, within the noise of a 40-seed run.
 
 Authority: Human · `BALANCE_PLAN.md` §2, §4, §6 · extends [D-87](#d-87) and [D-90](#d-90)
+
+## D-93
+
+**The screens speak the race (stage 4 of D-85). The battle screen's manifest slots take the words
+they show: `ui.battle.bar` becomes `ui.battle.lead_bar` (each firm's share of the quarter's takings,
+with both Revenues in ¥) and `ui.battle.goodwill_bar` becomes `ui.battle.loyalty_bar`; the battle
+scene's Layout nodes follow. Ledger lines, live and in the autopsy, are drawn in their kind tone's
+border shade instead of its lightened fill, and the roll-up line in the muted interface shade.
+Multipliers read in full: ×1.35, not ×1.3.**
+
+*Why:* the slot ids and their descriptions still named Market Share and Goodwill. On the light ledger
+panel a lightened fill read as a faint tan — Sales, the commonest line, was nearly invisible in CI's
+renders — and `ART_PIPELINE.md` already prescribes the border shade for text on a light panel. The
+inspector cut every multiplier to one decimal, so the Server Room's ×1.35 read as ×1.3.
+
+*Consequence:* no art existed at either renamed slot's path, so nothing moves under `game/assets/`.
+The screenshot fixtures change and are promoted from CI under `fixtures-approved`. With this stage all
+four stages of the revenue race have landed; closing the fight half of D-53's sign-off, which D-85
+reopened, is the owner's call.
+
+Authority: Craft · `GAME_DESIGN.md` §12, §19, `ART_PIPELINE.md` · completes [D-85](#d-85)

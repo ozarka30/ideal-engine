@@ -239,7 +239,7 @@ offset_left = 4.0
 offset_top = 4.0
 offset_right = 636.0
 offset_bottom = 12.0
-text = "Junior Developer · Every 4.0s, push the rival floor opposite for 60 · tap the card to read more, then a tile to place"
+text = "Junior Developer · Ship Feature: earn ¥60 every 4.0 s · tap the card to read more, then a tile to place"
 label_settings = SubResource("ls_text")
 
 [node name="floor_above" type="ColorRect" parent="Layout"]
@@ -593,7 +593,7 @@ label_settings = SubResource("ls_text")
 offset_top = 30.0
 offset_right = 184.0
 offset_bottom = 38.0
-text = "Push moves the rival's Goodwill bar."
+text = "Sales add money to your Revenue."
 label_settings = SubResource("ls_hatch")
 
 [node name="l4" type="Label" parent="Layout/insp_body"]

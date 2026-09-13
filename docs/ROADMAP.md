@@ -44,7 +44,7 @@ exit criteria, not a week. Relative size is given as S / M / L.
 | Milestone | Playable | Question it answers | Size |
 | --- | --- | --- | --- |
 | **M0** Foundations | Nothing. Two sims agree; the loaders reject bad files; a greybox rectangle draws | Does the foundation hold? | M |
-| **M1** The fight | Watch two authored towers fight, with the ledger, the Goodwill bars, the bar, the autopsy | Is a fight readable? | M |
+| **M1** The fight | Watch two authored towers fight, with the ledger, the Loyalty bars, the Revenue lead bar, the autopsy | Is a fight readable? | M |
 | **M2** The loop | Build → Ready → fight → autopsy → next round, sixteen rounds against templated rivals | **Is the game fun?** | L |
 | **M3** Depth | Recipes, the codex, Tenure, furniture on trial, semi-scripted rivals, the harness | Does commitment pay, and does furniture earn its tile? | L |
 | **M4** The campaign | The map, interludes, bosses and gimmicks, the portal, founders, the first-run tutorial, save and load | Is a 45-minute run the right shape? | L |
@@ -122,8 +122,8 @@ battle screen, scrub the autopsy.
 **Systems**
 
 - The battle screen as specified in `GAME_DESIGN.md` §19.2: the facade towers as
-  greybox segments, window bursts, floating numbers, the Market Share bar, both
-  Goodwill bars with eroding frames (D-35), the month banners, the founder badges,
+  greybox segments, window bursts, floating numbers, the Revenue lead bar, both
+  Loyalty bars with eroding frames (D-35), the month banners, the founder badges,
   playback at 1× / 2× / 4× / skip.
 - The live ledger with coalescing and the four-lines-per-second budget (D-08).
 - The floor inset on hover.
@@ -182,7 +182,7 @@ ranked will be with ghosts substituted for templates (D-49).
 - The build reducer with its full action set and action-log undo (D-43). Ready
   commits and snapshots.
 - The economy: income, prices, severance, renovation fees, leases and upkeep, the
-  Goodwill-for-unpaid-upkeep rule (D-31).
+  Loyalty-for-unpaid-upkeep rule (D-31).
 - Rooms as zones with auras; floors with their multipliers and legality; the landing
   column; the corridor penalty.
 - Furniture placed and drawn, with its effects live — it is on trial (D-34) and the
@@ -243,7 +243,7 @@ that compounds, statuses fully live, and rivals that carry gimmicks from round 8
   flicker, consumption and undo; all forty recipes with a fixture each.
 - The codex screen with progressive reveal; discoveries persisting to the profile.
 - Tenure ticking on Ready, tiers applied in the sim, pips on the sign.
-- The four statuses end to end, including Overtime's hangover and the Burnout Morale
+- The four statuses end to end, including Overtime's hangover and the Burnout Scandal
   tick — M2 had them in the sim; M3 makes every source and cleanse in the catalogue
   live and visible in the inset.
 - Gimmicks on templated rivals from round 8, and the dossier — surfaced in M3 as a
@@ -286,7 +286,7 @@ forward:** all of it. Recipes, Tenure, statuses and the harness are mode-indepen
 - The three bosses with their signature gimmicks; Audits; the first-run scripted
   fights.
 - The portal: the reveal beats from round 1, the Act 1 unlock, B1 leasing with its
-  Goodwill cost, the Otherworld row with riders, the Summoning Circle, rituals.
+  Loyalty cost, the Otherworld row with riders, the Summoning Circle, rituals.
 - The tutorial hint line for the first run.
 - Save and load: `RunState`, `ProfileState`, replays; atomic writes; the first
   migrator and its fixture; determinism across save and load (`ARCHITECTURE.md` §5).

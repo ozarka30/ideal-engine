@@ -369,7 +369,7 @@ Every room entry in content declares, and the manifest mirrors:
 | `floors` | Legal floor kinds |
 | `landingLegal` | May the rectangle include column 0 |
 | `aura` | List of `{ filter, stat, permille }` — e.g. `{ dept: "engineering", sales: 1200 }` |
-| `flat` | List of flat additions — e.g. `{ goodwillCap: +100 per occupant }` |
+| `flat` | List of flat additions — e.g. `{ loyaltyCap: +100 per occupant }` |
 | `tierIII` | The unique clause, by effect id |
 | `banners` | Effects fired at month transitions, if any |
 
@@ -610,16 +610,18 @@ One component. Live during the fight, scrubbable after it. The complete entry fo
 
 ### 12.1 Live
 
-Each firm has a ledger panel beneath its Goodwill number: six visible lines, newest at
-the bottom, scrolling up. A line:
+Each firm has a ledger panel beneath its towers, headed by its Revenue and Client Loyalty:
+six visible lines, newest at the bottom, scrolling up. A line:
 
 ```
- -1,200  Cease & Desist    Counsel · Fl.2   ×2
+ 20s  2F Account Manager poach 144   ×2
 ```
 
-Amount, name, source, and a multiplier badge if entries were coalesced. Colour by
-kind: Push in the firm's colour, Morale in the anomalous tone, Regen and Restore in
-the support tone, Status in slate, banners full-width.
+Time, source, what it did and how much, and a multiplier badge if entries were
+coalesced. Colour by kind, in the kind tone's darker border shade so it reads on the
+light panel: Sales in the operations tone, Poach and Scandal in people, Curse in
+anomalous, PR and clients drifting back in support, statuses in interface, banners
+full-width.
 
 Three rules keep it readable at combat speed:
 
@@ -627,22 +629,24 @@ Three rules keep it readable at combat speed:
    line with a `×N` badge.
 2. At most 4 new lines per second. Anything beyond collapses into one dimmed roll-up
    line — `+3 more · Fl.2` — which expands in the autopsy.
-3. Lines are weighted by magnitude relative to the firm's current Goodwill. The hit
-   that mattered is the one that catches the eye.
+3. Lines are weighted by the money they move relative to the firm's Revenue and
+   Loyalty. The hit that mattered is the one that catches the eye.
 
 ### 12.2 The autopsy
 
 Opens automatically on every loss and on the first fight of every run. Shows:
 
-- **A timeline** of Market Share over the sixty seconds with the month boundaries
-  marked and a playhead the player can drag. Dragging scrolls the ledger.
-- **Per-floor contribution**: for each floor of each tower, total Push, Morale and
-  Anomaly dealt — a horizontal bar per floor, both towers side by side.
-- **The full ledger**, no coalescing, filterable by side, floor, employee and kind.
-- **Three findings**, generated from the entry list: when Goodwill broke and what
-  broke it; the largest single hit of the fight; how many seconds regen was
-  suppressed. These are the answer to "why did I lose" for a player who does not want
-  to read the whole list.
+- **A timeline** of each firm's share of the quarter's Revenue over the sixty seconds,
+  with the month boundaries marked and a playhead the player can drag. Dragging scrolls
+  the ledger.
+- **Per-floor contribution**: for each floor of each tower, the Sales, Poach and Curse
+  it dealt — a horizontal bar per floor, both towers side by side.
+- **The full ledger**, no coalescing, filterable by side, floor and kind (Sales, Poach,
+  Scandal, Curse, Regen, Status).
+- **Three findings**, generated from the entry list: when a firm's Loyalty broke and its
+  Revenue opened to Poaching; how far Scandal eroded a Loyalty cap; the floor that did
+  most of a firm's work. These are the answer to "why did I lose" for a player who does
+  not want to read the whole list.
 
 The autopsy is reachable from the run history for every fight of the current run.
 
@@ -983,7 +987,7 @@ Fonts: `font.ui.8` is an 8-pixel-line pixel font with variable-width glyphs aver
 | `ui.build.tower` | (8, 32, 176, 304) | Elevator shaft (8, 32, 16, 304) with floor labels drawn inside it; three floor viewports stacked: above at y=32, **selected** at y=136, below at y=240, each 160 × 96 at x=24. Unselected floors dimmed 50%, still interactive. Scrolls by whole floors. An unleased floor draws greyed under a screen with a lease tag (`ui.build.lease_button`, laid out by `game/scenes/widgets/LeaseTag.tscn`) showing the price and upkeep; the whole floor is the button (D-83). Each floor's look is its scene, `game/scenes/floors/basic/<floor>.tscn`, rendered live like a room (D-84) |
 | `ui.build.shop` | (192, 32, 232, 304) | Tab bar (192, 32, 232, 16); four cards 52 × 80 at x = 192, 248, 304, 360, y = 56; Otherworld row label (192, 140, 232, 8) and two cards at x = 192, 248, y = 152 |
 | `ui.build.inspector` | (432, 32, 200, 304) | Portrait slot 96 × 96 at (440, 40) (D-71); name `font.ui.8` at (544, 44); dept and tier at (544, 54); from y = 144 (D-65): the aura and floor multiplier where it stands, then *WHAT IT DOES* — the ability as a sentence, its passives, a one-line glossary of the kind it deals — and *WHERE TO PUT IT* — the rooms that boost its department, the furniture it likes beside it, its reach, the floor multipliers; while a shop card is carried the inspector shows the same block for the card; for a room, the comparison block (440, 276, 184, 24) — *here ×1.40 · Tier II* / *on 2F ×1.38 now, ×1.61 by round 14* / *relocate: −3 Tenure rounds, ¥13*; action buttons at y = 308: **LAY OFF · ¥1** (440, 308, 184, 20) for staff, or **RELOCATE · ¥13** (440, 308, 90, 20) and **DEMOLISH · ¥13** (534, 308, 90, 20) for rooms |
-| `ui.build.firm_panel` | (432, 32, 200, 304) | The inspector's default state when nothing is selected: founder portrait 96 × 96 at (440, 40) (D-71); firm name at (544, 44); founder name and title at (544, 54) and (544, 64); run stats from y = 144 — round, strikes, fights won, Goodwill cap, floors leased, staff count; below them *HOW A FIGHT WORKS*, the six-sentence primer (D-65) |
+| `ui.build.firm_panel` | (432, 32, 200, 304) | The inspector's default state when nothing is selected: founder portrait 96 × 96 at (440, 40) (D-71); firm name at (544, 44); founder name and title at (544, 54) and (544, 64); run stats from y = 144 — round, strikes, fights won, Loyalty cap base, floors leased, staff count; below them *HOW A QUARTER WORKS*, the six-sentence primer (D-65) |
 | `ui.build.hint` | (0, 344, 640, 16) | One line of hint text, first run only; otherwise the hovered element's one-line summary |
 
 Floor viewport internals: tiles 32 × 32 at `(24 + col × 32, floorY + row × 32)`.
@@ -1001,9 +1005,9 @@ y = 160 until the portal is open. Ready has no confirmation.
 | Region | Rect | Contents |
 | --- | --- | --- |
 | `bg.battle.street` | (0, 0, 640, 360) | Street backdrop, seen front-on |
-| `ui.battle.bar` | (160, 8, 320, 12) | Market Share bar; A fills from the left; ticks every 10%; percent labels at each end in `font.ui.8` |
-| `ui.battle.goodwill.a` | (8, 28, 200, 16) | Goodwill **bar**: frame 200 × 16; fill from the left, width = `goodwill / capAtStart × 200`; the frame's right end sits at `cap / capAtStart × 200` so Morale erosion visibly shortens what can be refilled; the number `4,200` in `font.ui.16` overlaid left-aligned at (12, 28). Dims 50% while regen is suppressed; flashes on break |
-| `ui.battle.goodwill.b` | (432, 28, 200, 16) | Mirror: fill from the right, frame erodes from the left, number right-aligned |
+| `ui.battle.lead_bar` | (160, 8, 320, 12) | Revenue lead bar (D-85): A's share of the quarter's takings fills from the left; ticks every 10%; each firm's Revenue in ¥ at its end in `font.ui.8` |
+| `ui.battle.loyalty_bar`, side A | (8, 28, 200, 16) | Client Loyalty **bar**: frame 200 × 16; fill from the left, width = `loyalty / capAtStart × 200`; the frame's right end sits at `cap / capAtStart × 200` so Scandal erosion visibly shortens what can be refilled; the number `4,200` in `font.ui.16` overlaid left-aligned at (12, 28). Dims 50% while regen is suppressed; flashes when Loyalty breaks |
+| `ui.battle.loyalty_bar`, side B | (432, 28, 200, 16) | Mirror: fill from the right, frame erodes from the left, number right-aligned |
 | `ui.battle.banner` | (240, 48, 160, 12) | Month banner, centred |
 | `ui.battle.founder` | 36 × 36 | Founder badge in a 2 px frame; A at (8, 48), B at (596, 48). The firm name in `font.ui.8` beneath at y = 86 |
 | `fx.tower.floor_segment` | 96 × 32, anchor bottom-centre | One per above-ground floor. Tower A stacks upward from (200, 280); Tower B from (440, 280). Four segments: G at the base, 3F at the top, y = 280, 248, 216, 184 |
@@ -1033,8 +1037,8 @@ tall is exactly 96 × 32, and the parapet cap is 96 × 16, so the numbers stand 
 | Region | Rect | Contents |
 | --- | --- | --- |
 | `ui.autopsy.banner` | (0, 0, 640, 24) | `Q7 · LOST · 38.1% MARKET SHARE` |
-| `ui.autopsy.timeline` | (8, 32, 624, 48) | Market Share over time: sixty columns of 10 px, month boundaries as 1-pixel lines, a draggable playhead |
-| `ui.autopsy.floors` | (8, 88, 200, 120) | A FLOORS / STAFF toggle across the top (16 px). FLOORS: five rows, one per floor slot, each with two horizontal bars (A, B) of total Push + Morale + Anomaly dealt, labelled. STAFF: your five employees with the most output, one bar each with the floor and the number (D-68), the chart players sell by |
+| `ui.autopsy.timeline` | (8, 32, 624, 48) | A's share of the quarter's Revenue over time: sixty columns of 10 px, month boundaries as 1-pixel lines, a draggable playhead |
+| `ui.autopsy.floors` | (8, 88, 200, 120) | A FLOORS / STAFF toggle across the top (16 px). FLOORS: five rows, one per floor slot, each with two horizontal bars (A, B) of the Sales, Poach and Curse dealt, labelled. STAFF: your five employees with the most output, one bar each with the floor and the number (D-68), the chart players sell by |
 | `ui.autopsy.findings` | (8, 216, 200, 120) | Three findings, `font.ui.8`, up to three lines each |
 | `ui.autopsy.filters` | (216, 88, 416, 16) | Chips: `ALL PUSH MORALE ANOMALY REGEN STATUS` and `A B` and `G 1 2 3 B1` |
 | `ui.autopsy.ledger` | (216, 108, 416, 228) | Full ledger, 8 px rows, scroll; the playhead selects the row |
@@ -1134,12 +1138,13 @@ obligations that fall out of this design:
 | Near-miss | Build screen | Inputs flicker once, `?` glyph |
 | Recipe available | Build screen | Inputs pulse, **Promote** glyph |
 | Ability resolution | Battle screen | Window burst on the floor, floating number, ledger line |
-| Goodwill level | Battle screen | Each firm's Goodwill bar, with the number on it |
-| Goodwill break | Battle screen | The Goodwill bar empties and flashes, the Market Share bar begins to move, ledger banner `— GOODWILL BROKEN —` |
-| Cap erosion (Morale) | Battle screen | The Goodwill bar's frame shortens |
-| Regen suppressed | Battle screen | The Goodwill bar dims while suppressed |
+| Who is ahead | Battle screen | The Revenue lead bar, with each firm's Revenue in ¥ at its end |
+| Loyalty level | Battle screen | Each firm's Loyalty bar, with the number on it |
+| Loyalty break | Battle screen | The Loyalty bar empties and flashes, Poaching starts taking Revenue, and the ledger header reads `— LOYALTY BROKEN —` |
+| Cap erosion (Scandal) | Battle screen | The Loyalty bar's frame shortens |
+| Regen suppressed | Battle screen | The Loyalty bar dims while suppressed |
 | Rival gimmick | Map screen | The dossier, before the fight is chosen |
-| Whose firm this is | Build, battle, map | The founder's portrait on the firm panel, the badge beside the Goodwill bar, the rival's badge in the dossier |
+| Whose firm this is | Build, battle, map | The founder's portrait on the firm panel, the badge beside the Loyalty bar, the rival's badge in the dossier |
 | Month transition | Battle screen | Banner, telegraphed one second early |
 | Status applied | Battle screen | Ledger line; the floor inset shows a status glyph on the employee |
 | Why I lost | Autopsy | Three findings, per-floor bars, full ledger |

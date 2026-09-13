@@ -60,12 +60,12 @@ rejects a wrong size. Paths are relative to the repository root. Anchor is the p
 | 49 | `ui.autopsy.floors` | `game/assets/ui/ui/autopsy/floors.png` | 200×120 | top-left | — | — | autopsy | Five rows, two bars each, labelled |  |
 | 50 | `ui.autopsy.timeline` | `game/assets/ui/ui/autopsy/timeline.png` | 624×48 | top-left | — | — | autopsy | 60 columns of 10px, month lines, draggable playhead |  |
 | 51 | `ui.battle.banner` | `game/assets/ui/ui/battle/banner.png` | 160×12 | top-left | — | — | battle | '— CRUNCH —' centred; slides in dimmed one second early |  |
-| 52 | `ui.battle.bar` | `game/assets/ui/ui/battle/bar.png` | 320×12 | top-left | — | — | battle | Two-colour fill from 50/50, 10% ticks, percent labels at both ends |  |
-| 53 | `ui.battle.controls` | `game/assets/ui/ui/battle/controls.png` | 72×16 | top-left | — | — | battle | 1x 2x 4x and skip; left of founder B's badge, which starts at x=596 |  |
-| 54 | `ui.battle.floor_inset` | `game/assets/ui/ui/battle/floor_inset.png` | 168×104 | top-left | — | — | battle | A 4px frame around a 160x96 top-down floor; most recent firer highlighted |  |
-| 55 | `ui.battle.goodwill_bar` | `game/assets/ui/ui/battle/goodwill_bar.png` | 200×16 | top-left | — | — | battle | A frame whose right (or left, mirrored) end marks the live cap; fill inside it; number in font.ui.16 overlaid; dims when suppressed; flashes on break |  |
-| 56 | `ui.battle.ledger_rollup` | `game/assets/ui/ui/battle/ledger_rollup.png` | 308×8 | top-left | — | — | battle | '+3 more · Fl.2' dimmed |  |
-| 57 | `ui.battle.result` | `game/assets/ui/ui/battle/result.png` | 640×24 | top-left | — | — | battle | 'Q7 · WON · 71.2% MARKET SHARE' |  |
+| 52 | `ui.battle.controls` | `game/assets/ui/ui/battle/controls.png` | 72×16 | top-left | — | — | battle | 1x 2x 4x and skip; left of founder B's badge, which starts at x=596 |  |
+| 53 | `ui.battle.floor_inset` | `game/assets/ui/ui/battle/floor_inset.png` | 168×104 | top-left | — | — | battle | A 4px frame around a 160x96 top-down floor; most recent firer highlighted |  |
+| 54 | `ui.battle.lead_bar` | `game/assets/ui/ui/battle/lead_bar.png` | 320×12 | top-left | — | — | battle | Each firm's share of the quarter's takings, A filling from the left; 10% ticks; both Revenues in yen at the ends |  |
+| 55 | `ui.battle.ledger_rollup` | `game/assets/ui/ui/battle/ledger_rollup.png` | 308×8 | top-left | — | — | battle | '+3 more · Fl.2' dimmed |  |
+| 56 | `ui.battle.loyalty_bar` | `game/assets/ui/ui/battle/loyalty_bar.png` | 200×16 | top-left | — | — | battle | A frame whose right (or left, mirrored) end marks the live cap; fill inside it; number in font.ui.16 overlaid; dims while regen is suppressed; flashes when Loyalty breaks |  |
+| 57 | `ui.battle.result` | `game/assets/ui/ui/battle/result.png` | 640×24 | top-left | — | — | battle | 'Q7 · WON · ¥25,408 TO ¥6,698' |  |
 | 58 | `ui.build.floor_void` | `game/assets/ui/ui/build/floor_void.png` | 32×32 | top-left | — | — | build | Hatched tile filling the unused part of a 4x2 or 3x3 floor's 160x96 slot |  |
 | 59 | `fx.floating_number` | `game/assets/ui/fx/floating_number.png` | 40×8 | centre | — | — | battle | font.ui.8 digits rising 16px over 20 ticks |  |
 | 60 | `fx.tower.window_occupant` | `game/assets/exterior/fx/tower/window_occupant.png` | 8×8 | centre | — | — | battle | One per employee, filling its window in the facade's 5x3 grid; tone by department (D-68) |  |

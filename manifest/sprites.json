@@ -3045,7 +3045,7 @@
         "map"
       ],
       "visibility": 2,
-      "reads": "The same person at 32px; recognisable beside the Goodwill bar",
+      "reads": "The same person at 32px; recognisable beside the Loyalty bar",
       "candidateSource": "characterpack/Blackoutlinecharacters/MaleBusinessManOld/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
@@ -3133,7 +3133,7 @@
         "map"
       ],
       "visibility": 2,
-      "reads": "The same person at 32px; recognisable beside the Goodwill bar",
+      "reads": "The same person at 32px; recognisable beside the Loyalty bar",
       "candidateSource": "characterpack/Blackoutlinecharacters/FemaleTrendy/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
@@ -3221,7 +3221,7 @@
         "map"
       ],
       "visibility": 2,
-      "reads": "The same person at 32px; recognisable beside the Goodwill bar",
+      "reads": "The same person at 32px; recognisable beside the Loyalty bar",
       "candidateSource": "characterpack/Blackoutlinecharacters/MalePunk/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
@@ -3309,7 +3309,7 @@
         "map"
       ],
       "visibility": 2,
-      "reads": "The same person at 32px; recognisable beside the Goodwill bar",
+      "reads": "The same person at 32px; recognisable beside the Loyalty bar",
       "candidateSource": "characterpack/Blackoutlinecharacters/FemaleStudent/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
@@ -3397,7 +3397,7 @@
         "map"
       ],
       "visibility": 2,
-      "reads": "The same person at 32px; recognisable beside the Goodwill bar",
+      "reads": "The same person at 32px; recognisable beside the Loyalty bar",
       "candidateSource": "characterpack/Blackoutlinecharacters/MaleBusinessMan/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
@@ -3485,7 +3485,7 @@
         "map"
       ],
       "visibility": 2,
-      "reads": "The same person at 32px; recognisable beside the Goodwill bar",
+      "reads": "The same person at 32px; recognisable beside the Loyalty bar",
       "candidateSource": "characterpack/Blackoutlinecharacters/FemaleBaker/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
@@ -3573,7 +3573,7 @@
         "map"
       ],
       "visibility": 2,
-      "reads": "The same person at 32px; recognisable beside the Goodwill bar",
+      "reads": "The same person at 32px; recognisable beside the Loyalty bar",
       "candidateSource": "characterpack/Blackoutlinecharacters/FemaleElder/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
@@ -3661,7 +3661,7 @@
         "map"
       ],
       "visibility": 2,
-      "reads": "The same person at 32px; recognisable beside the Goodwill bar",
+      "reads": "The same person at 32px; recognisable beside the Loyalty bar",
       "candidateSource": "characterpack/Blackoutlinecharacters/MaleTraditional/Idle frame 1 (facing down)",
       "verify": false,
       "releaseGate": true,
@@ -3901,7 +3901,7 @@
         "build"
       ],
       "visibility": 1,
-      "reads": "Shown when nothing is selected: founder portrait 96x96 at (440,40); firm name at (544,44); founder name and title at (544,54) and (544,64); run stats from y=144: round, strikes, fights won, Goodwill cap, floors leased, staff count",
+      "reads": "Shown when nothing is selected: founder portrait 96x96 at (440,40); firm name at (544,44); founder name and title at (544,54) and (544,64); run stats from y=144: round, strikes, fights won, Loyalty cap base, floors leased, staff count",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
@@ -5068,10 +5068,10 @@
       "overhang": null
     },
     {
-      "id": "ui.battle.bar",
+      "id": "ui.battle.lead_bar",
       "kind": "ui",
       "category": "interface",
-      "label": "Market Share bar",
+      "label": "Revenue lead bar",
       "footprint": null,
       "sprite": {
         "w": 320,
@@ -5080,7 +5080,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "game/assets/ui/ui/battle/bar.png",
+        "asset": "game/assets/ui/ui/battle/lead_bar.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5089,7 +5089,7 @@
         "battle"
       ],
       "visibility": 2,
-      "reads": "Two-colour fill from 50/50, 10% ticks, percent labels at both ends",
+      "reads": "Each firm's share of the quarter's takings, A filling from the left; 10% ticks; both Revenues in yen at the ends",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
@@ -5100,10 +5100,10 @@
       "overhang": null
     },
     {
-      "id": "ui.battle.goodwill_bar",
+      "id": "ui.battle.loyalty_bar",
       "kind": "ui",
       "category": "interface",
-      "label": "Goodwill bar",
+      "label": "Client Loyalty bar",
       "footprint": null,
       "sprite": {
         "w": 200,
@@ -5112,7 +5112,7 @@
           "x": 0.0,
           "y": 0.0
         },
-        "asset": "game/assets/ui/ui/battle/goodwill_bar.png",
+        "asset": "game/assets/ui/ui/battle/loyalty_bar.png",
         "sourceRect": null
       },
       "sortBias": 0,
@@ -5121,7 +5121,7 @@
         "battle"
       ],
       "visibility": 2,
-      "reads": "A frame whose right (or left, mirrored) end marks the live cap; fill inside it; number in font.ui.16 overlaid; dims when suppressed; flashes on break",
+      "reads": "A frame whose right (or left, mirrored) end marks the live cap; fill inside it; number in font.ui.16 overlaid; dims while regen is suppressed; flashes when Loyalty breaks",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,
@@ -5305,7 +5305,7 @@
         "battle"
       ],
       "visibility": 2,
-      "reads": "'Q7 · WON · 71.2% MARKET SHARE'",
+      "reads": "'Q7 · WON · ¥25,408 TO ¥6,698'",
       "candidateSource": null,
       "verify": false,
       "releaseGate": true,

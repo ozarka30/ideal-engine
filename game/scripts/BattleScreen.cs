@@ -213,7 +213,7 @@ public partial class BattleScreen : Node2D
     /// <summary>The lead bar (D-85): each firm's share of the quarter's takings so far, with both Revenues in ¥ beside it.</summary>
     private void DrawLeadBar(long tick)
     {
-        Rect2I r = _at.Rect("bar");
+        Rect2I r = _at.Rect("lead_bar");
         long share = _view.RevenueShare(tick);   // side A's permille of the combined Revenue
         const long total = 1000;
         DrawRect(new Rect2(r.Position, r.Size), Tones.Fill("interface"));
@@ -245,7 +245,7 @@ public partial class BattleScreen : Node2D
 
     private void DrawLoyalty(string side, FirmFrame f, long capAtStart, long tick)
     {
-        Rect2I r = side == "A" ? _at.Rect("goodwill_bar") : _r.Layout.Mirror(_at.Rect("goodwill_bar"));
+        Rect2I r = side == "A" ? _at.Rect("loyalty_bar") : _r.Layout.Mirror(_at.Rect("loyalty_bar"));
         int frameW = (int)(r.Size.X * f.Cap / Math.Max(1, capAtStart));
         int fillW = (int)(r.Size.X * f.Loyalty / Math.Max(1, capAtStart));
         Color fill = Tones.Fill("operations");
@@ -323,7 +323,8 @@ public partial class BattleScreen : Node2D
         for (int i = lines.Count - 1; i >= 0; i--)
         {
             LedgerLine line = lines[i];
-            Color c = line.Rollup ? Tones.Hatch("interface") : Tones.Fill(Tones.ForKind(line.Kind)).Lightened(0.35f);
+            // The ledger panel is light: text takes the kind tone's border, which reads on it; a lightened fill did not (ART_PIPELINE, secondary text).
+            Color c = line.Rollup ? Tones.Muted("interface") : Tones.Border(Tones.ForKind(line.Kind));
             _r.Font.Draw(this, r.Position.X + 2, y, $"{line.Tick / 20,3}s {line.Text}", _r.Font.Small, c);
             y += lineH;
         }

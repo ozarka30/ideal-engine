@@ -17,7 +17,7 @@ none needs the conversation that produced it.
 | `BALANCE_PLAN.md` | `content/balance.json`, any number, the harness | Populations, bands, the counter web, nineteen invariants, the tuning loop, what is not a knob |
 | `ROADMAP.md` | scope, order, what to build next | Six milestones with exit criteria; release gates; post-v1; what the human does |
 | `RESEARCH_NOTES.md` | the stack, Steam, licensing, or when a genre precedent is claimed | The verification pass: findings, trust levels, what changed because of them |
-| `REVENUE_RACE.md` | the fight, while the money rework is open | Draft proposal: the quarter as a revenue race — every fight word mapped to money, the new rules, the counter web, the stages. Approved as D-85; the rule for the race until stages 2–4 fold it into the spec |
+| `REVENUE_RACE.md` | why the fight is a revenue race | The money rework's reasoning: every fight word mapped to money, the counter web, the four stages. Approved as D-85 and landed; the rules now live in `SIMULATION_SPEC.md` revision 3 |
 
 Data, not prose:
 

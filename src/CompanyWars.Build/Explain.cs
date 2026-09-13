@@ -35,7 +35,14 @@ public static class Explain
 
     public static string Seconds(long ticks) => $"{ticks / 20}.{ticks % 20 / 2} s";
 
-    /// <summary>The ability in one sentence: "Ship Feature: 60 Push every 4.0 s."</summary>
+    /// <summary>A permille multiplier as the player reads it: 1200 is ×1.2, 1350 is ×1.35, 1000 is ×1.0.</summary>
+    private static string Mult(long permille)
+    {
+        string frac = (Math.Abs(permille) % 1000).ToString("D3").TrimEnd('0');
+        return $"×{(permille < 0 ? "-" : string.Empty)}{Math.Abs(permille) / 1000}.{(frac.Length == 0 ? "0" : frac)}";
+    }
+
+    /// <summary>The ability in one sentence: "Ship Feature: earn ¥60 every 4.0 s."</summary>
     public static string Ability(ContentDb db, EmployeeDef e)
     {
         Effect ab = e.Effects.First(x => x.On == "ability");
@@ -97,7 +104,7 @@ public static class Explain
                 if (x.On != "static" || x.Do != "stat" || x.Permille == null || x.Permille <= 1000) continue;
                 if (x.Stat is not ("sales" or "poach" or "curse" or "pr" or "passiveMult")) continue;
                 if (!Matches(x.Subject, e)) continue;
-                rooms.Add($"{r.Name} ×{x.Permille / 1000}.{x.Permille % 1000 / 100}");
+                rooms.Add($"{r.Name} {Mult(x.Permille.Value)}");
                 break;
             }
         }
@@ -218,7 +225,7 @@ public static class Explain
             "firm" => "the firm",
             _ => string.Empty,
         };
-        string mult = e.Permille.HasValue ? $"×{e.Permille / 1000}.{e.Permille % 1000 / 100}" : $"{(e.Amount >= 0 ? "+" : string.Empty)}{e.Amount}";
+        string mult = e.Permille.HasValue ? Mult(e.Permille.Value) :$"{(e.Amount >= 0 ? "+" : string.Empty)}{e.Amount}";
         string what = StatWord(e.Stat, e.Status, e.Floor, db);
         if (e.Stat == "burnoutMaxOverride") mult = $"is {e.Amount}";
         if (e.Stat == "income") return $"+¥{e.Amount} income per round";
