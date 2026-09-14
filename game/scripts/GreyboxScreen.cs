@@ -127,10 +127,16 @@ public sealed class GreyboxTextures
         return tex;
     }
 
+    /// <summary>The asset's res:// path: manifest paths are relative to the repository, whose game/ folder is the project (D-77).</summary>
+    public static string ResPath(ManifestEntry e) => "res://" + e.Sprite.Asset["game/".Length..];
+
     private Texture2D LoadFile(ManifestEntry e)
     {
+        string path = Path.Combine(_root, e.Sprite.Asset);
+        // An export has no PNG on disk, only the imported texture in its resource pack.
+        if (!File.Exists(path)) return GD.Load<Texture2D>(ResPath(e));
         var img = new Image();
-        Error err = img.Load(Path.Combine(_root, e.Sprite.Asset));
+        Error err = img.Load(path);
         if (err != Error.Ok) throw new InvalidOperationException($"{e.Id}: could not load {e.Sprite.Asset}");
         return ImageTexture.CreateFromImage(img);
     }
