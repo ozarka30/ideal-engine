@@ -59,6 +59,14 @@ public partial class ScreenRouter : Node
         Content = ContentLoader.Load(RepoRoot);
         Manifest = ManifestValidator.Validate(RepoRoot, Content);
         if (Manifest.Errors.Count > 0) throw new InvalidOperationException("manifest invalid: " + string.Join("; ", Manifest.Errors));
+        // An export has no repository to look for art in; what CI validated rides in the resource pack instead.
+        if (OS.HasFeature("template"))
+        {
+            foreach (ManifestEntry e in Manifest.Manifest.Entries)
+            {
+                if (ResourceLoader.Exists(GreyboxTextures.ResPath(e))) Manifest.Present.Add(e.Id);
+            }
+        }
         Textures = new GreyboxTextures(RepoRoot, Manifest);
         Layout = new ManifestLayout(Manifest.Manifest);
         Font = new PixelFont();
