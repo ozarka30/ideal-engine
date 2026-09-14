@@ -299,9 +299,24 @@ public partial class ProtoScreen : Node2D
             RoomKind k = ProtoSim.Catalogue[i];
             var br = new Rect2I(x + (i % 2) * (bw + 4), y + (i / 2) * 16, bw, 14);
             Ui.Button(this, br, $"{k.Name} ¥{k.Cost}", _carry == k ? "operations" : "support", _me.Budget >= k.Cost);
-            _hits.Add(br, () => { _carry = _carry == k ? null : k; _selected = null; QueueRedraw(); }, $"{k.Name} ({k.W}×{k.H}) · {k.Blurb}");
+            string printed = string.Join(" ", ProtoSim.Synergies.Where(s => !s.Hidden && s.Blurb.Contains(k.Name)).Select(s => s.Blurb));
+            _hits.Add(br, () => { _carry = _carry == k ? null : k; _selected = null; QueueRedraw(); }, $"{k.Name} ({k.W}×{k.H}) · {k.Blurb} {printed}");
         }
         y += 16 * ((ProtoSim.Catalogue.Length + 1) / 2) + 4;
+        if (_selected != null)
+        {
+            // What the room is doing: the printed synergies, the discovered ones, and a count of the ones still humming unseen.
+            _me.Compute();
+            RoomStats st = _me.StatsOf(_selected);
+            var parts = new List<string>();
+            if (_selected.HasDesks) parts.Add($"bills ×{st.Bill / 1000}.{st.Bill % 1000 / 10:D2} · tires ×{st.Drain / 1000}.{st.Drain % 1000 / 10:D2}");
+            if (_selected.Kind.RestCap > 0) parts.Add($"rests {_selected.Kind.RestCap + st.RestCapBonus} · recovers ×{st.Recover / 1000}.{st.Recover % 1000 / 10:D2}");
+            parts.AddRange(st.Active.Select(a => a.Name));
+            int hum = _me.Undiscovered(_selected);
+            if (hum > 0) parts.Add($"? {hum} undiscovered");
+            _font.Draw(this, x, y, $"{_selected.Kind.Name}: {string.Join(" · ", parts)}", _font.Small, text);
+            y += 10;
+        }
         if (_selected != null && _selected.Kind != ProtoSim.ReceptionKind)
         {
             Room s = _selected;
@@ -345,8 +360,10 @@ public partial class ProtoScreen : Node2D
         _hits.Add(ready, StartQuarter, "Sixty seconds. Both buildings run; the one that bills more and wins more of the market takes the quarter.");
         y += 26;
         _font.Draw(this, x, y, $"Rival this quarter: {_rival.Name}, {_rival.People.Count} staff, {OvertimeName(_rival.Overtime)}.", _font.Small, muted); y += 10;
-        _font.Draw(this, x, y, "Tired people walk to the nearest break room if there is one.", _font.Small, muted); y += 10;
-        _font.Draw(this, x, y, "A quarter ends with burnouts costing Loyalty; they come back tired.", _font.Small, muted);
+        int hidden = ProtoSim.Synergies.Count(s => s.Hidden);
+        string combos = $"Combos found {_me.Discovered.Count}/{hidden}: {(_me.Discovered.Count == 0 ? "rooms that touch do things together; some of it is not on the card" : string.Join(", ", ProtoSim.Synergies.Where(s => _me.Discovered.Contains(s.Id)).Select(s => s.Name)))}";
+        foreach (string line in Ui.Wrap(_font, _font.Small, combos, p.Size.X - 12, 3)) { _font.Draw(this, x, y, line, _font.Small, muted); y += 10; }
+        _font.Draw(this, x, y, "Tap a placed room to see what it is doing and what is humming under it.", _font.Small, muted);
     }
 
     private void DrawQuarterPanel()

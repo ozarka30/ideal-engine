@@ -45,7 +45,28 @@ public sealed class Room
     public int RestingNow;
     public bool Covers(int f, int c, int r) => f == Floor && c >= Col && c < Col + Kind.W && r >= Row && r < Row + Kind.H;
     public bool Touches(Room o) => o.Floor == Floor && Col < o.Col + o.Kind.W + 1 && o.Col < Col + Kind.W + 1 && Row < o.Row + o.Kind.H + 1 && o.Row < Row + Kind.H + 1 && o != this;
+    /// <summary>Directly above or below: the floors are adjacent and the footprints overlap in plan.</summary>
+    public bool Stacked(Room o) => Math.Abs(o.Floor - Floor) == 1 && Col < o.Col + o.Kind.W && o.Col < Col + Kind.W && Row < o.Row + o.Kind.H && o.Row < Row + Kind.H;
+    public bool HasDesks => Kind.Desks > 0;
     public (int C, int R) SeatTile(int i) => (Col + i % Kind.W, Row + Math.Min(Kind.H - 1, i / Kind.W));
+}
+
+/// <summary>What a room is doing this quarter once its neighbours are counted: permille multipliers and the synergies that made them.</summary>
+public sealed class RoomStats
+{
+    public int Bill = 1000, Drain = 1000, Recover = 1000, MoraleDrain = 1000, RestCapBonus;
+    public readonly List<Synergy> Active = new();
+}
+
+/// <summary>A room synergy. Printed on the card, or hidden until the quarter it first fires (the discovery loop).</summary>
+public sealed class Synergy
+{
+    public required string Id;
+    public required string Name;
+    public required string Blurb;
+    public bool Hidden;
+    public required Func<Firm, Room, bool> Applies;
+    public required Action<Firm, Room, RoomStats> Apply;
 }
 
 public sealed class Person
@@ -73,11 +94,42 @@ public sealed class Firm
     public readonly List<Person> People = new();
     public readonly bool[] Leased = { true, false, false };
     public int Loyalty = 1000;
-    public int Budget = 100;
+    public int Budget = 120;
     public int Overtime;              // 0 off, 1 on, 2 crunch
     public bool Party;
     public long RevenueMilli, MonthOutput, MonthSales;
     public int Wins, Burnouts, Quits, Poached;
+    public readonly Dictionary<Room, RoomStats> Stats = new();
+    public readonly HashSet<string> Discovered = new();
+    public int BidMult = 1000, PoachPerMonth = 1;
+
+    public RoomStats StatsOf(Room r) => Stats.TryGetValue(r, out RoomStats? s) ? s : new RoomStats();
+
+    /// <summary>Counts every room's neighbours and applies the synergies. Run after seating: some depend on who sits where.</summary>
+    public List<Synergy> Compute()
+    {
+        Stats.Clear();
+        BidMult = 1000; PoachPerMonth = 1;
+        var found = new List<Synergy>();
+        foreach (Room room in Rooms)
+        {
+            var s = new RoomStats();
+            foreach (Synergy syn in ProtoSim.Synergies)
+            {
+                if (!syn.Applies(this, room)) continue;
+                syn.Apply(this, room, s);
+                s.Active.Add(syn);
+                if (syn.Hidden && Discovered.Add(syn.Id)) found.Add(syn);
+            }
+            Stats[room] = s;
+        }
+        if (Has(k => k.Reception)) BidMult = BidMult * 1100 / 1000;
+        if (Has(k => k.Meeting)) BidMult = BidMult * 1150 / 1000;
+        return found;
+    }
+
+    /// <summary>Hidden synergies that would fire on this room but have not been seen yet: the "something hums here" count.</summary>
+    public int Undiscovered(Room room) => ProtoSim.Synergies.Count(s => s.Hidden && !Discovered.Contains(s.Id) && s.Applies(this, room));
 
     public int Desks(bool sales) => Rooms.Where(r => r.Kind.SalesDesks == sales).Sum(r => r.Kind.DeskCount(r.Fit));
     public int DesksUsed => People.Count(p => p.Desk != null);
@@ -160,6 +212,7 @@ public sealed class Quarter
             f.RevenueMilli = 0; f.MonthOutput = 0; f.MonthSales = 0;
             if (f.Party) { f.Budget -= 10; foreach (Person p in f.People) { p.Morale = Math.Min(1_000_000, p.Morale + 200_000); p.Stamina = Math.Max(100_000, p.Stamina - 150_000); } }
             f.Assign();
+            foreach (Synergy syn in f.Compute()) Log(f, $"DISCOVERED {syn.Name}: {syn.Blurb}", "pr");
             int idle = f.People.Count(p => p.Desk == null);
             if (idle > 0) Log(f, $"{idle} with no desk, idling at reception", "status");
         }
@@ -191,19 +244,19 @@ public sealed class Quarter
             case Act.Working:
             {
                 Room desk = p.Desk!;
-                int roomMult = 1000;
-                if (f.Rooms.Any(r => r.Kind.Server && r.Touches(desk))) roomMult += 250;
+                RoomStats st = f.StatsOf(desk);
+                int roomMult = st.Bill;
                 bool managed = desk.Seated.Any(m => m.Role == Role.Manager && m.Act == Act.Working);
-                if (managed && p.Role != Role.Manager) roomMult += 200;
+                if (managed && p.Role != Role.Manager) roomMult = roomMult * 1200 / 1000;
                 int otMult = f.Overtime switch { 0 => 1000, 1 => 1250, _ => 1500 };
                 long earn = (long)p.Skill * roomMult / 1000 * otMult / 1000 * mult / 1000;
                 if (p.Role == Role.Manager) earn /= 2;
                 f.MonthOutput += earn;
                 if (p.Role == Role.Sales) f.MonthSales += earn;
                 int crowd = 1000 + 250 * desk.Fit + (managed ? 200 : 0);
-                int drain = 2000 * (f.Overtime switch { 0 => 1000, 1 => 1500, _ => 2200 }) / 1000 * crowd / 1000;
+                int drain = 2000 * (f.Overtime switch { 0 => 1000, 1 => 1500, _ => 2200 }) / 1000 * crowd / 1000 * st.Drain / 1000;
                 p.Stamina -= drain;
-                p.Morale -= f.Overtime switch { 0 => 0, 1 => 40, _ => 120 };
+                p.Morale -= (f.Overtime switch { 0 => 0, 1 => 40, _ => 120 }) * st.MoraleDrain / 1000;
                 if (p.Stamina <= 0)
                 {
                     p.Stamina = 0; p.Act = Act.BurntOut; p.Morale -= 300_000; f.Burnouts++;
@@ -212,7 +265,7 @@ public sealed class Quarter
                 }
                 if (p.Stamina < RestFloor(f))
                 {
-                    Room? rest = f.Rooms.Where(r => r.Kind.RestCap > r.RestingNow).OrderBy(r => ProtoSim.Distance(p.Floor, p.Col, p.Row, r.Floor, r.Col, r.Row)).FirstOrDefault();
+                    Room? rest = f.Rooms.Where(r => r.Kind.RestCap + f.StatsOf(r).RestCapBonus > r.RestingNow).OrderBy(r => ProtoSim.Distance(p.Floor, p.Col, p.Row, r.Floor, r.Col, r.Row)).FirstOrDefault();
                     if (rest != null)
                     {
                         rest.RestingNow++;
@@ -232,7 +285,7 @@ public sealed class Quarter
             case Act.Resting:
             {
                 p.RestedTicks++;
-                p.Stamina = Math.Min(1_000_000, p.Stamina + (p.RestRoom?.Kind.Recover ?? 1500));
+                p.Stamina = Math.Min(1_000_000, p.Stamina + (p.RestRoom != null ? p.RestRoom.Kind.Recover * f.StatsOf(p.RestRoom).Recover / 1000 : 1500));
                 p.Morale = Math.Min(1_000_000, p.Morale + (p.RestRoom?.Kind.MoralePerTick ?? 0));
                 int enough = p.RestRoom != null ? 800_000 : 600_000;
                 if (p.Stamina >= enough && p.RestedTicks >= 40)
@@ -279,15 +332,17 @@ public sealed class Quarter
 
     private static long Bid(Firm f)
     {
-        long bid = (f.MonthOutput + f.MonthSales) * f.Loyalty / 1000;
-        if (f.Has(k => k.Reception)) bid = bid * 1100 / 1000;
-        if (f.Has(k => k.Meeting)) bid = bid * 1150 / 1000;
-        return bid;
+        return (f.MonthOutput + f.MonthSales) * f.Loyalty / 1000 * f.BidMult / 1000;
     }
 
     private void Poach(Firm to, Firm from)
     {
         if (!to.Has(k => k.Recruiting)) return;
+        for (int n = 0; n < to.PoachPerMonth; n++) PoachOne(to, from);
+    }
+
+    private void PoachOne(Firm to, Firm from)
+    {
         Person? mark = from.People.Where(p => p.Act != Act.BurntOut && p.Morale < 500_000).OrderBy(p => p.Morale).FirstOrDefault();
         if (mark == null) return;
         from.People.Remove(mark);
@@ -319,7 +374,43 @@ public static class ProtoSim
         new() { Id = "recruiting", Look = "room.legal_dept", Name = "Recruiting Office", W = 2, H = 2, Cost = 35, Recruiting = true, Floors = new[] { 1, 2 }, Blurb = "Each month, headhunts the rival's unhappiest person. They walk out of their building and into yours." },
     };
 
-    public static readonly RoomKind ReceptionKind = new() { Id = "reception", Look = "room.reception", Name = "Reception", W = 2, H = 2, Cost = 0, Reception = true, Floors = new[] { 0 }, Blurb = "Where everyone arrives. Market bid ×1.1." };
+    // Synergies. Multiplicative, so they stack; each of the strong ones carries a cost, so breaking the system is a
+    // trade rather than a free lunch. The printed ones teach the grammar; the hidden ones are the reason to try things.
+    public static readonly Synergy[] Synergies =
+    {
+        new() { Id = "server", Name = "Wired In", Blurb = "Desks in a room touching a Server Room bill ×1.25, once per server touching it.",
+            Applies = (f, r) => r.HasDesks && f.Rooms.Any(o => o.Kind.Server && o.Touches(r)),
+            Apply = (f, r, s) => { foreach (Room o in f.Rooms.Where(o => o.Kind.Server && o.Touches(r))) s.Bill = s.Bill * 1250 / 1000; } },
+        new() { Id = "pitch", Name = "Pitch Room", Blurb = "A Sales Floor touching a Meeting Room bills ×1.3.",
+            Applies = (f, r) => r.Kind.SalesDesks && f.Rooms.Any(o => o.Kind.Meeting && o.Touches(r)),
+            Apply = (f, r, s) => s.Bill = s.Bill * 1300 / 1000 },
+        new() { Id = "canteen", Name = "Canteen", Blurb = "A Break Room touching a Kitchenette: both rest one more person and recover ×1.5.",
+            Applies = (f, r) => r.Kind.RestCap > 0 && f.Rooms.Any(o => o.Kind.RestCap > 0 && o.Kind != r.Kind && o.Touches(r)),
+            Apply = (f, r, s) => { s.Recover = s.Recover * 1500 / 1000; s.RestCapBonus += 1; } },
+        new() { Id = "farm", Name = "Server Farm", Hidden = true, Blurb = "Two Server Rooms touching each other: desks touching either bill ×1.5 more, and the heat tires them ×1.5.",
+            Applies = (f, r) => r.HasDesks && f.Rooms.Any(o => o.Kind.Server && o.Touches(r) && f.Rooms.Any(o2 => o2.Kind.Server && o2.Touches(o))),
+            Apply = (f, r, s) => { s.Bill = s.Bill * 1500 / 1000; s.Drain = s.Drain * 1500 / 1000; } },
+        new() { Id = "sweatshop", Name = "Sweatshop", Hidden = true, Blurb = "An Open Plan at full fit-out under Crunch bills ×1.5 again, and morale drains ×3.",
+            Applies = (f, r) => r.Kind.Id == "open_plan" && r.Fit >= r.Kind.MaxFit && f.Overtime == 2,
+            Apply = (f, r, s) => { s.Bill = s.Bill * 1500 / 1000; s.MoraleDrain = s.MoraleDrain * 3; } },
+        new() { Id = "coffee", Name = "Coffee Run", Hidden = true, Blurb = "An Open Plan touching a Kitchenette tires ×0.8.",
+            Applies = (f, r) => r.Kind.Id == "open_plan" && f.Rooms.Any(o => o.Kind.Id == "kitchen" && o.Touches(r)),
+            Apply = (f, r, s) => s.Drain = s.Drain * 800 / 1000 },
+        new() { Id = "boiler", Name = "Boiler Room", Hidden = true, Blurb = "A Sales Floor touching a Recruiting Office bills ×1.2, and the recruiters headhunt two a month.",
+            Applies = (f, r) => r.Kind.SalesDesks && f.Rooms.Any(o => o.Kind.Recruiting && o.Touches(r)),
+            Apply = (f, r, s) => { s.Bill = s.Bill * 1200 / 1000; f.PoachPerMonth = 2; } },
+        new() { Id = "department", Name = "Department", Hidden = true, Blurb = "The same kind of room directly above or below: each bills ×1.15 per stacked floor.",
+            Applies = (f, r) => r.HasDesks && f.Rooms.Any(o => o.Kind == r.Kind && o.Stacked(r)),
+            Apply = (f, r, s) => { foreach (Room o in f.Rooms.Where(o => o.Kind == r.Kind && o.Stacked(r))) s.Bill = s.Bill * 1150 / 1000; } },
+        new() { Id = "management", Name = "Management Floor", Hidden = true, Blurb = "An Office with a Manager in it touching a Meeting Room: every desk on that floor bills ×1.15.",
+            Applies = (f, r) => r.HasDesks && f.Rooms.Any(o => o.Kind.Id == "office" && o.Floor == r.Floor && o.Seated.Any(p => p.Role == Role.Manager) && f.Rooms.Any(m => m.Kind.Meeting && m.Touches(o))),
+            Apply = (f, r, s) => s.Bill = s.Bill * 1150 / 1000 },
+        new() { Id = "gossip", Name = "Gossip", Hidden = true, Blurb = "A Sales Floor touching a Break Room: nobody there loses morale, but they bill ×0.9.",
+            Applies = (f, r) => r.Kind.SalesDesks && f.Rooms.Any(o => o.Kind.Id == "break" && o.Touches(r)),
+            Apply = (f, r, s) => { s.Bill = s.Bill * 900 / 1000; s.MoraleDrain = 0; } },
+    };
+
+    public static readonly RoomKind ReceptionKind =new() { Id = "reception", Look = "room.reception", Name = "Reception", W = 2, H = 2, Cost = 0, Reception = true, Floors = new[] { 0 }, Blurb = "Where everyone arrives. Market bid ×1.1." };
 
     public static readonly int[] LeaseCost = { 0, 40, 60 };
     public static int HireCost(Role r) => r switch { Role.Worker => 12, Role.Sales => 16, _ => 25 };
