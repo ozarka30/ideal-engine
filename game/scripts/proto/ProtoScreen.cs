@@ -457,7 +457,7 @@ public partial class ProtoScreen : Node2D
         _hits.Add(ready, StartQuarter, "Sixty seconds. Both buildings run; the one that bills more and wins more of the market takes the quarter.");
         y += 24;
         _font.Draw(this, x, y, $"Rival this quarter: {_rival.Name}, {_rival.People.Count} staff, {OvertimeName(_rival.Overtime)}.", _font.Small, muted); y += 10;
-        foreach (string line in Ui.Wrap(_font, _font.Small, "Rooms that touch, and rooms stacked on the floor above or below, do things together. Lit rooms and lines show the combos you know; tap a room for what is humming under it.", p.Size.X - 12, 3)) { _font.Draw(this, x, y, line, _font.Small, muted); y += 10; }
+        foreach (string line in Ui.Wrap(_font, _font.Small, "Rooms that touch, and rooms stacked on the floor above or below, do things together. Lit rooms and lines show the combos you know; tap a room for what is humming under it. A burnout is a ten-second slump, then back up at 30%: with nowhere to rest it happens again and again.", p.Size.X - 12, 4)) { _font.Draw(this, x, y, line, _font.Small, muted); y += 10; }
     }
 
     /// <summary>The sheet: every synergy, printed ones in full, hidden ones as a hint until found.</summary>
@@ -506,7 +506,7 @@ public partial class ProtoScreen : Node2D
         if (q.Finished)
         {
             string res = q.Winner == "A" ? "WON" : q.Winner == "B" ? "LOST" : "DRAW";
-            _font.Draw(this, x, cy - 14, $"Q{_round} · {res} · ¥{q.A.Revenue:N0} to ¥{q.B.Revenue:N0} · burnt out {q.A.People.Count(o => o.Slumped)} vs {q.B.People.Count(o => o.Slumped)}", _font.Small, Tones.Text("interface"));
+            _font.Draw(this, x, cy - 14, $"Q{_round} · {res} · ¥{q.A.Revenue:N0} to ¥{q.B.Revenue:N0} · burnouts {q.A.Burnouts} vs {q.B.Burnouts}", _font.Small, Tones.Text("interface"));
             var cont = new Rect2I(x, cy, p.Size.X - 8, 16);
             Ui.Button(this, cont, "CONTINUE (Enter)", "operations");
             _hits.Add(cont, Continue, "Bank it and build for the next quarter.");

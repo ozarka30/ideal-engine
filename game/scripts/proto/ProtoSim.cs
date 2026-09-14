@@ -89,7 +89,7 @@ public sealed class Person
     public Act After;
     public Room? Desk;
     public Room? RestRoom;
-    public int RestedTicks;
+    public int RestedTicks, SlumpLeft;
     public bool Slumped => Act == Act.BurntOut;
 }
 
@@ -104,7 +104,7 @@ public sealed class Firm
     public int Overtime;              // 0 off, 1 on, 2 crunch
     public bool Party;
     public long RevenueMilli, MonthOutput, MonthSales;
-    public int Wins, Burnouts, Quits, Poached;
+    public int Wins, Burnouts, MonthBurnouts, Quits, Poached;
     public readonly Dictionary<Room, RoomStats> Stats = new();
     public readonly HashSet<string> Discovered = new();
     public int BidMult = 1000, PoachPerMonth = 1;
@@ -235,7 +235,7 @@ public sealed class Quarter
         A = a; B = b;
         foreach (Firm f in new[] { A, B })
         {
-            f.RevenueMilli = 0; f.MonthOutput = 0; f.MonthSales = 0;
+            f.RevenueMilli = 0; f.MonthOutput = 0; f.MonthSales = 0; f.MonthBurnouts = 0;
             if (f.Party) { f.Budget -= 10; foreach (Person p in f.People) { p.Morale = Math.Min(1_000_000, p.Morale + 200_000); p.Stamina = Math.Max(100_000, p.Stamina - 150_000); } }
             f.Assign();
             foreach (Synergy syn in f.Compute()) Log(f, $"DISCOVERED {syn.Name}: {syn.Blurb}", "pr");
@@ -285,27 +285,11 @@ public sealed class Quarter
                 p.Morale -= (f.Overtime switch { 0 => 0, 1 => 40, _ => 120 }) * st.MoraleDrain / 1000;
                 if (p.Stamina <= 0)
                 {
-                    p.Stamina = 0; p.Act = Act.BurntOut; p.Morale -= 300_000; f.Burnouts++;
+                    p.Stamina = 0; p.Act = Act.BurntOut; p.SlumpLeft = SlumpTicks; p.Morale -= 300_000; f.Burnouts++; f.MonthBurnouts++;
                     Log(f, $"{ProtoSim.FloorName(p.Floor)} {p.Name} burnt out", "scandal");
                     break;
                 }
-                if (p.Stamina < RestFloor(f))
-                {
-                    Room? rest = f.Rooms.Where(r => r.Kind.RestCap + f.StatsOf(r).RestCapBonus > r.RestingNow).OrderBy(r => ProtoSim.Distance(p.Floor, p.Col, p.Row, r.Floor, r.Col, r.Row)).FirstOrDefault();
-                    if (rest != null)
-                    {
-                        rest.RestingNow++;
-                        p.RestRoom = rest;
-                        (int c, int r2) = rest.SeatTile(rest.RestingNow - 1);
-                        ProtoSim.StartWalk(p, rest.Floor, c, r2, Act.Resting);
-                        Log(f, $"{ProtoSim.FloorName(p.Floor)} {p.Name} → {rest.Kind.Name}", "status");
-                    }
-                    else
-                    {
-                        p.RestRoom = null; p.Act = Act.Resting; p.RestedTicks = 0;
-                        Log(f, $"{ProtoSim.FloorName(p.Floor)} {p.Name} dozing at the desk", "status");
-                    }
-                }
+                if (p.Stamina < RestFloor(f)) GoRest(f, p);
                 break;
             }
             case Act.Resting:
@@ -330,7 +314,35 @@ public sealed class Quarter
                 p.Morale -= 20;
                 break;
             case Act.BurntOut:
+                // A slump, not a stop: ten seconds face-down, then up at 30% and off to rest if there is anywhere to,
+                // or straight back to the desk under Crunch, where it happens again. The cycle is the picture.
+                p.SlumpLeft--;
+                if (p.SlumpLeft > 0) break;
+                p.Stamina = 300_000;
+                if (RestFloor(f) > 0 && f.Rooms.Any(r => r.Kind.RestCap + f.StatsOf(r).RestCapBonus > r.RestingNow)) GoRest(f, p);
+                else p.Act = Act.Working;
                 break;
+        }
+    }
+
+    private const int SlumpTicks = 200;
+
+    /// <summary>The nearest rest room with a free place, or a doze at the desk.</summary>
+    private void GoRest(Firm f, Person p)
+    {
+        Room? rest = f.Rooms.Where(r => r.Kind.RestCap + f.StatsOf(r).RestCapBonus > r.RestingNow).OrderBy(r => ProtoSim.Distance(p.Floor, p.Col, p.Row, r.Floor, r.Col, r.Row)).FirstOrDefault();
+        if (rest != null)
+        {
+            rest.RestingNow++;
+            p.RestRoom = rest;
+            (int c, int r2) = rest.SeatTile(rest.RestingNow - 1);
+            ProtoSim.StartWalk(p, rest.Floor, c, r2, Act.Resting);
+            Log(f, $"{ProtoSim.FloorName(p.Floor)} {p.Name} → {rest.Kind.Name}", "status");
+        }
+        else
+        {
+            p.RestRoom = null; p.Act = Act.Resting; p.RestedTicks = 0;
+            Log(f, $"{ProtoSim.FloorName(p.Floor)} {p.Name} dozing at the desk", "status");
         }
     }
 
@@ -347,9 +359,9 @@ public sealed class Quarter
         Ledger.Add((Tick, "B", $"MONTH {month + 1}: billed ¥{B.MonthOutput / 1000:N0}, won ¥{shareB / 1000:N0} of the ¥{pool / 1000:N0} market", "sales"));
         foreach (Firm f in new[] { A, B })
         {
-            int burnt = f.People.Count(p => p.Act == Act.BurntOut);
-            if (burnt > 0) { f.Loyalty = Math.Max(300, f.Loyalty - 40 * burnt); Ledger.Add((Tick, f == A ? "A" : "B", $"{burnt} burnt out on the floor: Loyalty −{40 * burnt}", "scandal")); }
-            f.MonthOutput = 0; f.MonthSales = 0;
+            int burnt = f.MonthBurnouts;
+            if (burnt > 0) { f.Loyalty = Math.Max(300, f.Loyalty - 40 * burnt); Ledger.Add((Tick, f == A ? "A" : "B", $"{burnt} burnt out this month: Loyalty −{40 * burnt}", "scandal")); }
+            f.MonthOutput = 0; f.MonthSales = 0; f.MonthBurnouts = 0;
         }
         if (Tick >= Ticks) return;
         Poach(A, B);
@@ -390,14 +402,14 @@ public static class ProtoSim
 {
     public static readonly RoomKind[] Catalogue =
     {
-        new() { Id = "open_plan", Look = "room.open_plan", Name = "Open Plan", W = 2, H = 3, Cost = 30, Desks = 6, DesksPerFit = 2, MaxFit = 2, Floors = new[] { 1, 2 }, Blurb = "6 desks; fit-out adds 2 more each. Cheap per desk, and the crowding burns people faster." },
-        new() { Id = "office", Look = "room.training_room", Name = "Office", W = 2, H = 2, Cost = 22, Desks = 3, DesksPerFit = 1, MaxFit = 2, Floors = new[] { 1, 2 }, Blurb = "3 desks; fit-out adds 1 each. Roomier than the open plan." },
-        new() { Id = "sales", Look = "room.sales_floor", Name = "Sales Floor", W = 2, H = 2, Cost = 25, Desks = 3, DesksPerFit = 1, MaxFit = 2, SalesDesks = true, Floors = new[] { 1, 2 }, Blurb = "3 sales desks. What sales bill counts double toward the market." },
-        new() { Id = "server", Look = "room.server_room", Name = "Server Room", W = 2, H = 2, Cost = 18, Server = true, Floors = new[] { 1, 2 }, Blurb = "Desks in rooms touching it earn ×1.25." },
-        new() { Id = "meeting", Look = "room.meeting_room", Name = "Meeting Room", W = 2, H = 2, Cost = 20, Meeting = true, Floors = new[] { 1, 2 }, Blurb = "The firm's market bid ×1.15. One is enough." },
+        new() { Id = "open_plan", Look = "room.open_plan", Name = "Open Plan", W = 2, H = 3, Cost = 30, Desks = 6, DesksPerFit = 2, MaxFit = 2, Blurb = "6 desks; fit-out adds 2 more each. Cheap per desk, and the crowding burns people faster." },
+        new() { Id = "office", Look = "room.training_room", Name = "Office", W = 2, H = 2, Cost = 22, Desks = 3, DesksPerFit = 1, MaxFit = 2, Blurb = "3 desks; fit-out adds 1 each. Roomier than the open plan." },
+        new() { Id = "sales", Look = "room.sales_floor", Name = "Sales Floor", W = 2, H = 2, Cost = 25, Desks = 3, DesksPerFit = 1, MaxFit = 2, SalesDesks = true, Blurb = "3 sales desks. What sales bill counts double toward the market." },
+        new() { Id = "server", Look = "room.server_room", Name = "Server Room", W = 2, H = 2, Cost = 18, Server = true, Blurb = "Desks in rooms touching it earn ×1.25." },
+        new() { Id = "meeting", Look = "room.meeting_room", Name = "Meeting Room", W = 2, H = 2, Cost = 20, Meeting = true, Blurb = "The firm's market bid ×1.15. One is enough." },
         new() { Id = "break", Look = "room.break_room", Name = "Break Room", W = 1, H = 2, Cost = 12, RestCap = 2, Recover = 8000, MoralePerTick = 30, Blurb = "Rests 2 at a time, fast. People walk here when they are tired, if it is close." },
         new() { Id = "kitchen", Look = "room.kitchenette", Name = "Kitchenette", W = 1, H = 2, Cost = 8, RestCap = 1, Recover = 6000, MoralePerTick = 60, Blurb = "Rests 1 at a time and cheers them up." },
-        new() { Id = "recruiting", Look = "room.legal_dept", Name = "Recruiting Office", W = 2, H = 2, Cost = 35, Recruiting = true, Floors = new[] { 1, 2 }, Blurb = "Each month, headhunts the rival's unhappiest person. They walk out of their building and into yours." },
+        new() { Id = "recruiting", Look = "room.legal_dept", Name = "Recruiting Office", W = 2, H = 2, Cost = 35, Recruiting = true, Blurb = "Each month, headhunts the rival's unhappiest person. They walk out of their building and into yours." },
     };
 
     // Synergies. Multiplicative, so they stack; each of the strong ones carries a cost, so breaking the system is a
