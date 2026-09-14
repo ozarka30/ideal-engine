@@ -65,8 +65,11 @@ public sealed class Synergy
     public required string Name;
     public required string Blurb;
     public bool Hidden;
+    public string Hint = "";          // what the sheet shows while it is still hidden
     public required Func<Firm, Room, bool> Applies;
     public required Action<Firm, Room, RoomStats> Apply;
+    /// <summary>The rooms that make the synergy happen for this room, so the screen can draw the link.</summary>
+    public Func<Firm, Room, IEnumerable<Room>> Partners = (f, r) => Array.Empty<Room>();
 }
 
 public sealed class Person
@@ -106,7 +109,8 @@ public sealed class Firm
     public RoomStats StatsOf(Room r) => Stats.TryGetValue(r, out RoomStats? s) ? s : new RoomStats();
 
     /// <summary>Counts every room's neighbours and applies the synergies. Run after seating: some depend on who sits where.</summary>
-    public List<Synergy> Compute()
+    /// <param name="discover">The quarter is starting: hidden synergies fire and are announced. During the build only the known ones count, so the numbers on screen never leak a secret.</param>
+    public List<Synergy> Compute(bool discover = true)
     {
         Stats.Clear();
         BidMult = 1000; PoachPerMonth = 1;
@@ -116,6 +120,7 @@ public sealed class Firm
             var s = new RoomStats();
             foreach (Synergy syn in ProtoSim.Synergies)
             {
+                if (syn.Hidden && !discover && !Discovered.Contains(syn.Id)) continue;
                 if (!syn.Applies(this, room)) continue;
                 syn.Apply(this, room, s);
                 s.Active.Add(syn);
@@ -143,7 +148,7 @@ public sealed class Firm
     {
         if (!Leased[floor]) return "that floor is not leased";
         if (Array.IndexOf(k.Floors, floor) < 0) return $"{k.Name} does not go on {ProtoSim.FloorName(floor)}";
-        if (col + k.W > 5 || row + k.H > 3) return "it does not fit there";
+        if (col + k.W > ProtoSim.GridW || row + k.H > ProtoSim.GridH) return "it does not fit there";
         for (int c = col; c < col + k.W; c++) for (int r = row; r < row + k.H; r++) if (RoomAt(floor, c, r) != null) return "something is already there";
         if (Budget < k.Cost) return $"¥{k.Cost} needed";
         Budget -= k.Cost;
@@ -380,34 +385,43 @@ public static class ProtoSim
     {
         new() { Id = "server", Name = "Wired In", Blurb = "Desks in a room touching a Server Room bill ×1.25, once per server touching it.",
             Applies = (f, r) => r.HasDesks && f.Rooms.Any(o => o.Kind.Server && o.Touches(r)),
-            Apply = (f, r, s) => { foreach (Room o in f.Rooms.Where(o => o.Kind.Server && o.Touches(r))) s.Bill = s.Bill * 1250 / 1000; } },
+            Apply = (f, r, s) => { foreach (Room o in f.Rooms.Where(o => o.Kind.Server && o.Touches(r))) s.Bill = s.Bill * 1250 / 1000; },
+            Partners = (f, r) => f.Rooms.Where(o => o.Kind.Server && o.Touches(r)) },
         new() { Id = "pitch", Name = "Pitch Room", Blurb = "A Sales Floor touching a Meeting Room bills ×1.3.",
             Applies = (f, r) => r.Kind.SalesDesks && f.Rooms.Any(o => o.Kind.Meeting && o.Touches(r)),
-            Apply = (f, r, s) => s.Bill = s.Bill * 1300 / 1000 },
+            Apply = (f, r, s) => s.Bill = s.Bill * 1300 / 1000,
+            Partners = (f, r) => f.Rooms.Where(o => o.Kind.Meeting && o.Touches(r)) },
         new() { Id = "canteen", Name = "Canteen", Blurb = "A Break Room touching a Kitchenette: both rest one more person and recover ×1.5.",
             Applies = (f, r) => r.Kind.RestCap > 0 && f.Rooms.Any(o => o.Kind.RestCap > 0 && o.Kind != r.Kind && o.Touches(r)),
-            Apply = (f, r, s) => { s.Recover = s.Recover * 1500 / 1000; s.RestCapBonus += 1; } },
-        new() { Id = "farm", Name = "Server Farm", Hidden = true, Blurb = "Two Server Rooms touching each other: desks touching either bill ×1.5 more, and the heat tires them ×1.5.",
+            Apply = (f, r, s) => { s.Recover = s.Recover * 1500 / 1000; s.RestCapBonus += 1; },
+            Partners = (f, r) => f.Rooms.Where(o => o.Kind.RestCap > 0 && o.Kind != r.Kind && o.Touches(r)) },
+        new() { Id = "farm", Name = "Server Farm", Hidden = true, Hint = "Two of one kind of room, side by side, run hot.", Blurb = "Two Server Rooms touching each other: desks touching either bill ×1.5 more, and the heat tires them ×1.5.",
             Applies = (f, r) => r.HasDesks && f.Rooms.Any(o => o.Kind.Server && o.Touches(r) && f.Rooms.Any(o2 => o2.Kind.Server && o2.Touches(o))),
-            Apply = (f, r, s) => { s.Bill = s.Bill * 1500 / 1000; s.Drain = s.Drain * 1500 / 1000; } },
-        new() { Id = "sweatshop", Name = "Sweatshop", Hidden = true, Blurb = "An Open Plan at full fit-out under Crunch bills ×1.5 again, and morale drains ×3.",
+            Apply = (f, r, s) => { s.Bill = s.Bill * 1500 / 1000; s.Drain = s.Drain * 1500 / 1000; },
+            Partners = (f, r) => f.Rooms.Where(o => o.Kind.Server && o.Touches(r) && f.Rooms.Any(o2 => o2.Kind.Server && o2.Touches(o))) },
+        new() { Id = "sweatshop", Name = "Sweatshop", Hidden = true, Hint = "A crowded room under the harshest policy.", Blurb = "An Open Plan at full fit-out under Crunch bills ×1.5 again, and morale drains ×3.",
             Applies = (f, r) => r.Kind.Id == "open_plan" && r.Fit >= r.Kind.MaxFit && f.Overtime == 2,
             Apply = (f, r, s) => { s.Bill = s.Bill * 1500 / 1000; s.MoraleDrain = s.MoraleDrain * 3; } },
-        new() { Id = "coffee", Name = "Coffee Run", Hidden = true, Blurb = "An Open Plan touching a Kitchenette tires ×0.8.",
+        new() { Id = "coffee", Name = "Coffee Run", Hidden = true, Hint = "Something small and warm next to the biggest room.", Blurb = "An Open Plan touching a Kitchenette tires ×0.8.",
             Applies = (f, r) => r.Kind.Id == "open_plan" && f.Rooms.Any(o => o.Kind.Id == "kitchen" && o.Touches(r)),
-            Apply = (f, r, s) => s.Drain = s.Drain * 800 / 1000 },
-        new() { Id = "boiler", Name = "Boiler Room", Hidden = true, Blurb = "A Sales Floor touching a Recruiting Office bills ×1.2, and the recruiters headhunt two a month.",
+            Apply = (f, r, s) => s.Drain = s.Drain * 800 / 1000,
+            Partners = (f, r) => f.Rooms.Where(o => o.Kind.Id == "kitchen" && o.Touches(r)) },
+        new() { Id = "boiler", Name = "Boiler Room", Hidden = true, Hint = "Put the people who talk next to the people who poach.", Blurb = "A Sales Floor touching a Recruiting Office bills ×1.2, and the recruiters headhunt two a month.",
             Applies = (f, r) => r.Kind.SalesDesks && f.Rooms.Any(o => o.Kind.Recruiting && o.Touches(r)),
-            Apply = (f, r, s) => { s.Bill = s.Bill * 1200 / 1000; f.PoachPerMonth = 2; } },
-        new() { Id = "department", Name = "Department", Hidden = true, Blurb = "The same kind of room directly above or below: each bills ×1.15 per stacked floor.",
+            Apply = (f, r, s) => { s.Bill = s.Bill * 1200 / 1000; f.PoachPerMonth = 2; },
+            Partners = (f, r) => f.Rooms.Where(o => o.Kind.Recruiting && o.Touches(r)) },
+        new() { Id = "department", Name = "Department", Hidden = true, Hint = "Floors are neighbours too.", Blurb = "The same kind of room directly above or below: each bills ×1.15 per stacked floor.",
             Applies = (f, r) => r.HasDesks && f.Rooms.Any(o => o.Kind == r.Kind && o.Stacked(r)),
-            Apply = (f, r, s) => { foreach (Room o in f.Rooms.Where(o => o.Kind == r.Kind && o.Stacked(r))) s.Bill = s.Bill * 1150 / 1000; } },
-        new() { Id = "management", Name = "Management Floor", Hidden = true, Blurb = "An Office with a Manager in it touching a Meeting Room: every desk on that floor bills ×1.15.",
+            Apply = (f, r, s) => { foreach (Room o in f.Rooms.Where(o => o.Kind == r.Kind && o.Stacked(r))) s.Bill = s.Bill * 1150 / 1000; },
+            Partners = (f, r) => f.Rooms.Where(o => o.Kind == r.Kind && o.Stacked(r)) },
+        new() { Id = "management", Name = "Management Floor", Hidden = true, Hint = "Someone in charge, with somewhere to hold court.", Blurb = "An Office with a Manager in it touching a Meeting Room: every desk on that floor bills ×1.15.",
             Applies = (f, r) => r.HasDesks && f.Rooms.Any(o => o.Kind.Id == "office" && o.Floor == r.Floor && o.Seated.Any(p => p.Role == Role.Manager) && f.Rooms.Any(m => m.Kind.Meeting && m.Touches(o))),
-            Apply = (f, r, s) => s.Bill = s.Bill * 1150 / 1000 },
-        new() { Id = "gossip", Name = "Gossip", Hidden = true, Blurb = "A Sales Floor touching a Break Room: nobody there loses morale, but they bill ×0.9.",
+            Apply = (f, r, s) => s.Bill = s.Bill * 1150 / 1000,
+            Partners = (f, r) => f.Rooms.Where(o => o.Kind.Id == "office" && o.Floor == r.Floor && o != r && o.Seated.Any(p => p.Role == Role.Manager)) },
+        new() { Id = "gossip", Name = "Gossip", Hidden = true, Hint = "Some rooms are too comfortable to sell from.", Blurb = "A Sales Floor touching a Break Room: nobody there loses morale, but they bill ×0.9.",
             Applies = (f, r) => r.Kind.SalesDesks && f.Rooms.Any(o => o.Kind.Id == "break" && o.Touches(r)),
-            Apply = (f, r, s) => { s.Bill = s.Bill * 900 / 1000; s.MoraleDrain = 0; } },
+            Apply = (f, r, s) => { s.Bill = s.Bill * 900 / 1000; s.MoraleDrain = 0; },
+            Partners = (f, r) => f.Rooms.Where(o => o.Kind.Id == "break" && o.Touches(r)) },
     };
 
     public static readonly RoomKind ReceptionKind =new() { Id = "reception", Look = "room.reception", Name = "Reception", W = 2, H = 2, Cost = 0, Reception = true, Floors = new[] { 0 }, Blurb = "Where everyone arrives. Market bid ×1.1." };
@@ -415,6 +429,7 @@ public static class ProtoSim
     public static readonly int[] LeaseCost = { 0, 40, 60 };
     public static int HireCost(Role r) => r switch { Role.Worker => 12, Role.Sales => 16, _ => 25 };
     public const int FitCost = 12, Rounds = 12, Strikes = 3;
+    public const int GridW = 8, GridH = 4;
 
     public static string FloorName(int f) => f switch { 0 => "G", 1 => "1F", _ => "2F" };
 
@@ -464,22 +479,27 @@ public static class ProtoSim
         f.Leased[2] = round >= 4;
         RoomKind K(string id) => Catalogue.First(k => k.Id == id);
         void Put(string id, int fl, int c, int r, int fit = 0) => f.Rooms.Add(new Room { Kind = K(id), Floor = fl, Col = c, Row = r, Fit = fit });
+        // 8 x 4 floors. Churn stacks open plans and wires them; retention rests people and finds the coffee run.
         Put("open_plan", 1, 0, 0, Math.Min(2, round / 3));
         if (round >= 2) Put("sales", 1, 2, 0);
         if (churn)
         {
             f.Overtime = round >= 3 ? 2 : 1;
+            if (round >= 4) Put("server", 1, 2, 2);
+            if (round >= 6) Put("recruiting", 1, 4, 0);
             if (round >= 4) Put("open_plan", 2, 0, 0, Math.Min(2, round / 4));
-            if (round >= 6) Put("recruiting", 2, 2, 0);
-            else if (round >= 4) Put("server", 2, 2, 0);
+            if (round >= 8) Put("server", 2, 2, 2);
         }
         else
         {
             f.Overtime = 0;
             f.Party = round % 3 == 0;
             Put("break", 0, 2, 0);
+            if (round >= 3) Put("kitchen", 0, 3, 0);
             if (round >= 3) Put("break", 1, 4, 0);
-            if (round >= 4) { Put("office", 2, 0, 0, 1); Put(round >= 7 ? "meeting" : "server", 2, 2, 0); Put("kitchen", 2, 4, 0); }
+            if (round >= 5) Put("kitchen", 1, 2, 2);
+            if (round >= 4) { Put("office", 2, 0, 0, 1); Put("meeting", 2, 2, 0); Put("kitchen", 2, 4, 0); }
+            if (round >= 7) Put("server", 2, 2, 2);
         }
         int workers = Math.Min(f.Desks(false) - (round >= 5 ? 1 : 0), 2 + round);
         for (int i = 0; i < workers; i++) f.People.Add(NewPerson(Role.Worker));
