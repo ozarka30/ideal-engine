@@ -41,14 +41,17 @@ public sealed class Room
 {
     public required RoomKind Kind;
     public int Floor, Col, Row, Fit;
+    public bool Rot;                  // turned a quarter: the footprint's W and H swap
     public readonly List<Person> Seated = new();
     public int RestingNow;
-    public bool Covers(int f, int c, int r) => f == Floor && c >= Col && c < Col + Kind.W && r >= Row && r < Row + Kind.H;
-    public bool Touches(Room o) => o.Floor == Floor && Col < o.Col + o.Kind.W + 1 && o.Col < Col + Kind.W + 1 && Row < o.Row + o.Kind.H + 1 && o.Row < Row + Kind.H + 1 && o != this;
+    public int W => Rot ? Kind.H : Kind.W;
+    public int H => Rot ? Kind.W : Kind.H;
+    public bool Covers(int f, int c, int r) => f == Floor && c >= Col && c < Col + W && r >= Row && r < Row + H;
+    public bool Touches(Room o) => o.Floor == Floor && Col < o.Col + o.W + 1 && o.Col < Col + W + 1 && Row < o.Row + o.H + 1 && o.Row < Row + H + 1 && o != this;
     /// <summary>Directly above or below: the floors are adjacent and the footprints overlap in plan.</summary>
-    public bool Stacked(Room o) => Math.Abs(o.Floor - Floor) == 1 && Col < o.Col + o.Kind.W && o.Col < Col + Kind.W && Row < o.Row + o.Kind.H && o.Row < Row + Kind.H;
+    public bool Stacked(Room o) => Math.Abs(o.Floor - Floor) == 1 && Col < o.Col + o.W && o.Col < Col + W && Row < o.Row + o.H && o.Row < Row + H;
     public bool HasDesks => Kind.Desks > 0;
-    public (int C, int R) SeatTile(int i) => (Col + i % Kind.W, Row + Math.Min(Kind.H - 1, i / Kind.W));
+    public (int C, int R) SeatTile(int i) => (Col + i % W, Row + Math.Min(H - 1, i / W));
 }
 
 /// <summary>What a room is doing this quarter once its neighbours are counted: permille multipliers and the synergies that made them.</summary>
@@ -144,15 +147,33 @@ public sealed class Firm
 
     public Room? RoomAt(int f, int c, int r) => Rooms.FirstOrDefault(x => x.Covers(f, c, r));
 
-    public string? Place(RoomKind k, int floor, int col, int row)
+    /// <summary>Why a footprint cannot go there, or null. <paramref name="self"/> is the room being turned in place, which may overlap itself.</summary>
+    public string? Fits(int w, int h, int floor, int col, int row, Room? self = null)
     {
         if (!Leased[floor]) return "that floor is not leased";
-        if (Array.IndexOf(k.Floors, floor) < 0) return $"{k.Name} does not go on {ProtoSim.FloorName(floor)}";
-        if (col + k.W > ProtoSim.GridW || row + k.H > ProtoSim.GridH) return "it does not fit there";
-        for (int c = col; c < col + k.W; c++) for (int r = row; r < row + k.H; r++) if (RoomAt(floor, c, r) != null) return "something is already there";
+        if (col < 0 || row < 0 || col + w > ProtoSim.GridW || row + h > ProtoSim.GridH) return "it does not fit there";
+        for (int c = col; c < col + w; c++) for (int r = row; r < row + h; r++) { Room? o = RoomAt(floor, c, r); if (o != null && o != self) return "something is already there"; }
+        return null;
+    }
+
+    public string? Place(RoomKind k, int floor, int col, int row, bool rot = false)
+    {
+        if (Array.IndexOf(k.Floors, floor) < 0 && Leased[floor]) return $"{k.Name} does not go on {ProtoSim.FloorName(floor)}";
+        string? why = Fits(rot ? k.H : k.W, rot ? k.W : k.H, floor, col, row);
+        if (why != null) return why;
         if (Budget < k.Cost) return $"¥{k.Cost} needed";
         Budget -= k.Cost;
-        Rooms.Add(new Room { Kind = k, Floor = floor, Col = col, Row = row });
+        Rooms.Add(new Room { Kind = k, Floor = floor, Col = col, Row = row, Rot = rot });
+        return null;
+    }
+
+    /// <summary>Turn a placed room a quarter, if the turned footprint still fits.</summary>
+    public string? Rotate(Room room)
+    {
+        if (room.Kind.W == room.Kind.H) { room.Rot = !room.Rot; return null; }
+        string? why = Fits(room.H, room.W, room.Floor, room.Col, room.Row, room);
+        if (why != null) return why;
+        room.Rot = !room.Rot;
         return null;
     }
 

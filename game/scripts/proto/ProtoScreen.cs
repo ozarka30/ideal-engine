@@ -33,6 +33,7 @@ public partial class ProtoScreen : Node2D
     private int _round = 1, _strikes;
     private bool _runOver, _sheet;
     private RoomKind? _carry;
+    private bool _carryRot;
     private Room? _selected;
     private string _hint = string.Empty, _lastTap = string.Empty;
     private int _speed = 1;
@@ -114,7 +115,7 @@ public partial class ProtoScreen : Node2D
     private Rect2I RoomRect(bool mine, Room room)
     {
         Vector2I o = FloorOrigin(mine, room.Floor);
-        return new Rect2I(o.X + room.Col * Tile, o.Y + room.Row * Tile, room.Kind.W * Tile, room.Kind.H * Tile);
+        return new Rect2I(o.X + room.Col * Tile, o.Y + room.Row * Tile, room.W * Tile, room.H * Tile);
     }
 
     private void DrawRoom(bool mine, Room room, Color dim)
@@ -123,14 +124,24 @@ public partial class ProtoScreen : Node2D
         RoomDef rdef = _db.Rooms.First(r => r.Id == room.Kind.Look);
         SubViewport? vp = SceneView($"res://scenes/rooms/{rdef.Id.Split('.')[1]}.tscn", L.Size(rdef.Tile));
         if (vp == null) { DrawRect(new Rect2(rr.Position, rr.Size), Tones.Fill("structure") * dim); }
-        else
+        else if (!room.Rot)
         {
             Vector2I plan = L.Size(rdef.Tile);
             CompanyWars.Manifest.Overhang o = L.Entry(rdef.Tile).Overhang ?? new CompanyWars.Manifest.Overhang(0, 0, 0, 0);
             DrawTextureRect(vp.GetTexture(), new Rect2(rr.Position.X, rr.Position.Y - o.Top / 2, plan.X / 2, plan.Y / 2), false, dim);
         }
+        else
+        {
+            // Turned a quarter clockwise about the room's top-right corner: the footprint alone, without its overhang.
+            Vector2I plan = L.Size(rdef.Tile);
+            CompanyWars.Manifest.Overhang o = L.Entry(rdef.Tile).Overhang ?? new CompanyWars.Manifest.Overhang(0, 0, 0, 0);
+            var src = new Rect2(0, o.Top * RoomOversample, plan.X * RoomOversample, (plan.Y - o.Top) * RoomOversample);
+            DrawSetTransform(new Vector2(rr.Position.X + rr.Size.X, rr.Position.Y), Mathf.Pi / 2, Vector2.One);
+            DrawTextureRectRegion(vp.GetTexture(), new Rect2(0, 0, rr.Size.Y, rr.Size.X), src, dim);
+            DrawSetTransform(Vector2.Zero, 0, Vector2.One);
+        }
         Color label = Tones.Text("interface").Inverted() * dim;
-        string name = Ui.Abbrev(room.Kind.Name, room.Kind.W * 3);
+        string name = Ui.Abbrev(room.Kind.Name, room.W * 3);
         _font.Draw(this, rr.Position.X + 1, rr.Position.Y - 1, name, _font.Small, label);
         if (room.HasDesks) _font.Draw(this, rr.Position.X + 1, rr.Position.Y + rr.Size.Y - 9, $"{room.Seated.Count}/{room.Kind.DeskCount(room.Fit)}", _font.Small, label);
         for (int i = 0; i < room.Fit; i++) DrawRect(new Rect2(rr.Position.X + rr.Size.X - (i + 1) * 4, rr.Position.Y + 1, 3, 3), Tones.Fill("support") * dim);
@@ -245,9 +256,9 @@ public partial class ProtoScreen : Node2D
                 if (frame.HasPoint(new Vector2I((int)m.X, (int)m.Y)))
                 {
                     int c = ((int)m.X - o.X) / Tile, rw = ((int)m.Y - o.Y) / Tile;
-                    bool ok = c + _carry.W <= ProtoSim.GridW && rw + _carry.H <= ProtoSim.GridH && Array.IndexOf(_carry.Floors, floor) >= 0;
-                    for (int cc = c; ok && cc < c + _carry.W; cc++) for (int rr = rw; ok && rr < rw + _carry.H; rr++) if (f.RoomAt(floor, cc, rr) != null) ok = false;
-                    DrawRect(new Rect2(o.X + c * Tile, o.Y + rw * Tile, _carry.W * Tile, _carry.H * Tile), Tones.Fill(ok ? "operations" : "invalid"), false, 2);
+                    int cw = _carryRot ? _carry.H : _carry.W, ch = _carryRot ? _carry.W : _carry.H;
+                    bool ok = Array.IndexOf(_carry.Floors, floor) >= 0 && f.Fits(cw, ch, floor, c, rw) == null;
+                    DrawRect(new Rect2(o.X + c * Tile, o.Y + rw * Tile, cw * Tile, ch * Tile), Tones.Fill(ok ? "operations" : "invalid"), false, 2);
                 }
             }
         }
@@ -342,10 +353,20 @@ public partial class ProtoScreen : Node2D
     private void PlaceAt(int floor, int col, int row)
     {
         if (_carry == null) return;
-        string? why = _me.Place(_carry, floor, col, row);
+        string? why = _me.Place(_carry, floor, col, row, _carryRot);
         if (why != null) { _hint = why; QueueRedraw(); return; }
         _hint = string.Empty;
         _carry = null;
+        _carryRot = false;
+        QueueRedraw();
+    }
+
+    /// <summary>R: turn what is being carried, or the selected room in place.</summary>
+    private void Rotate()
+    {
+        if (_q != null) return;
+        if (_carry != null) { _carryRot = !_carryRot; _hint = string.Empty; }
+        else if (_selected != null) { _hint = _me.Rotate(_selected) ?? string.Empty; }
         QueueRedraw();
     }
 
@@ -366,11 +387,19 @@ public partial class ProtoScreen : Node2D
         {
             RoomKind k = ProtoSim.Catalogue[i];
             var br = new Rect2I(x + (i % 2) * (bw + 4), y + (i / 2) * 16, bw, 14);
-            Ui.Button(this, br, $"{k.Name} {k.W}×{k.H} ¥{k.Cost}", _carry == k ? "operations" : "support", _me.Budget >= k.Cost);
+            bool turned = _carry == k && _carryRot;
+            Ui.Button(this, br, $"{k.Name} {(turned ? k.H : k.W)}×{(turned ? k.W : k.H)} ¥{k.Cost}", _carry == k ? "operations" : "support", _me.Budget >= k.Cost);
             string printed = string.Join(" ", ProtoSim.Synergies.Where(s => !s.Hidden && s.Blurb.Contains(k.Name)).Select(s => s.Blurb));
-            _hits.Add(br, () => { _carry = _carry == k ? null : k; _selected = null; QueueRedraw(); }, $"{k.Name} ({k.W}×{k.H}) · {k.Blurb} {printed}");
+            _hits.Add(br, () => { _carry = _carry == k ? null : k; _carryRot = false; _selected = null; QueueRedraw(); }, $"{k.Name} ({k.W}×{k.H}) · {k.Blurb} {printed} R turns it.");
         }
         y += 16 * ((ProtoSim.Catalogue.Length + 1) / 2) + 2;
+        if (_carry != null || (_selected != null && _selected.Kind != ProtoSim.ReceptionKind))
+        {
+            var rot = new Rect2I(x, y, bw, 14);
+            Ui.Button(this, rot, _carry != null ? $"ROTATE {_carry.Name} (R)" : $"ROTATE {_selected!.Kind.Name} (R)", "support");
+            _hits.Add(rot, Rotate, _carry != null ? "Turn the room a quarter before placing it." : "Turn the room a quarter in place, if it still fits. Free during the build.");
+            y += 18;
+        }
         if (_selected != null)
         {
             RoomStats st = _me.StatsOf(_selected);
@@ -533,7 +562,7 @@ public partial class ProtoScreen : Node2D
                 Hits.Hit? best = _hits.At(p);
                 if (best != null) { _lastTap = best.Value.Hint; _hint = string.Empty; best.Value.Click(); QueueRedraw(); }
             }
-            else if (mb.ButtonIndex == MouseButton.Right) { _carry = null; _selected = null; QueueRedraw(); }
+            else if (mb.ButtonIndex == MouseButton.Right) { _carry = null; _carryRot = false; _selected = null; QueueRedraw(); }
         }
         if (@event is InputEventKey { Pressed: true } key)
         {
@@ -545,6 +574,7 @@ public partial class ProtoScreen : Node2D
                     else if (_q.Finished) Continue();
                     break;
                 case Key.S: _sheet = !_sheet; QueueRedraw(); break;
+                case Key.R: Rotate(); break;
                 case Key.Escape: if (_sheet) { _sheet = false; QueueRedraw(); } else if (_q == null) { _carry = null; _selected = null; QueueRedraw(); } else _r.Go("res://scenes/Menu.tscn"); break;
                 case Key.Key1: _speed = 1; break;
                 case Key.Key2: _speed = 2; break;
