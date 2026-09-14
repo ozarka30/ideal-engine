@@ -232,6 +232,8 @@ public class ExplainTests
         Assert.Equal("Ship Feature: earn ¥60 every 4.0 s.", Explain.Ability(db, db.Employees.First(e => e.Id == "emp.junior_dev")));
         Assert.Contains("Open Plan", Explain.Placement(db, db.Employees.First(e => e.Id == "emp.junior_dev"))[0]);
         Assert.Contains("Whiteboard", Explain.Placement(db, db.Employees.First(e => e.Id == "emp.junior_dev"))[1]);
+        // Two-decimal multipliers are shown in full, not cut to one decimal (the Server Room is 1350 permille).
+        Assert.Contains("Server Room ×1.35", Explain.Placement(db, db.Employees.First(e => e.Id == "emp.junior_dev"))[0]);
         Assert.Equal("Delegate: the hardest-hitting neighbour fires now every 6.0 s.", Explain.Ability(db, db.Employees.First(e => e.Id == "emp.team_lead")));
     }
 }

@@ -2,7 +2,7 @@
 
 An auto-battler where you build a haunted Japanese office tower floor by floor,
 hire the staff to fill it, and send it into quarterly combat against another
-player's building for market share.
+player's building for the quarter's revenue.
 
 Pre-production. No code yet — design first. The design phase is complete in draft:
 eight documents, a content database, a sprite manifest, and the schemas they validate
@@ -42,7 +42,7 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 - **Genre** — auto-battler; build round, then async PvP round
 - **Depth model** — Backpack Battles: scarce grid, adjacency synergy, hidden recipes
 - **Divergence** — two asset classes. Rooms are static commitments; employees are flexible and reoptimised every round
-- **Combat** — cooldown duel, nothing moves, market share tug-of-war
+- **Combat** — cooldown duel, nothing moves, a race for the quarter's revenue
 - **Setting** — retro Japanese corporate occult
 - **Platform** — Steam, via Godot 4 with C# (D-60); the simulation is a plain .NET class library with no engine dependency, so the balance harness and the future server run the same code as the game
 
@@ -56,7 +56,7 @@ against. The first implementation milestone is `ROADMAP.md` M0.
 | 4 — Technical | `ARCHITECTURE.md`, `ART_PIPELINE.md`, `manifest/` | Signed off (D-53) |
 | 5 — Balance and plan | `BALANCE_PLAN.md`, `ROADMAP.md`, `content/balance.json` | Signed off (D-53) |
 
-Ninety-two decisions are logged — fifty-eight craft calls and thirty-four human ones.
+Ninety-three decisions are logged — fifty-nine craft calls and thirty-four human ones.
 The design phase is signed off (D-53) and a research verification pass has been run;
 its findings are in `docs/RESEARCH_NOTES.md`, and the stack is Godot 4 with C# (D-60) after Tauri was dropped (D-59); five strikes
 are adopted (D-58); the title still needs a registry search. Eight items are open, none blocking M0; each is listed against the phase where it first bites.

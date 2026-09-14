@@ -6,7 +6,7 @@ using Godot;
 
 namespace CompanyWars.Game;
 
-/// <summary>The autopsy (GAME_DESIGN.md §19.3): banner, share timeline with a draggable playhead, per-floor bars, three findings, filter chips, the full ledger, CONTINUE.</summary>
+/// <summary>The autopsy (GAME_DESIGN.md §19.3): banner, Revenue-share timeline with a draggable playhead, per-floor bars, three findings, filter chips, the full ledger, CONTINUE.</summary>
 public partial class AutopsyScreen : Node2D
 {
     private SceneLayout _at = null!;
@@ -186,7 +186,9 @@ public partial class AutopsyScreen : Node2D
             LedgerEntry e = _filtered[_scroll + i];
             int y = lg.Position.Y + i * LineH;
             if (_scroll + i == selected) DrawRect(new Rect2(lg.Position.X, y, lg.Size.X, LineH), Tones.Fill("operations"));
-            font.Draw(this, lg.Position.X + 2, y, Row(e), font.Small, Tones.Fill(Tones.ForKind(e.Kind)).Lightened(0.35f));
+            // Kind tone's border on the light panel; the selected row sits on the operations fill, so it takes that tone's text colour.
+            Color c = _scroll + i == selected ? Tones.Text("operations") : Tones.Border(Tones.ForKind(e.Kind));
+            font.Draw(this, lg.Position.X + 2, y, Row(e), font.Small, c);
         }
         // Scroll thumb on the right edge: where these rows sit within the filtered ledger.
         if (_filtered.Count > rows)

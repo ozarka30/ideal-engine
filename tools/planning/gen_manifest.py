@@ -132,7 +132,7 @@ for fo in founders:
           reads="A face with a title: %s, %s. Reads as a person you would follow or would not" % (fo["name"], fo["title"]),
           candidate="portraits/Portraits/transparent_bg/%s_transparent.png" % FOUNDER_FACE[fo["id"]])
     entry(fo["badge"], "ui", "people", fo["name"] + " badge", 32, 32, TL, screens=["battle", "map"], visibility=2,
-          reads="The same person at 32px; recognisable beside the Goodwill bar",
+          reads="The same person at 32px; recognisable beside the Loyalty bar",
           candidate="characterpack/Blackoutlinecharacters/%s/Idle frame 1 (facing down)" % FOUNDER_BODY[fo["id"]])
     entry(fo["id"] + ".thumb", "ui", "people", fo["name"] + " thumbnail", 48, 48, TL, screens=FS_SCREEN, visibility=3,
           reads="The same face at 48px, for the select grid; legible at a glance in a column of eight",
@@ -146,7 +146,7 @@ entry("ui.founder.confirm", "ui", "interface", "FOUND THE FIRM button", 160, 24,
 entry("ui.battle.founder", "ui", "people", "Battle founder badge frame", 36, 36, TL, screens=["battle"], visibility=2, rect=(8, 48), reads="A 2px frame around a 32x32 badge; A at (8,48), B mirrored at (596,48)")
 entry("ui.map.dossier_badge", "ui", "people", "Dossier founder badge frame", 36, 36, TL, screens=["map"], visibility=3, reads="A 2px frame around the rival founder's 32x32 badge at (160,4) inside the dossier")
 entry("ui.build.firm_panel", "ui", "interface", "Inspector default: the firm", 200, 304, TL, screens=["build"], visibility=1, rect=(432, 32),
-      reads="Shown when nothing is selected: founder portrait 96x96 at (440,40); firm name at (544,44); founder name and title at (544,54) and (544,64); run stats from y=144: round, strikes, fights won, Goodwill cap, floors leased, staff count")
+      reads="Shown when nothing is selected: founder portrait 96x96 at (440,40); firm name at (544,44); founder name and title at (544,54) and (544,64); run stats from y=144: round, strikes, fights won, Loyalty cap base, floors leased, staff count")
 
 # ---------------------------------------------------------------- build screen
 B = ["build"]
@@ -190,15 +190,15 @@ for s in statuses:
 BT = ["battle"]
 entry("bg.battle.street", "background", "structure", "Battle street backdrop", 640, 360, TL, screens=BT, visibility=2, perspective="exterior", rect=(0, 0),
       reads="A Japanese city street at dusk seen front-on, two lots facing each other across it", candidate="Osaka / Dotonbori / Dark Tokyo street tiles")
-entry("ui.battle.bar", "ui", "interface", "Market Share bar", 320, 12, TL, screens=BT, visibility=2, rect=(160, 8), reads="Two-colour fill from 50/50, 10% ticks, percent labels at both ends")
-entry("ui.battle.goodwill_bar", "ui", "interface", "Goodwill bar", 200, 16, TL, screens=BT, visibility=2, rect=(8, 28),
-      reads="A frame whose right (or left, mirrored) end marks the live cap; fill inside it; number in font.ui.16 overlaid; dims when suppressed; flashes on break")
+entry("ui.battle.lead_bar", "ui", "interface", "Revenue lead bar", 320, 12, TL, screens=BT, visibility=2, rect=(160, 8), reads="Each firm's share of the quarter's takings, A filling from the left; 10% ticks; both Revenues in yen at the ends")
+entry("ui.battle.loyalty_bar", "ui", "interface", "Client Loyalty bar", 200, 16, TL, screens=BT, visibility=2, rect=(8, 28),
+      reads="A frame whose right (or left, mirrored) end marks the live cap; fill inside it; number in font.ui.16 overlaid; dims while regen is suppressed; flashes when Loyalty breaks")
 entry("ui.battle.banner", "ui", "interface", "Month banner", 160, 12, TL, screens=BT, visibility=2, rect=(240, 48), reads="'— CRUNCH —' centred; slides in dimmed one second early")
 entry("ui.battle.ledger", "ui", "interface", "Ledger panel", 308, 56, TL, screens=BT, visibility=2, rect=(8, 304), reads="Header + six lines of font.ui.8; amount, name, source, xN badge; tone by kind")
 entry("ui.battle.ledger_rollup", "ui", "interface", "Ledger roll-up line", 308, 8, TL, screens=BT, visibility=2, reads="'+3 more · Fl.2' dimmed")
 entry("ui.battle.floor_inset", "ui", "interface", "Floor inset", 168, 104, TL, screens=BT, visibility=2, reads="A 4px frame around a 160x96 top-down floor; most recent firer highlighted")
 entry("ui.battle.controls", "ui", "interface", "Playback controls", 72, 16, TL, screens=BT, visibility=2, rect=(520, 48), reads="1x 2x 4x and skip; left of founder B's badge, which starts at x=596")
-entry("ui.battle.result", "ui", "interface", "Result banner", 640, 24, TL, screens=BT, visibility=2, rect=(0, 0), reads="'Q7 · WON · 71.2% MARKET SHARE'")
+entry("ui.battle.result", "ui", "interface", "Result banner", 640, 24, TL, screens=BT, visibility=2, rect=(0, 0), reads="'Q7 · WON · ¥25,408 TO ¥6,698'")
 entry("fx.tower.floor_segment", "fx", "structure", "Tower floor segment", 96, 32, BC, screens=BT, visibility=2, perspective="exterior", rect=(200, 280),
       reads="One storey of an office-block facade, three 32px tiles wide, carrying a 5x3 grid of unlit windows; tiles vertically", candidate="Osaka Tilemap.png facade band at (352, 32) 96x32, windows authored over it (D-69)")
 entry("fx.tower.floor_segment_empty", "fx", "structure", "Unleased floor segment", 96, 32, BC, screens=BT, visibility=2, perspective="exterior", reads="The same storey as bare wall, no windows, in the structure tone", candidate="Osaka Tilemap.png wall band at (352, 32) 96x32")

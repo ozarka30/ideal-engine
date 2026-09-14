@@ -438,7 +438,7 @@ Fixed globally, in the manifest header, and asserted by the renderer at start-up
 | Scale factors | integers only: 2, 3, 4, 6. Never fractional. Letterbox otherwise |
 | Filtering | nearest-neighbour for every texture. Text is the exception (D-67): the faces are vector fonts, antialiased at the window's resolution |
 | Positions | integer logical pixels. The renderer rounds any computed position before draw and asserts in debug builds that nothing fractional reached it |
-| Fonts | `font.ui.8` is **Honey Pigeon** at an 8 px line; `font.ui.16` is **Honeyblot Caps** at a 16 px line for headers, banners, tall buttons and the Goodwill numbers (D-66, D-67); `font.ui.32` is Honeyblot Caps at a 32 px line, exactly 2× the 16, for a screen's own title (D-75). No other sizes — the ladder is 8, 16, 32, each an integer double of the last. Both by Steven Colling under his Font License 1.0, shipped as the TrueType files in `game/fonts/` and rendered as antialiased vectors at the window's resolution, not as pixel art. Digits are proportional; columns that need alignment right-align on the number, not the glyph |
+| Fonts | `font.ui.8` is **Honey Pigeon** at an 8 px line; `font.ui.16` is **Honeyblot Caps** at a 16 px line for headers, banners, tall buttons and the Loyalty and Revenue numbers (D-66, D-67); `font.ui.32` is Honeyblot Caps at a 32 px line, exactly 2× the 16, for a screen's own title (D-75). No other sizes — the ladder is 8, 16, 32, each an integer double of the last. Both by Steven Colling under his Font License 1.0, shipped as the TrueType files in `game/fonts/` and rendered as antialiased vectors at the window's resolution, not as pixel art. Digits are proportional; columns that need alignment right-align on the number, not the glyph |
 | Camera | integer logical offsets; the build viewport scrolls by whole floors |
 
 A greybox authored at a fractional scale would not match the art that replaces it;
@@ -474,7 +474,7 @@ through the same loader, and the validator runs on both.
 | Asset path | `game/assets/<perspective>/<id with dots as slashes>.png` | `game/assets/topdown/room/server_room/tile.png` — under `game/` since D-77 so `res://` can reach it |
 | Stub | `manifest/stubs/<sheet>.json` | `manifest/stubs/office_interior_01.json` |
 | Atlas | `dist/atlas/<group>.png` | `dist/atlas/topdown.png` |
-| Fixture screenshot | `fixtures/screens/<screen>_<fixture>.png` | `fixtures/screens/build_round8_turtle.png` |
+| Fixture screenshot | `fixtures/screens/<screen>_<fixture>.png` | `fixtures/screens/build_round8_fortress.png` |
 | Worklist sheet | `worklist/<rank>_<id>.md` | `worklist/0001_ui.card.applicant.md` |
 | Pack | `packs/<vendor>/<pack>/` with `LICENSE.md` beside the sheets | `packs/guttykreum/office_interior/` |
 
@@ -523,12 +523,12 @@ art concern, developer-paced like everything else.
 | Panels | A 9-sliced rounded panel from the Isle of Lore 2 UI Pack, recoloured to the `interface` tone, 5 px corners, 4 px inner padding (D-74) |
 | Text | `font.ui.8`, left-aligned, 8 px line pitch; numbers tabular, right-aligned in columns |
 | Secondary text | The tone's **border**, never its hatch. Hatch is the lighter shade the greybox draws overhang with; on a light fill it is invisible — `interface` hatch is luminance 194 against a fill of 169. `Tones.Muted()` is the call |
-| Emphasis | The `interface` text tone for normal, the category tone for the thing named (a Push amount in `operations`, a Morale amount in `anomalous`) |
+| Emphasis | The `interface` text tone for normal, the category tone for the thing named (a Sales amount in `operations`, a Curse amount in `anomalous`). Ledger lines sit on a light panel, so they take the kind tone's border |
 | Buttons | 16 px tall from the pack's `box`, 20 px and taller from `button_square`; label centred; hover inverts fill and text; pressed offsets label 1 px down (D-74) |
 | Resolution | Chrome ships at 2× its declared size and is drawn down into its manifest-sized rect with a smooth filter (D-76). Pixel art keeps nearest and integer scale; chrome and text do not |
 | Primary action | One per screen, and it is the darkest element on the panel, not the palest: 24 px tall, `font.ui.16`, the tone's `dark` ramp in `tools/dev/ui/slots.txt`, and wide enough to leave the label 12 px clear of the 9 px corners. A commit that reads as quieter than the field next to it is the bug this rule exists to prevent |
 | Chips | 8 px tall, 2 px padding, selected state inverts |
-| Bars | 1 px frame, fill inset by 1 px; the Goodwill bar's frame end moves with the cap (D-35) |
+| Bars | 1 px frame, fill inset by 1 px; the Loyalty bar's frame end moves with the cap (D-35) |
 | Cards | 52 × 80, a panel recoloured to the *category* tone rather than `interface`, 2 px padding, portrait slot top-centre |
 | Icons | 8 × 8 for departments, statuses, strikes, budget; 24 × 24 for map nodes; drawn, not text |
 | Motion | Ledger scroll 1 line per 4 ticks; banners slide 12 px over 10 ticks; floating numbers rise 16 px over 20 ticks; nothing eases — linear, integer steps |

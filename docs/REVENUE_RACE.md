@@ -1,9 +1,9 @@
 # Company Wars — The Revenue Race
 
-Status: **approved as D-85.** Stage 1 — this document, the decision, and `GAME_DESIGN.md`
-§2, §6.4 and §11 — is done. Stages 2–4 (§7) are each approved before they start. Until
-stage 2 lands, `SIMULATION_SPEC.md` and the code still run the Goodwill fight; this document
-is the rule for the race until its rules are folded into the spec.
+Status: **approved as D-85; all four stages (§7) have landed.** The race's rules now live in
+`SIMULATION_SPEC.md` revision 3 and `GAME_DESIGN.md`. Later decisions amend parts of this
+proposal — Sales scale with Loyalty (D-87, D-88), Legal bills its hours (D-89), and the balance
+plan's bands (D-86, D-90, D-92). Read this document for the reasoning and the spec for the rules.
 
 ## 1. The goal in one line
 

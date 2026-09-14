@@ -103,7 +103,7 @@ public static class Ui
         return name[..Math.Max(1, max - 1)] + ".";
     }
 
-    /// <summary>Side tones: A and B never borrow a category tone (Morale is people, Anomaly is anomalous).</summary>
+    /// <summary>Side tones: A and B never borrow a category tone (Scandal is people, Curse is anomalous).</summary>
     public static string SideTone(string side) => side == "A" ? "operations" : "support";
 
     /// <summary>A department's tone for the tower facade markers.</summary>
