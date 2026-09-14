@@ -35,7 +35,7 @@ public partial class MenuScreen : Node2D
         Ui.Button(this, _newRun, "NEW RUN", "operations");
         Ui.Button(this, _settings, "SETTINGS", "interface");
         Ui.Button(this, _debug, "DEBUG FIGHT", "interface");
-        Band("prompt", "Enter starts a run", r.Font.Small, Tones.Hatch("interface"));
+        Band("prompt", "Enter starts a run · P opens the business prototype", r.Font.Small, Tones.Hatch("interface"));
         // The build tag (D-68): a tester's report names a commit, not a weekday.
         Band("build_tag", $"build {r.BuildTag}", r.Font.Small, Tones.Hatch("interface"), HorizontalAlignment.Right);
     }
@@ -44,6 +44,7 @@ public partial class MenuScreen : Node2D
     {
         if (@event is InputEventMouseMotion) { QueueRedraw(); return; }
         if (@event is InputEventKey { Pressed: true, Keycode: Key.Enter or Key.KpEnter }) { ScreenRouter.Instance.Go("res://scenes/Founder.tscn"); return; }
+        if (@event is InputEventKey { Pressed: true, Keycode: Key.P }) { ScreenRouter.Instance.Go("res://scenes/Proto.tscn"); return; }
         if (@event is not InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left } click) return;
         var p = new Vector2I((int)click.Position.X, (int)click.Position.Y);
         if (_newRun.Grow(Hits.TouchSlop).HasPoint(p)) ScreenRouter.Instance.Go("res://scenes/Founder.tscn");
