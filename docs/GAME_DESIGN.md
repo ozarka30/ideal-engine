@@ -1078,7 +1078,7 @@ the player has held. Discovered ones draw the sprites.
 
 | Region | Rect | Contents |
 | --- | --- | --- |
-| Screen title | (16, 0) | `CHOOSE A FOUNDER` in `font.ui.32`, set straight on the backdrop with no plate behind it (D-75). It is text, not a slot — there is no `ui.founder.header` entry |
+| Screen title | (16, 4) | `CHOOSE A FOUNDER` in `font.ui.32`, set straight on the backdrop with no plate behind it (D-75); the 4 px above it keep the capitals off the canvas edge, matching the 4 px between them and the panels. It is text, not a slot — there is no `ui.founder.header` entry |
 | `ui.founder.grid` | (8, 32, 152, 312) | The roster column: eight `ui.founder.tile`s in two columns at x = 16 + col × 72 and four rows at y = 40 + row × 72 (D-72) |
 | `ui.founder.tile` | 64 × 64 | A `founder.*.thumb` inset at (8, 8); the selected tile's border is distinct and unmissable — it is the only thing telling the player which of the eight the panel is describing |
 | `ui.founder.detail` | (168, 32, 464, 312) | The selected founder in full. Portrait 96 × 96 at (184, 48) in a frame; name in `font.ui.16` at (296, 50); title at (296, 72); the founder's battle badge 32 × 32 at (296, 96) with *in the fight* beside it at (334, 106); bio up to three lines from y = 164 at a 12 px pitch; a rule at y = 204; *YOU START WITH* at (184, 214) and the starting roster drawn as sprites from (184, 228) at a 40 px pitch, with the roster and the starting budget spelled out at (272, 236) and (272, 248); the founder passive or "no founder passive in this build" at (184, 276) (D-68, D-46) |
